@@ -5,14 +5,18 @@ public class Usuario
     public string Nombre { get; set; }
     public string NombreUsuario { get; set; }
     public string Contraseña { get; set; }
+    public string Email { get; set; }
+    public string Telefono { get; set; }
 
-    public Usuario(string nombre, string nombreUsuario, string contraseña)
+    public Usuario(string nombre, string nombreUsuario, string contraseña, string email, string telefono)
     {
-        Nombre = nombre;
-        NombreUsuario = nombreUsuario;
-        Contraseña = contraseña;
+        this.Nombre = nombre;
+        this.NombreUsuario = nombreUsuario;
+        this.Contraseña = contraseña;
+        this.Email = email;
+        this.Telefono = telefono;
     }
-    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña)
+    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña, string email, string telefono)
     {
         bool esValido = true;
 
@@ -29,6 +33,10 @@ public class Usuario
         {
             esValido = false;
         }
+        else if (!Regex.IsMatch(nombreUsuario, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+        {
+            esValido = false;
+        }
         
         else if (nombreUsuario.Length < 6)
         {
@@ -40,6 +48,19 @@ public class Usuario
             esValido = false;
         }
         else if (contraseña.Length < 8)
+        {
+            esValido = false;
+        }
+        if (!Regex.IsMatch(email, " ^[ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+        {
+            esValido = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(telefono))
+        {
+            esValido = false;
+        }
+        else if (!Regex.IsMatch(telefono, "^\\d+$"))
         {
             esValido = false;
         }
