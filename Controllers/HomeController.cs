@@ -15,13 +15,13 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        if(/*SESSION ESTÁ ACTIVA*/)
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
         else
         {
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Landing", "Login");
         }
     }
 

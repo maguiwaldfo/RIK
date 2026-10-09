@@ -7,9 +7,14 @@ namespace RIK.Controllers;
 
 public class InicioController : Controller
 {
+    public IActionResult Landing()
+    {
+        return View();
+    }
+
     public IActionResult Index()
     {
-        if(/*SESSION ESTÁ ACTIVA*/)
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
             return View();
         }

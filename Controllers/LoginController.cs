@@ -9,9 +9,21 @@ public class LoginController : Controller
 {
     BD bd = new BD();
 
+    public IActionResult Landing()
+    {
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("IndexInicio", "Inicio");
+        }
+        else
+        {
+            return RedirectToAction("Landing", "Inicio");
+        }
+    }
+
     public IActionResult Index()
     {
-        if(/*si la sesión está activa*/)
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
@@ -23,7 +35,14 @@ public class LoginController : Controller
 
     public IActionResult Registrarse()
     {
-        return View();
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("IndexInicio", "Inicio");
+        }
+        else
+        {
+            return View();
+        }
     }
 
     public IActionResult IrAInicio()
@@ -47,11 +66,11 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string apellido, string nombreUsuario, string contraseña, string tipoUsuario)
+    public IActionResult ValidarUsuario(string nombre, string nombreUsuario, string contraseña)
     {
-        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, apellido, tipoUsuario);
+        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña);
 
-        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.Apellido, usuario.NombreUsuario, usuario.Contraseña, usuario.TipoUsuario))
+        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña))
         {
             return View("Registrarse");
         }
@@ -65,9 +84,7 @@ public class LoginController : Controller
         bd.AgregarUsuario(usuario);
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-        HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
-        HttpContext.Session.SetString("Apellido", usuario.Apellido);
 
         return RedirectToAction("IndexInicio", "Inicio");
     }
@@ -80,10 +97,8 @@ public class LoginController : Controller
         if (usuario != null)
         {
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-            HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
-            HttpContext.Session.SetString("Apellido", usuario.Apellido);
-            return RedirectToAction(nameof(Bienvenida));
+            return RedirectToAction("IndexInicio", "Inicio");
         }
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
