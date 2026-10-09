@@ -17,7 +17,7 @@ public class HomeController : Controller
     {
         if(/*SESSION ESTÁ ACTIVA*/)
         {
-
+            return RedirectToAction("IndexInicio", "Inicio");
         }
         else
         {

@@ -13,7 +13,7 @@ public class LoginController : Controller
     {
         if(/*si la sesión está activa*/)
         {
-
+            return RedirectToAction("IndexInicio", "Inicio");
         }
         else
         {
@@ -30,7 +30,7 @@ public class LoginController : Controller
     {
         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
-            return RedirectToAction("Index", "Inicio");
+            return RedirectToAction("IndexInicio", "Inicio");
         }
         else
         {
@@ -69,7 +69,7 @@ public class LoginController : Controller
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Apellido", usuario.Apellido);
 
-        return RedirectToAction(nameof(Bienvenida));
+        return RedirectToAction("IndexInicio", "Inicio");
     }
 
     [HttpPost]
