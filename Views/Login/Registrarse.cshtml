@@ -1,0 +1,50 @@
+<body>
+    <h2>Registrarse</h2>
+    <form id="registroForm" action= '@Url.Action("ValidarUsuario", "Session")' method="post" onsubmit="return registrarUsuario()">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Pedro">
+            <p id="fb-nombre" class="feedback"></p>
+        </div>
+
+        <div>
+            <label for="nombreUsuario">Nombre de Usuario:</label>
+            <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Ej: tuUsuario123">
+            <p id="fb-nombreUsuario" class="feedback"></p>
+        </div>
+
+        <div>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contraseña" placeholder="Ingrese una contraseña">
+            <p id="fb-contrasena" class="feedback"></p>
+        </div>
+
+        <div>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Martinez">
+            <p id="fb-apellido" class="feedback"></p>
+        </div>
+
+        <div>
+            <label for="tipoUsuario">Tipo de Usuario:</label>
+            <select id="tipoUsuario" name="tipoUsuario">
+                <option value="" disabled selected>Seleccione un tipo</option>
+                <option value="administrador">Administrador</option>
+                <option value="usuario">Usuario</option>
+                <option value="tutor">Tutor</option>
+                <option value="padre">Padre</option>
+            </select>
+            <p id="fb-tipoUsuario" class="feedback"></p>
+        </div>
+
+        <br>
+        <input type="submit" value="Registrarse">
+    </form>
+        
+        <p>¿Ya tienes una cuenta? <a href="@Url.Action("Index", "Session")">Inicia sesión aquí</a></p>
+        <p>@ViewBag.ErrorMessage</p>
+
+    <div id="resultado"></div>
+
+    <script src="/js/registrarse.js"></script>
+</body>

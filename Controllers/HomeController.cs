@@ -15,7 +15,14 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        if(/*SESSION ESTÁ ACTIVA*/)
+        {
+
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     public IActionResult Privacy()
