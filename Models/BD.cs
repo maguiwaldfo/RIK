@@ -64,11 +64,11 @@ public class BD
     {
        Nivel nivel = null;
        using(SqlConnection connection = new SqlConnection(_connectionString))
-       {
-             string query = "SELECT * FROM Niveles WHERE id = @idNivel";
-             nivel = connection.QueryFirstOrDefault<Nivel>(
-             query, new { idNivel = idNivel });
-       }
+        {
+            string query = "SELECT * FROM Niveles WHERE id = @idNivel";
+            nivel = connection.QueryFirstOrDefault<Nivel>(
+            query, new { idNivel = idNivel });
+        }
 
         return nivel;
     }
