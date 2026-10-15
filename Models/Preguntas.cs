@@ -1,9 +1,14 @@
 namespace RIK.Models;
-using System.Text.RegularExpressions;
-public class Usuario
-{
-    public string Preguntas { get; set; }
-    public string Respuestas { get; set; }
-   
 
+public class Pregunta
+{
+    public int Id { get; set; }
+    public string Enunciado { get; set; }
+    public int Respuesta { get; set; }
+    public int IDnivel { get; set; }
+
+    public string Opcion1 { get; set; }
+    public string Opcion2 { get; set; }
+    public string Opcion3 { get; set; }
+    public string Opcion4 { get; set; }
 }

@@ -1,8 +1,8 @@
 namespace RIK.Models;
-using System.Text.RegularExpressions;
-public class Usuario
-{
-    public string Tema { get; set; }
-    public int CantidadDesafios { get; set; }
 
+public class Nivel
+{
+    public int Id { get; set; }
+    public string Tema { get; set; }
+    public int CantDesafios { get; set; }
 }
