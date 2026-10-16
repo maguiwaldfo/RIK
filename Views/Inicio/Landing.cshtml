@@ -1,4 +1,37 @@
-<div>
-    <h1 class="display-4">Bienvenido a RIK - Educación Financiera<</h1>
-    <p></p>
-</div>  
+
+@{
+    ViewData["Title"] = "RIK - Educación Financiera";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="landing">
+
+    <section class="presentacion">
+
+        <img class="mascota"
+             src="~/images/rikLanding.png"
+             alt="Mascota de RIK">
+
+        <div class="tarjeta-presentacion" id="quienes-somos">
+            <p>
+                RIK es una aplicación de educación financiera
+                que enseña a los jóvenes sobre finanzas de
+                una forma entretenida.
+            </p>
+        </div>
+
+        <img class="slogan"
+             src="~/images/CONVERTIAPRENDIZAJE.png"
+             alt="RIK, convertí el aprendizaje en riqueza">
+
+        <div class="tarjeta-mision" id="nuestra-mision">
+            <p>
+                Queremos que los jóvenes aprendan sobre economía,
+                inversiones y manejo del dinero para construir
+                un futuro mejor.
+            </p>
+        </div>
+
+    </section>
+
+</main>
