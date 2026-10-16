@@ -4,34 +4,164 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main class="landing">
+<main class="rik">
 
-    <section class="presentacion">
+    <header class="encabezado">
+        <a class="marca" href="#inicio">
+            <img src="@Url.Content("~/images/rik-logo.png")" alt="Logo de RIK">
+            <h2>RIK</h2>
+        </a>
 
-        <img class="mascota"
-             src="~/images/rikLanding.png"
-             alt="Mascota de RIK">
+        <nav class="nav">
+            <a href="#quienes-somos">Quiénes somos</a>
+            <a href="#nuestra-mision">Nuestra misión</a>
+            <a href="#logros">Logros</a>
+        </nav>
 
-        <div class="tarjeta-presentacion" id="quienes-somos">
+        <a class="boton-login" href="@Url.Action("Login", "Session")">
+            Iniciar sesión
+        </a>
+    </header>
+
+    <section class="portada" id="inicio">
+
+        <div class="presentacion">
+            <img class="mascota"
+                 src="@Url.Content("~/images/rikLanding.png")"
+                 alt="Ricky, la mascota de RIK">
+
+            <div class="tarjeta-presentacion" id="quienes-somos">
+                <h1>Aprender sobre plata ya no es aburrido</h1>
+                <p>
+                    RIK es una aplicación de educación financiera
+                    con el objetivo de enseñar a los jóvenes sobre
+                    finanzas de una forma entretenida.
+                </p>
+                <p>
+                    Convertí el aprendizaje en riqueza con lecciones
+                    prácticas y desafíos para tu día a día.
+                </p>
+                <a class="boton-amarillo" href="#funcionalidades">
+                    ¡Empezá a aprender!
+                </a>
+            </div>
+
+            <div class="slogan">
+                <img class="slogan-img"
+                     src="@Url.Content("~/images/CONVERTIAPRENDIZAJE.png")"
+                     alt="Convertí el aprendizaje en riqueza">
+            </div>
+
+            <div class="tarjeta-mision" id="nuestra-mision">
+                <h2>Nuestra misión</h2>
+                <p>
+                    La misión que tenemos en RIK es que todos los jóvenes
+                    estén informados y concientizados sobre la economía,
+                    inversiones y el manejo del dinero para que puedan
+                    tener un futuro mejor.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="estadisticas" id="logros">
+        <div class="estadistica">
+            <div class="icono-estadistica">📈</div>
+            <div>
+                <h2>Aprendé</h2>
+                <p>Descubrí conceptos financieros de manera sencilla.</p>
+            </div>
+        </div>
+
+        <div class="estadistica">
+            <div class="icono-estadistica">🎓</div>
+            <div>
+                <h2>Practicá</h2>
+                <p>Aprendé con actividades y situaciones cotidianas.</p>
+            </div>
+        </div>
+
+        <div class="estadistica">
+            <div class="icono-estadistica">🌟</div>
+            <div>
+                <h2>Progresá</h2>
+                <p>Desarrollá hábitos para administrar mejor tu dinero.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="funcionalidades" id="funcionalidades">
+        <div class="titulo-seccion">
+            <p class="subtitulo">APRENDER CON UN PROPÓSITO</p>
+            <h2>Todo lo que necesitás para aprender sobre dinero</h2>
             <p>
-                RIK es una aplicación de educación financiera
-                que enseña a los jóvenes sobre finanzas de
-                una forma entretenida.
+                Conocé herramientas para aprender, practicar y tomar
+                mejores decisiones financieras.
             </p>
         </div>
 
-        <img class="slogan"
-             src="~/images/CONVERTIAPRENDIZAJE.png"
-             alt="RIK, convertí el aprendizaje en riqueza">
+        <div class="contenedor-tarjetas">
 
-        <div class="tarjeta-mision" id="nuestra-mision">
-            <p>
-                Queremos que los jóvenes aprendan sobre economía,
-                inversiones y manejo del dinero para construir
-                un futuro mejor.
-            </p>
+            <div class="tarjeta-funcion">
+                <div class="icono-funcion icono-verde">🎮</div>
+                <h3>Aprendé jugando</h3>
+                <p>
+                    Incorporá conocimientos financieros con lecciones
+                    sencillas y actividades entretenidas.
+                </p>
+                <a href="#aprendizaje">Explorar lecciones →</a>
+            </div>
+
+            <div class="tarjeta-funcion" id="simulador">
+                <div class="icono-funcion icono-amarillo">💰</div>
+                <h3>Simulador financiero</h3>
+                <p>
+                    Practicá cómo organizar tus ahorros y conocé
+                    conceptos de inversión con ejemplos virtuales.
+                </p>
+                <a href="#nuestra-mision">Conocer más →</a>
+            </div>
+
+            <div class="tarjeta-funcion" id="comunidad">
+                <div class="icono-funcion icono-lila">📊</div>
+                <h3>Comunidad y desafíos</h3>
+                <p>
+                    Compartí el aprendizaje y poné a prueba tus
+                    conocimientos con nuevos desafíos.
+                </p>
+                <a href="#logros">Ver objetivos</a>
+            </div>
+
+            <div class="tarjeta-funcion" id="aprendizaje">
+                <div class="icono-funcion icono-verde">🤖</div>
+                <h3>Asistente financiero</h3>
+                <p>
+                    Encontrá explicaciones sencillas sobre ahorro,
+                    presupuestos y administración del dinero.
+                </p>
+                <a href="#nuestra-mision">Descubrir RIK →</a>
+            </div>
+
         </div>
+    </section>
 
+    <section class="cierre">
+        <div class="caja-cierre">
+            <div class="icono-cierre">💚</div>
+
+            <div class="texto-cierre">
+                <h2>El conocimiento financiero es para todos</h2>
+                <p>
+                    En RIK creemos que aprender sobre el dinero
+                    puede abrir nuevas oportunidades para los jóvenes.
+                </p>
+            </div>
+
+            <a class="boton-cierre" href="#Inicio">
+                Conocé RIK
+            </a>
+        </div>
     </section>
 
 </main>
