@@ -16,13 +16,14 @@ public class BD
         
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = @"INSERT INTO Usuarios (nombre, nombreUsuario, contraseña)
-                             VALUES (@nombre, @nombreUsuario, @contraseña)";
+            string query = @"INSERT INTO Usuarios (nombre, nombreUsuario, contraseña, email)
+                             VALUES (@nombre, @nombreUsuario, @contraseña, @email)";
             connection.Execute(query, new
             {
                 nombre = nombre,
                 nombreUsuario = nombreUsuario,
-                contraseña = contraseña
+                contraseña = contraseña,
+                email = usuario.Email
             });
         }
     }

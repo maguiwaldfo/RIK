@@ -10,14 +10,15 @@ public class JuegoController : Controller
     
     public IActionResult Teoria(int teoriaElegida)
     {
-        ViewBag teoriaNivel = bd.TeoriaNivel(teoriaElegida);
+        ViewBag.teoriaNivel = bd.TeoriaNivel(teoriaElegida);
         return View();
     }
 
     public IActionResult Nivel(int nivelElegido)
     {
-        ViewBag NumeroNivel = bd.ObtenerNivel(nivelElegido);
-        ViewBag PreguntasNivel = bd.agarrarPreguntas(bd.ObtenerPreguntasNivel(nivelElegido));
+        Nivel Nivel = new Nivel();
+        ViewBag.NumeroNivel = bd.ObtenerNivel(nivelElegido);
+        ViewBag.PreguntasNivel = Nivel.agarrarPreguntas(bd.ObtenerPreguntasNivel(nivelElegido));
         return View();
     }
 

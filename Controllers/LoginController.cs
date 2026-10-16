@@ -66,11 +66,11 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string nombreUsuario, string contraseña)
+    public IActionResult ValidarUsuario(string nombre, string nombreUsuario, string contraseña, string email)
     {
-        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña);
+        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, email);
 
-        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña))
+        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña, usuario.Email))
         {
             return View("Registrarse");
         }
