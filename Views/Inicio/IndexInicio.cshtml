@@ -1,1 +1,87 @@
-@* ESTA ES LA PAGINA PRINCIPAL DEL PROGRAMA *@
+
+@{
+    ViewData["Title"] = "Inicio - RIK";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="pantalla-rik">
+
+    <header class="encabezado-rik">
+
+        <a class="logo-rik" href="#inicio">
+            <img src="@Url.Content("~/imagenes/rik-logo.png")" alt="Logo de RIK">
+            <h1>RIK</h1>
+        </a>
+
+        <nav class="navegacion-rik">
+            <a href="#inicio">Inicio</a>
+            <a href="/Liga">Liga</a>
+            <a href="/Cuenta/Perfil">Perfil</a>
+        </nav>
+
+        <a class="perfil-rik" href="/Cuenta/Perfil">
+            <img src="@Url.Content("~/imagenes/usuario.png")" alt="Mi perfil">
+        </a>
+
+    </header>
+
+    <section class="zona-aprendizaje" id="inicio">
+
+        <div class="tarjeta-biblioteca">
+            <p>Repasá temas anteriores</p>
+            <a href="/Biblioteca">Ir a la biblioteca</a>
+        </div>
+
+        <div class="tarjeta-racha">
+            <img src="@Url.Content("~/imagenes/llama.png")" alt="Racha">
+            <p>67</p>
+        </div>
+
+        <div class="nivel nivel-1">
+            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+        </div>
+
+        <div class="nivel nivel-2">
+            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+        </div>
+
+        <div class="nivel nivel-3">
+            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+        </div>
+
+        <div class="nivel nivel-4">
+            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+        </div>
+
+        <div class="nivel nivel-5">
+            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+        </div>
+
+        <div class="panel-desempeno">
+
+            <h2>Desempeño</h2>
+
+            <div class="contenedor-logros">
+
+                <div class="logro">
+                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
+                    <p>30 respuestas seguidas</p>
+                </div>
+
+                <div class="logro">
+                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
+                    <p>Trofeo de amigos</p>
+                </div>
+
+                <div class="logro">
+                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
+                    <p>+90% respuestas acertadas</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
