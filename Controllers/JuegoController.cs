@@ -17,6 +17,7 @@ public class JuegoController : Controller
     public IActionResult Nivel(int nivelElegido)
     {
         ViewBag NumeroNivel = bd.ObtenerNivel(nivelElegido);
+        ViewBag PreguntasNivel = bd.agarrarPreguntas(bd.ObtenerPreguntasNivel(nivelElegido));
         return View();
     }
 

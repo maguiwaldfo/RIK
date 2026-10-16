@@ -81,7 +81,7 @@ public class BD
 
          using(SqlConnection connection = new SqlConnection(_connectionString))
          {
-            string query = @"SELECT id, pregunta AS Enunciado, respuesta, IDnivel, opcion1, opcion2, opcion3, opcion4 FROM Preguntas  WHERE IDnivel = @idNivelORDER BY id";
+            string query = @"SELECT id, pregunta AS Enunciado, respuesta, IDnivel, opcion1, opcion2, opcion3, opcion4 FROM Preguntas WHERE IDnivel = @idNivel ORDER BY id";
 
             preguntas = connection.Query<Pregunta>(query, new{idNivel = idNivel}).ToList();
     }
