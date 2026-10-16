@@ -129,11 +129,4 @@ public class BD
         connection.Execute(query, new{idUsuario = idUsuario, idNivel = idNivel});
         }
     }
-
-
-    public void 
-
-
-    
-
 }
