@@ -9,11 +9,21 @@ public class Nivel
 
     public List<Pregunta> cargarPreguntas(int idNivel)
     {
-        List<Pregunta> Contenidos = new List<Pregunta>();
-        foreach(Pregunta pregunta in bd.ObtenerPreguntasNivel(int idNivel))
+        return bd.ObtenerPreguntasNivel(idNivel);
+    }
+
+    public List<Pregunta> agarrarPreguntas(List<Pregunta> preguntas)
+    {
+        List<Pregunta> preguntasElegidas = new List<Pregunta>();
+
+        for(int i = 0; i < 8; i++)
         {
-            Contenidos.Add(pregunta);
+            Random random = new Random();
+            int numero = random.Next(0, preguntas.Count);
+            Pregunta preguntaElegida = preguntas[numero];
+            preguntasElegidas.Add(preguntaElegida);
+            preguntas.RemoveAt(numero);
         }
-        return Contenidos;
+        return preguntasElegidas;
     }
 }
