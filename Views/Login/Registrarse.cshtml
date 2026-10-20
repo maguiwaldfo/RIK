@@ -1,4 +1,29 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIK - Registrarse</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
 <body>
+<header class="registrarse-header">
+        <div class="registrarse-brand">
+            <div class="brand-mark">R</div>
+            <span>RIK</span>
+        </div>
+
+        <nav class="registrarse-nav" aria-label="Navegación principal">
+            <a href="#">Quienes somos</a>
+            <a href="#">Nuestra misión</a>
+            <a href="#">Logros</a>
+        </nav>
+
+    </header>
     <h2>Registrarse</h2>
     <form id="registroForm" action= '@Url.Action("ValidarUsuario", "Session")' method="post" onsubmit="return registrarUsuario()">
         <div>
