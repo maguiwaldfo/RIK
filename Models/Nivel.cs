@@ -1,8 +1,11 @@
+
 namespace RIK.Models;
 
 public class Nivel
 {
     BD bd = new BD();
+
+    public int Id { get; set; }
     public string Tema { get; set; }
     public int CantDesafios { get; set; }
 
@@ -15,15 +18,15 @@ public class Nivel
     public List<Pregunta> agarrarPreguntas(List<Pregunta> preguntas)
     {
         List<Pregunta> preguntasElegidas = new List<Pregunta>();
+        Random random = new Random();
 
-        for(int i = 0; i < 8; i++)
+        while(preguntasElegidas.Count < 8 && preguntas.Count > 0)
         {
-            Random random = new Random();
             int numero = random.Next(0, preguntas.Count);
-            Pregunta preguntaElegida = preguntas[numero];
-            preguntasElegidas.Add(preguntaElegida);
+            preguntasElegidas.Add(preguntas[numero]);
             preguntas.RemoveAt(numero);
         }
+
         return preguntasElegidas;
     }
 }
