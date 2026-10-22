@@ -140,9 +140,19 @@ public class BD
         }
     }
 
-    public List<Teoria> OtenerTeorias()
+    public List<Teoria> ObtenerTeorias()
     {
-        
+        List<Teoria> teorias = new List<Teoria>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            teorias = connection.Query<Teoria>(
+                "sp_ObtenerTeorias",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return teorias;
     }
 
     public List<CharlaTeoria> ObtenerCharlaTeoria(string idNivel)
