@@ -1,13 +1,13 @@
 @{ var bd = new BD(); }
 
-@foreach(Teoria teorias in bd.ObtenerTeorias())
+@foreach(Teoria teoria in bd.ObtenerTeorias())
 {
-    @if(!teorias.esBloqueada)
+    @if (!teoria.esBloqueada)
     {
-        <a href= @Url.Action("Teoria", "Juego", "new { teoriaElegida = teoria.nombre }")>
+        <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
             <div class="teoria">
-                <img src="/imagenes/teoria/@teorias.nombreImagen" alt="@teorias.nombre" />
-                <h2> @teorias.nombre</h2>
+                <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
+                <h2>@teoria.nombre</h2>
             </div>
         </a>
     }
@@ -15,8 +15,8 @@
     {
         <a aria-disabled="true" href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
             <div class="teoria">
-                <img src="/imagenes/teoria/@teorias.nombreImagen" alt="@teorias.nombre" />
-                <h2>@teorias.nombre</h2>
+                <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
+                <h2>@teoria.nombre</h2>
                 <h3>Proximamente</h3>
             </div>
         </a>
