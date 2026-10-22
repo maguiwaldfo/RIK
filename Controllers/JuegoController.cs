@@ -10,10 +10,13 @@ public class JuegoController : Controller
     
     public void Teoria(int teoriaElegida)
     {
+        List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(teoriaElegida);
         ViewBag.teoriaNivel = bd.TeoriaNivel(teoriaElegida);
+        ViewBag.charla = charla;
         return View();
     }
 
+   
     public IActionResult Nivel(int nivelElegido)
     {
         Nivel Nivel = new Nivel();

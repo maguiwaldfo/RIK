@@ -139,4 +139,20 @@ public class BD
             );
         }
     }
+
+    public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
+    {
+         List<CharlaTeoria> charla = new List<CharlaTeoria>();
+
+         using (SqlConnection connection = new SqlConnection(_connectionString))
+         {
+             charla = connection.Query<CharlaTeoria>(
+            "sp_ObtenerCharlaTeoria",
+             new { idNivel = idNivel },
+             commandType: CommandType.StoredProcedure
+             ).ToList();
+         }
+
+    return charla;
+}
 }
