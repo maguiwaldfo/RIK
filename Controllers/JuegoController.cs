@@ -8,7 +8,7 @@ public class JuegoController : Controller
 {
     BD bd = new BD();
     
-    public void Teoria(int teoriaElegida)
+    public void Teoria(string teoriaElegida)
     {
         List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(teoriaElegida);
         ViewBag.teoriaNivel = bd.TeoriaNivel(teoriaElegida);
