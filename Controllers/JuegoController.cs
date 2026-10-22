@@ -11,7 +11,6 @@ public class JuegoController : Controller
     public IActionResult Teoria(string teoriaElegida)
     {
         List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(teoriaElegida);
-        ViewBag.teoriaNivel = bd.TeoriaNivel(teoriaElegida);
         ViewBag.charla = charla;
         return View();
     }
@@ -28,9 +27,8 @@ public class JuegoController : Controller
      [HttpPost]
     public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
     {
-      int idPregunta;
       int opcionElegida;
-    {
+    
         string guardadas = HttpContext.Session.GetString(
             "PreguntasPartida"
         );
@@ -59,7 +57,6 @@ public class JuegoController : Controller
             return Content("Correcta");
         }
         return Content("Incorrecta");
-    }
     }
 
 

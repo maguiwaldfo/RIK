@@ -140,7 +140,12 @@ public class BD
         }
     }
 
-    public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
+    public List<Teoria> OtenerTeorias()
+    {
+        
+    }
+
+    public List<CharlaTeoria> ObtenerCharlaTeoria(string idNivel)
     {
          List<CharlaTeoria> charla = new List<CharlaTeoria>();
 
