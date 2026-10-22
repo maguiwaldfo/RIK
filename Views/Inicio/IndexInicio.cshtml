@@ -1,96 +1,155 @@
+
 @{
-    ViewData["Title"] = "Inicio - RIK";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<main class="pantalla-rik">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIK - Inicio</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
 
-    <header class="encabezado-rik">
+<body class="mapa-body">
 
-        <a class="logo-rik" href="#inicio">
-            <img src="@Url.Content("~/imagenes/rik-logo.png")" alt="Logo de RIK">
+    <header class="mapa-header">
+        <div class="mapa-marca">
+            <div class="mapa-logo">R</div>
             <h1>RIK</h1>
-        </a>
+        </div>
 
-        <nav class="nav-rik">
-            <a href="#inicio">Inicio</a>
-            <a href="/Liga">Liga</a>
-            <a href="">Perfil</a>
+        <nav class="mapa-nav">
+            <a href="@Url.Action("Index", "Home")">Inicio</a>
+            <a href="#">Liga</a>
+            <a href="#">Perfil</a>
         </nav>
 
-        <a class="perfil-rik" href="/Perfil">
-            <img src="@Url.Content("~/imagenes/usuario.png")" alt="Mi perfil">
-        </a>
-
+        <a href="#" class="mapa-perfil">👤</a>
     </header>
 
-    <section class="zona-aprendizaje" id="inicio">
+    <main class="mapa-main">
 
-        <div class="tarjeta-biblioteca">
-            <p>Repasá temas anteriores</p>
-            <a href="/Biblioteca">Ir a la biblioteca</a>
-        </div>
+        <div class="mapa-contenido">
 
-        <div class="tarjeta-racha">
-            <img src="@Url.Content("~/imagenes/llama.png")" alt="Racha">
-            <p>n</p>
-        </div>
+            <!-- CAMINO DE NIVELES -->
 
-        <div class="nivel nivel-1">
-            <a href="/Juego/Nivel?nivelElegido=1">
-                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 1">
-            </a>
-        </div>
+            <div class="camino-niveles">
 
-        <div class="nivel nivel-2">
-            <a href="/Juego/Nivel?nivelElegido=2">
-                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 2">
-            </a>
-        </div>
+                <svg class="lineas-camino"
+                     viewBox="0 0 1000 1400"
+                     preserveAspectRatio="none">
+                    <polyline
+                        points="150,100 330,220 500,340 690,460
+                                820,580 650,700 440,820 240,940
+                                130,1060 340,1160 570,1260 800,1360"
+                        fill="none"
+                        stroke="black"
+                        stroke-width="7"
+                        stroke-linejoin="round" />
+                </svg>
 
-        <div class="nivel nivel-3">
-            <a href="/Juego/Nivel?nivelElegido=3">
-                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 3">
-            </a>
-        </div>
+                <a class="nodo nivel-1"
+                   href="@Url.Action("Teoria", "Juego", new { teoriaElegida = "Primeros pasos" })">
+                    <div class="nodo-disponible">1</div>
+                </a>
 
-        <div class="nivel nivel-4">
-            <a href="/Juego/Nivel?nivelElegido=4">
-                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 4">
-            </a>
-        </div>
-
-        <div class="nivel nivel-5">
-            <a href="/Juego/Nivel?nivelElegido=5">
-                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 5">
-            </a>
-        </div>
-
-        <div class="panel-desempeno">
-
-            <h2>Desempeño</h2>
-
-            <div class="contenedor-logros">
-
-                <div class="logro">
-                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
-                    <p>30 respuestas seguidas</p>
+                <div class="nodo nivel-2">
+                    <div class="nodo-bloqueado">🔒</div>
                 </div>
 
-                <div class="logro">
-                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
-                    <p>Trofeo de amigos</p>
+                <div class="nodo nivel-3">
+                    <div class="nodo-bloqueado">🔒</div>
                 </div>
 
-                <div class="logro">
-                    <img src="@Url.Content("~/imagenes/trofeo.png")" alt="Trofeo">
-                    <p>+90% respuestas acertadas</p>
+                <div class="nodo nivel-4">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-5">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-6">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-7">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-8">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-9">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-10">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-11">
+                    <div class="nodo-bloqueado">🔒</div>
+                </div>
+
+                <div class="nodo nivel-12">
+                    <div class="nodo-bloqueado">🔒</div>
                 </div>
 
             </div>
 
+            <!-- BIBLIOTECA -->
+
+            <section class="mapa-biblioteca">
+                <p>Repasá temas anteriores</p>
+
+                <a href="@Url.Action("Index", "Biblioteca")">
+                    Ir a la biblioteca
+                </a>
+            </section>
+
+            <!-- RACHA -->
+
+            <section class="mapa-racha">
+                <div class="racha-fuego">🔥</div>
+                <p>0</p>
+                <small>Días de racha</small>
+            </section>
+
+            <!-- DESEMPEÑO -->
+
+            <section class="mapa-desempeno">
+                <h2>Desempeño</h2>
+
+                <div class="desempeno-tarjeta">
+
+                    <div>
+                        <div class="trofeo">🏆</div>
+                        <p>30 respuestas seguidas</p>
+                    </div>
+
+                    <div>
+                        <div class="trofeo">🏆</div>
+                        <p>Trofeo de amigos</p>
+                    </div>
+
+                    <div>
+                        <div class="trofeo">🏆</div>
+                        <p>90% de respuestas acertadas</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- MASCOTA -->
+            <!-- Agregar acá la imagen del perro de RIK -->
+
         </div>
 
-    </section>
+    </main>
 
-</main>
+</body>
+</html>
