@@ -10,7 +10,7 @@
     <title>RIK - Registrarse</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<body class="registro-body">
 <header class="registrarse-header">
         <div class="registrarse-brand">
             <div class="brand-mark">R</div>
@@ -25,7 +25,7 @@
 
     </header>
     <h2>Registrarse</h2>
-    <form id="registroForm" action='@Url.Action("ValidarUsuario", "Login")' method="post" onsubmit="return registrarUsuario()">
+    <form id="registroForm" class="registro-panel" action='@Url.Action("ValidarUsuario", "Login")' method="post" onsubmit="return registrarUsuario()">
         <div>
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" placeholder="Pedro">
