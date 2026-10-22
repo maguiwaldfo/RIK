@@ -27,7 +27,6 @@ public class JuegoController : Controller
      [HttpPost]
     public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
     {
-      int opcionElegida;
     
         string guardadas = HttpContext.Session.GetString(
             "PreguntasPartida"
@@ -52,7 +51,7 @@ public class JuegoController : Controller
         }
 
         
-        if(pregunta.Respuesta.ToString() == opcionElegida.ToString())
+        if(pregunta.Respuesta.ToString() == respuestaElegida.ToString())
         {
             return Content("Correcta");
         }
