@@ -1,0 +1,22 @@
+@using RIK.Models
+@{
+    List<Pregunta> preguntas = ViewBag.PreguntasNivel as List<Pregunta> ?? new List<Pregunta>();
+}
+
+@if (preguntas.Count == 0)
+{
+    <p>No hay preguntas para este nivel</p>
+}
+else
+{
+    foreach (Pregunta pregunta in preguntas)
+    {
+        <div class="nivel-pregunta">
+            <p>@pregunta.Enunciado</p>
+            <button>@pregunta.Opcion1</button>
+            <button>@pregunta.Opcion2</button>
+            <button>@pregunta.Opcion3</button>
+            <button>@pregunta.Opcion4</button>
+        </div>
+    }
+}

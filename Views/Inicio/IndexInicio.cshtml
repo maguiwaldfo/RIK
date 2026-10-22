@@ -1,4 +1,3 @@
-
 @{
     ViewData["Title"] = "Inicio - RIK";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,13 +12,13 @@
             <h1>RIK</h1>
         </a>
 
-        <nav class="navegacion-rik">
+        <nav class="nav-rik">
             <a href="#inicio">Inicio</a>
             <a href="/Liga">Liga</a>
-            <a href="/Cuenta/Perfil">Perfil</a>
+            <a href="">Perfil</a>
         </nav>
 
-        <a class="perfil-rik" href="/Cuenta/Perfil">
+        <a class="perfil-rik" href="/Perfil">
             <img src="@Url.Content("~/imagenes/usuario.png")" alt="Mi perfil">
         </a>
 
@@ -38,23 +37,33 @@
         </div>
 
         <div class="nivel nivel-1">
-            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+            <a href="/Juego/Nivel?nivelElegido=1">
+                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 1">
+            </a>
         </div>
 
         <div class="nivel nivel-2">
-            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+            <a href="/Juego/Nivel?nivelElegido=2">
+                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 2">
+            </a>
         </div>
 
         <div class="nivel nivel-3">
-            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+            <a href="/Juego/Nivel?nivelElegido=3">
+                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 3">
+            </a>
         </div>
 
         <div class="nivel nivel-4">
-            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+            <a href="/Juego/Nivel?nivelElegido=4">
+                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 4">
+            </a>
         </div>
 
         <div class="nivel nivel-5">
-            <img src="@Url.Content("~/imagenes/candado.png")" alt="Nivel bloqueado">
+            <a href="/Juego/Nivel?nivelElegido=5">
+                <img src="@Url.Content("~/imagenes/candado.png")" alt="Abrir nivel 5">
+            </a>
         </div>
 
         <div class="panel-desempeno">
