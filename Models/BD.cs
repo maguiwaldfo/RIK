@@ -153,6 +153,7 @@ public class BD
         }
 
         return teorias;
+    }
 
     public List<CharlaTeoria> ObtenerCharlaTeoria(string idNivel)
     {
@@ -171,19 +172,18 @@ public class BD
     }
 
     public Nivel ObtenerNivelPorNombre(string tema)
-{
-    Nivel nivel = null;
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        nivel = connection.QueryFirstOrDefault<Nivel>(
-            "sp_ObtenerNivelPorNombre",
-            new { tema = tema },
+        Nivel nivel = null;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            nivel = connection.QueryFirstOrDefault<Nivel>(
+                "sp_ObtenerNivelPorNombre",
+                new { tema = tema },
             commandType: CommandType.StoredProcedure
-        );
-    }
+            );
+        }
 
     return nivel;
-}
-}
+    }
 }
