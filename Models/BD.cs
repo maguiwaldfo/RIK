@@ -155,4 +155,20 @@ public class BD
 
          return charla;
     }
+
+    public Nivel ObtenerNivelPorNombre(string tema)
+{
+    Nivel nivel = null;
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        nivel = connection.QueryFirstOrDefault<Nivel>(
+            "sp_ObtenerNivelPorNombre",
+            new { tema = tema },
+            commandType: CommandType.StoredProcedure
+        );
+    }
+
+    return nivel;
+}
 }
