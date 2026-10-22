@@ -2,23 +2,22 @@
 
 @foreach(Teoria teorias in bd.ObtenerTeorias())
 {
-    @if(teorias.esBloqueada == false)
+    @if(!teorias.esBloqueada)
     {
-        @echo en caso de que este desbloqueada, se muestra la imagen, el nombre y es un link para acceder
-        <a href="#" class="cta">
+        <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
             <div class="teoria">
-                <img src="@teorias.nombreImagen" alt="@teorias.nombre" />
+                <img src="/imagenes/teoria/@teorias.nombreImagen" alt="@teoria.nombre" />
                 <h2>@teorias.nombre</h2>
             </div>
         </a>
     }
     else
     {
-        @en caso de que este bloqueada se muestra un candado y la imagen blureada. todavia no existe la funcionalidad
-        <a href="#" class="cta">
+        <a aria-disabled="true" href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
             <div class="teoria">
-                <img src="@teorias.nombreImagen" alt="@teorias.nombre" />
+                <img src="/imagenes/teoria/@teorias.nombreImagen" alt="@teoria.nombre" />
                 <h2>@teorias.nombre</h2>
+                <h3>Proximamente</h3>
             </div>
         </a>
     }

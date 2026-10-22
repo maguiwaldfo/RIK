@@ -8,9 +8,10 @@ public class JuegoController : Controller
 {
     BD bd = new BD();
     
-    public void Teoria(int teoriaElegida)
+    public void Teoria(string teoriaElegida)
     {
-        ViewBag.teoriaNivel = bd.TeoriaNivel(teoriaElegida);
+        viewBag.bd = bd;
+        ViewBag.teoriaNivel = bd.TeoriaNivel(string);
         return View();
     }
 
