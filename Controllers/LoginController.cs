@@ -86,7 +86,7 @@ public class LoginController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
 
-        return RedirectToAction("IndexInicio", "Inicio");
+        return RedirectToAction("Index", "Login");
     }
 
     [HttpPost]
