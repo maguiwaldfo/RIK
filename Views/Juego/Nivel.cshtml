@@ -1,22 +1,58 @@
 @using RIK.Models
 @{
-    List<Pregunta> preguntas = ViewBag.PreguntasNivel as List<Pregunta> ?? new List<Pregunta>();
+List<Pregunta> preguntas = ViewBag.PreguntasNivel as List<Pregunta>;
+
+if (preguntas == null)
+{
+    preguntas = new List<Pregunta>();
 }
+}
+
+<style>
+    .pregunta-item {
+        display: block;
+    }
+
+    .pregunta-item.hidden {
+        display: none;
+    }
+</style>
 
 @if (preguntas.Count == 0)
 {
-    <p>No hay preguntas para este nivel</p>
+    <p>No hay preguntas para este nivel.</p>
 }
 else
 {
-    foreach (Pregunta pregunta in preguntas)
+    for (int i = 0; i < preguntas.Count; i++)
     {
-        <div class="nivel-pregunta">
-            <p>@pregunta.Enunciado</p>
-            <button>@pregunta.Opcion1</button>
-            <button>@pregunta.Opcion2</button>
-            <button>@pregunta.Opcion3</button>
-            <button>@pregunta.Opcion4</button>
+        Pregunta pregunta = preguntas[i];
+        <div class="pregunta-item @(i == 0 && "visible" || "hidden")" data-index="@i">
+            <div class="encabezado-pregunta">
+                <span>RIK</span>
+                <div class="barra-vida"></div>
+                <span>❤</span>
+            </div>
+
+            <div class="cuerpo-pregunta">
+                <p>@pregunta.Enunciado</p>
+
+                <div class="opciones-pregunta">
+                    <button type="button">@pregunta.Opcion1</button>
+                    <button type="button">@pregunta.Opcion2</button>
+                    <button type="button">@pregunta.Opcion3</button>
+                    <button type="button">@pregunta.Opcion4</button>
+                </div>
+
+                @if (i < preguntas.Count - 1)
+                {
+                    <button type="button" class="btn-siguiente">Siguiente</button>
+                }
+                else
+                {
+                    <button type="button" class="btn-siguiente">Finalizar</button>
+                }
+            </div>
         </div>
     }
 }
