@@ -25,7 +25,7 @@
 
     </header>
     <h2>Registrarse</h2>
-    <form id="registroForm" action= '@Url.Action("ValidarUsuario", "Session")' method="post" onsubmit="return registrarUsuario()">
+    <form id="registroForm" action='@Url.Action("ValidarUsuario", "Login")' method="post" onsubmit="return registrarUsuario()">
         <div>
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" placeholder="Pedro">
@@ -40,7 +40,7 @@
 
         <div>
             <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contraseña" placeholder="Ingrese una contraseña">
+            <input type="password" id="contrasena" name="contrasena" placeholder="Ingrese una contraseña">
             <p id="fb-contrasena" class="feedback"></p>
         </div>
 
@@ -54,10 +54,11 @@
         <input type="submit" value="Registrarse">
     </form>
         
-        <p>¿Ya tienes una cuenta? <a href="@Url.Action("Index", "Session")">Inicia sesión</a></p>
+        <p>¿Ya tienes una cuenta? <a href="@Url.Action("Index", "Login")">Inicia sesión</a></p>
         <p>@ViewBag.ErrorMessage</p>
 
     <div id="resultado"></div>
 
     <script src="/js/registrarse.js"></script>
 </body>
+</html>
