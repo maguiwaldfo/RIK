@@ -66,11 +66,11 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contrasena)
+    public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
     {
-        Usuario usuario = new Usuario(nombre, nombreUsuario, contrasena, email);
+        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, email);
 
-        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contrasena, usuario.Email))
+        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña, usuario.Email))
         {
             return View("Registrarse");
         }
@@ -90,9 +90,9 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult IniciarSesion(string nombreUsuario, string contrasena)
+    public IActionResult IniciarSesion(string nombreUsuario, string contraseña)
     {
-        Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contrasena);
+        Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
 
         if (usuario != null)
         {

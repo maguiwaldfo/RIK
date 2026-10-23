@@ -20,7 +20,7 @@ public class BD
                 {
                     nombre = usuario.Nombre,
                     nombreUsuario = usuario.NombreUsuario,
-                    contrasena = usuario.Contrasena,
+                    contraseña = usuario.Contraseña,
                     email = usuario.Email
                 },
                 commandType: CommandType.StoredProcedure
