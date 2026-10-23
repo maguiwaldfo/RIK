@@ -186,4 +186,35 @@ public class BD
 
     return nivel;
     }
+
+    public List<Nivel> ObtenerNiveles()
+    {
+         List<Nivel> niveles = new List<Nivel>();
+
+         using (SqlConnection connection = new SqlConnection(_connectionString))
+         {
+            niveles = connection.Query<Nivel>(
+            "sp_ObtenerNiveles",
+            commandType: CommandType.StoredProcedure
+            ).ToList();
+         }
+
+         return niveles;
+    }
+
+    public List<int> ObtenerNivelesCompletados(int idUsuario)
+{
+    List<int> niveles = new List<int>();
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        niveles = connection.Query<int>(
+            "sp_ObtenerNivelesCompletados",
+            new { idUsuario = idUsuario },
+            commandType: CommandType.StoredProcedure
+        ).ToList();
+    }
+
+    return niveles;
+}
 }
