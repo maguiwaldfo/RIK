@@ -374,87 +374,6 @@ nav li:hover,
 
 /* MASCOTA */
 
-.mascot {
-    position: absolute;
-    left: 4%;
-    bottom: -10px;
-    width: 330px;
-    height: 260px;
-    z-index: 1;
-    filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.12));
-}
-
-.ear {
-    position: absolute;
-    top: 18px;
-    width: 70px;
-    height: 70px;
-    background: #a9d34c;
-    border-radius: 50% 50% 40% 40%;
-    border: 4px solid #7ca933;
-}
-
-.ear.left { left: 26px; transform: rotate(-18deg); }
-.ear.right { right: 26px; transform: rotate(18deg); }
-
-.face {
-    position: absolute;
-    left: 46px;
-    right: 46px;
-    bottom: 0;
-    height: 220px;
-    background: #a9d34c;
-    border-radius: 48% 48% 50% 50% / 55% 55% 45% 45%;
-    border: 4px solid #7ca933;
-}
-
-.eye {
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    background: #fff;
-    border-radius: 50%;
-    top: 72px;
-}
-
-.eye::after {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #000;
-    border-radius: 50%;
-    left: 8px;
-    top: 7px;
-}
-
-.eye.left { left: 62px; }
-.eye.right { right: 62px; }
-
-.snout {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 34px;
-    width: 80px;
-    height: 52px;
-    background: #d9f6a7;
-    border-radius: 40% 40% 50% 50%;
-    border: 3px solid rgba(0,0,0,0.08);
-}
-
-.smile {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 14px;
-    width: 110px;
-    height: 52px;
-    border: 8px solid transparent;
-    border-bottom: 8px solid #a42d2d;
-    border-radius: 50%;
-}
-
 /* =========================== */
 /* LANDING PAGE / HOME        */
 /* =========================== */
@@ -470,366 +389,413 @@ nav li:hover,
     padding-bottom: 0;
 }
 
+/* LANDING RIK */
+
 .rik {
     width: 100%;
     min-height: 100vh;
-    background: #058C56;
-    color: #0a0a0a;
-    font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
+    background-color: #078B58;
+    color: #FFFFFF;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
+
+/* ENCABEZADO */
 
 .rik .encabezado {
     width: 100%;
-    min-height: 70px;
-    background: #0a6d3d;
-    margin: 0;
-    padding: 12px 28px;
+    min-height: 52px;
+    background-color: #064D2B;
+    padding: 6px 3%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    box-sizing: border-box;
 }
 
 .rik .marca {
     display: flex;
     align-items: center;
-    gap: 10px;
     text-decoration: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: 2.1rem;
+    color: #FFFFFF;
+    font-size: 26px;
 }
 
 .rik .marca img {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
+    width: 30px;
+    height: 30px;
 }
 
 .rik .nav {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.rik .nav a {
+.rik .nav a,
+.rik .boton-login {
+    background-color: #FFE500;
+    color: #000000;
     text-decoration: none;
-    background: #f4d300;
-    color: #0c0c0c;
-    font-weight: 700;
-    font-size: 0.8rem;
-    padding: 8px 14px;
-    border-radius: 6px;
-    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.08);
+    text-align: center;
+    font-size: 11px;
+    padding: 7px 10px;
+    border-radius: 4px;
 }
 
 .rik .boton-login {
-    background: #f4d300;
-    color: #111;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 11px 18px;
-    border-radius: 6px;
-    white-space: nowrap;
+    padding: 8px 16px;
 }
+
+/* PORTADA */
 
 .rik .portada {
     width: 100%;
-    min-height: calc(100vh - 70px);
-    background: #058C56;
-    padding: 18px 0 20px;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
+    background-color: #078B58;
+    padding: 0;
 }
 
 .rik .presentacion {
     position: relative;
-    width: min(1220px, 92%);
-    height: min(80vh, 460px);
-    min-height: 360px;
-    margin: 0 auto;
+    width: 100%;
+    height: 300px;
 }
+
+/* MASCOTA */
 
 .rik .mascota {
     position: absolute;
-    left: 10px;
-    bottom: -40px;
-    width: 560px;
+    left: -12px;
+    bottom: -10px;
+    width: 42%;
+    max-width: 520px;
     z-index: 2;
-    filter: drop-shadow(0 8px 8px rgba(0,0,0,0.08));
 }
+
+/* TARJETA DE PRESENTACIÓN */
 
 .rik .tarjeta-presentacion {
     position: absolute;
-    left: 260px;
-    top: 42px;
-    width: 480px;
-    min-height: 180px;
-    background: rgba(7, 81, 47, 0.85);
-    border-radius: 14px;
-    padding: 24px 20px;
+    left: 18%;
+    top: 18px;
+    width: 30%;
+    padding: 3%;
+    background-color: #07512F;
+    border-radius: 10px;
     z-index: 3;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .rik .tarjeta-presentacion p {
-    font-size: 1.42rem;
-    line-height: 1.45;
     margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
 }
+
+/* LOGO */
 
 .rik .logo-hero {
     position: absolute;
-    right: 40px;
-    top: 55px;
-    width: 340px;
+    left: 60%;
+    top: 4px;
+    width: 24%;
+    min-width: 180px;
     text-align: center;
-    z-index: 2;
-    color: #fff;
+    z-index: 5;
 }
 
-.rik .logo-hero span {
+.rik .logo-hero img {
+    width: 100%;
+    height: auto;
     display: block;
-    font-size: 8rem;
-    line-height: 0.8;
-    font-weight: 800;
-    letter-spacing: -0.09em;
-    color: #f5f5f5;
+    transform: scale(1.12);
+    transform-origin: center top;
 }
 
-.rik .logo-hero small {
-    display: block;
-    margin-top: 12px;
-    font-size: 1rem;
-    line-height: 1.3;
-    color: #ebf7ef;
-}
+/* MISIÓN */
 
 .rik .tarjeta-mision {
     position: absolute;
-    right: 18px;
+    left: 26%;
+    right: auto;
     bottom: 18px;
-    width: 470px;
-    min-height: 200px;
-    background: rgba(7, 81, 47, 0.8);
-    border-radius: 14px;
-    padding: 22px 20px;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 28%;
+    padding: 2.5%;
+    background-color: #07512F;
+    border-radius: 10px;
+    z-index: 3;
 }
 
 .rik .tarjeta-mision p {
-    font-size: 1.26rem;
-    line-height: 1.5;
     margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
+/* TARJETAS INFERIORES */
+
 .rik .estadisticas {
-    width: min(1200px, 92%);
-    margin: 28px auto 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(230px, 1fr));
-    gap: 20px;
+    width: 92%;
+    margin: 0 auto;
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .rik .estadistica {
-    background:#f8f8f8;
-    border-radius: 18px;
-    padding: 18px 20px;
+    width: 33.33%;
+    background-color: #A8C921;
+    border-radius: 11px;
+    padding: 8px;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    border: 1px solid #dfe9e2;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    color: #1d1d1d;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    color: #173D20;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 
 .rik .icono-estadistica {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
+    width: 25px;
+    height: 22px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #d6f5e4;
-    font-size: 1.5rem;
+    background-color: #78A91C;
+    font-size: 13px;
 }
 
 .rik .estadistica h2 {
-    font-size: 2rem;
-    margin: 0 0 4px;
-    color: #0f0f0f;
+    margin: 0;
+    font-size: 18px;
+    color: #173D20;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 .rik .estadistica p {
     margin: 0;
-    color: #2d2d2d;
-    font-size: 0.82rem;
+    font-size: 11px;
     line-height: 1.4;
-}
-
-.rik .funcionalidades {
-    width: min(1200px, 92%);
-    margin: 50px auto 0;
-    padding-bottom: 30px;
-    color: #1a1a1a;
+    color: #173D20;
 }
 
 .rik .titulo-seccion {
     text-align: center;
-    margin-bottom: 26px;
+    margin-bottom: 20px;
 }
 
 .rik .subtitulo {
-    display: inline-block;
-    color: #0e7b4f;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    font-size: 0.72rem;
+    color: #064D2B;
+    font-size: 12px;
+    font-weight: bold;
     margin-bottom: 8px;
 }
 
 .rik .titulo-seccion h2 {
     margin: 0;
-    font-size: clamp(2rem, 2.5vw, 3rem);
-    line-height: 1.1;
-    color: #111;
-    font-weight: 800;
+    font-size: 34px;
+    line-height: 1.2;
+    color: #111111;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 .rik .titulo-seccion p {
-    margin-top: 12px;
-    color: #3d3d3d;
-    font-size: 1rem;
+    margin-top: 10px;
+    color: #173D20;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
+
+
+
 .rik .contenedor-tarjetas {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(220px, 1fr));
-    gap: 22px;
-    margin-top: 30px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
 }
 
 .rik .tarjeta-funcion {
-    background: #f3f8f5;
-    border-radius: 20px;
-    border: 1px solid #dfeae4;
-    padding: 26px 20px 22px;
-    min-height: 280px;
+    width: 300px;
+    height: 225px;
+    flex: 0 1 300px;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #A8C921;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-.rik .icono-funcion {
-    width: 62px;
-    height: 62px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    margin-bottom: 18px;
-}
-
-.rik .icono-verde {
-    background: #d7f5e0;
-}
-
-.rik .icono-amarillo {
-    background: #f4e5a8;
-}
-
-.rik .icono-lila {
-    background: #e1d9ff;
-}
-
-.rik .tarjeta-funcion h3 {
-    margin: 0 0 12px;
-    font-size: 1.3rem;
-    color: #101010;
-}
-
-.rik .tarjeta-funcion p {
-    margin: 0;
-    color: #333;
-    line-height: 1.5;
-    font-size: 0.94rem;
-    flex: 1;
-}
 
 .rik .tarjeta-funcion a {
-    margin-top: 16px;
-    color: #0a6d3d;
-    font-weight: 700;
-    text-decoration: none;
-    display: inline-block;
+    margin-top: 12px;
+    padding-top: 0;
+    color: #065F46;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
+
+.rik .tarjeta-funcion a:hover {
+    color: #043F30;
+}
+
+
+@media (max-width: 700px) {
+    .rik .contenedor-tarjetas {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .rik .tarjeta-funcion {
+        width: 300px;
+        max-width: 100%;
+        flex: none;
+        height: 225px;
+    }
+}
+
+
+/* CIERRE */
+
 .rik .cierre {
-    width: min(1200px, 92%);
-    margin: 30px auto 50px;
+    width: 92%;
+    margin: 20px auto 30px;
 }
 
 .rik .caja-cierre {
-    background: rgba(182, 233, 198, 0.7);
-    border: 1px solid #cfe7d5;
-    border-radius: 24px;
-    padding: 20px 28px;
+    background-color: #B6E9C6;
+    border-radius: 15px;
+    padding: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 15px;
 }
 
 .rik .icono-cierre {
-    width: 80px;
-    height: 80px;
-    border-radius: 18px;
-    background: #0d9a5c;
-    color: #fff;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background-color: #0D9A5C;
+    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .rik .texto-cierre {
     flex: 1;
-    color: #1d1d1d;
+    color: #1D1D1D;
 }
 
 .rik .texto-cierre h2 {
-    margin: 0 0 8px;
-    font-size: clamp(1.2rem, 1.6vw, 2rem);
+    margin: 0 0 6px;
+    font-size: 18px;
     line-height: 1.3;
-    color: #1a1a1a;
+    color: #1A1A1A;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 .rik .texto-cierre p {
     margin: 0;
-    color: #3a3a3a;
-    font-weight: 600;
+    color: #3A3A3A;
+    font-size: 14px;
 }
 
 .rik .boton-cierre {
-    background: #0d9a5c;
-    color: #fff;
+    background-color: #0D9A5C;
+    color: #FFFFFF;
     text-decoration: none;
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
     text-align: center;
-    white-space: nowrap;
 }
+
+/* ADAPTACIÓN A CELULARES */
+
+@media (max-width: 700px) {
+
+    .rik .encabezado {
+        flex-wrap: wrap;
+        padding: 8px 3%;
+    }
+
+    .rik .nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .rik .presentacion {
+        height: 390px;
+    }
+
+    .rik .mascota {
+        width: 45%;
+        left: 0;
+        bottom: 0;
+    }
+
+    .rik .tarjeta-presentacion {
+        width: 48%;
+        left: 3%;
+        top: 5%;
+        padding: 3%;
+    }
+
+    .rik .tarjeta-presentacion p {
+        font-size: 10px;
+    }
+
+    .rik .logo-hero {
+        width: 38%;
+        left: 59%;
+        top: 8%;
+    }
+
+    .rik .tarjeta-mision {
+        width: 48%;
+        right: 3%;
+        bottom: 5%;
+        padding: 3%;
+    }
+
+    .rik .tarjeta-mision p {
+        font-size: 10px;
+    }
+
+    .rik .estadisticas {
+        flex-direction: column;
+    }
+
+    .rik .estadistica {
+        width: 100%;
+    }
+
+    .rik .contenedor-tarjetas {
+        flex-direction: column;
+    }
+
+    .rik .tarjeta-funcion {
+        width: 100%;
+    }
+
+    .rik .caja-cierre {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 
 /* =========================== */
 /* REGISTRO PAGE              */
