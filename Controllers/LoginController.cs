@@ -66,7 +66,7 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string nombreUsuario, string contraseña, string email)
+    public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
     {
         Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, email);
 
