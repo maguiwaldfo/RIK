@@ -1366,3 +1366,75 @@ nav li:hover,
         font-size: 9px;
     }
 }
+/* GRID DE LA BIBLIOTECA */
+
+.biblioteca-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 45px 55px;
+    max-width: 950px;
+    margin: 35px auto;
+    justify-items: center;
+}
+
+.biblioteca-grid a {
+    text-decoration: none;
+    color: white;
+}
+
+/* TARJETAS */
+
+.biblioteca-grid .teoria {
+    width: 150px;
+    height: 185px;
+    background-color: #064D2B;
+    border-radius: 13px;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+
+.biblioteca-grid .teoria img {
+    width: 100%;
+    height: 105px;
+    object-fit: cover;
+}
+
+.biblioteca-grid .teoria h2,
+.biblioteca-grid .teoria h3 {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.4;
+    padding: 8px;
+    margin: 0;
+}
+
+.biblioteca-grid a:hover .teoria {
+    transform: scale(1.05);
+}
+
+/* BLOQUEADAS */
+
+.biblioteca-grid .teoria-bloqueada {
+    opacity: 0.6;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+    .biblioteca-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 550px) {
+    .biblioteca-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .biblioteca-grid .teoria {
+        width: 140px;
+    }
+}

@@ -1,23 +1,28 @@
-@{ var bd = new BD(); }
 
-@foreach(Teoria teoria in bd.ObtenerTeorias())
-{
-    @if (!teoria.esBloqueada)
-    {
-        <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
-            <div class="teoria">
-                <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
-                <h2>@teoria.nombre</h2>
-            </div>
-        </a>
-    }
-    else
-    {
-        <a aria-disabled="true" href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
-            <div class="teoria">
-                <img src="/imagenes/candado.png" alt="@teoria.nombre" />
-                <h3>Proximamente</h3>
-            </div>
-        </a>
-    }
+@{
+    BD bd = new BD();
 }
+
+<div class="biblioteca-grid">
+
+    @foreach (Teoria teoria in bd.ObtenerTeorias())
+    {
+        if (!teoria.esBloqueada)
+        {
+            <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
+                <div class="teoria">
+                    <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
+                    <h2>@teoria.nombre</h2>
+                </div>
+            </a>
+        }
+        else
+        {
+            <div class="teoria teoria-bloqueada">
+                <img src="/imagenes/candado.png" alt="Bloqueado" />
+                <h3>Próximamente</h3>
+            </div>
+        }
+    }
+
+</div>
