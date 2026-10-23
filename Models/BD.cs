@@ -7,7 +7,8 @@ namespace RIK.Models;
 
 public class BD
 {
-    private static string _connectionString = @"Server=.\SQLEXPRESS;DataBase=RIK;Integrated Security=True;TrustServerCertificate=True;";
+    private string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
+
 
     public void AgregarUsuario(Usuario usuario)
     {
@@ -186,4 +187,35 @@ public class BD
 
     return nivel;
     }
+
+    public List<Nivel> ObtenerNiveles()
+    {
+         List<Nivel> niveles = new List<Nivel>();
+
+         using (SqlConnection connection = new SqlConnection(_connectionString))
+         {
+            niveles = connection.Query<Nivel>(
+            "sp_ObtenerNiveles",
+            commandType: CommandType.StoredProcedure
+            ).ToList();
+         }
+
+         return niveles;
+    }
+
+    public List<int> ObtenerNivelesCompletados(int idUsuario)
+{
+    List<int> niveles = new List<int>();
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        niveles = connection.Query<int>(
+            "sp_ObtenerNivelesCompletados",
+            new { idUsuario = idUsuario },
+            commandType: CommandType.StoredProcedure
+        ).ToList();
+    }
+
+    return niveles;
+}
 }
