@@ -8,6 +8,12 @@ public class Usuario
     public string Contraseña { get; set; }
     public string Email { get; set; }
 
+
+        public Usuario()
+    {
+        
+    }
+
     public Usuario(string nombre, string nombreUsuario, string contraseña, string email)
     {
         this.Nombre = nombre;

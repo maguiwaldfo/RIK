@@ -246,13 +246,15 @@ nav li:hover,
 }
 
 .login-nav a {
-    background: #f4d200;
-    color: #000;
+    background: #FFE500;
+    color: black;
     text-decoration: none;
-    font-size: 13px;
-    padding: 8px 12px;
-    border-radius: 5px;
+    text-align: center;
+    padding: 11px 32px;
+    border-radius: 6px;
+    font-size: 14px;
     font-weight: 600;
+    display: inline-block;
 }
 
 .login-button {
@@ -435,10 +437,14 @@ nav li:hover,
     background-color: #FFE500;
     color: #000000;
     text-decoration: none;
+    background: #FFE500;
+    color: black;
     text-align: center;
-    font-size: 11px;
-    padding: 7px 10px;
-    border-radius: 4px;
+    padding: 11px 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
 }
 
 .rik .boton-login {
@@ -991,9 +997,10 @@ nav li:hover,
 
 .mapa-header {
     width: 100%;
-    height: 80px;
+    min-height: 80px;
     background: #064D2B;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     justify-content: space-between;
     padding: 0 4%;
@@ -1006,47 +1013,26 @@ nav li:hover,
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.mapa-logo {
-    width: 52px;
-    height: 52px;
-    background: #FFE500;
-    border: 3px solid white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #064D2B;
-}
-
-.mapa-marca h1 {
-    font-size: 38px;
-    font-weight: normal;
-    color: white;
+    justify-self: start;
 }
 
 .mapa-nav {
     display: flex;
     align-items: center;
     gap: 16px;
+    justify-self: center;
 }
 
 .mapa-nav a {
+    text-decoration: none;
     background: #FFE500;
     color: black;
-    text-decoration: none;
     text-align: center;
     padding: 11px 32px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
-}
-
-.mapa-nav a:hover {
-    background: #F2D600;
+    display: inline-block;
 }
 
 .mapa-perfil {
@@ -1059,6 +1045,7 @@ nav li:hover,
     align-items: center;
     text-decoration: none;
     font-size: 30px;
+    justify-self: end;
 }
 
 /* FONDO */
@@ -1181,7 +1168,6 @@ nav li:hover,
     text-decoration: none;
     padding: 12px;
     border-radius: 9px;
-    font-size: 15px;
 }
 
 /* RACHA */
@@ -1336,11 +1322,37 @@ nav li:hover,
 
 .biblioteca-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 45px 55px;
-    max-width: 950px;
+    grid-template-columns: repeat(4, minmax(190px, 1fr));
+    gap: 50px 60px;
+    max-width: 1150px;
     margin: 35px auto;
     justify-items: center;
+}
+
+.biblioteca-grid .teoria {
+    width: 210px;
+    height: 255px;
+    background-color: #064D2B;
+    border-radius: 13px;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.biblioteca-grid .teoria img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+}
+
+.biblioteca-grid .teoria h2,
+.biblioteca-grid .teoria h3 {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 1.4;
+    padding: 12px 14px;
+    margin: 0;
 }
 
 .biblioteca-grid a {
@@ -1348,59 +1360,6 @@ nav li:hover,
     color: white;
 }
 
-/* TARJETAS */
-
-.biblioteca-grid .teoria {
-    width: 150px;
-    height: 185px;
-    background-color: #064D2B;
-    border-radius: 13px;
-    overflow: hidden;
-    text-align: center;
-    color: white;
-}
-
-.biblioteca-grid .teoria img {
-    width: 100%;
-    height: 105px;
-    object-fit: cover;
-}
-
-.biblioteca-grid .teoria h2,
-.biblioteca-grid .teoria h3 {
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 1.4;
-    padding: 8px;
-    margin: 0;
-}
-
 .biblioteca-grid a:hover .teoria {
     transform: scale(1.05);
-}
-
-/* BLOQUEADAS */
-
-.biblioteca-grid .teoria-bloqueada {
-    opacity: 0.6;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 800px) {
-    .biblioteca-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-    }
-}
-
-@media (max-width: 550px) {
-    .biblioteca-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .biblioteca-grid .teoria {
-        width: 140px;
-    }
 }

@@ -2,27 +2,57 @@
 @{
     BD bd = new BD();
 }
+@{
+    Layout = null;
+}
 
-<div class="biblioteca-grid">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIK - Inicio</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
 
-    @foreach (Teoria teoria in bd.ObtenerTeorias())
-    {
-        if (!teoria.esBloqueada)
-        {
-            <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
-                <div class="teoria">
-                    <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
-                    <h2>@teoria.nombre</h2>
-                </div>
-            </a>
-        }
-        else
-        {
-            <div class="teoria teoria-bloqueada">
-                <img src="/imagenes/candado.png" alt="Bloqueado" />
-                <h3>Próximamente</h3>
-            </div>
-        }
-    }
+<body class="mapa-body">
+    <header class="mapa-header">
+        <div class="mapa-marca">
+            <img class="brand-mark" src="/images/Logo rik (1).png" alt="Logo RIK">
+        </div>
 
-</div>
+        <nav class="mapa-nav">
+            <a href="@Url.Action("Index", "Home")">Inicio</a>
+            <a href="#">Liga</a>
+            <a href="#">Perfil</a>
+        </nav>
+
+        <a class="mapa-perfil" href="#" aria-label="Usuario">👤</a>
+    </header>
+    <main>
+        <div class="biblioteca-grid">
+
+            @foreach (Teoria teoria in bd.ObtenerTeorias())
+            {
+                if (!teoria.esBloqueada)
+               {
+                    <a href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoria.nombre })">
+                         <div class="teoria">
+                            <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
+                            <h2>@teoria.nombre</h2>
+                        </div>
+                   </a>
+                }
+                else
+                {
+                    <div class="teoria teoria-bloqueada">
+                        <img src="/imagenes/candado.png" alt="Bloqueado" />
+                        <h3>Próximamente</h3>
+                    </div>
+                }
+            }
+
+        </div>
+    </main>
+    </body>
+</html>
