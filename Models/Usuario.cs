@@ -5,18 +5,18 @@ public class Usuario
 {
     public string Nombre { get; set; }
     public string NombreUsuario { get; set; }
-    public string Contraseña { get; set; }
+    public string Contrasena { get; set; }
     public string Email { get; set; }
 
-    public Usuario(string nombre, string nombreUsuario, string contraseña, string email)
+    public Usuario(string nombre, string nombreUsuario, string contrasena, string email)
     {
         this.Nombre = nombre;
         this.NombreUsuario = nombreUsuario;
-        this.Contraseña = contraseña;
+        this.Contrasena = contrasena;
         this.Email = email;
     }
 
-    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña, string email)
+    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contrasena, string email)
     {
         bool esValido = true;
 
@@ -42,11 +42,11 @@ public class Usuario
             esValido = false;
         }
 
-        if (string.IsNullOrWhiteSpace(contraseña))
+        if (string.IsNullOrWhiteSpace(contrasena))
         {
             esValido = false;
         }
-        else if (contraseña.Length < 8)
+        else if (contrasena.Length < 8)
         {
             esValido = false;
         }
