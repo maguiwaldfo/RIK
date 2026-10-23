@@ -1,8 +1,17 @@
 @using RIK.Models
-@{
-    List<Pregunta> preguntas = ViewBag.PreguntasNivel as List<Pregunta> ?? new List<Pregunta>();
-}
 
+@{
+    List<Pregunta> preguntas;
+
+    if (ViewBag.PreguntasNivel is List<Pregunta> lista)
+    {
+        preguntas = lista;
+    }
+    else
+    {
+        preguntas = new List<Pregunta>();
+    }
+}
 @if (preguntas.Count == 0)
 {
     <p>No hay preguntas para este nivel</p>
