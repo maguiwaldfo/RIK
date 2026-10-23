@@ -1,5 +1,6 @@
 namespace RIK.Models;
 using System.Text.RegularExpressions;
+
 public class Usuario
 {
     public string Nombre { get; set; }
@@ -14,6 +15,7 @@ public class Usuario
         this.Contraseña = contraseña;
         this.Email = email;
     }
+
     public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña, string email)
     {
         bool esValido = true;
@@ -35,7 +37,6 @@ public class Usuario
         {
             esValido = false;
         }
-        
         else if (nombreUsuario.Length < 6)
         {
             esValido = false;
@@ -49,10 +50,12 @@ public class Usuario
         {
             esValido = false;
         }
+
         if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
         {
             esValido = false;
         }
+
         return esValido;
     }
 }
