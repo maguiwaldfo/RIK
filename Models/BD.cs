@@ -7,7 +7,8 @@ namespace RIK.Models;
 
 public class BD
 {
-    private static string _connectionString = @"Server=.\SQLEXPRESS;DataBase=RIK;Integrated Security=True;TrustServerCertificate=True;";
+    private string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
+
 
     public void AgregarUsuario(Usuario usuario)
     {

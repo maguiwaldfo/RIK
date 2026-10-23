@@ -66,9 +66,9 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
+    public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contrasena)
     {
-        Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, email);
+        Usuario usuario = new Usuario(nombre, nombreUsuario, contrasena, email);
 
         if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña, usuario.Email))
         {
@@ -86,7 +86,7 @@ public class LoginController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
 
-        return RedirectToAction("Index", "Login");
+        return RedirectToAction("IndexInicio", "Inicio");
     }
 
     [HttpPost]
