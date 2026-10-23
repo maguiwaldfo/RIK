@@ -10,7 +10,6 @@ body {
     color: #FFFFFF;
 }
 
-/* ENCABEZADO */
 
 .encabezado {
     width: 96%;
@@ -24,7 +23,7 @@ body {
     gap: 2%;
 }
 
-/* LOGO Y NOMBRE */
+
 
 .marca {
     display: flex;
@@ -44,7 +43,7 @@ body {
     font-weight: normal;
 }
 
-/* MENÚ */
+
 
 nav ul {
     list-style: none;
@@ -70,7 +69,7 @@ nav li:hover,
     background-color: #F2D600;
 }
 
-/* BOTÓN INICIAR SESIÓN */
+
 
 .boton-sesion {
     background-color: #FFE500;
@@ -83,7 +82,7 @@ nav li:hover,
     white-space: nowrap;
 }
 
-/* FONDO PRINCIPAL */
+
 
 .landing {
     width: 96%;
