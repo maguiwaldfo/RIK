@@ -548,38 +548,39 @@ nav li:hover,
 
 .rik .estadistica {
     width: 33.33%;
-    background-color: #A8C921;
+    background-color: #FFE500;
     border-radius: 11px;
-    padding: 8px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 8px;
     color: #173D20;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
 }
 
 .rik .icono-estadistica {
-    width: 25px;
-    height: 22px;
+    width: 32px;
+    height: 30px;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #78A91C;
-    font-size: 13px;
+    background-color: #FFE500;
+    font-size: 18px;
 }
 
 .rik .estadistica h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 38px;
+    line-height: 1.1;
     color: #173D20;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
 .rik .estadistica p {
     margin: 0;
-    font-size: 11px;
+    font-size: 16px;
     line-height: 1.4;
     color: #173D20;
 }
@@ -628,27 +629,40 @@ nav li:hover,
     flex: 0 1 300px;
     box-sizing: border-box;
     padding: 20px;
-    background-color: #A8C921;
+    background-color: #FFE500;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    color: #000000;
 }
 
+.rik .tarjeta-funcion h3,
+.rik .tarjeta-funcion p,
+.rik .tarjeta-funcion a {
+    color: #000000;
+}
+
+.rik .tarjeta-funcion h3,
+.rik .tarjeta-funcion p {
+    margin: 0;
+}
 
 .rik .tarjeta-funcion a {
-    margin-top: 12px;
+    margin-top: 10px;
     padding-top: 0;
     color: #065F46;
     text-decoration: underline;
     font-weight: bold;
     font-size: 14px;
     line-height: 1.4;
+    display: inline-block;
+    width: fit-content;
 }
 
-
 .rik .tarjeta-funcion a:hover {
-    color: #043F30;
+    color: #000000;
 }
 
 
@@ -1362,4 +1376,11 @@ nav li:hover,
 
 .biblioteca-grid a:hover .teoria {
     transform: scale(1.05);
+}
+
+.login-nav a,
+.login-button,
+.registrarse-nav a,
+.registrarse-header .login-button {
+    color: #000000;
 }
