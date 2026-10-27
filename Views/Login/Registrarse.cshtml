@@ -11,22 +11,21 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="registro-body">
-<header class="registrarse-header">
-        <div class="registrarse-brand">
-            <div class="brand-mark">R</div>
+<header class="login-header">
+        <div class="login-brand">
+            <a href="@Url.Action("Landing", "Inicio")" class="brand-link">
+                <img src="~/imagenes/rik-logo.png" alt="Logo RIK" class="brand-logo" />
+            </a>
             <span>RIK</span>
         </div>
-
-        <nav class="login-nav">
-            <a href="@Url.Action("Landing", "Inicio")">Quienes somos</a>
-            <a href="@Url.Action("Landing", "Inicio")">Nuestra misión</a>
-            <a href="@Url.Action("Landing", "Inicio")">Logros</a>
-        </nav>
-
-        <a class="login-button" href="@Url.Action("Index", "Login")">Inicio Sesión</a>
-        
+        <a class="login-button" href="@Url.Action("Landing", "Inicio")">Volver</a>
     </header>
+
     <main class="login-main">
+        <div class="registro-imagotipo-wrap">
+            <img src="~/imagenes/IMAGOTIPO.png" alt="Logo RIK" class="registro-imagotipo" />
+        </div>
+
         <section class="registro-panel">
 
             <form id="registroForm"
