@@ -7,6 +7,13 @@ public class BibliotecaController : Controller
 {
     public IActionResult Index()
     {
-        return View();
+        if(string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("Landing", "Login");
+        }
+        else
+        {
+            return View();
+        }
     }
 }
