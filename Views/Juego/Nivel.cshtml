@@ -1,31 +1,35 @@
+
 @using RIK.Models
 
 @{
-    List<Pregunta> preguntas;
+    List<Pregunta> preguntas = ViewBag.PreguntasNivel;
+}
 
-    if (ViewBag.PreguntasNivel is List<Pregunta> lista)
-    {
-        preguntas = lista;
-    }
-    else
-    {
-        preguntas = new List<Pregunta>();
-    }
-}
-@if (preguntas.Count == 0)
+@foreach (Pregunta pregunta in preguntas)
 {
-    <p>No hay preguntas para este nivel</p>
+    <div class="nivel-pregunta">
+
+        <h2>@pregunta.Enunciado</h2>
+
+        <button onclick="comprobar(@pregunta.Id, 1)">
+            @pregunta.Opcion1
+        </button>
+
+        <button onclick="comprobar(@pregunta.Id, 2)">
+            @pregunta.Opcion2
+        </button>
+
+        <button onclick="comprobar(@pregunta.Id, 3)">
+            @pregunta.Opcion3
+        </button>
+
+        <button onclick="comprobar(@pregunta.Id, 4)">
+            @pregunta.Opcion4
+        </button>
+
+    </div>
 }
-else
-{
-    foreach (Pregunta pregunta in preguntas)
-    {
-        <div class="nivel-pregunta">
-            <p>@pregunta.Enunciado</p>
-            <button>@pregunta.Opcion1</button>
-            <button>@pregunta.Opcion2</button>
-            <button>@pregunta.Opcion3</button>
-            <button>@pregunta.Opcion4</button>
-        </div>
-    }
-}
+
+<p id="resultado"></p>
+
+<script src="~/js/nivel.js"></script>

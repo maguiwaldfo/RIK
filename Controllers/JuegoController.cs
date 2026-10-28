@@ -38,46 +38,25 @@ public class JuegoController : Controller
         }
     }
 
-     [HttpPost]
-    public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
-    {
-                if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
-        {
-            return RedirectToAction("IndexInicio", "Inicio");
-        }
-        else
-        {
     
-            string guardadas = HttpContext.Session.GetString(
-                "PreguntasPartida"
-            );
-            if (guardadas == null)
-            {
-                return Content("PartidaInexistente");
-            }
-            List<int> ids = JsonSerializer.Deserialize<List<int>>(
-                guardadas
-            );
+    [HttpPost]
+public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
+{
+    Pregunta pregunta = bd.ObtenerPregunta(idPregunta);
 
-        if(ids == null || !ids.Contains(idPregunta))
-        {
-            return Content("PreguntaInvalida");
-        }
-
-        Pregunta pregunta = bd.ObtenerPregunta(idPregunta);
-        if(pregunta == null)
-        {
-            return Content("PreguntaInvalida");
-        }
-
-        
-        if(pregunta.Respuesta.ToString() == respuestaElegida.ToString())
-        {
-            return Content("Correcta");
-        }
-        return Content("Incorrecta");
+    if (pregunta == null)
+    {
+        return Content("PreguntaInvalida");
     }
 
-
+    if (pregunta.Respuesta.ToString() == respuestaElegida)
+    {
+        return Content("Correcta");
+    }
+    else
+    {
+        return Content("Incorrecta");
+    }
+}
 
 }
