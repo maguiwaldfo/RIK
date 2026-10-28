@@ -92,17 +92,23 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult IniciarSesion(string nombreUsuario, string contraseña)
     {
-        Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
-
-        if (usuario != null)
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
-            HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-            HttpContext.Session.SetString("Nombre", usuario.Nombre);
             return RedirectToAction("IndexInicio", "Inicio");
         }
+        else
+        {
+            Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
 
-        ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
-        return View("Index");
+            if (usuario != null)
+            {
+                HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
+                HttpContext.Session.SetString("Nombre", usuario.Nombre);
+                return RedirectToAction("IndexInicio", "Inicio");
+            }
+
+            ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
+            return View("Index");
+        }
     }
-
 }

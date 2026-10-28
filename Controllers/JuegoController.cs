@@ -10,34 +10,54 @@ public class JuegoController : Controller
     
     public IActionResult Teoria(string teoriaElegida)
     {
-        List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(teoriaElegida);
-        ViewBag.charla = charla;
-        return View();
+                if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("IndexInicio", "Inicio");
+        }
+        else
+        {
+            List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(teoriaElegida);
+            ViewBag.charla = charla;
+            return View();
+        }
     }
 
    
     public IActionResult Nivel(int nivelElegido)
     {
-        Nivel Nivel = new Nivel();
-        ViewBag.NumeroNivel = bd.ObtenerNivel(nivelElegido);
-        ViewBag.PreguntasNivel = Nivel.agarrarPreguntas(bd.ObtenerPreguntasNivel(nivelElegido));
-        return View();
+                if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("IndexInicio", "Inicio");
+        }
+        else
+        {
+            Nivel Nivel = new Nivel();
+            ViewBag.NumeroNivel = bd.ObtenerNivel(nivelElegido);
+            ViewBag.PreguntasNivel = Nivel.agarrarPreguntas(bd.ObtenerPreguntasNivel(nivelElegido));
+            return View();
+        }
     }
 
      [HttpPost]
     public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
     {
-    
-        string guardadas = HttpContext.Session.GetString(
-            "PreguntasPartida"
-        );
-        if (guardadas == null)
+                if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
-            return Content("PartidaInexistente");
+            return RedirectToAction("IndexInicio", "Inicio");
         }
-        List<int> ids = JsonSerializer.Deserialize<List<int>>(
-            guardadas
-        );
+        else
+        {
+    
+            string guardadas = HttpContext.Session.GetString(
+                "PreguntasPartida"
+            );
+            if (guardadas == null)
+            {
+                return Content("PartidaInexistente");
+            }
+            List<int> ids = JsonSerializer.Deserialize<List<int>>(
+                guardadas
+            );
 
         if(ids == null || !ids.Contains(idPregunta))
         {
