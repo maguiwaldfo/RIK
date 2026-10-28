@@ -41,7 +41,7 @@ public class JuegoController : Controller
      [HttpPost]
     public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
     {
-                if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
@@ -77,7 +77,4 @@ public class JuegoController : Controller
         }
         return Content("Incorrecta");
     }
-
-
-
 }
