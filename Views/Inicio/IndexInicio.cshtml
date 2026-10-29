@@ -12,6 +12,8 @@
     {
         maxNivelDesbloqueado = valorMaximo;
     }
+
+    double progresoNivel = Math.Min(1d, Math.Max(0d, (double)maxNivelDesbloqueado / 12d));
 }
 
 <!DOCTYPE html>
@@ -49,14 +51,23 @@
                 <svg class="lineas-camino"
                      viewBox="0 0 1000 1400"
                      preserveAspectRatio="none">
-                    <polyline
-                        points="150,100 330,220 500,340 690,460
+                    <polyline class="camino-base"
+                              points="150,100 330,220 500,340 690,460
                                 820,580 650,700 440,820 240,940
                                 130,1060 340,1160 570,1260 800,1360"
-                        fill="none"
-                        stroke="black"
-                        stroke-width="7"
-                        stroke-linejoin="round" />
+                              fill="none"
+                              stroke="rgba(0,0,0,0.32)"
+                              stroke-width="7"
+                              stroke-linejoin="round" />
+                    <polyline class="camino-progreso"
+                              id="caminoProgreso"
+                              points="150,100 330,220 500,340 690,460
+                                820,580 650,700 440,820 240,940
+                                130,1060 340,1160 570,1260 800,1360"
+                              fill="none"
+                              stroke="#1D9D66"
+                              stroke-width="9"
+                              stroke-linejoin="round" />
                 </svg>
 
                 @for (int nivel = 1; nivel <= 12; nivel++)
@@ -148,6 +159,7 @@
         </div>
 
     </main>
+
 
 </body>
 </html>
