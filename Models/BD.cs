@@ -156,7 +156,7 @@ public class BD
         return teorias;
     }
 
-    public List<CharlaTeoria> ObtenerCharlaTeoria(string idNivel)
+    public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
     {
          List<CharlaTeoria> charla = new List<CharlaTeoria>();
 
