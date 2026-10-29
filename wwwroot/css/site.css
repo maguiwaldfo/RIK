@@ -404,6 +404,20 @@ nav li:hover,
     text-align: center;
 }
 
+/* Los mensajes de validación solo ocupan lugar cuando tienen un error */
+.login-form .feedback {
+    min-height: 0;
+    margin-top: 6px;
+}
+
+.login-form .feedback:empty {
+    display: none;
+}
+
+.form-field input.input-error {
+    outline: 2px solid #ff8a8a;
+}
+
 
 /* =========================== */
 /* LANDING PAGE / HOME        */

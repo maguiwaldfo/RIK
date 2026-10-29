@@ -32,7 +32,8 @@
                   class="login-form"
                   action="@Url.Action("ValidarUsuario", "Login")"
                   method="post"
-                  onsubmit="return registrarUsuario()">
+                  onsubmit="return registrarUsuario()"
+                  novalidate>
 
                 <div class="form-field">
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" />
@@ -41,20 +42,21 @@
 
                 <div class="form-field">
                     <input type="email" id="email" name="email" placeholder="email" />
-                    <p id="fb-apellido" class="feedback"></p>
+                    <p id="fb-email" class="feedback"></p>
                 </div>
 
                 <div class="form-field">
                     <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de usuario" />
                     <p id="fb-nombreUsuario" class="feedback"></p>
-                    <p class="feedback">@ViewBag.ErrorMessage</p>
+                    <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
                 </div>
 
                 <div class="form-field">
                     <input type="password" id="contrasena" name="contraseña" placeholder="Contraseña" />
                     <p id="fb-contrasena" class="feedback"></p>
-                    <button type="submit" class="submit-button">Registrarse</button>
                 </div>
+
+                <button type="submit" class="submit-button">Registrarse</button>
 
 
                 <div class="social-login">
