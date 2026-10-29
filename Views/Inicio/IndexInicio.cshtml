@@ -1,5 +1,17 @@
 @{
     Layout = null;
+
+    List<int> nivelesCompletados = ViewBag.NivelesCompletados as List<int>;
+    if (nivelesCompletados == null)
+    {
+        nivelesCompletados = new List<int>();
+    }
+
+    int maxNivelDesbloqueado = 1;
+    if (ViewBag.MaxNivelDesbloqueado is int valorMaximo)
+    {
+        maxNivelDesbloqueado = valorMaximo;
+    }
 }
 
 <!DOCTYPE html>
@@ -47,54 +59,41 @@
                         stroke-linejoin="round" />
                 </svg>
 
-                <a class="nodo nivel-1"
-                   href="@Url.Action("Teoria", "Juego", new { teoriaElegida = "Primeros pasos" })">
-                    <div class="nodo-disponible">1</div>
-                </a>
+                @for (int nivel = 1; nivel <= 12; nivel++)
+                {
+                    bool estaCompletado = nivelesCompletados.Contains(nivel);
+                    bool estaDesbloqueado = nivel <= maxNivelDesbloqueado;
+                    string textoNivel;
 
-                <div class="nodo nivel-2">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
+                    if (estaCompletado)
+                    {
+                        textoNivel = "✓";
+                    }
+                    else
+                    {
+                        textoNivel = nivel.ToString();
+                    }
 
-                <div class="nodo nivel-3">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
+                    if (estaDesbloqueado && (estaCompletado || nivel == maxNivelDesbloqueado))
+                    {
+                        string teoriaElegida = "";
+                        if (nivel == 1)
+                        {
+                            teoriaElegida = "Primeros pasos";
+                        }
 
-                <div class="nodo nivel-4">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-5">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-6">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-7">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-8">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-9">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-10">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-11">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
-
-                <div class="nodo nivel-12">
-                    <div class="nodo-bloqueado">🔒</div>
-                </div>
+                        <a class="nodo nivel-@nivel"
+                           href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoriaElegida })">
+                            <div class="nodo-disponible">@textoNivel</div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="nodo nivel-@nivel">
+                            <div class="nodo-bloqueado">🔒</div>
+                        </div>
+                    }
+                }
 
             </div>
 
@@ -112,7 +111,7 @@
 
             <section class="mapa-racha">
                 <div class="racha-fuego">🔥</div>
-                <p>0</p>
+                <p>@nivelesCompletados.Count</p>
                 <small>Días de racha</small>
             </section>
 
@@ -125,7 +124,7 @@
 
                     <div>
                         <div class="trofeo">🏆</div>
-                        <p>30 respuestas seguidas</p>
+                        <p>@nivelesCompletados.Count niveles completados</p>
                     </div>
 
                     <div>
@@ -143,7 +142,7 @@
 
             <!-- MASCOTA -->
             <div class="mapa-mascota">
-                <img src="~/imagenes/rik-Landingprincipal.png" alt="Mascota de RIK" /> 
+                <img src="~/imagenes/rik-Landingprincipal.png" alt="Mascota de RIK" />
             </div>
 
         </div>
