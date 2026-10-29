@@ -1322,3 +1322,80 @@ nav li:hover,
 .registro-panel .feedback:empty {
     display: none;
 }
+
+
+.mapa-biblioteca {
+    position: relative;
+    z-index: 10;
+}
+
+.mapa-biblioteca a {
+    display: inline-block;
+    position: relative;
+    z-index: 11;
+}
+
+
+
+
+body {
+    margin: 0;
+    background: #078B58;
+    font-family: Arial, sans-serif;
+}
+
+.resultado {
+    max-width: 700px;
+    margin: 70px auto;
+    padding: 35px;
+    background: white;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.resultado h1 {
+    color: #064D2B;
+}
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 35px 0;
+}
+
+.estadistica {
+    background: #E8F2ED;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.estadistica h2 {
+    font-size: 16px;
+}
+
+.estadistica p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.resultado a {
+    display: inline-block;
+    background: #FFE500;
+    color: black;
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .resultado {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .estadisticas {
+        grid-template-columns: 1fr;
+    }
+}

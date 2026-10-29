@@ -1,24 +1,21 @@
-@{
-    int numeroMensaje = 0;
-    var nivel = ViewBag.Nivel as Nivel;
-    var charla = ViewBag.Charla as List<CharlaTeoria> ?? new List<CharlaTeoria>();
 
+@using RIK.Models
+
+@{
+    Layout = null;
+    Nivel nivel = ViewBag.Nivel;
+    List<CharlaTeoria> charla = ViewBag.Charla;
 }
+
+<h1>@nivel.Tema</h1>
 
 @foreach (CharlaTeoria mensaje in charla)
 {
-    <div id="mensaje-@numeroMensaje" class="mensaje" style="display:none">
+    <div>
         <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
     </div>
-
-    numeroMensaje++;
 }
 
-<button id="siguienteMensaje" onclick="mostrarMensaje()">
-    Siguiente
-</button>
-
-<a id="comenzar" style="display:none"
-   href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
+<a href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
     Comenzar desafío
 </a>

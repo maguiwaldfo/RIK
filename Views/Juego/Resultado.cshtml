@@ -1,0 +1,56 @@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIK - Resultado</title>
+    <link rel="stylesheet" href="~/css/resultado.css" />
+</head>
+
+<body>
+
+    <main class="resultado">
+
+        @if (ViewBag.Estado == "Guardado")
+        {
+            <h1>¡Nivel completado!</h1>
+            <p>¡Muy bien! Terminaste el desafío.</p>
+        }
+        else
+        {
+            <h1>¡Te quedaste sin vidas!</h1>
+            <p>Podés volver a intentarlo.</p>
+        }
+
+        <div class="estadisticas">
+
+            <div class="estadistica">
+                <h2>❤️ Vidas restantes</h2>
+                <p>@ViewBag.Vidas de 3</p>
+            </div>
+
+            <div class="estadistica">
+                <h2>⏱️ Tiempo</h2>
+                <p>@ViewBag.Tiempo</p>
+            </div>
+
+            <div class="estadistica">
+                <h2>⭐ Puntos</h2>
+                <p>@ViewBag.Puntos</p>
+            </div>
+
+        </div>
+
+        <a href="@Url.Action("IndexInicio", "Inicio")">
+            Volver al inicio
+        </a>
+
+    </main>
+
+</body>
+</html>
