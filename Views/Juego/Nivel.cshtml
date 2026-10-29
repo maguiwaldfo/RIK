@@ -3,11 +3,12 @@
 
 @{
     List<Pregunta> preguntas = ViewBag.PreguntasNivel;
+    int numero = 0;
 }
 
 @foreach (Pregunta pregunta in preguntas)
 {
-    <div class="nivel-pregunta">
+    <div id="pregunta-@numero" class="nivel-pregunta" style="display:none">
 
         <h2>@pregunta.Enunciado</h2>
 
@@ -28,8 +29,22 @@
         </button>
 
     </div>
+
+    numero++;
 }
 
 <p id="resultado"></p>
+
+<button id="siguiente" onclick="siguientePregunta()" style="display:none">
+    Siguiente
+</button>
+
+<button id="finalizar" onclick="finalizarNivel()" style="display:none">
+    Finalizar nivel
+</button>
+
+<script>
+    let cantidadPreguntas = @preguntas.Count;
+</script>
 
 <script src="~/js/nivel.js"></script>

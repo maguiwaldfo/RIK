@@ -1,24 +1,24 @@
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RIK - Inicio</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
+@{
+    int numeroMensaje = 0;
+    var nivel = ViewBag.Nivel as Nivel;
+    var charla = ViewBag.Charla as List<CharlaTeoria> ?? new List<CharlaTeoria>();
 
-<body class="mapa-body">
-    <header class="mapa-header">
-        <div class="mapa-marca">
-            <img class="brand-mark" src="/images/Logo rik (1).png" alt="Logo RIK">
-        </div>
+}
 
-        <nav class="mapa-nav">
-            <a href="@Url.Action("Index", "Home")">Inicio</a>
-            <a href="#">Liga</a>
-            <a href="#">Perfil</a>
-        </nav>
+@foreach (CharlaTeoria mensaje in charla)
+{
+    <div id="mensaje-@numeroMensaje" class="mensaje" style="display:none">
+        <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
+    </div>
 
-        <a class="mapa-perfil" href="#" aria-label="Usuario">👤</a>
-    </header>
+    numeroMensaje++;
+}
 
-</body>
+<button id="siguienteMensaje" onclick="mostrarMensaje()">
+    Siguiente
+</button>
+
+<a id="comenzar" style="display:none"
+   href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
+    Comenzar desafío
+</a>
