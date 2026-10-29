@@ -10,30 +10,14 @@ body {
     color: #FFFFFF;
 }
 
-.encabezado,
 .login-header,
-.registrarse-header,
-.mapa-header {
+.registrarse-header {
     position: sticky;
     top: 0;
     left: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
-
-.encabezado {
-    width: 96%;
-    min-height: 52px;
-    background-color: #064D2B;
-    margin: 0 auto;
-    padding: 0.5% 3%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2%;
-}
-
-
 
 .marca {
     display: flex;

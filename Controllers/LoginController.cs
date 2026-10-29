@@ -9,52 +9,64 @@ public class LoginController : Controller
 {
     BD bd = new BD();
 
+    private bool HayUsuarioLogueado()
+    {
+        return !string.IsNullOrWhiteSpace(Request.Cookies["NombreUsuario"]);
+    }
+
+    private void GuardarUsuarioCookie(string nombreUsuario)
+    {
+        Response.Cookies.Append("NombreUsuario", nombreUsuario, new CookieOptions
+        {
+            HttpOnly = false,
+            SameSite = SameSiteMode.Lax,
+            Secure = false
+        });
+    }
+
+    private void BorrarUsuarioCookie()
+    {
+        Response.Cookies.Delete("NombreUsuario");
+    }
+
     public IActionResult Landing()
     {
-        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (HayUsuarioLogueado())
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-        else
-        {
-            return RedirectToAction("Landing", "Inicio");
-        }
+
+        return RedirectToAction("Landing", "Inicio");
     }
 
     public IActionResult Index()
     {
-        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (HayUsuarioLogueado())
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-        else
-        {
-            return View();
-        }
+
+        return View();
     }
 
     public IActionResult Registrarse()
     {
-        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (HayUsuarioLogueado())
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-        else
-        {
-            return View();
-        }
+
+        return View();
     }
 
     public IActionResult IrAInicio()
     {
-        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (HayUsuarioLogueado())
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-        else
-        {
-            return RedirectToAction(nameof(Index));
-        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
@@ -78,6 +90,8 @@ public class LoginController : Controller
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
+        HttpContext.Session.SetString("Email", usuario.Email);
+        GuardarUsuarioCookie(usuario.NombreUsuario);
 
         return RedirectToAction("IndexInicio", "Inicio");
     }
@@ -85,9 +99,7 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult IniciarSesion(string nombreUsuario, string contraseña)
     {
-        Console.WriteLine("IniciarSesion: nombreUsuario=" + nombreUsuario + ", contraseña=" + contraseña);
-
-        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        if (HayUsuarioLogueado())
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
@@ -98,6 +110,9 @@ public class LoginController : Controller
         {
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
+            HttpContext.Session.SetString("Email", usuario.Email);
+            GuardarUsuarioCookie(usuario.NombreUsuario);
+
             return RedirectToAction("IndexInicio", "Inicio");
         }
 

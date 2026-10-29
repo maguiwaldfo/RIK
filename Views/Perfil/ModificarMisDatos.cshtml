@@ -16,7 +16,7 @@
         <nav class="mapa-nav">
             <a href="@Url.Action("Index", "Home")">Inicio</a>
             <a href="#">Liga</a>
-            <a href="#">Perfil</a>
+            <a href="@Url.Action("Index", "Perfil")">Perfil</a>
         </nav>
 
         <a class="mapa-perfil" href="#" aria-label="Usuario">👤</a>
@@ -25,26 +25,36 @@
 
     <section>
     
-        <div>
-            <a href="@Url.Action("#", "Perfil")"><strong>Nombre de usuario</strong></a>
-        </div>
+            <form id="registroForm" class="login-form" action="@Url.Action("ValidarUsuario", "Login")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
-        <div>
-            <a href="@Url.Action("#", "Perfil")"><strong>Contraseña</strong></a>
-        </div>
+                <div class="form-field">
+                    <input type="text" id="nombre" name="nombre" value="@(Context.Session.GetString("Nombre") ?? "")" />
+                    <p id="fb-nombre" class="feedback"></p>
+                </div>
 
-        <div>
-            <a href="@Url.Action("#", "Perfil")"><strong>Telefono</strong></a>
-        </div>
+                <div class="form-field">
+                    <input type="email" id="email" name="email" value="@(Context.Session.GetString("Email") ?? "")" />
+                    <p id="fb-email" class="feedback"></p>
+                </div>
 
-        <div>
-            <a href="@Url.Action("#", "Perfil")"><strong>Email</strong></a>
-        </div>
+                <div class="form-field">
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" value="@(Context.Session.GetString("NombreUsuario") ?? "")" />
+                    <p id="fb-nombreUsuario" class="feedback"></p>
+                    <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
+                </div>
+
+                <div class="form-field">
+                    <input type="password" id="contrasena" name="contraseña" placeholder="********" />
+                    <p id="fb-contrasena" class="feedback"></p>
+                </div>
+
+                <button type="submit" class="submit-button">Registrarse</button>
+            </form>
     </section>
     <section>
     
         <div>
-            <a href="@Url.Action("#", "#")"><strong>Volver</strong></a>
+            <a href="@Url.Action("Index", "Perfil")"><strong>Volver</strong></a>
         </div>
     </section>
 

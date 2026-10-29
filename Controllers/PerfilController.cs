@@ -50,7 +50,15 @@ public class PerfilController : Controller
     public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
+        Response.Cookies.Delete("NombreUsuario");
         return RedirectToAction("Index", "Inicio");
     }
 
+    [HttpGet]
+    public IActionResult CerrarSesionGet()
+    {
+        HttpContext.Session.Clear();
+        Response.Cookies.Delete("NombreUsuario");
+        return RedirectToAction("Index", "Inicio");
+    }
 }

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var nombreUsuario = Context.Request.Cookies["NombreUsuario"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +14,43 @@
     <link rel="stylesheet" href="~/RIK.styles.css" asp-append-version="true" />
 </head>
 <body>
+@{
+    if(string.IsNullOrEmpty(nombreUsuario)) {
+        <header class="encabezado">
+            <a class="marca" href="#inicio">
+                <img src="@Url.Content("~/imagenes/rik-logo.png")" alt="Logo de RIK">
+                <span>RIK</span>
+            </a>
+
+        <nav class="nav">
+            <a href="#quienes-somos">Quienes somos</a>
+            <a href="#nuestra-mision">Nuestra misión</a>
+            <a href="#logros">Logros</a>
+            <a href="#galeria">Galería</a>
+        </nav>
+
+        <a class="boton-login" href="@Url.Action("Index", "Login")">
+            Inicia Sesión
+        </a>
+    </header>
+    }
+   else {
+    <header class="mapa-header">
+        <div class="mapa-marca">
+            <img class="brand-mark" src="/images/Logo rik (1).png" alt="Logo RIK">
+        </div>
+
+        <nav class="mapa-nav">
+            <a href="@Url.Action("Index", "Home")">Inicio</a>
+            <a href="#">Liga</a>
+            <a href="@Url.Action("Index", "Perfil")">Perfil</a>
+        </nav>
+
+        <a class="mapa-perfil" href="#" aria-label="Usuario">👤</a>
+    </header>
+
+    }
+}
     <div class="page-shell">
         <main role="main" class="pb-3 page-main">
             @RenderBody()
@@ -19,5 +60,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+}
 </body>
 </html>
