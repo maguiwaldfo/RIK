@@ -1338,3 +1338,15 @@ nav li:hover,
 .registro-panel .feedback:empty {
     display: none;
 }
+
+
+.mapa-biblioteca {
+    position: relative;
+    z-index: 10;
+}
+
+.mapa-biblioteca a {
+    display: inline-block;
+    position: relative;
+    z-index: 11;
+}

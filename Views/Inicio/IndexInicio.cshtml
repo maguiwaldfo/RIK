@@ -32,7 +32,7 @@
         </div>
 
         <nav class="mapa-nav">
-            <a href="@Url.Action("Index", "Home")">Inicio</a>
+            <a href="@Url.Action("Index", "inicio")">Inicio</a>
             <a href="#">Liga</a>
             <a href="#">Perfil</a>
         </nav>
@@ -85,19 +85,13 @@
                         textoNivel = nivel.ToString();
                     }
 
-                    if (estaDesbloqueado && (estaCompletado || nivel == maxNivelDesbloqueado))
-                    {
-                        string teoriaElegida = "";
-                        if (nivel == 1)
-                        {
-                            teoriaElegida = "Primeros pasos";
-                        }
-
-                        <a class="nodo nivel-@nivel"
-                           href="@Url.Action("Teoria", "Juego", new { teoriaElegida = teoriaElegida })">
-                            <div class="nodo-disponible">@textoNivel</div>
-                        </a>
-                    }
+                   if (estaDesbloqueado && (estaCompletado || nivel == maxNivelDesbloqueado))
+{
+    <a class="nodo nivel-@nivel"
+       href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })">
+        <div class="nodo-disponible">@textoNivel</div>
+    </a>
+}
                     else
                     {
                         <div class="nodo nivel-@nivel">

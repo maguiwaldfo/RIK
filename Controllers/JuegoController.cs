@@ -7,20 +7,22 @@ public class JuegoController : Controller
 {
     BD bd = new BD();
 
-    public IActionResult Teoria(int idNivel)
+ public IActionResult Teoria(int idNivel)
+{
+    Nivel nivel = bd.ObtenerNivel(idNivel);
+
+    if (nivel == null)
     {
-        Nivel nivel = bd.ObtenerNivel(idNivel);
-
-        if (nivel == null)
-        {
-            return RedirectToAction("Index", "Biblioteca");
-        }
-
-        ViewBag.Nivel = nivel;
-        ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel);
-
-        return View();
+        return RedirectToAction("IndexInicio", "Inicio");
     }
+
+    List<CharlaTeoria> charla = bd.ObtenerCharlaTeoria(idNivel);
+
+    ViewBag.Nivel = nivel;
+    ViewBag.Charla = charla;
+
+    return View();
+}
 
     public IActionResult Nivel(int nivelElegido)
     {
