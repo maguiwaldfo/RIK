@@ -15,6 +15,7 @@
             <a href="#quienes-somos">Quienes somos</a>
             <a href="#nuestra-mision">Nuestra misión</a>
             <a href="#logros">Logros</a>
+            <a href="#galeria">Galería</a>
         </nav>
 
         <a class="boton-login" href="@Url.Action("Index", "Login")">
@@ -33,7 +34,7 @@
             </div>
 
             <div class="logo-hero">
-           <img src="/imagenes/slogan.png" alt="Logo de RIK">
+                <img src="@Url.Content("~/imagenes/slogan.png")" alt="Logo de RIK">
             </div>
 
             <div class="tarjeta-mision" id="nuestra-mision">
@@ -70,34 +71,31 @@
         </div>
     </section>
 
-    <section class="funcionalidades" id="funcionalidades">
-        <div class="titulo-seccion">
-            <p class="subtitulo">GAMIFICACIÓN CON PROPÓSITO</p>
-            <h2>Todo lo que necesitás para ganar el juego del dinero</h2>
-        </div>
-
-        <div class="contenedor-tarjetas">
-            <div class="tarjeta-funcion">
-                <div class="icono-funcion icono-verde">🎮</div>
-                <h3>Aprende Jugando</h3>
-                <p>Micro-lecciones con retos, para construir un hábito diario.</p>
-                <a href="#">Explorar lecciones</a>
+    <!-- CARRUSEL -->
+    <section class="galeria" id="galeria">
+        <div id="carouselStackedBottom" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-5">
+                <div class="carousel-item active">
+                    <img src="@Url.Content("~/imagenes/carrusel1.png")" class="d-block w-100" alt="Pantalla de la app RIK 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="@Url.Content("~/imagenes/carrusel2.png")" class="d-block w-100" alt="Pantalla de la app RIK 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="@Url.Content("~/imagenes/carrusel3.png")" class="d-block w-100" alt="Pantalla de la app RIK 3">
+                </div>
             </div>
 
-            <div class="tarjeta-funcion">
-                <div class="icono-funcion icono-amarillo">💰</div>
-                <h3>Simulador Integrado</h3>
-                <p>Practica cómo ahorrar, invertir y tomar decisiones con escenarios reales y dinámicos.</p>
-                <a href="#">Probar simulador</a>
+            <div>
+                <button class="btn-icon btn-sm" type="button" data-bs-target="#carouselStackedBottom" data-bs-slide="prev">
+                    <span class="carousel-icon-prev" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="btn-icon btn-sm" type="button" data-bs-target="#carouselStackedBottom" data-bs-slide="next">
+                    <span class="carousel-icon-next" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-
-            <div class="tarjeta-funcion">
-                <div class="icono-funcion icono-lila">📊</div>
-                <h3>Comunidad y Logros</h3>
-                <p>Competí con tus amigos, obtiene medallas y comparte tus avances dentro de la comunidad.</p>
-                <a href="#">Ver clasificaciones</a>
-            </div>
-
         </div>
     </section>
 
