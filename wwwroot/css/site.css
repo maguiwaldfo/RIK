@@ -89,7 +89,6 @@ nav li:hover,
     font-size: 11px;
     padding: 10px 22px;
     border-radius: 5px;
-    white-space: nowrap;
 }
 
 
@@ -405,7 +404,6 @@ nav li:hover,
     text-align: center;
 }
 
-/* MASCOTA */
 
 /* =========================== */
 /* LANDING PAGE / HOME        */
@@ -1134,6 +1132,26 @@ nav li:hover,
     position: absolute;
     top: 0;
     left: 0;
+    overflow: visible;
+}
+
+.camino-base,
+.camino-progreso {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.camino-base {
+    stroke: rgba(0, 0, 0, 0.28);
+    stroke-width: 7;
+}
+
+.camino-progreso {
+    stroke: #1D9D66;
+    stroke-width: 9;
+    filter: drop-shadow(0 0 8px rgba(29, 157, 102, 0.5));
+    transition: stroke-dashoffset 0.6s ease;
 }
 
 .nodo {
@@ -1162,6 +1180,7 @@ nav li:hover,
     color: #064D2B;
     font-size: 38px;
     font-weight: bold;
+    box-shadow: 0 8px 18px rgba(6, 77, 43, 0.2);
 }
 
 .nodo-disponible:hover {
@@ -1171,6 +1190,7 @@ nav li:hover,
 .nodo-bloqueado {
     background: #D9D9D9;
     font-size: 39px;
+    border: 3px solid rgba(0, 0, 0, 0.08);
 }
 
 /* POSICIÓN DE LOS 12 NIVELES */
@@ -1188,134 +1208,9 @@ nav li:hover,
 .nivel-11 { left: 57%; top: 90%; }
 .nivel-12 { left: 80%; top: 97.14%; }
 
-/* BIBLIOTECA */
-
-.mapa-biblioteca {
-    position: absolute;
-    top: 120px;
-    right: 4%;
-    width: 230px;
-    background: #808080;
-    border-radius: 15px;
-    padding: 25px 20px;
-    text-align: center;
-    z-index: 3;
-}
-
-.mapa-biblioteca p {
-    color: white;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.mapa-biblioteca a {
-    display: block;
-    background: #FFE500;
-    color: black;
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 9px;
-}
-
-/* RACHA */
-
-.mapa-racha {
-    position: absolute;
-    top: 350px;
-    right: 8%;
-    width: 110px;
-    padding: 15px 10px;
-    background: #064D2B;
-    color: white;
-    border-radius: 15px;
-    text-align: center;
-    z-index: 3;
-}
-
-.racha-fuego {
-    font-size: 45px;
-}
-
-.mapa-racha p {
-    font-size: 27px;
-    margin: 5px 0;
-}
-
-.mapa-racha small {
-    font-size: 11px;
-}
-
-/* DESEMPEÑO */
-
-.mapa-desempeno {
-    position: absolute;
-    top: 590px;
-    right: 5%;
-    width: 340px;
-    z-index: 3;
-}
-
-.mapa-desempeno h2 {
-    font-size: 27px;
-    font-weight: normal;
-    margin-bottom: 5px;
-}
-
-.desempeno-tarjeta {
-    background: #064D2B;
-    border-radius: 15px;
-    padding: 25px 15px;
-    display: flex;
-    justify-content: space-around;
-    gap: 10px;
-    text-align: center;
-    color: white;
-}
-
-.desempeno-tarjeta > div {
-    width: 33%;
-}
-
-.trofeo {
-    font-size: 45px;
-    margin-bottom: 10px;
-}
-
-.desempeno-tarjeta p {
-    font-size: 11px;
-    line-height: 1.4;
-}
-
 /* PANTALLAS PEQUEÑAS */
 
 @media (max-width: 700px) {
-
-    .mapa-header {
-        padding: 10px;
-        height: auto;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .mapa-marca h1 {
-        font-size: 25px;
-    }
-
-    .mapa-nav {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .mapa-nav a {
-        padding: 9px 15px;
-        font-size: 12px;
-    }
-
-    .mapa-contenido {
-        height: 1400px;
-    }
 
     .nodo {
         width: 65px;
@@ -1324,45 +1219,6 @@ nav li:hover,
 
     .nodo-bloqueado {
         font-size: 29px;
-    }
-
-    .mapa-biblioteca {
-        width: 150px;
-        padding: 15px;
-        top: 20px;
-        right: 10px;
-    }
-
-    .mapa-biblioteca p {
-        font-size: 12px;
-    }
-
-    .mapa-biblioteca a {
-        font-size: 11px;
-    }
-
-    .mapa-racha {
-        top: 310px;
-        right: 10px;
-        width: 80px;
-    }
-
-    .mapa-desempeno {
-        top: 580px;
-        right: 10px;
-        width: 210px;
-    }
-
-    .mapa-desempeno h2 {
-        font-size: 19px;
-    }
-
-    .trofeo {
-        font-size: 28px;
-    }
-
-    .desempeno-tarjeta p {
-        font-size: 9px;
     }
 }
 /* GRID DE LA BIBLIOTECA */
