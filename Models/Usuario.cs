@@ -40,7 +40,7 @@ public class Usuario
         {
             esValido = false;
         }
-        if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+        if (string.IsNullOrWhiteSpace(email) || email.Length > 50 || !Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
         {
             esValido = false;
         }

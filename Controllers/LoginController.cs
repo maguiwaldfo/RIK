@@ -68,30 +68,24 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
     {
-        Console.WriteLine("ValidarUsuario: nombre=" + nombre + ", email=" + email + ", nombreUsuario=" + nombreUsuario);
-
         Usuario usuario = new Usuario(nombre, nombreUsuario, contraseña, email);
 
         if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña, usuario.Email))
         {
-            Console.WriteLine("Validación de registro fallida");
             ViewBag.ErrorMessage = "Los datos ingresados no son válidos.";
             return View("Registrarse");
         }
 
         if (bd.FijarseSiExisteUsuario(nombreUsuario))
         {
-            Console.WriteLine("Usuario duplicado: " + nombreUsuario);
             ViewBag.ErrorMessage = "El nombre de usuario ya existe. Por favor, elija otro.";
             return View("Registrarse");
         }
 
         bd.AgregarUsuario(usuario);
-        Console.WriteLine("Usuario agregado correctamente: " + usuario.NombreUsuario);
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
-        Console.WriteLine("Sesión creada en registro: " + HttpContext.Session.GetString("NombreUsuario"));
 
         return RedirectToAction("IndexInicio", "Inicio");
     }
@@ -103,18 +97,15 @@ public class LoginController : Controller
 
         if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
         {
-            Console.WriteLine("Ya hay sesión activa: " + HttpContext.Session.GetString("NombreUsuario"));
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
         Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
-        Console.WriteLine("Usuario encontrado: " + (usuario == null ? "null" : usuario.NombreUsuario));
 
         if (usuario != null)
         {
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
-            Console.WriteLine("Sesión seteada: " + HttpContext.Session.GetString("NombreUsuario"));
             return RedirectToAction("IndexInicio", "Inicio");
         }
 

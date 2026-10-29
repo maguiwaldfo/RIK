@@ -1,16 +1,15 @@
 const Nombre = document.getElementById("nombre");
 const NombreUsuario = document.getElementById("nombreUsuario");
 const Contrasena = document.getElementById("contrasena");
-const Apellido = document.getElementById("apellido");
-const TipoUsuario = document.getElementById("tipoUsuario");
+const Email = document.getElementById("email");
 const divResultado = document.getElementById("resultado");
 
 function registrarUsuario() {
   const nombre = Nombre.value;
   const nombreUsuario = NombreUsuario.value;
   const contrasena = Contrasena.value;
-  const apellido = Apellido.value;
-  const tipoUsuario = TipoUsuario.value;
+  const email = Email.value.trim();
+  Email.value = email; // se envía sin espacios, así el servidor no lo rechaza
 
   const errores = [];
   limpiarFeedbacks();
@@ -27,15 +26,18 @@ function registrarUsuario() {
     mostrarOk("fb-nombre", "✓ OK");
   }
 
-  // Validar que el apellido no esté vacío
-  if (apellido === "") {
-    errores.push("El apellido es obligatorio.");
-    mostrarError("fb-apellido", "Campo obligatorio");
-  } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(apellido)) {
-    errores.push("El apellido solo puede contener letras y espacios.");
-    mostrarError("fb-apellido", "Solo se permiten letras y espacios");
+  // Validar que el email no esté vacío y tenga formato válido (misma regex que el servidor)
+  if (email === "") {
+    errores.push("El email es obligatorio.");
+    mostrarError("fb-email", "Campo obligatorio");
+  } else if (email.length > 50) {
+    errores.push("El email puede tener como máximo 50 caracteres.");
+    mostrarError("fb-email", "Máximo 50 caracteres");
+  } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    errores.push("El email no tiene un formato válido (ej: nombre@mail.com).");
+    mostrarError("fb-email", "Formato inválido");
   } else {
-    mostrarOk("fb-apellido", "✓ OK");
+    mostrarOk("fb-email", "✓ OK");
   }
 
   // Validar que el nombre de usuario no esté vacío
@@ -58,14 +60,6 @@ function registrarUsuario() {
     mostrarError("fb-contrasena", "Más de 8 caracteres");
   } else {
     mostrarOk("fb-contrasena", "✓ OK");
-  }
-
-  // Validar que el tipo de usuario esté seleccionado
-  if (tipoUsuario === "") {
-    errores.push("Debe seleccionar un tipo de usuario.");
-    mostrarError("fb-tipoUsuario", "Seleccione un tipo");
-  } else {
-    mostrarOk("fb-tipoUsuario", "✓ OK");
   }
 
   if (errores.length > 0) {
@@ -96,16 +90,14 @@ function limpiarFeedbacks() {
   document.getElementById("fb-nombre").innerHTML = "";
   document.getElementById("fb-nombreUsuario").innerHTML = "";
   document.getElementById("fb-contrasena").innerHTML = "";
-  document.getElementById("fb-apellido").innerHTML = "";
-  document.getElementById("fb-tipoUsuario").innerHTML = "";
+  document.getElementById("fb-email").innerHTML = "";
 }
 
 function limpiarFormulario() {
   Nombre.value = "";
   NombreUsuario.value = "";
   Contrasena.value = "";
-  Apellido.value = "";
-  TipoUsuario.value = "";
+  Email.value = "";
   divResultado.innerHTML = "";
   limpiarFeedbacks();
-}
+}
