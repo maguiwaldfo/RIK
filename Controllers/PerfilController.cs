@@ -21,6 +21,7 @@ public class PerfilController : Controller
 
     public IActionResult Ajustes()
     {
+       
             if(string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
             {
                 return RedirectToAction("Landing", "Inicio");
@@ -29,6 +30,7 @@ public class PerfilController : Controller
             {
                 return View();
             }
+        
     }
     
     public IActionResult ModificarMisDatos()
