@@ -3,28 +3,37 @@
 
 @{
     List<Pregunta> preguntas = ViewBag.PreguntasNivel;
+    Nivel nivel = ViewBag.NumeroNivel;
     int numero = 0;
 }
 
+<h1>@nivel.Tema</h1>
+
+<h3 id="vidas">Vidas: ❤️❤️❤️</h3>
+<h3 id="puntos">Puntos: 0</h3>
+<h3 id="tiempo">Tiempo: 00:00</h3>
+
+<p id="contador">Pregunta 1 de 8</p>
+
 @foreach (Pregunta pregunta in preguntas)
 {
-    <div id="pregunta-@numero" class="nivel-pregunta" style="display:none">
+    <div id="pregunta-@numero" style="display:none">
 
         <h2>@pregunta.Enunciado</h2>
 
-        <button onclick="comprobar(@pregunta.Id, 1)">
+        <button type="button" onclick="comprobar(@pregunta.Id, 1)">
             @pregunta.Opcion1
         </button>
 
-        <button onclick="comprobar(@pregunta.Id, 2)">
+        <button type="button" onclick="comprobar(@pregunta.Id, 2)">
             @pregunta.Opcion2
         </button>
 
-        <button onclick="comprobar(@pregunta.Id, 3)">
+        <button type="button" onclick="comprobar(@pregunta.Id, 3)">
             @pregunta.Opcion3
         </button>
 
-        <button onclick="comprobar(@pregunta.Id, 4)">
+        <button type="button" onclick="comprobar(@pregunta.Id, 4)">
             @pregunta.Opcion4
         </button>
 
@@ -35,16 +44,14 @@
 
 <p id="resultado"></p>
 
-<button id="siguiente" onclick="siguientePregunta()" style="display:none">
+<button type="button" id="siguiente"
+        onclick="siguientePregunta()" style="display:none">
     Siguiente
 </button>
 
-<button id="finalizar" onclick="finalizarNivel()" style="display:none">
+<button type="button" id="finalizar"
+        onclick="finalizarNivel()" style="display:none">
     Finalizar nivel
 </button>
-
-<script>
-    let cantidadPreguntas = @preguntas.Count;
-</script>
 
 <script src="~/js/nivel.js"></script>
