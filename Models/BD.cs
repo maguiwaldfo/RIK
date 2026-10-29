@@ -116,7 +116,7 @@ public class BD
     public int ObtenerIdUsuario(string nombreUsuario)
     {
         int idUsuario = 0;
-
+        
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             idUsuario = connection.QueryFirstOrDefault<int>(
@@ -125,7 +125,6 @@ public class BD
                 commandType: CommandType.StoredProcedure
             );
         }
-
         return idUsuario;
     }
 

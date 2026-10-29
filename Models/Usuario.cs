@@ -26,37 +26,20 @@ public class Usuario
     {
         bool esValido = true;
 
-        if (string.IsNullOrWhiteSpace(nombre))
-        {
-            esValido = false;
-        }
-        else if (!Regex.IsMatch(nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+        if (string.IsNullOrWhiteSpace(nombre) || !Regex.IsMatch(nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
         {
             esValido = false;
         }
 
-        if (string.IsNullOrWhiteSpace(nombreUsuario))
-        {
-            esValido = false;
-        }
-        else if (!Regex.IsMatch(nombreUsuario, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
-        {
-            esValido = false;
-        }
-        else if (nombreUsuario.Length < 6)
+        if (string.IsNullOrWhiteSpace(nombreUsuario) || !Regex.IsMatch(nombreUsuario, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$") || nombreUsuario.Length < 6)
         {
             esValido = false;
         }
 
-        if (string.IsNullOrWhiteSpace(contraseña))
+        if (string.IsNullOrWhiteSpace(contraseña) || contraseña.Length < 8)
         {
             esValido = false;
         }
-        else if (contraseña.Length < 8)
-        {
-            esValido = false;
-        }
-
         if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
         {
             esValido = false;
