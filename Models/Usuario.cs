@@ -22,7 +22,8 @@ public class Usuario
         this.Email = email;
     }
 
-    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña, string email)
+    // contraseñaOpcional: al modificar los datos se puede dejar la contraseña vacía para no cambiarla
+    public static bool ValidarDatosRegistro(string nombre, string nombreUsuario, string contraseña, string email, bool contraseñaOpcional = false)
     {
         bool esValido = true;
 
@@ -36,7 +37,8 @@ public class Usuario
             esValido = false;
         }
 
-        if (string.IsNullOrWhiteSpace(contraseña) || contraseña.Length < 8)
+        bool contraseñaVacia = string.IsNullOrEmpty(contraseña);
+        if (!(contraseñaOpcional && contraseñaVacia) && (string.IsNullOrWhiteSpace(contraseña) || contraseña.Length < 8))
         {
             esValido = false;
         }

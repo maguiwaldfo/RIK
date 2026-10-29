@@ -84,6 +84,8 @@ const camposRegistro = [
     input: inputContrasena,
     feedback: obtenerFeedback("fb-contrasena", inputContrasena),
     validar: valor => {
+      // En "Modificar mis datos" el input tiene data-opcional: vacío significa "no cambiar la contraseña"
+      if (valor === "" && inputContrasena.dataset.opcional === "true") return "";
       if (valor === "") return "La contraseña es obligatoria.";
       if (valor.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
       return "";

@@ -71,12 +71,11 @@
                     }
 
                    if (estaDesbloqueado && (estaCompletado || nivel == maxNivelDesbloqueado))
-{
-    <a class="nodo nivel-@nivel"
-       href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })">
-        <div class="nodo-disponible">@textoNivel</div>
-    </a>
-}
+                    {
+                        <a class="nodo nivel-@nivel" href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })"> <div class="nodo-disponible">@textoNivel</div>
+                        </a>
+                        Context.Session.SetString("IdNivel", nivel.ToString());
+                    }
                     else
                     {
                         <div class="nodo nivel-@nivel">

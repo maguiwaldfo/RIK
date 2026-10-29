@@ -28,6 +28,31 @@ public class BD
         }
     }
 
+    // Devuelve false si el nombre de usuario nuevo ya lo usa otro usuario (en ese caso no se modifica nada).
+    // Si la contraseña viene vacía se mantiene la actual.
+    public bool ModificarUsuario(int idUsuario, Usuario usuario)
+    {
+        int modificados = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            modificados = connection.QueryFirstOrDefault<int>(
+                "sp_ModificarUsuario",
+                new
+                {
+                    id = idUsuario,
+                    nombre = usuario.Nombre,
+                    nombreUsuario = usuario.NombreUsuario,
+                    contraseña = usuario.Contraseña,
+                    email = usuario.Email
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return modificados > 0;
+    }
+
     public bool FijarseSiExisteUsuario(string nombreUsuario)
     {
         bool existe = false;

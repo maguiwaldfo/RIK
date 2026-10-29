@@ -25,6 +25,8 @@ public class JuegoController : Controller
 
     public IActionResult Nivel(int nivelElegido)
     {
+        Response.Cookies.Delete("IdNivel");
+
         string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
 
         if (string.IsNullOrEmpty(nombreUsuario))

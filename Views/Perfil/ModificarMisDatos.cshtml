@@ -1,3 +1,7 @@
+@{
+    Layout = null;
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +16,7 @@
 
     <section>
     
-            <form id="registroForm" class="login-form" action="@Url.Action("ValidarUsuario", "Login")" method="post" onsubmit="return registrarUsuario()" novalidate>
+            <form id="registroForm" class="login-form" action="@Url.Action("ModificarMisDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
                 <div class="form-field">
                     <input type="text" id="nombre" name="nombre" value="@(Context.Session.GetString("Nombre") ?? "")" />
@@ -31,11 +35,11 @@
                 </div>
 
                 <div class="form-field">
-                    <input type="password" id="contrasena" name="contraseña" placeholder="********" />
+                    <input type="password" id="contrasena" name="contraseña" placeholder="Nueva contraseña (vacío = no cambiar)" data-opcional="true" />
                     <p id="fb-contrasena" class="feedback"></p>
                 </div>
 
-                <button type="submit" class="submit-button">Registrarse</button>
+                <button type="submit" class="submit-button">Guardar cambios</button>
             </form>
     </section>
     <section>
@@ -46,5 +50,6 @@
     </section>
 
 </main>
+<script src="~/js/registrarse.js"></script>
 </body>
 </html>

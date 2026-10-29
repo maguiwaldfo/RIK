@@ -36,17 +36,15 @@
     }
    else {
     <header class="mapa-header">
-        <div class="mapa-marca">
-            <img class="brand-mark" src="/images/Logo rik (1).png" alt="Logo RIK">
-        </div>
+        <a class="mapa-marca" href="@Url.Action("Index", "Home")"><img class="brand-mark" src="~/images/rik-logo.png" alt="Logo RIK"></a>
 
         <nav class="mapa-nav">
             <a href="@Url.Action("Index", "Home")">Inicio</a>
-            <a href="#">Liga</a>
+            <a href="@Url.Action("#", "#")">Liga</a>
             <a href="@Url.Action("Index", "Perfil")">Perfil</a>
         </nav>
 
-        <a class="mapa-perfil" href="#" aria-label="Usuario">👤</a>
+        <a class="mapa-perfil" href="@Url.Action("Index", "Perfil")" aria-label="Usuario">👤</a>
     </header>
 
     }
@@ -60,6 +58,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-}
 </body>
 </html>

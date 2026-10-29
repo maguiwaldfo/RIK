@@ -1,3 +1,6 @@
+/* Poppins: la usa todo el sitio pero ninguna vista la cargaba. Tiene que quedar primero en el archivo. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -1398,4 +1401,15 @@ body {
     .estadisticas {
         grid-template-columns: 1fr;
     }
+}
+
+/* Botón que se ve como link (ej: "Cerrar sesión" en Perfil, que tiene que enviarse por POST) */
+.boton-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: LinkText;
+    text-decoration: underline;
+    cursor: pointer;
 }

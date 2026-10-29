@@ -15,7 +15,19 @@
         <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
     </div>
 }
-
-<a href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
+@{
+    if(!string.IsNullOrWhiteSpace(Context.Session.GetString("IdNivel")))
+    {
+    <a href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
     Comenzar desafío
-</a>
+    </a>        
+    }
+
+    else
+    {
+    <a href="@Url.Action("Index", "Biblioteca")">
+        Volver
+    </a>
+    }
+}
+

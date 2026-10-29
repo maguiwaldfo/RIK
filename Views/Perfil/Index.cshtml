@@ -29,12 +29,15 @@
         </div>
     </section>
     <section>
-    
+
         <div>
-            <a href="@Url.Action("CerrarSesion", "Perfil")"><strong>Cerrar sesión</strong></a>
+            @* CerrarSesion solo acepta POST, por eso es un formulario y no un link *@
+            <form method="post" action="@Url.Action("CerrarSesion", "Perfil")">
+                <button type="submit" class="boton-link"><strong>Cerrar sesión</strong></button>
+            </form>
         </div>
     </section>
 
 </main>
 </body>
-</html>
+</html>
