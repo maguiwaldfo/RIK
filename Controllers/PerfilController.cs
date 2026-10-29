@@ -44,4 +44,13 @@ public class PerfilController : Controller
             return View();
         }
     }
+
+
+    [HttpPost]
+    public IActionResult CerrarSesion()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Inicio");
+    }
+
 }

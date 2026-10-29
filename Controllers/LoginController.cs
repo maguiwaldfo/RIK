@@ -56,14 +56,6 @@ public class LoginController : Controller
             return RedirectToAction(nameof(Index));
         }
     }
-    
-    /*ESTE CIERRA SESIÓN (VA EN LA CONFIGURACIÓN)*/
-    [HttpPost]
-    public IActionResult CerrarSesion()
-    {
-        HttpContext.Session.Clear();
-        return RedirectToAction(nameof(Index));
-    }
 
     [HttpPost]
     public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
