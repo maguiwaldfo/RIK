@@ -1,3 +1,4 @@
+
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
@@ -9,6 +10,7 @@ public class BD
 {
     private string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
 
+    // USUARIOS
 
     public void AgregarUsuario(Usuario usuario)
     {
@@ -28,8 +30,6 @@ public class BD
         }
     }
 
-    // Devuelve false si el nombre de usuario nuevo ya lo usa otro usuario (en ese caso no se modifica nada).
-    // Si la contraseña viene vacía se mantiene la actual.
     public bool ModificarUsuario(int idUsuario, Usuario usuario)
     {
         int modificados = 0;
@@ -82,13 +82,31 @@ public class BD
         {
             usuario = connection.QueryFirstOrDefault<Usuario>(
                 "sp_ObtenerUsuario",
-                new { nombreUsuario, contraseña },
+                new { nombreUsuario = nombreUsuario, contraseña = contraseña },
                 commandType: CommandType.StoredProcedure
             );
         }
 
         return usuario;
     }
+
+    public int ObtenerIdUsuario(string nombreUsuario)
+    {
+        int idUsuario = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            idUsuario = connection.QueryFirstOrDefault<int>(
+                "sp_ObtenerIdUsuario",
+                new { nombreUsuario = nombreUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return idUsuario;
+    }
+
+    // NIVELES
 
     public Nivel ObtenerNivel(int idNivel)
     {
@@ -106,6 +124,72 @@ public class BD
         return nivel;
     }
 
+    public Nivel ObtenerNivelPorNombre(string tema)
+    {
+        Nivel nivel = null;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            nivel = connection.QueryFirstOrDefault<Nivel>(
+                "sp_ObtenerNivelPorNombre",
+                new { tema = tema },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return nivel;
+    }
+
+    public List<Nivel> ObtenerNiveles()
+    {
+        List<Nivel> niveles = new List<Nivel>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            niveles = connection.Query<Nivel>(
+                "sp_ObtenerNiveles",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return niveles;
+    }
+
+    public List<int> ObtenerNivelesCompletados(int idUsuario)
+    {
+        List<int> niveles = new List<int>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            niveles = connection.Query<int>(
+                "sp_ObtenerNivelesCompletados",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return niveles;
+    }
+
+    public void GuardarNivelCompletado(int idUsuario, int idNivel, int puntaje)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Execute(
+                "sp_GuardarNivelCompletado",
+                new
+                {
+                    idUsuario = idUsuario,
+                    idNivel = idNivel,
+                    puntaje = puntaje
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
+
+    // PREGUNTAS
+
     public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
     {
         List<Pregunta> preguntas = new List<Pregunta>();
@@ -117,6 +201,11 @@ public class BD
                 new { idNivel = idNivel },
                 commandType: CommandType.StoredProcedure
             ).ToList();
+        }
+
+        foreach (Pregunta pregunta in preguntas)
+        {
+            pregunta.Opciones = ObtenerOpcionesPregunta(pregunta.Id);
         }
 
         return preguntas;
@@ -138,32 +227,45 @@ public class BD
         return pregunta;
     }
 
-    public int ObtenerIdUsuario(string nombreUsuario)
+    // OPCIONES
+
+    public List<Opcion> ObtenerOpcionesPregunta(int idPregunta)
     {
-        int idUsuario = 0;
-        
+        List<Opcion> opciones = new List<Opcion>();
+
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            idUsuario = connection.QueryFirstOrDefault<int>(
-                "sp_ObtenerIdUsuario",
-                new { nombreUsuario = nombreUsuario },
+            opciones = connection.Query<Opcion>(
+                "sp_ObtenerOpcionesPregunta",
+                new { idPregunta = idPregunta },
                 commandType: CommandType.StoredProcedure
-            );
+            ).ToList();
         }
-        return idUsuario;
+
+        return opciones;
     }
 
-    public void GuardarNivelCompletado(int idUsuario, int idNivel)
+    public bool ComprobarOpcion(int idPregunta, int idOpcion)
     {
+        bool esCorrecta = false;
+
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            connection.Execute(
-                "sp_GuardarNivelCompletado",
-                new { idUsuario = idUsuario, idNivel = idNivel },
+            esCorrecta = connection.QueryFirstOrDefault<bool>(
+                "sp_ComprobarOpcion",
+                new
+                {
+                    idPregunta = idPregunta,
+                    idOpcion = idOpcion
+                },
                 commandType: CommandType.StoredProcedure
             );
         }
+
+        return esCorrecta;
     }
+
+    // TEORIAS
 
     public List<Teoria> ObtenerTeorias()
     {
@@ -180,66 +282,19 @@ public class BD
         return teorias;
     }
 
-   public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
-{
-    List<CharlaTeoria> charla = new List<CharlaTeoria>();
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
     {
-        charla = connection.Query<CharlaTeoria>(
-            "sp_ObtenerCharlaTeoria",
-            new { idNivel = idNivel },
-            commandType: CommandType.StoredProcedure
-        ).ToList();
-    }
-
-    return charla;
-}
-
-    public Nivel ObtenerNivelPorNombre(string tema)
-    {
-        Nivel nivel = null;
+        List<CharlaTeoria> charla = new List<CharlaTeoria>();
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            nivel = connection.QueryFirstOrDefault<Nivel>(
-                "sp_ObtenerNivelPorNombre",
-                new { tema = tema },
-            commandType: CommandType.StoredProcedure
-            );
+            charla = connection.Query<CharlaTeoria>(
+                "sp_ObtenerCharlaTeoria",
+                new { idNivel = idNivel },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
         }
 
-    return nivel;
+        return charla;
     }
-
-    public List<Nivel> ObtenerNiveles()
-    {
-         List<Nivel> niveles = new List<Nivel>();
-
-         using (SqlConnection connection = new SqlConnection(_connectionString))
-         {
-            niveles = connection.Query<Nivel>(
-            "sp_ObtenerNiveles",
-            commandType: CommandType.StoredProcedure
-            ).ToList();
-         }
-
-         return niveles;
-    }
-
-    public List<int> ObtenerNivelesCompletados(int idUsuario)
-{
-    List<int> niveles = new List<int>();
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
-    {
-        niveles = connection.Query<int>(
-            "sp_ObtenerNivelesCompletados",
-            new { idUsuario = idUsuario },
-            commandType: CommandType.StoredProcedure
-        ).ToList();
-    }
-
-    return niveles;
-}
 }

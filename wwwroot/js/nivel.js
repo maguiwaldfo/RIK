@@ -38,7 +38,7 @@ function actualizarTiempo()
 
 setInterval(actualizarTiempo, 1000);
 
-function comprobar(idPregunta, respuestaElegida)
+function comprobar(idPregunta, idOpcion)
 {
     if (respondida == true || comprobando == true || terminada == true)
     {
@@ -48,7 +48,7 @@ function comprobar(idPregunta, respuestaElegida)
     comprobando = true;
 
     fetch("/Juego/ComprobarRespuesta?idPregunta=" + idPregunta +
-          "&respuestaElegida=" + respuestaElegida, {
+          "&idOpcion=" + idOpcion, {
         method: "POST"
     })
     .then(respuesta => respuesta.text())

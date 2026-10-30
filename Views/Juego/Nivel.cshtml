@@ -21,26 +21,18 @@
 
         <h2>@pregunta.Enunciado</h2>
 
-        <button type="button" onclick="comprobar(@pregunta.Id, 1)">
-            @pregunta.Opcion1
-        </button>
-
-        <button type="button" onclick="comprobar(@pregunta.Id, 2)">
-            @pregunta.Opcion2
-        </button>
-
-        <button type="button" onclick="comprobar(@pregunta.Id, 3)">
-            @pregunta.Opcion3
-        </button>
-
-        <button type="button" onclick="comprobar(@pregunta.Id, 4)">
-            @pregunta.Opcion4
-        </button>
+        @foreach (Opcion opcion in pregunta.Opciones)
+        {
+            <button type="button" onclick="comprobar(@pregunta.Id, @opcion.Id)">
+                @opcion.Texto
+            </button>
+        }
 
     </div>
 
     numero++;
 }
+
 <p id="resultado"></p>
 
 <button type="button" id="siguiente"

@@ -77,7 +77,7 @@ public class JuegoController : Controller
     }
 
     [HttpPost]
-    public IActionResult ComprobarRespuesta(int idPregunta, string respuestaElegida)
+    public IActionResult ComprobarRespuesta(int idPregunta, int idOpcion)
     {
         string estado = HttpContext.Session.GetString("EstadoPartida");
 
@@ -101,14 +101,6 @@ public class JuegoController : Controller
             return BadRequest("PreguntaInvalida");
         }
 
-        if (respuestaElegida != "1" &&
-            respuestaElegida != "2" &&
-            respuestaElegida != "3" &&
-            respuestaElegida != "4")
-        {
-            return BadRequest("RespuestaInvalida");
-        }
-
         Pregunta pregunta = bd.ObtenerPregunta(idPregunta);
 
         if (pregunta == null)
@@ -122,7 +114,7 @@ public class JuegoController : Controller
         int.TryParse(HttpContext.Session.GetString("Vidas"), out vidas);
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
-        if (pregunta.Respuesta.ToString() == respuestaElegida)
+        if (bd.ComprobarOpcion(idPregunta, idOpcion))
         {
             puntos += 100;
             posicion++;
@@ -186,7 +178,10 @@ public class JuegoController : Controller
             return BadRequest("UsuarioInvalido");
         }
 
-        bd.GuardarNivelCompletado(idUsuario, idNivel);
+        int puntos = 0;
+        int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
+
+        bd.GuardarNivelCompletado(idUsuario, idNivel, puntos);
 
         HttpContext.Session.SetString("EstadoPartida", "Guardado");
 
