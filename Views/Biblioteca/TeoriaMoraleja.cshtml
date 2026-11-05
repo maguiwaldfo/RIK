@@ -1,3 +1,17 @@
-@{
-    BD bd = new BD();
-}
+<h1>@ViewBag.TeoriaMoraleja.Titulo</h1>
+<div>
+    <h2></h2>
+    <p>@ViewBag.TeoriaMoraleja.Teoria</p>
+</div>
+<div>
+    <h2></h2>
+    <p>@ViewBag.TeoriaMoraleja.Historia</p>
+</div>
+<div>
+    <h2></h2>
+    <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
+</div>
+
+    <a href="@Url.Action("Index", "Biblioteca")">
+        Volver
+    </a>
