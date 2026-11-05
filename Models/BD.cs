@@ -297,4 +297,15 @@ public class BD
 
         return charla;
     }
+    public List<TeoriaMoraleja> ObtenerTeoriaMoraleja(int idTeoria)
+    {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            charla = connection.Query<CharlaTeoria>(
+                "sp_ObtenerCharlaTeoria",
+                new { idNivel = idNivel },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+    }
 }
