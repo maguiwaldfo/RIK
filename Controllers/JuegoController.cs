@@ -17,7 +17,8 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        ViewBag.Nivel = nivel;
+        ViewBag.TemaNivel = nivel.Tema;
+        ViewBag.IdNivel = nivel.Id;
         ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel);
 
         return View();
@@ -25,8 +26,6 @@ public class JuegoController : Controller
 
     public IActionResult Nivel(int nivelElegido)
     {
-        Response.Cookies.Delete("IdNivel");
-
         string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
 
         if (string.IsNullOrEmpty(nombreUsuario))
@@ -42,6 +41,7 @@ public class JuegoController : Controller
         }
 
         int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
+
         List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
 
         if (nivelElegido > 1 && !completados.Contains(nivelElegido - 1))
@@ -67,10 +67,13 @@ public class JuegoController : Controller
 
         for (int i = 0; i < preguntas.Count; i++)
         {
-            HttpContext.Session.SetString("Pregunta" + i, preguntas[i].Id.ToString());
+            HttpContext.Session.SetString(
+                "Pregunta" + i,
+                preguntas[i].Id.ToString()
+            );
         }
 
-        ViewBag.NumeroNivel = nivel;
+        ViewBag.TemaNivel = nivel.Tema;
         ViewBag.PreguntasNivel = preguntas;
 
         return View();
@@ -87,9 +90,10 @@ public class JuegoController : Controller
         }
 
         string posicionTexto = HttpContext.Session.GetString("PreguntaActual");
+
         int posicion = 0;
 
-        if (!int.TryParse(posicionTexto, out posicion) || posicion >= 8)
+        if (!int.TryParse(posicionTexto, out posicion) || posicion < 0 || posicion >= 8)
         {
             return BadRequest("PreguntaInvalida");
         }
@@ -138,6 +142,7 @@ public class JuegoController : Controller
             if (vidas == 0)
             {
                 HttpContext.Session.SetString("EstadoPartida", "Perdido");
+
                 return Ok("SinVidas");
             }
 
@@ -158,13 +163,10 @@ public class JuegoController : Controller
 
         int idNivel = 0;
 
-        foreach (Nivel nivel in bd.ObtenerNiveles())
-        {
-            if (nivel.Id.ToString() == HttpContext.Session.GetString("NivelActual"))
-            {
-                idNivel = nivel.Id;
-            }
-        }
+        int.TryParse(
+            HttpContext.Session.GetString("NivelActual"),
+            out idNivel
+        );
 
         if (idNivel == 0)
         {
@@ -179,6 +181,7 @@ public class JuegoController : Controller
         }
 
         int puntos = 0;
+
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
         bd.GuardarNivelCompletado(idUsuario, idNivel, puntos);
@@ -215,7 +218,17 @@ public class JuegoController : Controller
         ViewBag.Tiempo = tiempo.ToString(@"mm\:ss");
         ViewBag.Vidas = HttpContext.Session.GetString("Vidas");
         ViewBag.Puntos = HttpContext.Session.GetString("Puntos");
-        ViewBag.Estado = estado;
+
+        if (estado == "Guardado")
+        {
+            ViewBag.TituloResultado = "¡Nivel completado!";
+            ViewBag.MensajeResultado = "¡Muy bien! Terminaste el desafío.";
+        }
+        else
+        {
+            ViewBag.TituloResultado = "¡Te quedaste sin vidas!";
+            ViewBag.MensajeResultado = "Podés volver a intentarlo.";
+        }
 
         return View();
     }

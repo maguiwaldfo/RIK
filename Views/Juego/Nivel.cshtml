@@ -2,12 +2,10 @@
 @using RIK.Models
 
 @{
-    List<Pregunta> preguntas = ViewBag.PreguntasNivel;
-    Nivel nivel = ViewBag.NumeroNivel;
     int numero = 0;
 }
 
-<h1>@nivel.Tema</h1>
+<h1>@ViewBag.TemaNivel</h1>
 
 <h3 id="vidas">Vidas: ❤️❤️❤️</h3>
 <h3 id="puntos">Puntos: 0</h3>
@@ -15,7 +13,7 @@
 
 <p id="contador">Pregunta 1 de 8</p>
 
-@foreach (Pregunta pregunta in preguntas)
+@foreach (Pregunta pregunta in ViewBag.PreguntasNivel)
 {
     <div id="pregunta-@numero" style="display:none">
 
