@@ -27,7 +27,7 @@ public class BibliotecaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        ViewBag.Teoria = bd.ObtenerTeoriaMoraleja(int IdTeoria);
+        ViewBag.Teoria = bd.ObtenerTeoriaMoraleja(IdTeoria);
 
         return View();
     }
