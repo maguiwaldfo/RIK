@@ -9,26 +9,9 @@ public class LoginController : Controller
 {
     BD bd = new BD();
 
-    // Se mira la sesión (igual que Inicio y Perfil) y no la cookie: si la cookie queda viva pero la sesión no
-    // (después de cerrar sesión o si la sesión expira), Login e IndexInicio se redirigían entre sí sin fin.
     private bool HayUsuarioLogueado()
     {
         return !string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario"));
-    }
-
-    private void GuardarUsuarioCookie(string nombreUsuario)
-    {
-        Response.Cookies.Append("NombreUsuario", nombreUsuario, new CookieOptions
-        {
-            HttpOnly = false,
-            SameSite = SameSiteMode.Lax,
-            Secure = false
-        });
-    }
-
-    private void BorrarUsuarioCookie()
-    {
-        Response.Cookies.Delete("NombreUsuario");
     }
 
     public IActionResult Landing()
@@ -93,7 +76,6 @@ public class LoginController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Email", usuario.Email);
-        GuardarUsuarioCookie(usuario.NombreUsuario);
 
         return RedirectToAction("IndexInicio", "Inicio");
     }
@@ -113,12 +95,17 @@ public class LoginController : Controller
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
             HttpContext.Session.SetString("Email", usuario.Email);
-            GuardarUsuarioCookie(usuario.NombreUsuario);
 
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
         return View("Index");
+    }
+
+    public IActionResult CerrarSesion()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index");
     }
 }

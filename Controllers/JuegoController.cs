@@ -232,4 +232,14 @@ public class JuegoController : Controller
 
         return View();
     }
+
+    public IActionResult JugarNivel(int idNivel)
+    {
+         List<Pregunta> todasLasPreguntas = bd.ObtenerPreguntasNivel(idNivel);
+
+         Nivel nivel = new Nivel();
+         List<Pregunta> preguntasSeleccionadas = nivel.AgarrarPreguntas(todasLasPreguntas);
+
+        return View(preguntasSeleccionadas);
+    }
 }
