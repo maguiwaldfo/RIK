@@ -20,6 +20,10 @@
         <h2>Moraleja</h2>
         <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
     </div>
+
+    <a href="@Url.Action("Teoria", "Juego", new { idNivel = ViewBag.Nivel })">
+        Iniciar nivel
+    </a>
 }
 else
 {

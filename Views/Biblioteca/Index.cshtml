@@ -1,6 +1,5 @@
 @{
-    ViewData["Title"] = "Biblioteca";
-    List<RIK.Models.Teoria> teorias = (List<RIK.Models.Teoria>)ViewBag.Teorias;
+    ViewData["Title"] = "Biblioteca"; 
 }
 
 <body class="mapa-body">
@@ -8,7 +7,7 @@
         <div class="biblioteca-grid">
             @if (teorias != null)
             {
-                @foreach (RIK.Models.Teoria teoria in teorias)
+                @foreach (RIK.Models.Teoria teoria in ViewBag.Teorias)
                 {
                     if (!teoria.EsBloqueada)
                     {

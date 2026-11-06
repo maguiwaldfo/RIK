@@ -42,6 +42,8 @@ public class BibliotecaController : Controller
 
     ViewBag.TeoriaMoraleja = detalle;
 
+    ViewBag.Nivel = idTeoria;
+
     return View();
 }
 }
