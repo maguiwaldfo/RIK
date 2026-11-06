@@ -69,15 +69,24 @@ public class PerfilController : Controller
         BD bd = new BD();
         int idUsuario = bd.ObtenerIdUsuario(nombreUsuarioActual);
 
-        if (!bd.ModificarUsuario(idUsuario, usuario))
-        {
-            ViewBag.ErrorMessage = "El nombre de usuario ya existe. Por favor, elija otro.";
-            return View();
-        }
+       int resultado = bd.ModificarUsuario(idUsuario, usuario);
+
+if (resultado == 0)
+{
+    ViewBag.ErrorMessage = "El nombre de usuario ya existe.";
+    return View("ModificarMisDatos");
+}
+
+if (resultado == -1)
+{
+    ViewBag.ErrorMessage = "No se encontró el usuario.";
+    return View("ModificarMisDatos");
+}
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Email", usuario.Email);
+        TempData["Mensaje"] = "Tus datos fueron modificados correctamente.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -86,6 +95,6 @@ public class PerfilController : Controller
     public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("Index", "Inicio");
+        return RedirectToAction("Landing", "Inicio");
     }
 }

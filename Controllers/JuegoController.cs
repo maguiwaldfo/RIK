@@ -17,11 +17,12 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        HttpContext.Session.SetString("IdNivel", nivel.ToString());
+        HttpContext.Session.SetString("IdNivel", nivel.Id.ToString());
 
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.IdNivel = nivel.Id;
-        ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel);
+        ViewBag.Nivel = nivel;
+        ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel) ?? new List<CharlaTeoria>();
 
         return View();
     }

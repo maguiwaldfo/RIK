@@ -1,22 +1,9 @@
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RIK - Inicio</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-
 <body class="mapa-body">
 <main>
 
     <section>
     
-            <form id="registroForm" class="login-form" action="@Url.Action("ModificarMisDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
+            <form id="registroForm" class="login-form" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
                 <div class="form-field">
                     <input type="text" id="nombre" name="nombre" value="@(Context.Session.GetString("Nombre") ?? "")" />

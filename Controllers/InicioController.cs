@@ -12,18 +12,6 @@ public class InicioController : Controller
         return View();
     }
 
-    public IActionResult Index()
-    {
-        if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
-        {
-            return View();
-        }
-        else
-        {
-            return RedirectToAction("Index", "Login");
-        }
-    }
-
     public IActionResult IndexInicio()
     {
         if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))

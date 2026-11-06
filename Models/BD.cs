@@ -29,28 +29,30 @@ public class BD
         }
     }
 
-    public bool ModificarUsuario(int idUsuario, Usuario usuario)
+   public int ModificarUsuario(int idUsuario, Usuario usuario)
+{
+    int resultado = 0;
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        int modificados = 0;
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            modificados = connection.QueryFirstOrDefault<int>(
-                "sp_ModificarUsuario",
-                new
-                {
-                    id = idUsuario,
-                    nombre = usuario.Nombre,
-                    nombreUsuario = usuario.NombreUsuario,
-                    contraseña = usuario.Contraseña,
-                    email = usuario.Email
-                },
-                commandType: CommandType.StoredProcedure
-            );
-        }
-
-        return modificados > 0;
+        resultado = connection.QueryFirstOrDefault<int>(
+            "sp_ModificarUsuario",
+            new
+            {
+                id = idUsuario,
+                nombre = usuario.Nombre,
+                nombreUsuario = usuario.NombreUsuario,
+                contraseña = string.IsNullOrWhiteSpace(usuario.Contraseña)
+                    ? null
+                    : usuario.Contraseña,
+                email = usuario.Email
+            },
+            commandType: CommandType.StoredProcedure
+        );
     }
+
+    return resultado;
+}
 
     public bool FijarseSiExisteUsuario(string nombreUsuario)
     {

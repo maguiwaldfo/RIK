@@ -6,15 +6,23 @@
     List<CharlaTeoria> charla = ViewBag.Charla;
 }
 
+@if (nivel == null)
+{
+    <p>No se encontró el nivel solicitado.</p>
+    <a href="@Url.Action("Index", "Biblioteca")">Volver</a>
+}
+else
+{
 <h1>@nivel.Tema</h1>
 
-@foreach (CharlaTeoria mensaje in charla)
-{
-    <div>
-        <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
-    </div>
-}
+    @foreach (CharlaTeoria mensaje in charla)
+    {
+        <div>
+            <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
+        </div>
+    }
     <a href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
     Comenzar desafío
     </a>
+}
 

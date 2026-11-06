@@ -2,10 +2,34 @@
     ViewData["Title"] = "Biblioteca";
 }
 
-<body class="mapa-body">
-    <main>
+    <main class ="mapa-body">
         <div class="biblioteca-grid">
-            @Html.Raw(ViewBag.HtmlBiblioteca)
+            @if (ViewBag.Teorias != null)
+            {
+                foreach (Teoria teoria in ViewBag.Teorias)
+                {
+                    if (!teoria.EsBloqueada)
+                    {
+                        <a href="@Url.Action("TeoriaMoraleja", "Biblioteca", new { idTeoria = teoria.Id })">
+                            <div class="teoria">
+                                <img src="/imagenes/teoria/@teoria.NombreImagen" alt="@teoria.Nombre" />
+                                <h2>@teoria.Nombre</h2>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="teoria teoria-bloqueada">
+                            <img src="/imagenes/candado.png" alt="Bloqueado" />
+                            <h3>Próximamente</h3>
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <h2>TEORÍAS NO ENCONTRADAS</h2>
+            }
+
         </div>
     </main>
-</body>
