@@ -514,9 +514,9 @@ nav li:hover,
     position: absolute;
     left: 18%;
     top: 18px;
-    width: 26%;
-    min-width: 180px;
-    padding: 2.2% 2.4%;
+    width: 22%;
+    min-width: 160px;
+    padding: 1.4% 1.8%;
     background-color: #07512F;
     border-radius: 10px;
     z-index: 3;
@@ -524,30 +524,50 @@ nav li:hover,
 
 .rik .tarjeta-presentacion p {
     margin: 0;
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 30px;
+    line-height: 1.4;
     color: #FFFFFF;
     font-weight: 700;
 }
 
 /* LOGO */
+/* LLUVIA DECORATIVA */
+
+.rik .lluvia {
+    opacity: 0.6;
+}
+
+/* LLUVIA DETRÁS DEL SLOGAN */
 
 .rik .logo-hero {
     position: absolute;
-    left: 60%;
-    top: 4px;
-    width: 24%;
-    min-width: 180px;
-    text-align: center;
-    z-index: 5;
 }
-
 .rik .logo-hero img {
     width: 100%;
     height: auto;
     display: block;
     transform: scale(1.12);
     transform-origin: center top;
+}
+
+/* SLOGAN */
+.rik .logo-hero img:first-child {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+/* MONEDAS DETRÁS DEL SLOGAN */
+.rik .logo-hero .lluviaM {
+    position: absolute;
+    width: 140%;
+    height: auto;
+    top: -25%;
+    left: -20%;
+    z-index: 1;
+    opacity: 0.6;
 }
 
 /* MISIÓN */
@@ -572,6 +592,36 @@ nav li:hover,
     line-height: 1.4;
     color: #000000;
     font-weight: 800;
+}
+
+/* TARJETAS DE INFORMACIÓN RIK */
+.rik .informacion-rik {
+    width: 92%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    padding: 18px 0 8px;
+}
+
+.rik .tarjeta-info {
+    background-color: #07512F;
+    border-radius: 12px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+}
+
+.rik .tarjeta-info p {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    text-align: center;
 }
 
 /* TARJETAS INFERIORES */
@@ -1480,3 +1530,25 @@ body {
 }
 
 /* BOTÓN JUGAR */
+.rik .boton-jugar {
+    position: absolute;
+    left: 20%;
+    top: 180px;
+   
+}
+
+.rik .boton-jugar a {
+    display: inline-block;
+    background-color: #FFE500;
+    color: #000000;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 800;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.rik .boton-jugar a:hover {
+    background-color: #F2D600;
+}
