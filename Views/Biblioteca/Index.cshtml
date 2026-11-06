@@ -1,32 +1,11 @@
 @{
-    ViewData["Title"] = "Biblioteca"; 
+    ViewData["Title"] = "Biblioteca";
 }
 
 <body class="mapa-body">
     <main>
         <div class="biblioteca-grid">
-            @if (teorias != null)
-            {
-                @foreach (RIK.Models.Teoria teoria in ViewBag.Teorias)
-                {
-                    if (!teoria.EsBloqueada)
-                    {
-                        <a href="@Url.Action("TeoriaMoraleja", "Biblioteca", new { idTeoria = teoria.Id })">
-                            <div class="teoria">
-                                <img src="/imagenes/teoria/@teoria.NombreImagen" alt="@teoria.Nombre" />
-                                <h2>@teoria.Nombre</h2>
-                            </div>
-                        </a>
-                    }
-                    else
-                    {
-                        <div class="teoria teoria-bloqueada">
-                            <img src="/imagenes/candado.png" alt="Bloqueado" />
-                            <h3>Próximamente</h3>
-                        </div>
-                    }
-                }
-            }
+            @Html.Raw(ViewBag.HtmlBiblioteca)
         </div>
     </main>
 </body>

@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Ligas y Tabla de Posiciones";
+}
+
+<h1>Tabla de Posiciones</h1>
+
+<div>
+    <a href="@Url.Action("Crear", "Liga")">Crear Nueva Liga</a>
+</div>
+
+<hr />
+
+<h2>Ranking Global</h2>
+@Html.Raw(ViewBag.HtmlTablaGlobal)
+
+<hr />
+
+<h2>@ViewBag.TituloLiga</h2>
+@Html.Raw(ViewBag.HtmlTablaLiga)

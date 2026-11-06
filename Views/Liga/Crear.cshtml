@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Crear Liga";
+}
+
+<h1>Crear una nueva Liga</h1>
+
+<form action="@Url.Action("Crear", "Liga")" method="post">
+    <div>
+        <label>Nombre de la Liga:</label>
+        <input type="text" name="Nombre" required />
+    </div>
+    <br />
+    <div>
+        <label>Capacidad Máxima:</label>
+        <input type="number" name="Capacidad" value="10" required />
+    </div>
+    <br />
+    <div>
+        <label>Privacidad:</label>
+        <select name="Privacidad">
+            <option value="false">Pública</option>
+            <option value="true">Privada con Contraseña</option>
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Contraseña (opcional):</label>
+        <input type="password" name="Contraseña" />
+    </div>
+    <br />
+    <button type="submit">Guardar Liga</button>
+</form>
+
+<br />
+<a href="@Url.Action("Index", "Liga")">Volver a Ligas</a>
