@@ -16,21 +16,6 @@ public class LoginController : Controller
         return !string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario"));
     }
 
-    private void GuardarUsuarioCookie(string nombreUsuario)
-    {
-        Response.Cookies.Append("NombreUsuario", nombreUsuario, new CookieOptions
-        {
-            HttpOnly = false,
-            SameSite = SameSiteMode.Lax,
-            Secure = false
-        });
-    }
-
-    private void BorrarUsuarioCookie()
-    {
-        Response.Cookies.Delete("NombreUsuario");
-    }
-
     public IActionResult Landing()
     {
         if (HayUsuarioLogueado())
@@ -93,7 +78,6 @@ public class LoginController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Email", usuario.Email);
-        GuardarUsuarioCookie(usuario.NombreUsuario);
 
         return RedirectToAction("IndexInicio", "Inicio");
     }
@@ -113,7 +97,6 @@ public class LoginController : Controller
             HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
             HttpContext.Session.SetString("Nombre", usuario.Nombre);
             HttpContext.Session.SetString("Email", usuario.Email);
-            GuardarUsuarioCookie(usuario.NombreUsuario);
 
             return RedirectToAction("IndexInicio", "Inicio");
         }

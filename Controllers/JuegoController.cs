@@ -16,6 +16,8 @@ public class JuegoController : Controller
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
+        
+        Context.Session.SetString("IdNivel", nivel.ToString());
 
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.IdNivel = nivel.Id;

@@ -78,13 +78,6 @@ public class PerfilController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Email", usuario.Email);
-        // Misma cookie que guarda LoginController al iniciar sesión (la usa el layout para mostrar el nombre)
-        Response.Cookies.Append("NombreUsuario", usuario.NombreUsuario, new CookieOptions
-        {
-            HttpOnly = false,
-            SameSite = SameSiteMode.Lax,
-            Secure = false
-        });
 
         return RedirectToAction(nameof(Index));
     }
@@ -93,7 +86,6 @@ public class PerfilController : Controller
     public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
-        Response.Cookies.Delete("NombreUsuario"); // la guarda LoginController al iniciar sesión
         return RedirectToAction("Index", "Inicio");
     }
 }

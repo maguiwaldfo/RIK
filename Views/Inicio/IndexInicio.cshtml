@@ -74,7 +74,6 @@
                     {
                         <a class="nodo nivel-@nivel" href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })"> <div class="nodo-disponible">@textoNivel</div>
                         </a>
-                        Context.Session.SetString("IdNivel", nivel.ToString());
                     }
                     else
                     {
