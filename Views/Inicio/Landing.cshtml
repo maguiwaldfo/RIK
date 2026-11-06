@@ -1,3 +1,4 @@
+
 @{
     ViewData["Title"] = "RIK - Educación Financiera";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -5,35 +6,92 @@
 
 <main class="rik">
 
-
+    <!-- PORTADA -->
     <section class="portada" id="inicio">
+
         <div class="presentacion">
-            <img class="mascota" src="@Url.Content("~/imagenes/rikLanding.png")" alt="Ricky, la mascota de RIK">
 
-            <div class="tarjeta-presentacion" id="quienes-somos">
-                <p>
-                    Rik es una aplicación de educación financiera con el objetivo de enseñar a los jóvenes sobre finanzas de una forma que sea entretenida.
-                </p>
-            </div>
+            <img class="lluvia"
+                 src="@Url.Content("~/imagenes/lluviamonedas.png")"
+                 alt="Monedas decorativas">
 
+            <img class="lluviaM"
+                 src="@Url.Content("~/imagenes/lluviamonedas.png")"
+                 alt="Monedas decorativas">
+
+            <!-- Mascota -->
+            <img class="mascota"
+                 src="@Url.Content("~/imagenes/rikLanding.png")"
+                 alt="Ricky, la mascota de RIK">
+
+            <!-- Logo y slogan -->
             <div class="logo-hero">
-                <img src="@Url.Content("~/imagenes/slogan.png")" alt="Logo de RIK">
+                <img src="@Url.Content("~/imagenes/slogan.png")"
+                     alt="RIK - Convertí el aprendizaje en riqueza">
             </div>
 
-            <div class="tarjeta-mision" id="nuestra-mision">
+            <!-- Frase principal -->
+            <div class="tarjeta-presentacion">
+                <p>¡Jugá, ganá y dominá tu plata!</p>
+            </div>
+
+            <!-- Botón para comenzar -->
+            <div class="boton-jugar">
+                <a href="@Url.Action("Index", "Login")">
+                    🎮 Comenzá a jugar
+                </a>
+            </div>
+
+        </div>
+
+        <!-- INFORMACIÓN DE RIK -->
+        <section class="informacion-rik">
+
+            <!-- Quiénes somos -->
+            <div class="tarjeta-info" id="quienes-somos">
                 <p>
-                    La misión que tenemos en Rik es que todos los jóvenes estén informados y concientizados sobre la economía, inversiones y el manejo del dinero para que puedan tener un futuro mejor.
+                    Con Ricky, aprender de finanzas es una aventura.
+                    Completá misiones, desbloqueá logros y convertite
+                    en el dueño de tus decisiones.
                 </p>
             </div>
-        </div>
+
+            <!-- Nuestra visión -->
+            <div class="tarjeta-info" id="vision">
+                <p>
+                    Ser la plataforma líder de educación financiera
+                    en Argentina, y de ser posible en Latinoamérica,
+                    ayudando a miles de personas a alcanzar su libertad
+                    y bienestar financiero a través del conocimiento.
+                </p>
+            </div>
+
+            <!-- Nuestra misión -->
+            <div class="tarjeta-info" id="nuestra-mision">
+                <p>
+                    Brindar educación financiera accesible y divertida
+                    para que más personas aprendan a administrar su
+                    dinero, tomen mejores decisiones y construyan
+                    un futuro económico mejor.
+                </p>
+            </div>
+
+        </section>
+
     </section>
 
+
+    <!-- LOGROS Y ESTADÍSTICAS -->
     <section class="estadisticas" id="logros">
+
         <div class="estadistica">
             <div class="icono-estadistica">📈</div>
             <div>
                 <h2>86%</h2>
-                <p>de los jóvenes que aprenden<br />mejoran su plata y su futuro</p>
+                <p>
+                    de los jóvenes que aprenden
+                    mejoran su plata y su futuro
+                </p>
             </div>
         </div>
 
@@ -41,7 +99,10 @@
             <div class="icono-estadistica">⚙️</div>
             <div>
                 <h2>+12</h2>
-                <p>Unidades didácticas interactivas<br />basadas en situaciones reales</p>
+                <p>
+                    Unidades didácticas interactivas
+                    basadas en situaciones reales
+                </p>
             </div>
         </div>
 
@@ -49,51 +110,96 @@
             <div class="icono-estadistica">🏆</div>
             <div>
                 <h2>100%</h2>
-                <p>Contenido libre de sesgos y<br />certificado por expertos en finanzas</p>
+                <p>
+                    Contenido libre de sesgos y
+                    certificado por expertos en finanzas
+                </p>
             </div>
         </div>
+
     </section>
 
-    <!-- CARRUSEL -->
+
+    <!-- CARRUSEL DE LA PLATAFORMA -->
     <section class="galeria" id="galeria">
-        <div id="carouselStackedBottom" class="carousel slide" data-bs-ride="carousel">
+
+        <div id="carouselStackedBottom"
+             class="carousel slide"
+             data-bs-ride="carousel">
+
             <div class="carousel-inner rounded-5">
+
                 <div class="carousel-item active">
-                    <img src="@Url.Content("~/imagenes/carrusel1.png")" class="d-block w-100" alt="Pantalla de la app RIK 1">
+                    <img src="@Url.Content("~/imagenes/carrusel1.png")"
+                         class="d-block w-100"
+                         alt="Pantalla de la plataforma RIK">
                 </div>
+
                 <div class="carousel-item">
-                    <img src="@Url.Content("~/imagenes/carrusel2.png")" class="d-block w-100" alt="Pantalla de la app RIK 2">
+                    <img src="@Url.Content("~/imagenes/carrusel2.png")"
+                         class="d-block w-100"
+                         alt="Misiones de RIK">
                 </div>
+
                 <div class="carousel-item">
-                    <img src="@Url.Content("~/imagenes/carrusel3.png")" class="d-block w-100" alt="Pantalla de la app RIK 3">
+                    <img src="@Url.Content("~/imagenes/carrusel3.png")"
+                         class="d-block w-100"
+                         alt="Logros de RIK">
                 </div>
+
             </div>
 
-            <div>
-                <button class="btn-icon btn-sm" type="button" data-bs-target="#carouselStackedBottom" data-bs-slide="prev">
-                    <span class="carousel-icon-prev" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="btn-icon btn-sm" type="button" data-bs-target="#carouselStackedBottom" data-bs-slide="next">
-                    <span class="carousel-icon-next" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
-            </div>
+            <!-- Controles del carrusel -->
+            <button class="btn-icon btn-sm"
+                    type="button"
+                    data-bs-target="#carouselStackedBottom"
+                    data-bs-slide="prev">
+
+                <span class="carousel-icon-prev"
+                      aria-hidden="true"></span>
+
+                <span class="visually-hidden">Anterior</span>
+            </button>
+
+            <button class="btn-icon btn-sm"
+                    type="button"
+                    data-bs-target="#carouselStackedBottom"
+                    data-bs-slide="next">
+
+                <span class="carousel-icon-next"
+                      aria-hidden="true"></span>
+
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+
         </div>
+
     </section>
 
+
+    <!-- CIERRE -->
     <section class="cierre">
+
         <div class="caja-cierre">
 
             <div class="texto-cierre">
-                <h2>"El conocimiento financiero no debe ser un privilegio, sino una oportunidad para todos."</h2>
-                <p>Manifesto RIK</p>
+                <h2>
+                    "El conocimiento financiero no debe ser
+                    un privilegio, sino una oportunidad para todos."
+                </h2>
+
+                <p>Manifiesto RIK</p>
             </div>
 
-            <a class="boton-cierre" href="@Url.Action("Index", "Login")">
+            <a class="boton-cierre"
+               href="@Url.Action("Index", "Login")">
+
                 Únete a más de 25.000 estudiantes ahora
+
             </a>
+
         </div>
+
     </section>
 
 </main>
