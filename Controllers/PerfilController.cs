@@ -47,7 +47,7 @@ public class PerfilController : Controller
 
 
     [HttpPost]
-    public IActionResult ModificarMisDatos(string nombre, string email, string nombreUsuario, string contraseña)
+    public IActionResult ModificarDatos(string nombre, string email, string nombreUsuario, string contraseña)
     {
         string nombreUsuarioActual = HttpContext.Session.GetString("NombreUsuario");
 
