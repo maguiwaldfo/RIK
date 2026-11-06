@@ -1,17 +1,32 @@
-<h1>@ViewBag.TeoriaMoraleja.Titulo</h1>
-<div>
-    <h2>@ViewBag.TeoriaMoraleja.TituloTeoria</h2>
-    <p>@ViewBag.TeoriaMoraleja.Teoria</p>
-</div>
-<div>
-    <h2>@ViewBag.TeoriaMoraleja.TituloHistoria</h2>
-    <p>@ViewBag.TeoriaMoraleja.Historia</p>
-</div>
-<div>
-    <h2>Moraleja</h2>
-    <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
-</div>
+@{
+    ViewData["Title"] = "Teoria y Moraleja";
+}
 
-    <a href="@Url.Action("Index", "Biblioteca")">
-        Volver
-    </a>
+@if (ViewBag.TeoriaMoraleja != null)
+{
+    <h1>@ViewBag.TeoriaMoraleja.Titulo</h1>
+
+    <div>
+        <h2>@ViewBag.TeoriaMoraleja.TituloTeoria</h2>
+        <p>@ViewBag.TeoriaMoraleja.Teoria</p>
+    </div>
+
+    <div>
+        <h2>@ViewBag.TeoriaMoraleja.TituloHistoria</h2>
+        <p>@ViewBag.TeoriaMoraleja.Historia</p>
+    </div>
+
+    <div>
+        <h2>Moraleja</h2>
+        <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
+    </div>
+}
+else
+{
+    <p>No se encontró la teoría seleccionada.</p>
+}
+
+<br />
+<a href="@Url.Action("Index", "Biblioteca")">
+    Volver
+</a>
