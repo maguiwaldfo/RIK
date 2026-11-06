@@ -1,37 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RIK - Inicio</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
+@{
+    ViewData["Title"] = "Biblioteca";
+    List<RIK.Models.Teoria> teorias = (List<RIK.Models.Teoria>)ViewBag.Teorias;
+}
 
 <body class="mapa-body">
     <main>
         <div class="biblioteca-grid">
-
-            @foreach (Teoria teoria in ViewBag.Teorias)
+            @if (teorias != null)
             {
-                if (!teoria.esBloqueada)
-               {
-                    <a href="@Url.Action("TeoriaMoraleja", "Biblioteca", new { idTeoria = teoria.Id })">
-                         <div class="teoria">
-                            <img src="/imagenes/teoria/@teoria.nombreImagen" alt="@teoria.nombre" />
-                            <h2>@teoria.nombre</h2>
-                        </div>
-                   </a>
-                }
-                else
+                @foreach (RIK.Models.Teoria teoria in teorias)
                 {
-                    <div class="teoria teoria-bloqueada">
-                        <img src="/imagenes/candado.png" alt="Bloqueado" />
-                        <h3>Próximamente</h3>
-                    </div>
+                    if (!teoria.EsBloqueada)
+                    {
+                        <a href="@Url.Action("TeoriaMoraleja", "Biblioteca", new { idTeoria = teoria.Id })">
+                            <div class="teoria">
+                                <img src="/imagenes/teoria/@teoria.NombreImagen" alt="@teoria.Nombre" />
+                                <h2>@teoria.Nombre</h2>
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="teoria teoria-bloqueada">
+                            <img src="/imagenes/candado.png" alt="Bloqueado" />
+                            <h3>Próximamente</h3>
+                        </div>
+                    }
                 }
             }
-
         </div>
     </main>
-    </body>
-</html>
+</body>

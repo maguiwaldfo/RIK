@@ -5,30 +5,43 @@ namespace RIK.Controllers;
 
 public class BibliotecaController : Controller
 {
-    BD bd = new BD();
+    private BD bd = new BD();
+
+    private string ObtenerUsuarioActual()
+    {
+        return HttpContext.Session.GetString("NombreUsuario");
+    }
 
     public IActionResult Index()
     {
-        string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
-        if (string.IsNullOrEmpty(nombreUsuario))
+        if (string.IsNullOrEmpty(ObtenerUsuarioActual()))
         {
             return RedirectToAction("Index", "Login");
         }
 
-        ViewBag.Teorias = bd.ObtenerTeorias();
+        List<Teoria> teorias = bd.ObtenerTeorias();
+        ViewBag.Teorias = teorias;
 
         return View();
     }
-    public IActionResult TeoriaMoraleja(int IdTeoria)
+
+    public IActionResult TeoriaMoraleja(int idTeoria)
+{
+    if (string.IsNullOrEmpty(ObtenerUsuarioActual()))
     {
-        string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
-        if (string.IsNullOrEmpty(nombreUsuario))
-        {
-            return RedirectToAction("Index", "Login");
-        }
-
-        ViewBag.Teoria = bd.ObtenerTeoriaMoraleja(IdTeoria);
-
-        return View();
+        return RedirectToAction("Index", "Login");
     }
+
+    List<TeoriaMoraleja> lista = bd.ObtenerTeoriaMoraleja(idTeoria);
+    TeoriaMoraleja detalle = null;
+
+    if (lista.Count > 0)
+    {
+        detalle = lista[0];
+    }
+
+    ViewBag.TeoriaMoraleja = detalle;
+
+    return View();
+}
 }

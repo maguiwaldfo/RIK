@@ -1,4 +1,3 @@
-
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
@@ -297,15 +296,157 @@ public class BD
 
         return charla;
     }
+
     public List<TeoriaMoraleja> ObtenerTeoriaMoraleja(int idTeoria)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        return connection.Query<TeoriaMoraleja>(
-            "sp_ObtenerTeoriaMoraleja",
-            new { idTeoria },
-            commandType: CommandType.StoredProcedure
-        ).ToList();
+        List<TeoriaMoraleja> lista = new List<TeoriaMoraleja>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            lista = connection.Query<TeoriaMoraleja>(
+                "sp_ObtenerTeoriaMoraleja",
+                new { idTeoria = idTeoria },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return lista;
     }
-}
+
+    // LIGAS Y LEADERBOARD
+
+    public int ObtenerPuntajeTotalUsuario(int idUsuario)
+    {
+        int puntaje = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            puntaje = connection.QueryFirstOrDefault<int>(
+                "sp_ObtenerPuntajeTotalUsuario",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return puntaje;
+    }
+
+    public List<UsuarioRanking> ObtenerLeaderboardGlobal()
+    {
+        List<UsuarioRanking> ranking = new List<UsuarioRanking>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            ranking = connection.Query<UsuarioRanking>(
+                "sp_ObtenerLeaderboardGlobal",
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return ranking;
+    }
+
+    public int ObtenerPrimeraLigaDeUsuario(int idUsuario)
+    {
+        int idLiga = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            idLiga = connection.QueryFirstOrDefault<int>(
+                "sp_ObtenerPrimeraLigaDeUsuario",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return idLiga;
+    }
+
+    public List<UsuarioRanking> ObtenerLeaderboardLiga(int idLiga)
+    {
+        List<UsuarioRanking> ranking = new List<UsuarioRanking>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            ranking = connection.Query<UsuarioRanking>(
+                "sp_ObtenerLeaderboardLiga",
+                new { idLiga = idLiga },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return ranking;
+    }
+
+    public Liga ObtenerLigaPorId(int idLiga)
+    {
+        Liga liga = null;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            liga = connection.QueryFirstOrDefault<Liga>(
+                "sp_ObtenerLigaPorId",
+                new { idLiga = idLiga },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return liga;
+    }
+
+    public int CrearLiga(Liga liga, int idUsuarioCreador)
+    {
+        int idLigaCreada = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            idLigaCreada = connection.QueryFirstOrDefault<int>(
+                "sp_CrearLiga",
+                new
+                {
+                    nombre = liga.Nombre,
+                    capacidad = liga.Capacidad,
+                    privacidad = liga.Privacidad,
+                    contraseña = liga.Contraseña
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        UnirUsuarioALiga(idLigaCreada, idUsuarioCreador);
+
+        return idLigaCreada;
+    }
+
+    public void UnirUsuarioALiga(int idLiga, int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Execute(
+                "sp_UnirUsuarioALiga",
+                new
+                {
+                    idLiga = idLiga,
+                    idUsuario = idUsuario
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
+
+    public int ObtenerIdUsuarioPorNombre(string nombreUsuario)
+    {
+        int idUsuario = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            idUsuario = connection.QueryFirstOrDefault<int>(
+                "sp_ObtenerIdUsuarioPorNombre",
+                new { nombreUsuario = nombreUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return idUsuario;
+    }
 }
