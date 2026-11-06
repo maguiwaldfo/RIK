@@ -16,8 +16,8 @@ public class JuegoController : Controller
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-        
-        Context.Session.SetString("IdNivel", nivel.ToString());
+
+        HttpContext.Session.SetString("IdNivel", nivel.ToString());
 
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.IdNivel = nivel.Id;
@@ -51,9 +51,7 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        List<Pregunta> preguntas = nivel.agarrarPreguntas(
-            bd.ObtenerPreguntasNivel(nivelElegido)
-        );
+        List<Pregunta> preguntas = bd.ObtenerPreguntasNivel(nivelElegido);
 
         if (preguntas.Count != 8)
         {
