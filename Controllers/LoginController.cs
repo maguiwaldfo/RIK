@@ -9,8 +9,6 @@ public class LoginController : Controller
 {
     BD bd = new BD();
 
-    // Se mira la sesión (igual que Inicio y Perfil) y no la cookie: si la cookie queda viva pero la sesión no
-    // (después de cerrar sesión o si la sesión expira), Login e IndexInicio se redirigían entre sí sin fin.
     private bool HayUsuarioLogueado()
     {
         return !string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario"));
@@ -103,5 +101,11 @@ public class LoginController : Controller
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
         return View("Index");
+    }
+
+    public IActionResult CerrarSesion()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index");
     }
 }
