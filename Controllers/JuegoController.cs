@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using RIK.Models;
 
@@ -38,14 +37,14 @@ public class JuegoController : Controller
 
         Nivel nivel = bd.ObtenerNivel(nivelElegido);
 
+        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
+
+        List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
+
         if (nivel == null)
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
-
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
-
-        List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
 
         if (nivelElegido > 1 && !completados.Contains(nivelElegido - 1))
         {
@@ -56,7 +55,20 @@ public class JuegoController : Controller
 
         if (preguntas.Count != 8)
         {
-            return RedirectToAction("IndexInicio", "Inicio");
+            if (preguntas.Count < 8)
+            {
+                return RedirectToAction("IndexInicio", "Inicio");
+            }
+            else
+            {
+                Random random = new Random();
+
+                while (preguntas.Count > 8)
+                {
+                    int aleatorio = random.Next(0, preguntas.Count);
+                    preguntas.RemoveAt(aleatorio);
+                }
+            }
         }
 
         HttpContext.Session.SetString("NivelActual", nivelElegido.ToString());
