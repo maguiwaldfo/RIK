@@ -29,30 +29,45 @@ public class BD
         }
     }
 
-   public int ModificarUsuario(int idUsuario, Usuario usuario)
-{
-    int resultado = 0;
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public int ModificarUsuario(int idUsuario, Usuario usuario)
     {
-        resultado = connection.QueryFirstOrDefault<int>(
-            "sp_ModificarUsuario",
-            new
-            {
-                id = idUsuario,
-                nombre = usuario.Nombre,
-                nombreUsuario = usuario.NombreUsuario,
-                contraseña = string.IsNullOrWhiteSpace(usuario.Contraseña)
-                    ? null
-                    : usuario.Contraseña,
-                email = usuario.Email
-            },
-            commandType: CommandType.StoredProcedure
-        );
+        int resultado = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            resultado = connection.QueryFirstOrDefault<int>(
+                "sp_ModificarUsuario",
+                new
+                {
+                    id = idUsuario,
+                    nombre = usuario.Nombre,
+                    nombreUsuario = usuario.NombreUsuario,
+                    email = usuario.Email
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return resultado;
     }
 
-    return resultado;
-}
+    public int CambiarContrasena(int idUsuario, string contrasenaActual, string nuevaContrasena, string repetirContrasena)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            return connection.QueryFirstOrDefault<int>(
+                "sp_CambiarContrasena",
+                new
+                {
+                    idUsuario = idUsuario,
+                    contrasenaActual = contrasenaActual,
+                    nuevaContrasena = nuevaContrasena,
+                    repetirContrasena = repetirContrasena
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
 
     public bool FijarseSiExisteUsuario(string nombreUsuario)
     {

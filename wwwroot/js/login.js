@@ -12,35 +12,6 @@ function obtenerElemento(id) {
   return el;
 }
 
-// Si falta el <p> del mensaje pero el input existe, se crea uno debajo del input
-function obtenerFeedback(id, input) {
-  const fb = obtenerElemento(id);
-  if (fb !== null || input === null) {
-    return fb;
-  }
-  const nuevo = document.createElement("p");
-  nuevo.id = id;
-  nuevo.className = "feedback";
-  input.insertAdjacentElement("afterend", nuevo);
-  return nuevo;
-}
-
-function mostrarAvisoFaltantes() {
-  if (elementosFaltantes.length === 0) {
-    return;
-  }
-  const mensaje = "Aviso: no se encontraron estos elementos en la página: "
-                + elementosFaltantes.map(id => "#" + id).join(", ")
-                + ". El formulario igual funciona y el servidor valida los datos.";
-  console.warn(mensaje);
-
-  const aviso = document.createElement("p");
-  aviso.className = "feedback aviso-js";
-  aviso.textContent = mensaje;
-  const contenedor = document.querySelector(".login-form") || document.body;
-  contenedor.prepend(aviso);
-}
-
 const inputUsuario = obtenerElemento("nombreUsuario");
 const inputContrasena = obtenerElemento("contrasena");
 

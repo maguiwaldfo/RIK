@@ -1,0 +1,38 @@
+<body class="mapa-body">
+<main>
+
+    <section>
+        <form id="registroForm" class="login-form" action="@Url.Action("CambiarContrasena", "Perfil")" method="post" novalidate>
+
+            <div class="form-field">
+                <label for="contrasenaActual">Contraseña actual</label>
+                <input type="password" id="contrasenaActual" name="contrasenaActual" placeholder="Contraseña actual" required />
+            </div>
+
+            <div class="form-field">
+                <label for="nuevaContrasena">Nueva contraseña</label>
+                <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva contraseña" required />
+            </div>
+
+            <div class="form-field">
+                <label for="repetirContrasena">Repetir nueva contraseña</label>
+                <input type="password" id="repetirContrasena" name="repetirContrasena" placeholder="Repetir nueva contraseña" required />
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
+            {
+                <p class="feedback" style="color: red;">@ViewBag.ErrorMessage</p>
+            }
+
+            <button type="submit" class="submit-button">Guardar contraseña</button>
+        </form>
+
+        <div>
+            <a href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Volver</strong></a>
+        </div>
+    </section>
+
+</main>
+<script src="~/js/registrarse.js"></script>
+</body>
+</html>
