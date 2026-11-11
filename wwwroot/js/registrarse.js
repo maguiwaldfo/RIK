@@ -29,22 +29,6 @@ function obtenerFeedback(id, input) {
   return nuevo;
 }
 
-function mostrarAvisoFaltantes() {
-  if (elementosFaltantes.length === 0) {
-    return;
-  }
-  const mensaje = "Aviso: no se encontraron estos elementos en la página: "
-                + elementosFaltantes.map(id => "#" + id).join(", ")
-                + ". El formulario igual funciona y el servidor valida los datos.";
-  console.warn(mensaje);
-
-  const aviso = document.createElement("p");
-  aviso.className = "feedback aviso-js";
-  aviso.textContent = mensaje;
-  const contenedor = document.getElementById("registroForm") || document.body;
-  contenedor.prepend(aviso);
-}
-
 const inputNombre = obtenerElemento("nombre");
 const emailInput = obtenerElemento("email");
 const inputUsuario = obtenerElemento("nombreUsuario");
