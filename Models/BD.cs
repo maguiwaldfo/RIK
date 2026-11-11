@@ -206,26 +206,30 @@ public class BD
 
     // PREGUNTAS
 
-    public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
-    {
-        List<Pregunta> preguntas = new List<Pregunta>();
+public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
+{
+    List<Pregunta> preguntas;
 
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            preguntas = connection.Query<Pregunta>(
-                "sp_ObtenerPreguntasNivel",
-                new { idNivel = idNivel },
-                commandType: CommandType.StoredProcedure
-            ).ToList();
-        }
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        preguntas = connection.Query<Pregunta>(
+            "sp_ObtenerPreguntasNivel",
+            new { idNivel = idNivel },
+            commandType: CommandType.StoredProcedure
+        ).ToList();
 
         foreach (Pregunta pregunta in preguntas)
         {
-            pregunta.Opciones = ObtenerOpcionesPregunta(pregunta.Id);
+            pregunta.Opciones = connection.Query<Opcion>(
+                "sp_ObtenerOpcionesPregunta",
+                new { idPregunta = pregunta.Id },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
         }
-
-        return preguntas;
     }
+
+    return preguntas;
+}
 
     public Pregunta ObtenerPregunta(int idPregunta)
     {
