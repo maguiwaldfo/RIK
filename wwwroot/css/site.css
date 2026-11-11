@@ -28,6 +28,10 @@ body {
     gap: 8px;
 }
 
+.sin-ligas {
+    text-align: center;
+    margin-top: 20px;
+}
 .marca img {
     width: 40px;
     height: 40px;

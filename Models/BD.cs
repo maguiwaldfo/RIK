@@ -365,7 +365,7 @@ public class BD
 
     public int ObtenerPrimeraLigaDeUsuario(int idUsuario)
     {
-        int idLiga = 0;
+        int ? idLiga = 0;
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -375,8 +375,14 @@ public class BD
                 commandType: CommandType.StoredProcedure
             );
         }
-
-        return idLiga;
+        if (idLiga == null)
+        {
+            return 0;
+        }
+        else
+        {
+            return idLiga.Value;
+        }
     }
 
     public List<UsuarioRanking> ObtenerLeaderboardLiga(int idLiga)

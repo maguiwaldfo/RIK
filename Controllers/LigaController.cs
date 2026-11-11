@@ -34,8 +34,14 @@ public class LigaController : Controller
         }
 
         List<UsuarioRanking> leaderboardGlobal = bd.ObtenerLeaderboardGlobal();
-        List<UsuarioRanking> leaderboardLiga = bd.ObtenerLeaderboardLiga(idLigaSeleccionada);
-        Liga ligaActual = bd.ObtenerLigaPorId(idLigaSeleccionada);
+        List<UsuarioRanking> leaderboardLiga = null;
+        Liga ligaActual = null;
+
+        if (idLigaSeleccionada != 0)
+        {
+            leaderboardLiga = bd.ObtenerLeaderboardLiga(idLigaSeleccionada);
+            ligaActual = bd.ObtenerLigaPorId(idLigaSeleccionada);
+        }
 
         // Construcción de la tabla Global en C#
         string htmlGlobal = "<table border='1'><thead><tr><th>Usuario</th><th>Puntaje Total</th></tr></thead><tbody>";
@@ -75,7 +81,10 @@ public class LigaController : Controller
         }
         else
         {
-            htmlLiga = "<p>Aún no perteneces a ninguna liga de amigos.</p>";
+            htmlLiga = "<div class='sin-ligas'>" +
+           "<p>No hay ligas. Todavía no pertenecés a ninguna liga de amigos.</p>" +
+           "<a href='/Liga/Crear' class='btn-crear-liga'>Crear liga</a>" +
+           "</div>";
         }
 
         ViewBag.HtmlTablaGlobal = htmlGlobal;
