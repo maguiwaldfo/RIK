@@ -123,36 +123,49 @@
 
             <!-- RACHA -->
 
-            <section class="mapa-racha">
-                <div class="racha-fuego">🔥</div>
-                <p>@nivelesCompletados.Count</p>
-                <small>Días de racha</small>
-            </section>
+         <section class="mapa-racha" style="width: 132px; height: 132px; background: #0A4D28; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; box-sizing: border-box;">
+    <div class="racha-fuego" style="font-size: 54px; line-height: 1;">🔥</div>
+    <p style="margin: 0; color: white; font-size: 24px; font-family: 'Poppins', sans-serif; font-weight: 400; line-height: 1.1;">
+        @nivelesCompletados.Count
+    </p>
+    <small style="color: rgba(255, 255, 255, 0.85); font-size: 10px; font-family: 'Poppins', sans-serif; font-weight: 400;">
+        Días de racha
+    </small>
+</section>
 
             <!-- DESEMPEÑO -->
 
             <section class="mapa-desempeno">
-                <h2>Desempeño</h2>
+    <h2 style="font-family: 'Poppins', sans-serif; color: #0A4D28; font-size: 24px; font-weight: 600; margin-bottom: 12px;">
+        Desempeño
+    </h2>
 
-                <div class="desempeno-tarjeta">
+    <div class="desempeno-tarjeta" style="width: 423px; height: 182px; background: #0A4D28; border-radius: 20px; display: flex; justify-content: space-around; align-items: center; padding: 0 20px; box-sizing: border-box;">
 
-                    <div>
-                        <div class="trofeo">🏆</div>
-                        <p>@nivelesCompletados.Count niveles completados</p>
-                    </div>
+        <div style="width: 105px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;">
+            <div class="trofeo" style="font-size: 52px; line-height: 1;">🏆</div>
+            <p style="margin: 0; color: white; font-size: 11px; font-family: 'Poppins', sans-serif; font-weight: 400; line-height: 1.3;">
+                @nivelesCompletados.Count niveles completados
+            </p>
+        </div>
 
-                    <div>
-                        <div class="trofeo">🏆</div>
-                        <p>Trofeo de amigos</p>
-                    </div>
+        <div style="width: 105px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;">
+            <div class="trofeo" style="font-size: 52px; line-height: 1;">🏆</div>
+            <p style="margin: 0; color: white; font-size: 11px; font-family: 'Poppins', sans-serif; font-weight: 400; line-height: 1.3;">
+                Trofeo de amigos
+            </p>
+        </div>
 
-                    <div>
-                        <div class="trofeo">🏆</div>
-                        <p>90% de respuestas acertadas</p>
-                    </div>
+        <div style="width: 105px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;">
+            <div class="trofeo" style="font-size: 52px; line-height: 1;">🏆</div>
+            <p style="margin: 0; color: white; font-size: 11px; font-family: 'Poppins', sans-serif; font-weight: 400; line-height: 1.3;">
+                +90% respuestas acertadas
+            </p>
+        </div>
 
-                </div>
-            </section>
+    </div>
+</section>
+
 
             <!-- MASCOTA -->
             <div class="mapa-mascota">
