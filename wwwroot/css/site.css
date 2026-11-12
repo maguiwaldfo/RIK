@@ -1107,6 +1107,18 @@ nav li:hover,
     justify-self: start;
 }
 
+/* El logo del header mide lo mismo que el icono de usuario (49px).
+   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
+   por eso se la agranda hasta que el círculo visible llegue a 49px. */
+.mapa-marca .brand-mark {
+    width: 49px;
+    height: 49px;
+    object-fit: contain;
+    background: none;
+    border-radius: 0;
+    transform: scale(1.38);
+}
+
 .mapa-nav {
     display: flex;
     align-items: center;
@@ -1554,4 +1566,459 @@ body {
 
 .rik .boton-jugar a:hover {
     background-color: #F2D600;
+}
+
+
+/* ============================= */
+/* INICIO: MAPA DE NIVELES       */
+/* ============================= */
+
+body:has(.inicio-mapa) {
+    background: #ffffff;
+    overflow: hidden;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+body:has(.inicio-mapa) .page-shell,
+body:has(.inicio-mapa) .page-main {
+    min-height: 0;
+    padding: 0;
+}
+
+.inicio-mapa {
+    --inicio-moneda: clamp(64px, 8vw, 112px);
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    background-color: #ffffff;
+    background-image:
+        radial-gradient(ellipse 39% 34% at 10.4% 2%, #EEF1F4 99%, transparent 100%),
+        radial-gradient(ellipse 31.2% 30% at 31.2% 8%, #E4E8ED 99%, transparent 100%),
+        radial-gradient(ellipse 36.4% 40% at 5.2% 22%, #E4E8ED 99%, transparent 100%),
+        radial-gradient(ellipse 26% 26% at 85.8% 78%, #F3F5F7 99%, transparent 100%),
+        radial-gradient(ellipse 33.8% 36% at 62.4% 100%, #F3F5F7 99%, transparent 100%),
+        radial-gradient(ellipse 31.2% 38% at 93.6% 104%, #E9ECF0 99%, transparent 100%);
+    background-repeat: no-repeat;
+}
+
+.inicio-mapa.inicio-arrastrando {
+    cursor: grabbing;
+}
+
+/* Capa que se mueve: solo el camino y las monedas. Mide 2,6 pantallas de ancho
+   y 2 de alto, porque el camino sigue subiendo en diagonal. */
+.inicio-lienzo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 260%;
+    height: 200%;
+    will-change: transform;
+    transition: transform 0.18s ease-out;
+}
+
+.inicio-arrastrando .inicio-lienzo {
+    transition: none;
+}
+
+.inicio-camino {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.inicio-camino path {
+    fill: none;
+    stroke: #0A4D28;
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+/* MONEDAS */
+
+.inicio-nodo {
+    position: absolute;
+    width: var(--inicio-moneda);
+    height: var(--inicio-moneda);
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: block;
+    transition: transform 0.15s ease;
+}
+
+.inicio-nodo img {
+    -webkit-user-drag: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* La imagen de la moneda bloqueada trae margen transparente alrededor. */
+.inicio-nodo-bloqueado img {
+    transform: scale(1.5);
+}
+
+.inicio-nodo-desbloqueado:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* PANELES Y MASCOTA: QUEDAN FIJOS */
+
+.inicio-pantalla {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.inicio-pantalla > * {
+    pointer-events: auto;
+}
+
+.inicio-biblioteca,
+.inicio-racha,
+.inicio-desempeno-tarjeta {
+    background: #0A4D28;
+    border-radius: 20px;
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.inicio-biblioteca {
+    position: absolute;
+    top: 24px;
+    left: 3.2%;
+    z-index: 4;
+    width: clamp(220px, 24%, 313px);
+    padding: 26px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.inicio-biblioteca p {
+    margin: 0;
+    text-align: center;
+    font-size: clamp(15px, 1.4vw, 20px);
+}
+
+.inicio-biblioteca a {
+    width: 100%;
+    max-width: 229px;
+    padding: 9px 0;
+    background: #FFEA00;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    font-size: clamp(15px, 1.4vw, 20px);
+}
+
+.inicio-biblioteca a:hover {
+    background: #FFF066;
+}
+
+.inicio-racha {
+    position: absolute;
+    top: clamp(180px, 31%, 215px);
+    left: 3.2%;
+    z-index: 4;
+    width: clamp(96px, 10%, 132px);
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.inicio-racha img {
+    width: 58%;
+    height: auto;
+}
+
+.inicio-racha p {
+    margin: 0;
+    font-size: clamp(18px, 1.7vw, 24px);
+    line-height: 1.1;
+}
+
+.inicio-desempeno {
+    position: absolute;
+    left: 30%;
+    bottom: 14px;
+    z-index: 2;
+    width: clamp(300px, 33%, 423px);
+}
+
+.inicio-desempeno h2 {
+    margin: 0 0 8px;
+    color: #000000;
+    font-size: clamp(20px, 2vw, 28px);
+    font-weight: 500;
+}
+
+.inicio-desempeno-tarjeta {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 16px 18px;
+}
+
+.inicio-trofeo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+
+.inicio-trofeo img {
+    width: clamp(48px, 5vw, 70px);
+    height: auto;
+    /* trofeo.png es una silueta negra: se la tiñe de dorado. */
+    filter: invert(83%) sepia(61%) saturate(1500%) hue-rotate(358deg) brightness(103%);
+}
+
+.inicio-trofeo p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.inicio-mascota {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: clamp(240px, 34%, 470px);
+    pointer-events: none;
+}
+
+.inicio-mascota img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* El dibujo tiene margen transparente: se lo apoya contra el borde inferior. */
+    margin-bottom: -22%;
+}
+
+@media (max-width: 800px) {
+    .inicio-mascota {
+        display: none;
+    }
+
+    .inicio-desempeno {
+        left: 34%;
+        width: 60%;
+    }
+}
+
+
+/* ============================= */
+/* CHARLA DE TEORÍA              */
+/* ============================= */
+
+body:has(.charla) {
+    background: #ffffff;
+    color: #000000;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.charla {
+    width: min(100% - 48px, 1180px);
+    margin: 0 auto;
+    padding: 28px 0 40px;
+}
+
+.charla [hidden] {
+    display: none !important;
+}
+
+/* PROGRESO Y VIDAS */
+
+.charla-estado {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.charla-barra {
+    flex: 1;
+    height: 26px;
+    border-radius: 13px;
+    background: #D9D9D9;
+    overflow: hidden;
+}
+
+.charla-barra-relleno {
+    height: 100%;
+    border-radius: 13px;
+    background: #0A4D28;
+}
+
+.charla-porcentaje,
+.charla-vidas {
+    font-size: 24px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.charla-vidas {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 30px;
+}
+
+.charla-corazon {
+    color: #F5333F;
+    font-size: 40px;
+    line-height: 1;
+}
+
+.charla-tema {
+    margin: 12px 0 18px 14px;
+    font-size: 24px;
+    font-weight: 400;
+    color: #000000;
+}
+
+/* MENSAJES */
+
+.charla-paso,
+.charla-resumen {
+    display: flex;
+    flex-direction: column;
+}
+
+.charla-paso {
+    gap: 18px;
+    min-height: 330px;
+}
+
+.charla-resumen {
+    gap: 14px;
+}
+
+.charla-fila {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* El perro habla desde la derecha. */
+.charla-fila-perro {
+    flex-direction: row-reverse;
+}
+
+.charla-globo {
+    margin: 0;
+    max-width: 72%;
+    padding: 14px 24px;
+    border-radius: 22px;
+    background: #D9D9D9;
+    color: #000000;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.charla-globo::before {
+    content: "\2014";
+}
+
+.charla-cara {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.charla-cuerpo {
+    flex: none;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+/* En el paso a paso el globo del chico queda a la altura de la cabeza. */
+.charla-paso .charla-fila-chico {
+    align-items: flex-start;
+}
+
+.charla-paso .charla-fila-chico .charla-globo {
+    margin-top: 6px;
+}
+
+/* BOTÓN */
+
+.charla-acciones {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+}
+
+.charla-boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 978px);
+    height: 84px;
+    border: none;
+    border-radius: 20px;
+    background: #FFD700;
+    color: #000000;
+    font-family: inherit;
+    font-size: 40px;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.charla-boton:hover {
+    background: #FFE033;
+    color: #000000;
+}
+
+@media (max-width: 700px) {
+    .charla-cuerpo {
+        width: 96px;
+        height: 96px;
+    }
+
+    .charla-cara {
+        width: 44px;
+        height: 44px;
+    }
+
+    .charla-globo {
+        max-width: none;
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    .charla-boton {
+        height: 60px;
+        font-size: 26px;
+    }
+
+    .charla-vidas {
+        margin-left: 0;
+    }
 }

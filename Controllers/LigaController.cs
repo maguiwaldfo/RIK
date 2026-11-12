@@ -94,6 +94,11 @@ public class LigaController : Controller
         return View();
     }
 
+    public IActionResult UnirseALiga()
+    {
+        return View();
+    }
+
     [HttpGet]
     public IActionResult Crear()
     {

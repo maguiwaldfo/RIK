@@ -1,9 +1,16 @@
-
 @using RIK.Models
 
 @{
     Nivel nivel = ViewBag.Nivel;
-    List<CharlaTeoria> charla = ViewBag.Charla;
+    List<CharlaTeoria> charla = ViewBag.Charla as List<CharlaTeoria> ?? new List<CharlaTeoria>();
+
+    ViewData["Title"] = nivel != null ? nivel.Tema : "Teoría";
+
+    // Imágenes de los personajes: caras para el resumen final, medio cuerpo para el paso a paso.
+    string caraChico = Url.Content("~/imagenes/Cara%20chico.png");
+    string caraPerro = Url.Content("~/imagenes/Cara%20riky.png");
+    string cuerpoChico = Url.Content("~/imagenes/Chico%20confundido%20con%20gesto%20explicativo%203.png");
+    string cuerpoPerro = Url.Content("~/imagenes/Perrito_Shiba_sonriente_saludando-removebg-preview%201.png");
 }
 
 @if (nivel == null)
@@ -13,16 +20,128 @@
 }
 else
 {
-<h1>@nivel.Tema</h1>
+    <div class="charla" id="charla" data-cuerpo-chico="@cuerpoChico" data-cuerpo-perro="@cuerpoPerro">
 
-    @foreach (CharlaTeoria mensaje in charla)
-    {
-        <div>
-            <p><strong>@mensaje.Personaje:</strong> @mensaje.Texto</p>
+        <!-- PROGRESO Y VIDAS -->
+        <div class="charla-estado">
+            <div class="charla-barra">
+                <div class="charla-barra-relleno" style="width: 0%;"></div>
+            </div>
+            <span class="charla-porcentaje">0%</span>
+            <span class="charla-vidas">3 <span class="charla-corazon" aria-label="vidas">&#10084;</span></span>
         </div>
-    }
-    <a href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
-    Comenzar desafío
-    </a>
+
+        <h1 class="charla-tema">@nivel.Tema</h1>
+
+        <!-- PASO A PASO: lo arma el script, de a dos mensajes, con los personajes de medio cuerpo -->
+        <div class="charla-paso" id="charlaPaso" hidden></div>
+
+        <!-- RESUMEN: la charla completa con las caras. Se muestra al terminar el paso a paso -->
+        <div class="charla-resumen" id="charlaResumen">
+            @foreach (CharlaTeoria mensaje in charla)
+            {
+                bool esChico = string.Equals(mensaje.Personaje?.Trim(), "Chico", StringComparison.OrdinalIgnoreCase);
+
+                <div class="charla-fila @(esChico ? "charla-fila-chico" : "charla-fila-perro")"
+                     data-personaje="@(esChico ? "chico" : "perro")">
+                    <img class="charla-cara"
+                         src="@(esChico ? caraChico : caraPerro)"
+                         alt="@mensaje.Personaje" />
+                    <p class="charla-globo">@mensaje.Texto</p>
+                </div>
+            }
+        </div>
+
+        <div class="charla-acciones">
+            <button type="button" class="charla-boton" id="charlaSiguiente" hidden>Siguiente</button>
+            <a class="charla-boton" id="charlaComenzar"
+               href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
+                Comenzar desafío
+            </a>
+        </div>
+    </div>
 }
 
+@section Scripts {
+    <script>
+        (function () {
+            var charla = document.getElementById('charla');
+            if (!charla) return;
+
+            var paso = document.getElementById('charlaPaso');
+            var resumen = document.getElementById('charlaResumen');
+            var siguiente = document.getElementById('charlaSiguiente');
+            var comenzar = document.getElementById('charlaComenzar');
+
+            // Los mensajes salen del resumen que ya vino armado desde el servidor.
+            var mensajes = [].map.call(resumen.querySelectorAll('.charla-fila'), function (fila) {
+                return {
+                    personaje: fila.getAttribute('data-personaje'),
+                    texto: fila.querySelector('.charla-globo').textContent
+                };
+            });
+            if (mensajes.length === 0) return;
+
+            // Se muestran de a dos (pregunta y respuesta). Si al final queda uno suelto,
+            // se suma al último paso.
+            var pasos = [];
+            for (var i = 0; i < mensajes.length; i += 2) {
+                pasos.push(mensajes.slice(i, i + 2));
+            }
+            if (pasos.length > 1 && pasos[pasos.length - 1].length === 1) {
+                var suelto = pasos.pop();
+                pasos[pasos.length - 1] = pasos[pasos.length - 1].concat(suelto);
+            }
+
+            var imagenes = {
+                chico: charla.getAttribute('data-cuerpo-chico'),
+                perro: charla.getAttribute('data-cuerpo-perro')
+            };
+            var actual = 0;
+
+            function mostrarPaso() {
+                paso.innerHTML = '';
+                pasos[actual].forEach(function (mensaje) {
+                    var fila = document.createElement('div');
+                    fila.className = 'charla-fila charla-fila-' + mensaje.personaje;
+
+                    var imagen = document.createElement('img');
+                    imagen.className = 'charla-cuerpo';
+                    imagen.src = imagenes[mensaje.personaje];
+                    imagen.alt = mensaje.personaje === 'chico' ? 'Chico' : 'Riky';
+
+                    var globo = document.createElement('p');
+                    globo.className = 'charla-globo';
+                    globo.textContent = mensaje.texto;
+
+                    fila.appendChild(imagen);
+                    fila.appendChild(globo);
+                    paso.appendChild(fila);
+                });
+            }
+
+            function mostrarResumen() {
+                paso.hidden = true;
+                siguiente.hidden = true;
+                resumen.hidden = false;
+                comenzar.hidden = false;
+            }
+
+            siguiente.addEventListener('click', function () {
+                actual++;
+                if (actual < pasos.length) {
+                    mostrarPaso();
+                } else {
+                    mostrarResumen();
+                }
+            });
+
+            // Arranque: se esconde el resumen y se muestra el primer paso.
+            resumen.hidden = true;
+            comenzar.hidden = true;
+            paso.hidden = false;
+            siguiente.hidden = false;
+            mostrarPaso();
+        })();
+    </script>
+}
