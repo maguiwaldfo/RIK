@@ -1,56 +1,79 @@
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Resultado";
+
+    bool gano = ViewBag.Estado == "Guardado"
+        || Context.Session.GetString("EstadoPartida") == "Guardado";
+
+    int puntos = 0;
+    int vidas = 0;
+    int.TryParse(ViewBag.Puntos as string, out puntos);
+    int.TryParse(ViewBag.Vidas as string, out vidas);
+
+    // Si se pierde el nivel no se guarda, así que no se gana XP.
+    int xp = gano ? puntos : 0;
+
+    // Aciertos: respuestas correctas sobre todos los intentos
+    // (cada acierto suma 100 puntos y cada fallo saca una de las 3 vidas).
+    int correctas = puntos / 100;
+    int fallos = Math.Max(0, 3 - vidas);
+    int intentos = correctas + fallos;
+    int aciertos = intentos > 0 ? (int)Math.Round(correctas * 100.0 / intentos) : 0;
+
+    // El tiempo llega como "mm:ss"; se muestra sin el cero de adelante ("1:05 min").
+    string tiempo = (ViewBag.Tiempo as string) ?? "00:00";
+    if (tiempo.Length > 1 && tiempo.StartsWith("0"))
+    {
+        tiempo = tiempo.Substring(1);
+    }
+
+    int idNivel = 0;
+    int.TryParse(Context.Session.GetString("NivelActual"), out idNivel);
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RIK - Resultado</title>
-    <link rel="stylesheet" href="~/css/resultado.css" />
-</head>
+<div class="fin @(gano ? "fin-gano" : "fin-perdio")">
 
-<body>
-
-    <main class="resultado">
-
-        @if (ViewBag.Estado == "Guardado")
+    <p class="fin-mensaje">
+        @if (gano)
         {
-            <h1>¡Nivel completado!</h1>
-            <p>¡Muy bien! Terminaste el desafío.</p>
+            <text>¡Pudiste aprender un tema nuevo! ¡Felicidades!</text>
         }
         else
         {
-            <h1>¡Te quedaste sin vidas!</h1>
-            <p>Podés volver a intentarlo.</p>
+            <text>¡Te quedaste sin vidas! Perdiste el nivel</text>
         }
+    </p>
 
-        <div class="estadisticas">
+    <div class="fin-cuerpo">
 
-            <div class="estadistica">
-                <h2>❤️ Vidas restantes</h2>
-                <p>@ViewBag.Vidas de 3</p>
+        <img class="fin-mascota"
+             src="@Url.Content(gano ? "~/imagenes/Ricky%20pantalla%20ganaste.png" : "~/imagenes/Ricky%20pantalla%20perdiste.png")"
+             alt="@(gano ? "Riky festejando" : "Riky triste")" />
+
+        <div class="fin-datos">
+            <div class="fin-dato fin-dato-xp">
+                <span class="fin-etiqueta">XP</span>
+                <span class="fin-valor">+@xp pts</span>
             </div>
 
-            <div class="estadistica">
-                <h2>⏱️ Tiempo</h2>
-                <p>@ViewBag.Tiempo</p>
+            <div class="fin-dato">
+                <span class="fin-etiqueta">Tiempo</span>
+                <span class="fin-valor">@tiempo min</span>
             </div>
 
-            <div class="estadistica">
-                <h2>⭐ Puntos</h2>
-                <p>@ViewBag.Puntos</p>
+            <div class="fin-dato">
+                <span class="fin-etiqueta">Aciertos</span>
+                <span class="fin-valor">@aciertos%</span>
             </div>
-
         </div>
 
-        <a href="@Url.Action("IndexInicio", "Inicio")">
-            Volver al inicio
-        </a>
+    </div>
 
-    </main>
-
-</body>
-</html>
+    @if (gano || idNivel == 0)
+    {
+        <a class="charla-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
+    }
+    else
+    {
+        <a class="charla-boton fin-boton" href="@Url.Action("Teoria", "Juego", new { idNivel = idNivel })">Repasar tema nuevamente</a>
+    }
+</div>

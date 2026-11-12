@@ -1,44 +1,62 @@
 @using RIK.Models
 
 @{
+    ViewData["Title"] = ViewBag.TemaNivel;
     int numero = 0;
 }
 
-<h1>@ViewBag.TemaNivel</h1>
+<div class="charla nivel">
 
-<h3 id="vidas">Vidas: ❤️❤️❤️</h3>
-<h3 id="puntos">Puntos: 0</h3>
-<h3 id="tiempo">Tiempo: 00:00</h3>
-
-<p id="contador">Pregunta 1 de 8</p>
-
-@foreach (Pregunta pregunta in ViewBag.PreguntasNivel)
-{
-    <div id="pregunta-@numero" style="display:none">
-
-        <h2>@pregunta.Enunciado</h2>
-
-        @foreach (Opcion opcion in pregunta.Opciones)
-        {
-            <button type="button" onclick="comprobar(@pregunta.Id, @opcion.Id)">
-                @opcion.Texto
-            </button>
-        }
-
+    <!-- PROGRESO, VIDAS Y TIEMPO -->
+    <div class="charla-estado">
+        <div class="charla-barra">
+            <div class="charla-barra-relleno" id="barraProgreso" style="width: 0%;"></div>
+        </div>
+        <span class="charla-porcentaje" id="porcentaje">0%</span>
+        <span class="charla-vidas">
+            <span id="vidas">3</span>
+            <span class="charla-corazon" aria-label="vidas">&#10084;</span>
+        </span>
+        <span class="nivel-tiempo" id="tiempo" aria-label="Tiempo">00:00</span>
     </div>
 
-    numero++;
-}
+    <!-- PREGUNTAS: se muestra una por vez -->
+    @foreach (Pregunta pregunta in ViewBag.PreguntasNivel)
+    {
+        <div class="nivel-pregunta" id="pregunta-@numero" style="display: none;">
 
-<p id="resultado"></p>
+            <h2 class="nivel-enunciado">@pregunta.Enunciado</h2>
 
-<button type="button" id="siguiente" onclick="siguientePregunta()" style="display: none; width: 978px; height: 88px; background: #FFD700; border-radius: 20px; border: none; color: black; font-size: 48px; font-family: 'Poppins', sans-serif; font-weight: 400; cursor: pointer;">
-    Siguiente
-</button>
+            <div class="nivel-opciones">
+                @foreach (Opcion opcion in pregunta.Opciones)
+                {
+                    <button type="button" class="nivel-opcion"
+                            onclick="elegirOpcion(this, @pregunta.Id, @opcion.Id)">
+                        @opcion.Texto
+                    </button>
+                }
+            </div>
 
-<button type="button" id="finalizar" onclick="finalizarNivel()" style="display: none; width: 978px; height: 88px; background: #FFD700; border-radius: 20px; border: none; color: black; font-size: 48px; font-family: 'Poppins', sans-serif; font-weight: 400; cursor: pointer;">
-    Terminar lección
-</button>
+        </div>
 
+        numero++;
+    }
 
-<script src="~/js/nivel.js"></script>
+    <p class="nivel-resultado" id="resultado"></p>
+
+    <div class="charla-acciones">
+        <button type="button" class="charla-boton" id="enviar" onclick="enviarRespuesta()" disabled>
+            Enviar
+        </button>
+
+        <button type="button" class="charla-boton" id="siguiente" onclick="siguientePregunta()" style="display: none;">
+            Siguiente
+        </button>
+
+        <button type="button" class="charla-boton" id="finalizar" onclick="finalizarNivel()" style="display: none;">
+            Terminar lección
+        </button>
+    </div>
+</div>
+
+<script src="~/js/nivel.js" asp-append-version="true"></script>
