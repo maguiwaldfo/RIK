@@ -1680,6 +1680,53 @@ body:has(.charla) {
     font-family: "Poppins", Arial, sans-serif;
 }
 
+/* Pantallas que ocupan todo el alto debajo del header (teoría, nivel y resultado),
+   así el botón queda abajo de todo. */
+body:has(.charla-teoria),
+body:has(.nivel),
+body:has(.fin) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body:has(.charla-teoria) .page-shell,
+body:has(.charla-teoria) .page-main,
+body:has(.nivel) .page-shell,
+body:has(.nivel) .page-main,
+body:has(.fin) .page-shell,
+body:has(.fin) .page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Teoría: el tema arriba, la charla centrada en el espacio libre y el botón abajo.
+   (Con .charla adelante para que gane sobre el padding de .charla, que está más abajo.) */
+.charla.charla-teoria {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+}
+
+.charla-teoria .charla-paso,
+.charla-teoria .charla-resumen {
+    flex: 1;
+    justify-content: center;
+}
+
+/* El botón queda fijo abajo mientras se scrollea el resumen (los mensajes pasan por detrás). */
+.charla-teoria .charla-acciones {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin-top: 10px;
+    padding: 16px 0 24px;
+    background: #ffffff;
+}
+
 .charla {
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
@@ -1712,7 +1759,6 @@ body:has(.charla) {
     background: #0A4D28;
 }
 
-.charla-porcentaje,
 .charla-vidas {
     font-size: 24px;
     line-height: 1;
@@ -1732,10 +1778,12 @@ body:has(.charla) {
     line-height: 1;
 }
 
+/* El tema es lo más importante de la teoría: más grande y en negrita (igual que la pregunta del nivel). */
 .charla-tema {
-    margin: 12px 0 18px 14px;
-    font-size: 24px;
-    font-weight: 400;
+    margin: 12px 0 24px 14px;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.25;
     color: #000000;
 }
 
@@ -1836,6 +1884,11 @@ body:has(.charla) {
 }
 
 @media (max-width: 700px) {
+    .charla-tema {
+        margin: 12px 0 18px;
+        font-size: 24px;
+    }
+
     .charla-cuerpo {
         width: 96px;
         height: 96px;
@@ -1883,10 +1936,12 @@ body:has(.charla) {
     color: #ffffff;
 }
 
+/* La pregunta es lo más importante de la pantalla: más grande y en negrita. */
 .nivel-enunciado {
-    margin: 26px 0 22px 14px;
-    font-size: 24px;
-    font-weight: 400;
+    margin: 26px 0 30px 14px;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.25;
     color: #000000;
 }
 
@@ -1947,6 +2002,21 @@ body:has(.charla) {
     color: #000000;
 }
 
+/* Barra arriba, la pregunta centrada en el espacio libre y el botón abajo de todo. */
+.charla.nivel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 24px;
+}
+
+.nivel-centro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .nivel .charla-acciones {
     margin-top: 10px;
 }
@@ -1961,6 +2031,11 @@ body:has(.charla) {
 }
 
 @media (max-width: 700px) {
+    .nivel-enunciado {
+        margin: 18px 0 20px;
+        font-size: 24px;
+    }
+
     .nivel-opciones {
         grid-template-columns: 1fr;
         gap: 14px;
@@ -1972,7 +2047,6 @@ body:has(.charla) {
     }
 
     .nivel-tiempo,
-    .charla-porcentaje,
     .charla-vidas {
         font-size: 18px;
     }
@@ -1987,6 +2061,7 @@ body:has(.charla) {
 /* RESULTADO DEL NIVEL           */
 /* ============================= */
 
+/* Ocupa todo el alto debajo del header (ver "Pantallas que ocupan todo el alto" en la charla). */
 body:has(.fin) {
     background: #ffffff;
     color: #000000;
@@ -1995,9 +2070,13 @@ body:has(.fin) {
 
 .fin {
     --fin-color: #0A4D28;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
-    padding: 28px 0 40px;
+    /* Arriba deja más aire, así el cartel queda un poco más abajo del header. */
+    padding: clamp(28px, 10vh, 100px) 0 24px;
 }
 
 .fin-perdio {
@@ -2005,7 +2084,7 @@ body:has(.fin) {
 }
 
 .fin-mensaje {
-    display: inline-block;
+    align-self: flex-start;
     max-width: 100%;
     margin: 0;
     padding: 22px 26px;
@@ -2020,8 +2099,9 @@ body:has(.fin) {
     background: #FF5A65;
 }
 
-/* Mascota a la izquierda, datos al centro. */
+/* Mascota a la izquierda, datos al centro. Ocupa el espacio libre y se apoya sobre los botones. */
 .fin-cuerpo {
+    flex: 1;
     display: flex;
     align-items: flex-end;
     gap: 40px;
@@ -2036,13 +2116,15 @@ body:has(.fin) {
     margin-bottom: -14px;
 }
 
+/* Los datos quedan un poco arriba de la mitad: centrados, y el margen de abajo los sube. */
 .fin-datos {
     flex: 1;
+    align-self: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 36px 40px;
     max-width: 560px;
-    padding-bottom: 40px;
+    margin-bottom: 30vh;
 }
 
 .fin-dato {
@@ -2075,9 +2157,16 @@ body:has(.fin) {
     white-space: nowrap;
 }
 
+/* Si hay dos botones, cada uno ocupa la mitad del ancho; si hay uno solo, ocupa todo. */
+.fin-acciones {
+    display: flex;
+    gap: 24px;
+}
+
 .fin-boton {
     position: relative;
-    width: 100%;
+    flex: 1 1 0;
+    width: auto;
     height: 68px;
     font-size: 30px;
 }
@@ -2085,8 +2174,20 @@ body:has(.fin) {
 @media (max-width: 700px) {
     .fin-cuerpo {
         flex-direction: column;
+        justify-content: flex-end;
         align-items: center;
         gap: 10px;
+    }
+
+    .fin-acciones {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .fin-boton {
+        flex: none;
+        height: 56px;
+        font-size: 22px;
     }
 
     .fin-mascota {
@@ -2095,9 +2196,10 @@ body:has(.fin) {
     }
 
     .fin-datos {
+        flex: none;
         width: 100%;
         gap: 20px;
-        padding-bottom: 24px;
+        margin-bottom: 24px;
     }
 
     .fin-etiqueta,

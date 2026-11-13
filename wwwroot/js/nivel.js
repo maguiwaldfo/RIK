@@ -1,7 +1,10 @@
-﻿let preguntaActual = 0;
-let vidas = 3;
-let puntos = 0;
-let segundos = 0;
+﻿// El estado inicial viene de la session (si se refrescó, se retoma donde estaba).
+const datosNivel = document.getElementById("nivel").dataset;
+
+let preguntaActual = parseInt(datosNivel.preguntaActual);
+let vidas = parseInt(datosNivel.vidas);
+let puntos = parseInt(datosNivel.puntos);
+let segundos = parseInt(datosNivel.segundos);
 let respondida = false;
 let comprobando = false;
 let terminada = false;
@@ -11,35 +14,40 @@ let opcionElegida = null;
 
 const totalPreguntas = document.querySelectorAll(".nivel-pregunta").length;
 
-document.getElementById("pregunta-0").style.display = "block";
+document.getElementById("pregunta-" + preguntaActual).style.display = "block";
+
+function mostrarTiempo()
+{
+    let minutos = Math.floor(segundos / 60);
+    let resto = segundos % 60;
+
+    let textoMinutos = minutos.toString();
+    let textoSegundos = resto.toString();
+
+    if (minutos < 10)
+    {
+        textoMinutos = "0" + minutos;
+    }
+
+    if (resto < 10)
+    {
+        textoSegundos = "0" + resto;
+    }
+
+    document.getElementById("tiempo").innerHTML =
+        textoMinutos + ":" + textoSegundos;
+}
 
 function actualizarTiempo()
 {
     if (terminada == false)
     {
         segundos++;
-
-        let minutos = Math.floor(segundos / 60);
-        let resto = segundos % 60;
-
-        let textoMinutos = minutos.toString();
-        let textoSegundos = resto.toString();
-
-        if (minutos < 10)
-        {
-            textoMinutos = "0" + minutos;
-        }
-
-        if (resto < 10)
-        {
-            textoSegundos = "0" + resto;
-        }
-
-        document.getElementById("tiempo").innerHTML =
-            textoMinutos + ":" + textoSegundos;
+        mostrarTiempo();
     }
 }
 
+mostrarTiempo();
 setInterval(actualizarTiempo, 1000);
 
 // La barra sube con cada pregunta acertada.
@@ -48,7 +56,6 @@ function mostrarProgreso(acertadas)
     let porcentaje = Math.round(acertadas * 100 / totalPreguntas);
 
     document.getElementById("barraProgreso").style.width = porcentaje + "%";
-    document.getElementById("porcentaje").innerHTML = porcentaje + "%";
 }
 
 // Al tocar una opción solo queda marcada; se comprueba recién con "Enviar".

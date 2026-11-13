@@ -68,12 +68,13 @@
 
     </div>
 
-    @if (gano || idNivel == 0)
-    {
+    <!-- Botones abajo de todo. Si ganó: solo "Volver". Si perdió: "Volver" y "Repasar tema", mitad y mitad. -->
+    <div class="fin-acciones">
         <a class="charla-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
-    }
-    else
-    {
-        <a class="charla-boton fin-boton" href="@Url.Action("Teoria", "Juego", new { idNivel = idNivel })">Repasar tema nuevamente</a>
-    }
+
+        @if (!gano && idNivel != 0)
+        {
+            <a class="charla-boton fin-boton" href="@Url.Action("Teoria", "Juego", new { idNivel = idNivel })">Repasar tema nuevamente</a>
+        }
+    </div>
 </div>
