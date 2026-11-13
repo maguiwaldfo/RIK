@@ -1,42 +1,31 @@
 @using RIK.Models
 
-@{
-    Nivel nivel = ViewBag.Nivel;
-    List<CharlaTeoria> charla = ViewBag.Charla as List<CharlaTeoria> ?? new List<CharlaTeoria>();
+@* El título, el nivel, la charla y las imágenes de los personajes los carga JuegoController.Teoria *@
 
-    ViewData["Title"] = nivel != null ? nivel.Tema : "Teoría";
-
-    // Imágenes de los personajes: caras para el resumen final, medio cuerpo para el paso a paso.
-    string caraChico = Url.Content("~/imagenes/Cara%20chico.png");
-    string caraPerro = Url.Content("~/imagenes/Cara%20riky.png");
-    string cuerpoChico = Url.Content("~/imagenes/Chico%20confundido%20con%20gesto%20explicativo%203.png");
-    string cuerpoPerro = Url.Content("~/imagenes/Perrito_Shiba_sonriente_saludando-removebg-preview%201.png");
-}
-
-@if (nivel == null)
+@if (ViewBag.Nivel == null)
 {
     <p>No se encontró el nivel solicitado.</p>
     <a href="@Url.Action("Index", "Biblioteca")">Volver</a>
 }
 else
 {
-    <div class="charla charla-teoria" id="charla" data-cuerpo-chico="@cuerpoChico" data-cuerpo-perro="@cuerpoPerro">
+    <div class="charla charla-teoria" id="charla" data-cuerpo-chico="@ViewBag.CuerpoChico" data-cuerpo-perro="@ViewBag.CuerpoPerro">
 
-        <h1 class="charla-tema">@nivel.Tema</h1>
+        <h1 class="charla-tema">@ViewBag.TemaNivel</h1>
 
         <!-- PASO A PASO: lo arma el script, de a dos mensajes, con los personajes de medio cuerpo -->
         <div class="charla-paso" id="charlaPaso" hidden></div>
 
         <!-- RESUMEN: la charla completa con las caras. Se muestra al terminar el paso a paso -->
         <div class="charla-resumen" id="charlaResumen">
-            @foreach (CharlaTeoria mensaje in charla)
+            @foreach (CharlaTeoria mensaje in ViewBag.Charla)
             {
                 bool esChico = string.Equals(mensaje.Personaje?.Trim(), "Chico", StringComparison.OrdinalIgnoreCase);
 
                 <div class="charla-fila @(esChico ? "charla-fila-chico" : "charla-fila-perro")"
                      data-personaje="@(esChico ? "chico" : "perro")">
                     <img class="charla-cara"
-                         src="@(esChico ? caraChico : caraPerro)"
+                         src="@(esChico ? ViewBag.CaraChico : ViewBag.CaraPerro)"
                          alt="@mensaje.Personaje" />
                     <p class="charla-globo">@mensaje.Texto</p>
                 </div>
@@ -46,7 +35,7 @@ else
         <div class="charla-acciones">
             <button type="button" class="charla-boton" id="charlaSiguiente" hidden>Siguiente</button>
             <a class="charla-boton" id="charlaComenzar"
-               href="@Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id })">
+               href="@Url.Action("Nivel", "Juego", new { nivelElegido = ViewBag.IdNivel })">
                 Comenzar desafío
             </a>
         </div>

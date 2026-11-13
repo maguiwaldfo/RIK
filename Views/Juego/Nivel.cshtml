@@ -3,13 +3,11 @@
 @{
     ViewData["Title"] = ViewBag.TemaNivel;
     int numero = 0;
-    int preguntaActual = ViewBag.PreguntaActual;
-    int progreso = preguntaActual * 100 / ViewBag.PreguntasNivel.Count;
 }
 
-<!-- Estado de la partida guardado en la session (se usa al refrescar la página) -->
+<!-- Estado de la partida guardado en la session (lo lee nivel.js, sirve al refrescar la página) -->
 <div class="charla nivel" id="nivel"
-     data-pregunta-actual="@preguntaActual"
+     data-pregunta-actual="@ViewBag.PreguntaActual"
      data-vidas="@ViewBag.Vidas"
      data-puntos="@ViewBag.Puntos"
      data-segundos="@ViewBag.Segundos">
@@ -17,7 +15,7 @@
     <!-- PROGRESO, VIDAS Y TIEMPO -->
     <div class="charla-estado">
         <div class="charla-barra">
-            <div class="charla-barra-relleno" id="barraProgreso" style="width: @(progreso)%;"></div>
+            <div class="charla-barra-relleno" id="barraProgreso" style="width: @(ViewBag.Progreso)%;"></div>
         </div>
         <span class="charla-vidas">
             <span id="vidas">@ViewBag.Vidas</span>
