@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using RIK.Models;
 
@@ -51,45 +52,108 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        List<Pregunta> preguntas = bd.ObtenerPreguntasNivel(nivelElegido);
+        List<Pregunta> todasLasPreguntas = bd.ObtenerPreguntasNivel(nivelElegido);
 
-        if (preguntas.Count != 8)
+        // Si se refrescó la página, se retoma la partida con las preguntas guardadas en la session.
+        List<Pregunta> preguntas = PreguntasPartidaEnCurso(nivelElegido, todasLasPreguntas);
+
+        if (preguntas == null)
         {
+            preguntas = todasLasPreguntas;
+
             if (preguntas.Count < 8)
             {
                 return RedirectToAction("IndexInicio", "Inicio");
             }
-            else
-            {
-                Random random = new Random();
 
-                while (preguntas.Count > 8)
-                {
-                    int aleatorio = random.Next(0, preguntas.Count);
-                    preguntas.RemoveAt(aleatorio);
-                }
+            Random random = new Random();
+
+            while (preguntas.Count > 8)
+            {
+                int aleatorio = random.Next(0, preguntas.Count);
+                preguntas.RemoveAt(aleatorio);
+            }
+
+            HttpContext.Session.SetString("NivelActual", nivelElegido.ToString());
+            HttpContext.Session.SetString("PreguntaActual", "0");
+            HttpContext.Session.SetString("Vidas", "3");
+            HttpContext.Session.SetString("Puntos", "0");
+            HttpContext.Session.SetString("EstadoPartida", "Jugando");
+            HttpContext.Session.SetString("InicioPartida", DateTime.UtcNow.ToString("O"));
+
+            for (int i = 0; i < preguntas.Count; i++)
+            {
+                HttpContext.Session.SetString(
+                    "Pregunta" + i,
+                    preguntas[i].Id.ToString()
+                );
             }
         }
 
-        HttpContext.Session.SetString("NivelActual", nivelElegido.ToString());
-        HttpContext.Session.SetString("PreguntaActual", "0");
-        HttpContext.Session.SetString("Vidas", "3");
-        HttpContext.Session.SetString("Puntos", "0");
-        HttpContext.Session.SetString("EstadoPartida", "Jugando");
-        HttpContext.Session.SetString("InicioPartida", DateTime.UtcNow.ToString("O"));
+        int preguntaActual = 0;
+        int vidas = 3;
+        int puntos = 0;
+        int segundos = 0;
 
-        for (int i = 0; i < preguntas.Count; i++)
+        int.TryParse(HttpContext.Session.GetString("PreguntaActual"), out preguntaActual);
+        int.TryParse(HttpContext.Session.GetString("Vidas"), out vidas);
+        int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
+
+        DateTime inicio;
+
+        if (DateTime.TryParse(
+                HttpContext.Session.GetString("InicioPartida"),
+                null,
+                DateTimeStyles.RoundtripKind,
+                out inicio))
         {
-            HttpContext.Session.SetString(
-                "Pregunta" + i,
-                preguntas[i].Id.ToString()
-            );
+            segundos = (int)(DateTime.UtcNow - inicio).TotalSeconds;
         }
 
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.PreguntasNivel = preguntas;
+        ViewBag.PreguntaActual = preguntaActual;
+        ViewBag.Vidas = vidas;
+        ViewBag.Puntos = puntos;
+        ViewBag.Segundos = segundos;
 
         return View();
+    }
+
+    // Devuelve las preguntas de la partida en curso de este nivel, en el mismo orden
+    // en que se guardaron en la session. Si no hay partida para retomar, devuelve null.
+    private List<Pregunta> PreguntasPartidaEnCurso(int idNivel, List<Pregunta> todasLasPreguntas)
+    {
+        if (HttpContext.Session.GetString("EstadoPartida") != "Jugando" ||
+            HttpContext.Session.GetString("NivelActual") != idNivel.ToString())
+        {
+            return null;
+        }
+
+        int posicion = 0;
+
+        if (!int.TryParse(HttpContext.Session.GetString("PreguntaActual"), out posicion) ||
+            posicion < 0 || posicion >= 8)
+        {
+            return null;
+        }
+
+        List<Pregunta> preguntas = new List<Pregunta>();
+
+        for (int i = 0; i < 8; i++)
+        {
+            string idPregunta = HttpContext.Session.GetString("Pregunta" + i);
+            Pregunta pregunta = todasLasPreguntas.Find(p => p.Id.ToString() == idPregunta);
+
+            if (pregunta == null)
+            {
+                return null;
+            }
+
+            preguntas.Add(pregunta);
+        }
+
+        return preguntas;
     }
 
     [HttpPost]

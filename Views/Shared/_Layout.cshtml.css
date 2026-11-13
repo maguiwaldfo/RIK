@@ -76,8 +76,7 @@ for details on configuring this project to bundle and minify static web assets. 
   justify-content: space-between;
   padding: 0 4%;
   box-sizing: border-box;
-  position: relative;
-  z-index: 5;
+  /* Sin "position" acá: la regla compartida de arriba lo deja fijo arriba (sticky). */
 }
 
 .mapa-marca {

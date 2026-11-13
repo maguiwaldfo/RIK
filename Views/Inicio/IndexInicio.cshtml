@@ -215,10 +215,11 @@
                 lienzo.style.transform = 'translate(' + (-x) + 'px, ' + y + 'px)';
             }
 
-            // Rueda del mouse.
+            // Rueda del mouse: hacia arriba avanza por el camino (que sube), hacia abajo vuelve.
+            // Por eso deltaY va con el signo cambiado. El scroll horizontal queda igual.
             mapa.addEventListener('wheel', function (e) {
                 e.preventDefault();
-                var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+                var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : -e.deltaY;
                 if (e.deltaMode === 1) delta *= 40;
                 mover(avance + delta / recorrido().x);
             }, { passive: false });

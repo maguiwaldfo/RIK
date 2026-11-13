@@ -3,46 +3,54 @@
 @{
     ViewData["Title"] = ViewBag.TemaNivel;
     int numero = 0;
+    int preguntaActual = ViewBag.PreguntaActual;
+    int progreso = preguntaActual * 100 / ViewBag.PreguntasNivel.Count;
 }
 
-<div class="charla nivel">
+<!-- Estado de la partida guardado en la session (se usa al refrescar la página) -->
+<div class="charla nivel" id="nivel"
+     data-pregunta-actual="@preguntaActual"
+     data-vidas="@ViewBag.Vidas"
+     data-puntos="@ViewBag.Puntos"
+     data-segundos="@ViewBag.Segundos">
 
     <!-- PROGRESO, VIDAS Y TIEMPO -->
     <div class="charla-estado">
         <div class="charla-barra">
-            <div class="charla-barra-relleno" id="barraProgreso" style="width: 0%;"></div>
+            <div class="charla-barra-relleno" id="barraProgreso" style="width: @(progreso)%;"></div>
         </div>
-        <span class="charla-porcentaje" id="porcentaje">0%</span>
         <span class="charla-vidas">
-            <span id="vidas">3</span>
+            <span id="vidas">@ViewBag.Vidas</span>
             <span class="charla-corazon" aria-label="vidas">&#10084;</span>
         </span>
         <span class="nivel-tiempo" id="tiempo" aria-label="Tiempo">00:00</span>
     </div>
 
-    <!-- PREGUNTAS: se muestra una por vez -->
-    @foreach (Pregunta pregunta in ViewBag.PreguntasNivel)
-    {
-        <div class="nivel-pregunta" id="pregunta-@numero" style="display: none;">
+    <!-- PREGUNTAS: se muestra una por vez, centrada en el espacio libre -->
+    <div class="nivel-centro">
+        @foreach (Pregunta pregunta in ViewBag.PreguntasNivel)
+        {
+            <div class="nivel-pregunta" id="pregunta-@numero" style="display: none;">
 
-            <h2 class="nivel-enunciado">@pregunta.Enunciado</h2>
+                <h2 class="nivel-enunciado">@pregunta.Enunciado</h2>
 
-            <div class="nivel-opciones">
-                @foreach (Opcion opcion in pregunta.Opciones)
-                {
-                    <button type="button" class="nivel-opcion"
-                            onclick="elegirOpcion(this, @pregunta.Id, @opcion.Id)">
-                        @opcion.Texto
-                    </button>
-                }
+                <div class="nivel-opciones">
+                    @foreach (Opcion opcion in pregunta.Opciones)
+                    {
+                        <button type="button" class="nivel-opcion"
+                                onclick="elegirOpcion(this, @pregunta.Id, @opcion.Id)">
+                            @opcion.Texto
+                        </button>
+                    }
+                </div>
+
             </div>
 
-        </div>
+            numero++;
+        }
 
-        numero++;
-    }
-
-    <p class="nivel-resultado" id="resultado"></p>
+        <p class="nivel-resultado" id="resultado"></p>
+    </div>
 
     <div class="charla-acciones">
         <button type="button" class="charla-boton" id="enviar" onclick="enviarRespuesta()" disabled>
