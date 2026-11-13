@@ -14,31 +14,30 @@
               <img class="lluvia" src="@Url.Content("~/imagenes/lluviamonedas.png")" alt="" aria-hidden="true">
               <img class="lluvia lluvia-espejo" src="@Url.Content("~/imagenes/lluviamonedas.png")" alt="" aria-hidden="true">
 
-            <!-- Mascota -->
-            <img class="mascota"
-                 src="@Url.Content("~/imagenes/rikLanding.png")"
-                 alt="Ricky, la mascota de RIK">
-
             <!-- Logo y slogan -->
             <div class="logo-hero">
                 <img src="@Url.Content("~/imagenes/slogan.png")"
                      alt="RIK - Convertí el aprendizaje en riqueza">
             </div>
 
-            <!-- Frase principal -->
-            <div class="tarjeta-presentacion">
-                <p>¡Jugá, ganá y dominá tu plata!</p>
-            </div>
+         <!-- Mascota + frase + botón -->
+<div class="hero-escena">
 
-            <!-- Botón para comenzar -->
-            <div class="boton-jugar">
-                <a href="@Url.Action("Index", "Login")">
-                    🎮 Comenzá a jugar
-                </a>
-            </div>
+    <img class="mascota"
+         src="@Url.Content("~/imagenes/rikLanding.png")"
+         alt="Ricky, la mascota de RIK">
 
+    <div class="hero-texto">
+        <div class="tarjeta-presentacion">
+            <p>¡Jugá, ganá y dominá tu plata!</p>
         </div>
 
+        <div class="boton-jugar">
+            <a href="@Url.Action("Index", "Login")">🎮 Comenzá a jugar</a>
+        </div>
+    </div>
+
+</div>
         <!-- INFORMACIÓN DE RIK -->
         <section class="informacion-rik">
 

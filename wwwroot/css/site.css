@@ -1,6 +1,11 @@
 /* Poppins: la usa todo el sitio pero ninguna vista la cargaba. Tiene que quedar primero en el archivo. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
+
+/* ============================================================
+   1. BASE
+   ============================================================ */
+
 * {
     margin: 0;
     padding: 0;
@@ -8,10 +13,47 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #E5E5E5;
+    margin: 0;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background-color: #078B58;
     color: #FFFFFF;
 }
+
+:root {
+    --rik-verde:        #078B58;   /* fondo de la landing */
+    --rik-verde-oscuro: #064D2B;   /* header, tarjetas oscuras */
+    --rik-verde-card:   #07512F;
+    --rik-verde-texto:  #173D20;
+    --rik-amarillo:     #FFE500;
+    --rik-amarillo-hov: #F2D600;
+    --rik-menta:        #B6E9C6;
+    --rik-radio:        12px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rik * { transition: none !important; animation: none !important; }
+}
+
+.page-shell {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.page-main {
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 0;
+}
+
+
+/* ============================================================
+   2. HEADER COMPARTIDO (_Layout)
+   ============================================================ */
 
 .login-header,
 .registrarse-header {
@@ -28,10 +70,6 @@ body {
     gap: 8px;
 }
 
-.sin-ligas {
-    text-align: center;
-    margin-top: 20px;
-}
 .marca img {
     width: 40px;
     height: 40px;
@@ -43,8 +81,6 @@ body {
     font-size: 30px;
     font-weight: normal;
 }
-
-
 
 nav ul {
     list-style: none;
@@ -70,8 +106,6 @@ nav li:hover,
     background-color: #F2D600;
 }
 
-
-
 .boton-sesion {
     background-color: #FFE500;
     color: #000000;
@@ -83,7 +117,518 @@ nav li:hover,
 }
 
 
-/* ====== LOGIN PAGE ====== */
+/* ============================================================
+   3. LANDING (usuario sin sesión)
+   ============================================================ */
+
+.rik {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--rik-verde);
+    color: #FFFFFF;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+
+.rik [id] {
+    scroll-margin-top: 90px;
+}
+
+.rik a:focus-visible,
+.rik button:focus-visible {
+    outline: 3px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+/* ---------- Portada ---------- */
+
+.rik .portada {
+    width: 100%;
+    padding: 0 0 8px;
+    background-color: var(--rik-verde);
+}
+
+/* Dos columnas: escena (mascota + frase + botón) | logo.
+   Sin padding abajo: la mascota se apoya sobre las tarjetas amarillas.
+   Para un hero más ancho en pantallas grandes, cambiá 1280px. */
+.rik .presentacion {
+    position: relative;
+    width: min(100%, 1280px);
+    height: auto;
+    min-height: clamp(380px, 46vw, 560px);
+    margin: 0 auto;
+    padding: clamp(20px, 3vw, 40px) 3% 0;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: minmax(0, 66%) minmax(0, 1fr);
+    grid-template-rows: 1fr;
+    grid-template-areas: "escena logo";
+    column-gap: clamp(12px, 2vw, 32px);
+    align-items: stretch;
+}
+
+/* Monedas decorativas (detrás de todo) */
+
+.rik .lluvia {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 70%;
+    max-width: 40%;
+    object-fit: contain;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Copia espejada, abajo a la derecha */
+.rik .lluvia-espejo {
+    top: auto;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    transform: scaleX(-1) scaleY(-1);
+}
+
+/* ---------- Escena: mascota apoyada en las tarjetas, "agarrando" el botón ---------- */
+
+.rik .hero-escena {
+    /* --- Ajustes principales --- */
+    --mascota-ancho: clamp(300px, 40vw, 760px);   /* tamaño de la mascota */
+    --texto-izq: 88%;                              /* más alto = el botón se aleja de la mascota */
+    --texto-abajo: 28%;                            /* más alto = el botón sube (a la altura de la pata) */
+
+    grid-area: escena;
+    align-self: end;
+    justify-self: start;
+    position: relative;
+    width: var(--mascota-ancho);
+}
+
+.rik .mascota {
+    display: block;                 /* evita el hueco de abajo que deja una imagen en línea */
+    position: relative;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    z-index: 4;                     /* la pata queda por delante del botón; poné 2 para que quede detrás */
+}
+
+.rik .hero-texto {
+    position: absolute;
+    left: var(--texto-izq);
+    bottom: var(--texto-abajo);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(14px, 1.6vw, 24px);
+}
+
+/* Logo grande + slogan */
+
+.rik .logo-hero {
+    grid-area: logo;
+    position: relative;
+    align-self: start;
+    justify-self: center;
+    width: min(100%, 300px);   /* antes 440 o 560; bajalo a 240 si lo querés más chico */
+    margin-right: 6%;
+    z-index: 2;
+}
+
+.rik .logo-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Frase principal (píldora verde oscuro) */
+
+.rik .tarjeta-presentacion {
+    position: relative;
+    width: max-content;
+    max-width: none;
+    padding: 12px 20px;
+    background-color: var(--rik-verde-oscuro);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 3;
+}
+
+.rik .tarjeta-presentacion p {
+    margin: 0;
+    font-size: clamp(16px, 1.6vw, 30px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+/* Botón Comenzá a jugar */
+
+.rik .boton-jugar {
+    position: relative;
+    margin-top: 4px;
+}
+
+.rik .boton-jugar a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    padding: 18px 28px;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.2;
+}
+
+/* ---------- Botones 3D (estilo Duolingo) ---------- */
+
+.rik .boton-jugar a,
+.rik .boton-cierre {
+    --b-color:  #FFE500;   /* cara del botón */
+    --b-sombra: #C4B000;   /* borde inferior */
+    --b-texto:  #000000;
+    --b-alto:   5px;       /* profundidad */
+
+    background-color: var(--b-color);
+    color: var(--b-texto);
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
+    transform: translateY(0);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: none;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+}
+
+.rik .boton-jugar a:hover,
+.rik .boton-cierre:hover {
+    background-color: var(--b-color);
+    color: var(--b-texto);
+    filter: brightness(1.06);
+    transform: translateY(0);
+    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
+}
+
+/* Al presionar, el botón baja y la sombra casi desaparece */
+.rik .boton-jugar a:active,
+.rik .boton-cierre:active {
+    transform: translateY(calc(var(--b-alto) - 1px));
+    box-shadow: 0 1px 0 var(--b-sombra);
+}
+
+/* Variante verde oscuro (botón del cierre) */
+.rik .boton-cierre {
+    --b-color:  #064D2B;
+    --b-sombra: #03301B;
+    --b-texto:  #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rik .boton-jugar a,
+    .rik .boton-cierre { transition: none; }
+}
+
+/* ---------- Tarjetas: quiénes somos / visión / misión ---------- */
+
+.rik .informacion-rik {
+    position: relative;
+    z-index: 1;
+    width: min(96%, 1600px);
+    margin: 0 auto;               /* centradas en la pantalla */
+    justify-self: center;         /* centradas si siguen dentro de la grilla del hero */
+    grid-column: 1 / -1;          /* ocupan todo el ancho de la grilla, no solo una columna */
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.5vw, 40px);
+}
+
+.rik .tarjeta-info {
+    min-height: 0;                 /* la altura ahora depende solo del texto */
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--rik-amarillo);
+    border-radius: var(--rik-radio);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rik .tarjeta-info p {
+    margin: 0;
+    max-width: none;               /* que el texto use todo el ancho de la tarjeta */
+    color: #000000;
+    font-size: clamp(13px, 1vw, 17px);
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: center;
+}
+
+/* ---------- Logros y estadísticas ---------- */
+
+.rik .estadisticas {
+    width: min(92%, 1100px);
+    margin: clamp(32px, 5vw, 64px) auto 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 2vw, 28px);
+}
+
+.rik .estadistica {
+    width: auto;
+    margin: 0;
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    background-color: var(--rik-verde-card);
+    border-radius: var(--rik-radio);
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.rik .icono-estadistica {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--rik-amarillo);
+    border-radius: 10px;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.rik .estadistica h2 {
+    margin: 0 0 4px;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--rik-amarillo);
+}
+
+.rik .estadistica p {
+    margin: 0;
+    max-width: 30ch;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #FFFFFF;
+}
+
+/* ---------- Carrusel ---------- */
+
+.rik .galeria {
+    width: 100%;
+    padding: clamp(32px, 5vw, 64px) 0 8px;
+}
+
+.rik #carouselStackedBottom {
+    position: relative;
+    width: min(91%, 1100px);      /* antes 1600px */
+    max-width: none;
+    margin: 0 auto;
+}
+.rik .carousel-inner {
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: var(--rik-verde-oscuro);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.rik .carousel-item img {
+    display: block;
+    width: 100%;
+    height: clamp(240px, 36vw, 620px);   /* antes 42vw / 760px */
+    object-fit: cover;
+    object-position: center;
+}
+
+.rik .btn-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.88);
+    color: var(--rik-verde-oscuro);
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.15s ease;
+}
+
+.rik .btn-icon:hover {
+    background-color: #FFFFFF;
+}
+
+.rik .btn-icon[data-bs-slide="prev"] { left: 12px; }
+.rik .btn-icon[data-bs-slide="next"] { right: 12px; }
+
+/* Los <span> de las flechas venían vacíos: se dibujan acá */
+.rik .carousel-icon-prev::before,
+.rik .carousel-icon-next::before {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.rik .carousel-icon-prev::before { content: "\2039"; }
+.rik .carousel-icon-next::before { content: "\203A"; }
+
+/* ---------- Cierre ---------- */
+
+.rik .cierre {
+    width: min(92%, 1100px);
+    margin: clamp(32px, 5vw, 64px) auto clamp(32px, 5vw, 56px);
+}
+
+.rik .caja-cierre {
+    padding: clamp(20px, 3vw, 32px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background-color: var(--rik-menta);
+    border-radius: 16px;
+}
+
+.rik .texto-cierre {
+    flex: 1;
+    color: #1D1D1D;
+}
+
+.rik .texto-cierre h2 {
+    margin: 0 0 8px;
+    max-width: 52ch;
+    font-size: clamp(17px, 2vw, 24px);
+    font-weight: 600;
+    line-height: 1.35;
+    color: #1A1A1A;
+}
+
+.rik .texto-cierre p {
+    margin: 0;
+    font-size: 14px;
+    color: #3A3A3A;
+}
+
+/* El aspecto 3D (colores, sombra, hover) viene del bloque "Botones 3D" */
+.rik .boton-cierre {
+    flex: none;
+    padding: 14px 24px;
+    font-size: 15px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* ---------- Responsive de la landing ---------- */
+
+/* Tablet: el logo arriba y la escena debajo */
+@media (max-width: 900px) {
+    .rik .presentacion {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "logo"
+            "escena";
+    }
+
+    .rik .logo-hero {
+        justify-self: center;
+        margin-right: 0;
+        width: min(100%, 340px);
+    }
+
+    .rik .hero-escena {
+        --mascota-ancho: min(70vw, 460px);
+        justify-self: center;
+    }
+}
+
+/* Celular: el texto va arriba de la mascota, centrado */
+@media (max-width: 700px) {
+    .rik .presentacion {
+        min-height: 0;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .rik .logo-hero {
+        width: min(70%, 280px);
+    }
+
+    .rik .hero-escena {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rik .mascota {
+        width: min(80%, 340px);
+    }
+
+    .rik .hero-texto {
+        position: static;
+        order: -1;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .rik .tarjeta-presentacion p {
+        white-space: normal;
+        text-align: center;
+    }
+
+    .rik .lluvia {
+        max-width: 60%;
+        opacity: 0.8;
+    }
+
+    .rik .informacion-rik,
+    .rik .estadisticas {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rik .tarjeta-info {
+        min-height: 0;
+    }
+
+    .rik .caja-cierre {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rik .boton-cierre {
+        text-align: center;
+    }
+
+    .rik .btn-icon {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+
+/* ============================================================
+   4. LOGIN
+   ============================================================ */
+
 .login-body {
     margin: 0;
     min-height: 100vh;
@@ -263,6 +808,10 @@ nav li:hover,
     font-size: 15px;
 }
 
+.form-field input.input-error {
+    outline: 2px solid #ff8a8a;
+}
+
 .submit-button {
     width: 100%;
     height: 46px;
@@ -333,542 +882,10 @@ nav li:hover,
     display: none;
 }
 
-.form-field input.input-error {
-    outline: 2px solid #ff8a8a;
-}
 
-
-/* =========================== */
-/* LANDING PAGE / HOME        */
-/* =========================== */
-
-.page-shell {
-    width: 100%;
-    min-height: 100vh;
-}
-
-.page-main {
-    width: 100%;
-    min-height: 100vh;
-    padding-bottom: 0;
-}
-
-
-/* ========================================================== */
-/* LANDING RIK (usuario sin sesión)                           */
-/* Todo está dentro de .rik para no pisar login, registro,    */
-/* mapa, etc.                                                 */
-/* ========================================================== */
-
-:root {
-    --rik-verde:        #078B58;   /* fondo de la página */
-    --rik-verde-oscuro: #064D2B;   /* header, tarjetas oscuras */
-    --rik-verde-card:   #07512F;
-    --rik-verde-texto:  #173D20;
-    --rik-amarillo:     #FFE500;
-    --rik-amarillo-hov: #F2D600;
-    --rik-menta:        #B6E9C6;
-    --rik-radio:        12px;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .rik * { transition: none !important; animation: none !important; }
-}
-
-.rik {
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--rik-verde);
-    color: #FFFFFF;
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
-    overflow-x: hidden;
-}
-
-/* Para que los links del menú (#quienes-somos, #logros...) no queden tapados por el header sticky */
-.rik [id] {
-    scroll-margin-top: 90px;
-}
-
-.rik a:focus-visible,
-.rik button:focus-visible {
-    outline: 3px solid #FFFFFF;
-    outline-offset: 3px;
-}
-
-/* ---------- PORTADA: grilla de 3 columnas (mascota | contenido | logo) ---------- */
-
-.rik .portada {
-    width: 100%;
-    padding: 0 0 8px;
-    background-color: var(--rik-verde);
-}
-
-.rik .presentacion {
-    position: relative;
-    width: min(100%, 1280px);
-    height: auto;
-    min-height: clamp(380px, 46vw, 560px);
-    margin: 0 auto;
-    padding: clamp(20px, 3vw, 40px) 3% 0;
-    overflow: hidden;
-
-    display: grid;
-    grid-template-columns: minmax(0, 36%) minmax(0, 1fr) minmax(0, 22%);
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas:
-        "mascota logo    logo"
-        "mascota tarjeta ."
-        "mascota boton   .";
-    column-gap: clamp(12px, 2vw, 32px);
-    row-gap: clamp(14px, 2vw, 24px);
-    align-items: start;
-}
-
-/* Monedas decorativas (detrás de todo) */
-
-.rik .lluvia {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: auto;
-    height: 70%;
-    max-width: 40%;
-    object-fit: contain;
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* Copia opcional de la imagen, espejada, abajo a la derecha */
-.rik .lluvia-espejo {
-    top: auto;
-    left: auto;
-    right: 0;
-    bottom: 0;
-    transform: scaleX(-1) scaleY(-1);
-}
-
-/* Mascota */
-
-.rik .mascota {
-    grid-area: mascota;
-    position: relative;
-    inset: auto;
-    align-self: end;
-    justify-self: start;
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    margin-left: -3%;
-    z-index: 2;
-}
-
-/* Logo grande + slogan */
-
-.rik .logo-hero {
-    grid-area: logo;
-    position: relative;
-    inset: auto;
-    justify-self: end;
-    width: min(100%, 440px);
-    margin-right: 6%;
-    z-index: 2;
-}
-
-.rik .logo-hero img {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-/* Frase principal (píldora verde oscuro) */
-
-.rik .tarjeta-presentacion {
-    grid-area: tarjeta;
-    position: relative;
-    inset: auto;
-    justify-self: start;
-    align-self: end;
-    width: auto;
-    max-width: 100%;
-    min-width: 0;
-    padding: 12px 20px;
-    background-color: var(--rik-verde-oscuro);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    z-index: 3;
-}
-
-.rik .tarjeta-presentacion p {
-    margin: 0;
-    font-size: clamp(16px, 2.2vw, 28px);
-    font-weight: 700;
-    line-height: 1.3;
-    color: #FFFFFF;
-}
-
-.rik .boton-jugar {
-    grid-area: boton;
-    justify-self: start;
-    align-self: start;
-    margin-top: 4px;
-}
-
-.rik .boton-jugar a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 220px;
-    padding: 18px 28px;
-    font-size: clamp(18px, 2vw, 24px);
-    line-height: 1.2;
-}
-
-/* Botón Comenzá a jugar */
-/* ---------- BOTONES 3D (estilo Duolingo) ---------- */
-
-.rik .boton-jugar a,
-.rik .boton-cierre{
-    --b-color:  #FFE500;   /* cara del botón */
-    --b-sombra: #C4B000;   /* borde inferior */
-    --b-texto:  #000000;
-    --b-alto:   5px;       /* profundidad */
-
-    background-color: var(--b-color);
-    color: var(--b-texto);
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
-    transform: translateY(0);
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 700;
-    text-transform: none;
-    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
-}
-
-.rik .boton-jugar a:hover,
-.rik .boton-cierre:hover {
-    background-color: var(--b-color);
-    color: var(--b-texto);
-    filter: brightness(1.06);
-    transform: translateY(0);
-    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
-}
-
-/* Al presionar, el botón baja y la sombra casi desaparece */
-.rik .boton-jugar a:active,
-.rik .boton-cierre:active{
-    transform: translateY(calc(var(--b-alto) - 1px));
-    box-shadow: 0 1px 0 var(--b-sombra);
-}
-
-/* Variante verde oscuro (botón del cierre) */
-.rik .boton-cierre {
-    --b-color:  #064D2B;
-    --b-sombra: #03301B;
-    --b-texto:  #FFFFFF;
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-    .rik .boton-jugar a,
-    .rik .boton-cierre { transition: none; }
-}
-/* ---------- TARJETAS: quiénes somos / visión / misión ---------- */
-
-.rik .informacion-rik {
-    width: min(92%, 1100px);
-    margin: clamp(16px, 3vw, 36px) auto 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(14px, 2vw, 28px);
-}
-
-.rik .tarjeta-info {
-    min-height: 150px;
-    padding: 22px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--rik-amarillo);
-    border-radius: var(--rik-radio);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.rik .tarjeta-info p {
-    margin: 0;
-    max-width: 32ch;
-    color: #000000;
-    font-size: clamp(13px, 1.25vw, 15px);
-    font-weight: 500;
-    line-height: 1.55;
-    text-align: center;
-}
-
-/* ---------- LOGROS Y ESTADÍSTICAS ---------- */
-
-.rik .estadisticas {
-    width: min(92%, 1100px);
-    margin: clamp(32px, 5vw, 64px) auto 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(14px, 2vw, 28px);
-}
-
-.rik .estadistica {
-    width: auto;
-    margin: 0;
-    padding: 22px 22px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    background-color: var(--rik-verde-card);
-    border-radius: var(--rik-radio);
-    color: #FFFFFF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.rik .icono-estadistica {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--rik-amarillo);
-    border-radius: 10px;
-    font-size: 22px;
-    line-height: 1;
-}
-
-.rik .estadistica h2 {
-    margin: 0 0 4px;
-    font-size: clamp(32px, 4vw, 44px);
-    font-weight: 700;
-    line-height: 1.05;
-    color: var(--rik-amarillo);
-}
-
-.rik .estadistica p {
-    margin: 0;
-    max-width: 30ch;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #FFFFFF;
-}
-
-/* ---------- CARRUSEL ---------- */
-
-.rik .galeria {
-    width: 100%;
-    padding: clamp(32px, 5vw, 64px) 0 8px;
-}
-
-.rik #carouselStackedBottom {
-    position: relative;
-    width: min(92%, 980px);
-    max-width: none;
-    margin: 0 auto;
-}
-
-.rik .carousel-inner {
-    border-radius: 20px;
-    overflow: hidden;
-    background-color: var(--rik-verde-oscuro);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
-}
-
-.rik .carousel-item img {
-    display: block;
-    width: 100%;
-    height: clamp(240px, 46vw, 560px);
-    object-fit: cover;
-    object-position: center;
-}
-
-.rik .btn-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.88);
-    color: var(--rik-verde-oscuro);
-    cursor: pointer;
-    z-index: 2;
-    transition: background-color 0.15s ease;
-}
-
-.rik .btn-icon:hover {
-    background-color: #FFFFFF;
-}
-
-.rik .btn-icon[data-bs-slide="prev"] { left: 12px; }
-.rik .btn-icon[data-bs-slide="next"] { right: 12px; }
-
-/* Los <span> de las flechas venían vacíos: se dibujan acá */
-.rik .carousel-icon-prev::before,
-.rik .carousel-icon-next::before {
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.rik .carousel-icon-prev::before { content: "\2039"; }
-.rik .carousel-icon-next::before { content: "\203A"; }
-
-/* ---------- CIERRE ---------- */
-
-.rik .cierre {
-    width: min(92%, 1100px);
-    margin: clamp(32px, 5vw, 64px) auto clamp(32px, 5vw, 56px);
-}
-
-.rik .caja-cierre {
-    padding: clamp(20px, 3vw, 32px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    background-color: var(--rik-menta);
-    border-radius: 16px;
-}
-
-.rik .texto-cierre {
-    flex: 1;
-    color: #1D1D1D;
-}
-
-.rik .texto-cierre h2 {
-    margin: 0 0 8px;
-    max-width: 52ch;
-    font-size: clamp(17px, 2vw, 24px);
-    font-weight: 600;
-    line-height: 1.35;
-    color: #1A1A1A;
-}
-
-.rik .texto-cierre p {
-    margin: 0;
-    font-size: 14px;
-    color: #3A3A3A;
-}
-
-.rik .boton-cierre {
-    flex: none;
-    padding: 14px 24px;
-    background-color: var(--rik-verde-oscuro);
-    color: #FFFFFF;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.3;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 10px;
-    transition: background-color 0.15s ease;
-}
-
-.rik .boton-cierre:hover {
-    background-color: #0A3D22;
-    color: #FFFFFF;
-}
-
-/* ---------- RESPONSIVE DE LA LANDING ---------- */
-
-/* Tablet */
-@media (max-width: 900px) {
-    .rik .presentacion {
-        grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
-        grid-template-areas:
-            "mascota logo"
-            "mascota tarjeta"
-            "mascota boton";
-    }
-
-    .rik .logo-hero {
-        justify-self: center;
-        margin-right: 0;
-        width: min(100%, 340px);
-    }
-}
-
-/* Celular: una sola columna, centrado */
-@media (max-width: 700px) {
-    .rik .presentacion {
-        min-height: 0;
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-            "logo"
-            "tarjeta"
-            "boton"
-            "mascota";
-        justify-items: center;
-        text-align: center;
-    }
-
-    .rik .logo-hero {
-        width: min(70%, 280px);
-    }
-
-    .rik .tarjeta-presentacion,
-    .rik .boton-jugar {
-        justify-self: center;
-        align-self: auto;
-    }
-
-    .rik .mascota {
-        justify-self: center;
-        width: min(70%, 300px);
-        margin-left: 0;
-    }
-
-    .rik .lluvia {
-        max-width: 60%;
-        opacity: 0.8;
-    }
-
-    .rik .informacion-rik,
-    .rik .estadisticas {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .rik .tarjeta-info {
-        min-height: 0;
-    }
-
-    .rik .caja-cierre {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .rik .boton-cierre {
-        text-align: center;
-    }
-
-    .rik .btn-icon {
-        width: 38px;
-        height: 38px;
-    }
-}
-
-
-/* =========================== */
-/* REGISTRO PAGE              */
-/* =========================== */
+/* ============================================================
+   5. REGISTRO
+   ============================================================ */
 
 .registro-body {
     margin: 0;
@@ -1000,318 +1017,12 @@ html {
     font-weight: 700;
 }
 
-#resultado {
-    position: relative;
-    z-index: 1;
-}
-
-/* REGISTRO */
-
-.registro-panel .login-form {
-    gap: 12px;
-}
-
-.registro-panel .form-field input {
-    height: 42px;
-}
-
-.registro-panel .feedback:empty {
-    display: none;
-}
-
-
-
-/* ============================= */
-/* PÁGINA PRINCIPAL DEL JUEGO    */
-/* ============================= */
-
-
-.mapa-body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    background: #ffffff;
-    font-family: 'Poppins', Arial, sans-serif;
-    color: #000;
-}
-
-/* ENCABEZADO */
-
-.mapa-header {
-    width: 100%;
-    min-height: 80px;
-    background: #064D2B;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 4%;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 5;
-}
-
-.mapa-marca {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-self: start;
-}
-
-/* El logo del header mide lo mismo que el icono de usuario (49px).
-   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
-   por eso se la agranda hasta que el círculo visible llegue a 49px. */
-.mapa-marca .brand-mark {
-    width: 49px;
-    height: 49px;
-    object-fit: contain;
-    background: none;
-    border-radius: 0;
-    transform: scale(1.38);
-}
-
-.mapa-nav {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    justify-self: center;
-}
-
-.mapa-nav a {
-    text-decoration: none;
-    background: #FFE500;
-    color: black;
-    text-align: center;
-    padding: 11px 32px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.mapa-perfil {
-    width: 49px;
-    height: 49px;
-    border-radius: 50%;
-    background: #FFE500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    font-size: 30px;
-    justify-self: end;
-}
-
-/* FONDO */
-
-.mapa-main {
-    height: calc(100vh - 80px);
-    min-height: 0;
-    background-color: white;
-    overflow: hidden;
-}
-
-.mapa-contenido {
-    width: 100%;
-    max-width: 1400px;
-    height: 100%;
-    margin: auto;
-    position: relative;
-    overflow: hidden;
-  
-}
-
-/* CAMINO DE NIVELES */
-
-.camino-niveles {
-    position: absolute;
-    inset: 0;
-}
-
-.lineas-camino {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: visible;
-}
-
-.camino-base,
-.camino-progreso {
-    fill: none;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-}
-
-.camino-base {
-    stroke: rgba(0, 0, 0, 0.28);
-    stroke-width: 7;
-}
-
-.camino-progreso {
-    stroke: #1D9D66;
-    stroke-width: 9;
-    filter: drop-shadow(0 0 8px rgba(29, 157, 102, 0.5));
-    transition: stroke-dashoffset 0.6s ease;
-}
-
-.nodo {
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    transform: translate(-50%, -50%);
-    text-decoration: none;
-    z-index: 2;
-}
-
-.nodo-disponible,
-.nodo-bloqueado {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nodo-disponible {
-    background: #FFE500;
-    border: 5px solid #064D2B;
-    box-sizing: border-box;
-    color: #064D2B;
-    font-size: 38px;
-    font-weight: bold;
-    box-shadow: 0 8px 18px rgba(6, 77, 43, 0.2);
-}
-
-.nodo-disponible:hover {
-    transform: scale(1.08);
-}
-
-.nodo-bloqueado {
-    background: #D9D9D9;
-    font-size: 39px;
-    border: 3px solid rgba(0, 0, 0, 0.08);
-}
-
-
-/* MONEDAS DE LOS NIVELES */
-
-.nodo {
-    position: absolute;
-    width: 75px;
-    height: 75px;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    display: block;
-}
-
-.nodo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-
-/* POSICIONES DE LAS MONEDAS SOBRE EL CAMINO */
-
-/* RECORRIDO DE NIVELES */
-
-.nivel-1  { left: 12%; top: 90%; }
-.nivel-2  { left: 24%; top: 82%; }
-.nivel-3  { left: 38%; top: 73%; }
-.nivel-4  { left: 25%; top: 65%; }
-.nivel-5  { left: 45%; top: 56%; }
-.nivel-6  { left: 60%; top: 47%; }
-.nivel-7  { left: 76%; top: 38%; }
-.nivel-8  { left: 65%; top: 29%; }
-.nivel-9  { left: 48%; top: 20%; }
-.nivel-10 { left: 30%; top: 13%; }
-.nivel-11 { left: 58%; top: 7%; }
-.nivel-12 { left: 84%; top: 2%; }
-
-/* PANTALLAS PEQUEÑAS */
-
-@media (max-width: 700px) {
-
-    .nodo {
-        width: 65px;
-        height: 65px;
-    }
-
-    .nodo-bloqueado {
-        font-size: 29px;
-    }
-}
-/* GRID DE LA BIBLIOTECA */
-
-.biblioteca-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(190px, 1fr));
-    gap: 50px 60px;
-    max-width: 1150px;
-    margin: 35px auto;
-    justify-items: center;
-}
-
-.biblioteca-grid .teoria {
-    width: 210px;
-    height: 255px;
-    background-color: #064D2B;
-    border-radius: 13px;
-    overflow: hidden;
-    text-align: center;
-    color: white;
-    transition: transform 0.2s ease;
-}
-
-.biblioteca-grid .teoria img {
-    width: 100%;
-    height: 155px;
-    object-fit: cover;
-}
-
-.biblioteca-grid .teoria h2,
-.biblioteca-grid .teoria h3 {
-    font-size: 20px;
-    font-weight: normal;
-    line-height: 1.4;
-    padding: 12px 14px;
-    margin: 0;
-}
-
-.biblioteca-grid a {
-    text-decoration: none;
-    color: white;
-}
-
-.biblioteca-grid a:hover .teoria {
-    transform: scale(1.05);
-}
-
+/* Tiene que ir DESPUÉS de ".registro-body a", que si no pinta de blanco los botones amarillos */
 .login-nav a,
 .login-button,
 .registrarse-nav a,
 .registrarse-header .login-button {
     color: #000000;
-}
-
-.login-main {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    min-height: calc(100vh - 56px);
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 12px;
-    overflow: hidden;
-    box-sizing: border-box;
-    padding: 20px 0 30px;
 }
 
 .registro-imagotipo-wrap {
@@ -1350,182 +1061,9 @@ html {
 }
 
 
-.mapa-biblioteca {
-    position: relative;
-    z-index: 10;
-}
-
-.mapa-biblioteca a {
-    display: inline-block;
-    position: relative;
-    z-index: 11;
-}
-
-
-
-
-body {
-    margin: 0;
-    background: #078B58;
-    font-family: Arial, sans-serif;
-}
-
-.resultado {
-    max-width: 700px;
-    margin: 70px auto;
-    padding: 35px;
-    background: white;
-    border-radius: 20px;
-    text-align: center;
-}
-
-.resultado h1 {
-    color: #064D2B;
-}
-
-.estadisticas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin: 35px 0;
-}
-
-.estadistica {
-    background: #E8F2ED;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.estadistica h2 {
-    font-size: 16px;
-}
-
-.estadistica p {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.resultado a {
-    display: inline-block;
-    background: #FFE500;
-    color: black;
-    padding: 15px 30px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-@media (max-width: 600px) {
-    .resultado {
-        margin: 20px;
-        padding: 20px;
-    }
-
-    .estadisticas {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Botón que se ve como link (ej: "Cerrar sesión" en Perfil, que tiene que enviarse por POST) */
-.boton-link {
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: LinkText;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-<<<<<<< HEAD
-/* CARRUSEL */
-
-.rik .galeria {
-    width: 100%;
-    padding: 24px 0 12px;
-}
-
-.rik #carouselStackedBottom {
-    max-width: 980px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.rik .carousel-inner {
-    border-radius: 22px;
-    overflow: hidden;
-    background: #064D2B;
-}
-
-.rik .carousel-item img {
-    display: block;
-    width: 100%;
-    height: 620px;
-    object-fit: cover;
-    object-position: center;
-}
-
-.rik .btn-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
-    color: #064D2B;
-    z-index: 2;
-}
-
-.rik .btn-icon[data-bs-slide="prev"] {
-    left: 12px;
-}
-
-.rik .btn-icon[data-bs-slide="next"] {
-    right: 12px;
-}
-
-@media (max-width: 700px) {
-    .rik .carousel-item img {
-        height: 320px;
-    }
-
-    .rik #carouselStackedBottom {
-        max-width: 92%;
-    }
-}
-
-/* BOTÓN JUGAR */
-.rik .boton-jugar {
-    position: absolute;
-    left: 20%;
-    top: 180px;
-
-}
-
-.rik .boton-jugar a {
-    display: inline-block;
-    background-color: #FFE500;
-    color: #000000;
-    text-decoration: none;
-    font-size: 30px;
-    font-weight: 800;
-    padding: 25px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-}
-
-.rik .boton-jugar a:hover {
-    background-color: #F2D600;
-}
-
-=======
->>>>>>> f80c44e774b5fa935638e552754cbaabb9dfc10c
-
-/* ============================= */
-/* INICIO: MAPA DE NIVELES       */
-/* ============================= */
+/* ============================================================
+   6. INICIO (mapa de niveles arrastrable)
+   ============================================================ */
 
 body:has(.inicio-mapa) {
     background: #ffffff;
@@ -1597,7 +1135,7 @@ body:has(.inicio-mapa) .page-main {
     vector-effect: non-scaling-stroke;
 }
 
-/* MONEDAS */
+/* Monedas */
 
 .inicio-nodo {
     position: absolute;
@@ -1626,7 +1164,7 @@ body:has(.inicio-mapa) .page-main {
     transform: translate(-50%, -50%) scale(1.08);
 }
 
-/* PANELES Y MASCOTA: QUEDAN FIJOS */
+/* Paneles y mascota: quedan fijos */
 
 .inicio-pantalla {
     position: absolute;
@@ -1784,7 +1322,7 @@ body:has(.inicio-mapa) .page-main {
     }
 }
 
-/* CELULAR (hasta 700px): la biblioteca y la racha van una al lado de la otra y más chicas,
+/* Celular (hasta 700px): la biblioteca y la racha van una al lado de la otra y más chicas,
    así ocupan poco alto y las monedas del camino no quedan debajo de los paneles. */
 @media (max-width: 700px) {
     .inicio-biblioteca {
@@ -1817,9 +1355,279 @@ body:has(.inicio-mapa) .page-main {
 }
 
 
-/* ============================= */
-/* CHARLA DE TEORÍA              */
-/* ============================= */
+/* ============================================================
+   7. MAPA (versión con nodos fijos)
+   ============================================================ */
+
+.mapa-body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: #ffffff;
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #000;
+}
+
+/* Encabezado */
+
+.mapa-header {
+    width: 100%;
+    min-height: 80px;
+    background: #064D2B;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 5;
+}
+
+.mapa-marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-self: start;
+}
+
+/* El logo del header mide lo mismo que el icono de usuario (49px).
+   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
+   por eso se la agranda hasta que el círculo visible llegue a 49px. */
+.mapa-marca .brand-mark {
+    width: 49px;
+    height: 49px;
+    object-fit: contain;
+    background: none;
+    border-radius: 0;
+    transform: scale(1.38);
+}
+
+.mapa-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-self: center;
+}
+
+.mapa-nav a {
+    text-decoration: none;
+    background: #FFE500;
+    color: black;
+    text-align: center;
+    padding: 11px 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.mapa-perfil {
+    width: 49px;
+    height: 49px;
+    border-radius: 50%;
+    background: #FFE500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 30px;
+    justify-self: end;
+}
+
+.mapa-biblioteca {
+    position: relative;
+    z-index: 10;
+}
+
+.mapa-biblioteca a {
+    display: inline-block;
+    position: relative;
+    z-index: 11;
+}
+
+/* Fondo */
+
+.mapa-main {
+    height: calc(100vh - 80px);
+    min-height: 0;
+    background-color: white;
+    overflow: hidden;
+}
+
+.mapa-contenido {
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Camino de niveles */
+
+.camino-niveles {
+    position: absolute;
+    inset: 0;
+}
+
+.lineas-camino {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: visible;
+}
+
+.camino-base,
+.camino-progreso {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.camino-base {
+    stroke: rgba(0, 0, 0, 0.28);
+    stroke-width: 7;
+}
+
+.camino-progreso {
+    stroke: #1D9D66;
+    stroke-width: 9;
+    filter: drop-shadow(0 0 8px rgba(29, 157, 102, 0.5));
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Monedas de los niveles */
+
+.nodo {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    transform: translate(-50%, -50%);
+    text-decoration: none;
+    z-index: 2;
+    display: block;
+}
+
+.nodo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.nodo-disponible,
+.nodo-bloqueado {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nodo-disponible {
+    background: #FFE500;
+    border: 5px solid #064D2B;
+    box-sizing: border-box;
+    color: #064D2B;
+    font-size: 38px;
+    font-weight: bold;
+    box-shadow: 0 8px 18px rgba(6, 77, 43, 0.2);
+}
+
+.nodo-disponible:hover {
+    transform: scale(1.08);
+}
+
+.nodo-bloqueado {
+    background: #D9D9D9;
+    font-size: 39px;
+    border: 3px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Recorrido de niveles: posiciones de las monedas sobre el camino */
+
+.nivel-1  { left: 12%; top: 90%; }
+.nivel-2  { left: 24%; top: 82%; }
+.nivel-3  { left: 38%; top: 73%; }
+.nivel-4  { left: 25%; top: 65%; }
+.nivel-5  { left: 45%; top: 56%; }
+.nivel-6  { left: 60%; top: 47%; }
+.nivel-7  { left: 76%; top: 38%; }
+.nivel-8  { left: 65%; top: 29%; }
+.nivel-9  { left: 48%; top: 20%; }
+.nivel-10 { left: 30%; top: 13%; }
+.nivel-11 { left: 58%; top: 7%; }
+.nivel-12 { left: 84%; top: 2%; }
+
+@media (max-width: 700px) {
+    .nodo {
+        width: 65px;
+        height: 65px;
+    }
+
+    .nodo-bloqueado {
+        font-size: 29px;
+    }
+}
+
+
+/* ============================================================
+   8. BIBLIOTECA
+   ============================================================ */
+
+.biblioteca-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(190px, 1fr));
+    gap: 50px 60px;
+    max-width: 1150px;
+    margin: 35px auto;
+    justify-items: center;
+}
+
+.biblioteca-grid .teoria {
+    width: 210px;
+    height: 255px;
+    background-color: #064D2B;
+    border-radius: 13px;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.biblioteca-grid .teoria img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+}
+
+.biblioteca-grid .teoria h2,
+.biblioteca-grid .teoria h3 {
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 1.4;
+    padding: 12px 14px;
+    margin: 0;
+}
+
+.biblioteca-grid a {
+    text-decoration: none;
+    color: white;
+}
+
+.biblioteca-grid a:hover .teoria {
+    transform: scale(1.05);
+}
+
+
+/* ============================================================
+   9. CHARLA DE TEORÍA
+   (la barra, las vidas y el botón amarillo también los usan Nivel y Resultado)
+   ============================================================ */
 
 body:has(.charla) {
     background: #ffffff;
@@ -1849,8 +1657,14 @@ body:has(.fin) .page-main {
     min-height: 0;
 }
 
+.charla {
+    width: min(100% - 48px, 1180px);
+    margin: 0 auto;
+    padding: 28px 0 40px;
+}
+
 /* Teoría: el tema arriba, la charla centrada en el espacio libre y el botón abajo.
-   (Con .charla adelante para que gane sobre el padding de .charla, que está más abajo.) */
+   (Con .charla adelante para que gane sobre el padding de .charla.) */
 .charla.charla-teoria {
     flex: 1;
     display: flex;
@@ -1858,33 +1672,11 @@ body:has(.fin) .page-main {
     padding-bottom: 0;
 }
 
-.charla-teoria .charla-paso,
-.charla-teoria .charla-resumen {
-    flex: 1;
-    justify-content: center;
-}
-
-/* El botón queda fijo abajo mientras se scrollea el resumen (los mensajes pasan por detrás). */
-.charla-teoria .charla-acciones {
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-    margin-top: 10px;
-    padding: 16px 0 24px;
-    background: #ffffff;
-}
-
-.charla {
-    width: min(100% - 48px, 1180px);
-    margin: 0 auto;
-    padding: 28px 0 40px;
-}
-
 .charla [hidden] {
     display: none !important;
 }
 
-/* PROGRESO Y VIDAS */
+/* Progreso y vidas */
 
 .charla-estado {
     display: flex;
@@ -1904,12 +1696,7 @@ body:has(.fin) .page-main {
     height: 100%;
     border-radius: 13px;
     background: #0A4D28;
-}
-
-.charla-vidas {
-    font-size: 24px;
-    line-height: 1;
-    white-space: nowrap;
+    transition: width 0.4s ease;
 }
 
 .charla-vidas {
@@ -1917,6 +1704,9 @@ body:has(.fin) .page-main {
     align-items: center;
     gap: 8px;
     margin-left: 30px;
+    font-size: 24px;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .charla-corazon {
@@ -1934,7 +1724,7 @@ body:has(.fin) .page-main {
     color: #000000;
 }
 
-/* MENSAJES */
+/* Mensajes */
 
 .charla-paso,
 .charla-resumen {
@@ -1949,6 +1739,12 @@ body:has(.fin) .page-main {
 
 .charla-resumen {
     gap: 14px;
+}
+
+.charla-teoria .charla-paso,
+.charla-teoria .charla-resumen {
+    flex: 1;
+    justify-content: center;
 }
 
 .charla-fila {
@@ -2000,12 +1796,22 @@ body:has(.fin) .page-main {
     margin-top: 6px;
 }
 
-/* BOTÓN */
+/* Botón */
 
 .charla-acciones {
     display: flex;
     justify-content: center;
     margin-top: 26px;
+}
+
+/* El botón queda fijo abajo mientras se scrollea el resumen (los mensajes pasan por detrás). */
+.charla-teoria .charla-acciones {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin-top: 10px;
+    padding: 16px 0 24px;
+    background: #ffffff;
 }
 
 .charla-boton {
@@ -2028,6 +1834,15 @@ body:has(.fin) .page-main {
 .charla-boton:hover {
     background: #FFE033;
     color: #000000;
+}
+
+.charla-boton:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.charla-boton:disabled:hover {
+    background: #FFD700;
 }
 
 @media (max-width: 700px) {
@@ -2063,14 +1878,10 @@ body:has(.fin) .page-main {
 }
 
 
-/* ============================= */
-/* PANTALLA DE NIVEL (PREGUNTAS) */
-/* ============================= */
-/* Usa la misma barra, vidas y botón amarillo que la charla de teoría. */
-
-.charla-barra-relleno {
-    transition: width 0.4s ease;
-}
+/* ============================================================
+   10. NIVEL (preguntas)
+   Usa la misma barra, vidas y botón amarillo que la charla de teoría.
+   ============================================================ */
 
 .nivel-tiempo {
     font-size: 24px;
@@ -2081,6 +1892,21 @@ body:has(.fin) .page-main {
     border-radius: 10px;
     background: #0A4D28;
     color: #ffffff;
+}
+
+/* Barra arriba, la pregunta centrada en el espacio libre y el botón abajo de todo. */
+.charla.nivel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 24px;
+}
+
+.nivel-centro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* La pregunta es lo más importante de la pantalla: más grande y en negrita.
@@ -2152,32 +1978,8 @@ body:has(.fin) .page-main {
     color: #000000;
 }
 
-/* Barra arriba, la pregunta centrada en el espacio libre y el botón abajo de todo. */
-.charla.nivel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 24px;
-}
-
-.nivel-centro {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .nivel .charla-acciones {
     margin-top: 10px;
-}
-
-.charla-boton:disabled {
-    opacity: 0.55;
-    cursor: default;
-}
-
-.charla-boton:disabled:hover {
-    background: #FFD700;
 }
 
 @media (max-width: 700px) {
@@ -2207,11 +2009,11 @@ body:has(.fin) .page-main {
 }
 
 
-/* ============================= */
-/* RESULTADO DEL NIVEL           */
-/* ============================= */
+/* ============================================================
+   11. RESULTADO DEL NIVEL (.fin)
+   Ocupa todo el alto debajo del header (ver "Pantallas que ocupan todo el alto" en la sección 9).
+   ============================================================ */
 
-/* Ocupa todo el alto debajo del header (ver "Pantallas que ocupan todo el alto" en la charla). */
 body:has(.fin) {
     background: #ffffff;
     color: #000000;
@@ -2365,4 +2167,87 @@ body:has(.fin) {
         font-size: 17px;
         padding: 14px 18px;
     }
+}
+
+
+/* ============================================================
+   12. RESULTADO (versión anterior, posiblemente sin uso)
+   Si ninguna vista usa .resultado, podés borrar este bloque.
+   ============================================================ */
+
+.resultado {
+    max-width: 700px;
+    margin: 70px auto;
+    padding: 35px;
+    background: white;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.resultado h1 {
+    color: #064D2B;
+}
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 35px 0;
+}
+
+.estadistica {
+    background: #E8F2ED;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.estadistica h2 {
+    font-size: 16px;
+}
+
+.estadistica p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.resultado a {
+    display: inline-block;
+    background: #FFE500;
+    color: black;
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .resultado {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .estadisticas {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   13. UTILIDADES
+   ============================================================ */
+
+.sin-ligas {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Botón que se ve como link (ej: "Cerrar sesión" en Perfil, que tiene que enviarse por POST) */
+.boton-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: LinkText;
+    text-decoration: underline;
+    cursor: pointer;
 }
