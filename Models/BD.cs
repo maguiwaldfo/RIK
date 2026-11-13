@@ -389,6 +389,22 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         }
     }
 
+    public List<Liga> ObtenerLigasDeUsuario(int idUsuario)
+    {
+        List<Liga> ligas = new List<Liga>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            ligas = connection.Query<Liga>(
+                "sp_ObtenerLigasDeUsuario",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return ligas;
+    }
+
     public List<UsuarioRanking> ObtenerLeaderboardLiga(int idLiga)
     {
         List<UsuarioRanking> ranking = new List<UsuarioRanking>();
@@ -421,29 +437,30 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return liga;
     }
 
-    public int CrearLiga(Liga liga, int idUsuarioCreador)
+  public int CrearLiga(Liga liga, int idUsuarioCreador)
+  {
+    int idLigaCreada = 0;
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
     {
-        int idLigaCreada = 0;
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            idLigaCreada = connection.QueryFirstOrDefault<int>(
-                "sp_CrearLiga",
-                new
-                {
-                    nombre = liga.Nombre,
-                    capacidad = liga.Capacidad,
-                    privacidad = liga.Privacidad,
-                    contraseña = liga.Contraseña
-                },
-                commandType: CommandType.StoredProcedure
-            );
-        }
-
-        UnirUsuarioALiga(idLigaCreada, idUsuarioCreador);
-
-        return idLigaCreada;
+        idLigaCreada = connection.QueryFirstOrDefault<int>(
+            "sp_CrearLiga",
+            new
+            {
+                nombre = liga.Nombre,
+                capacidad = liga.Capacidad,
+                privacidad = liga.Privacidad,
+                contraseña = liga.Contraseña,
+                idUsuarioCreador = idUsuarioCreador
+            },
+            commandType: CommandType.StoredProcedure
+        );
     }
+
+    UnirUsuarioALiga(idLigaCreada, idUsuarioCreador);
+
+    return idLigaCreada;
+  }
 
     public void UnirUsuarioALiga(int idLiga, int idUsuario)
     {
@@ -476,4 +493,36 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
 
         return idUsuario;
     }
+
+    public void EliminarLiga(int idLiga, int idUsuario)
+{
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        connection.Execute(
+            "sp_EliminarLiga",
+            new
+            {
+                idLiga = idLiga,
+                idUsuario = idUsuario
+            },
+            commandType: CommandType.StoredProcedure
+        );
+    }
+}
+
+public void AbandonarLiga(int idLiga, int idUsuario)
+{
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        connection.Execute(
+            "sp_AbandonarLiga",
+            new
+            {
+                idLiga = idLiga,
+                idUsuario = idUsuario
+            },
+            commandType: CommandType.StoredProcedure
+        );
+    }
+}
 }

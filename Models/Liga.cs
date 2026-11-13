@@ -7,4 +7,5 @@ public class Liga
     public int Capacidad { get; set; }
     public bool Privacidad { get; set; }
     public string Contraseña { get; set; }
+    public int IdUsuarioCreador { get; set; }
 }

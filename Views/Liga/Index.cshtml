@@ -17,3 +17,11 @@
 
 <h2>@ViewBag.TituloLiga</h2>
 @Html.Raw(ViewBag.HtmlTablaLiga)
+
+@if (ViewBag.IdLiga != null && ViewBag.IdLiga > 0)
+{
+    <form action="/Liga/@ViewBag.AccionLiga" method="post">
+        <input type="hidden" name="idLiga" value="@ViewBag.IdLiga" />
+        <button type="submit">@ViewBag.TextoBotonLiga</button>
+    </form>
+}
