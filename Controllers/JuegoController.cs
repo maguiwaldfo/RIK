@@ -19,12 +19,24 @@ public class JuegoController : Controller
 
         HttpContext.Session.SetString("IdNivel", nivel.Id.ToString());
 
+        ViewData["Title"] = nivel.Tema;
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.IdNivel = nivel.Id;
         ViewBag.Nivel = nivel;
         ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel) ?? new List<CharlaTeoria>();
 
+        CargarImagenesPersonajes();
+
         return View();
+    }
+
+    // Imágenes de los personajes: caras para el resumen final, medio cuerpo para el paso a paso.
+    private void CargarImagenesPersonajes()
+    {
+        ViewBag.CaraChico = Url.Content("~/imagenes/Cara%20chico.png");
+        ViewBag.CaraPerro = Url.Content("~/imagenes/Cara%20riky.png");
+        ViewBag.CuerpoChico = Url.Content("~/imagenes/Chico%20confundido%20con%20gesto%20explicativo%203.png");
+        ViewBag.CuerpoPerro = Url.Content("~/imagenes/Perrito_Shiba_sonriente_saludando-removebg-preview%201.png");
     }
 
     public IActionResult Nivel(int nivelElegido)
@@ -93,12 +105,36 @@ public class JuegoController : Controller
         int preguntaActual = 0;
         int vidas = 3;
         int puntos = 0;
-        int segundos = 0;
 
         int.TryParse(HttpContext.Session.GetString("PreguntaActual"), out preguntaActual);
         int.TryParse(HttpContext.Session.GetString("Vidas"), out vidas);
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
+        ViewBag.TemaNivel = nivel.Tema;
+        ViewBag.PreguntasNivel = preguntas;
+        ViewBag.PreguntaActual = preguntaActual;
+        ViewBag.Progreso = CalcularProgreso(preguntaActual, preguntas.Count);
+        ViewBag.Vidas = vidas;
+        ViewBag.Puntos = puntos;
+        ViewBag.Segundos = SegundosDePartida();
+
+        return View();
+    }
+
+    // Porcentaje de la barra de progreso: preguntas ya acertadas sobre el total.
+    private int CalcularProgreso(int preguntaActual, int totalPreguntas)
+    {
+        if (totalPreguntas == 0)
+        {
+            return 0;
+        }
+
+        return preguntaActual * 100 / totalPreguntas;
+    }
+
+    // Segundos que pasaron desde que empezó la partida (se guardó en la session "InicioPartida").
+    private int SegundosDePartida()
+    {
         DateTime inicio;
 
         if (DateTime.TryParse(
@@ -107,17 +143,10 @@ public class JuegoController : Controller
                 DateTimeStyles.RoundtripKind,
                 out inicio))
         {
-            segundos = (int)(DateTime.UtcNow - inicio).TotalSeconds;
+            return (int)(DateTime.UtcNow - inicio).TotalSeconds;
         }
 
-        ViewBag.TemaNivel = nivel.Tema;
-        ViewBag.PreguntasNivel = preguntas;
-        ViewBag.PreguntaActual = preguntaActual;
-        ViewBag.Vidas = vidas;
-        ViewBag.Puntos = puntos;
-        ViewBag.Segundos = segundos;
-
-        return View();
+        return 0;
     }
 
     // Devuelve las preguntas de la partida en curso de este nivel, en el mismo orden
@@ -283,31 +312,67 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        DateTime inicio = DateTime.UtcNow;
+        bool gano = estado == "Guardado";
 
-        DateTime.TryParse(
-            HttpContext.Session.GetString("InicioPartida"),
-            out inicio
-        );
+        int puntos = LeerNumeroSession("Puntos");
+        int vidas = LeerNumeroSession("Vidas");
 
-        TimeSpan tiempo = DateTime.UtcNow - inicio;
-
-        ViewBag.Tiempo = tiempo.ToString(@"mm\:ss");
-        ViewBag.Vidas = HttpContext.Session.GetString("Vidas");
-        ViewBag.Puntos = HttpContext.Session.GetString("Puntos");
-
-        if (estado == "Guardado")
-        {
-            ViewBag.TituloResultado = "¡Nivel completado!";
-            ViewBag.MensajeResultado = "¡Muy bien! Terminaste el desafío.";
-        }
-        else
-        {
-            ViewBag.TituloResultado = "¡Te quedaste sin vidas!";
-            ViewBag.MensajeResultado = "Podés volver a intentarlo.";
-        }
+        ViewBag.Gano = gano;
+        ViewBag.ImagenMascota = gano
+            ? Url.Content("~/imagenes/Ricky%20pantalla%20ganaste.png")
+            : Url.Content("~/imagenes/Ricky%20pantalla%20perdiste.png");
+        ViewBag.Xp = CalcularXp(gano, puntos);
+        ViewBag.Aciertos = CalcularAciertos(puntos, vidas);
+        ViewBag.Tiempo = FormatearTiempo(SegundosDePartida());
+        ViewBag.IdNivel = LeerNumeroSession("NivelActual");
 
         return View();
+    }
+
+    // Lee un número guardado en la session. Si no está o no es un número, devuelve 0.
+    private int LeerNumeroSession(string clave)
+    {
+        int numero = 0;
+
+        int.TryParse(HttpContext.Session.GetString(clave), out numero);
+
+        return numero;
+    }
+
+    // Si se pierde el nivel no se guarda, así que no se gana XP.
+    private int CalcularXp(bool gano, int puntos)
+    {
+        if (gano)
+        {
+            return puntos;
+        }
+
+        return 0;
+    }
+
+    // Aciertos: respuestas correctas sobre todos los intentos
+    // (cada acierto suma 100 puntos y cada fallo saca una de las 3 vidas).
+    private int CalcularAciertos(int puntos, int vidas)
+    {
+        int correctas = puntos / 100;
+        int fallos = Math.Max(0, 3 - vidas);
+        int intentos = correctas + fallos;
+
+        if (intentos == 0)
+        {
+            return 0;
+        }
+
+        return (int)Math.Round(correctas * 100.0 / intentos);
+    }
+
+    // Pasa los segundos a "m:ss", sin el cero de adelante (por ejemplo "1:05").
+    private string FormatearTiempo(int segundos)
+    {
+        int minutos = segundos / 60;
+        int resto = segundos % 60;
+
+        return minutos + ":" + resto.ToString("00");
     }
 
     public IActionResult JugarNivel(int idNivel)

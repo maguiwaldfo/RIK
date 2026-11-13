@@ -1549,7 +1549,7 @@ body {
     position: absolute;
     left: 20%;
     top: 180px;
-   
+
 }
 
 .rik .boton-jugar a {
@@ -1830,6 +1830,38 @@ body:has(.inicio-mapa) .page-main {
     }
 }
 
+/* CELULAR (hasta 700px): la biblioteca y la racha van una al lado de la otra y más chicas,
+   así ocupan poco alto y las monedas del camino no quedan debajo de los paneles. */
+@media (max-width: 700px) {
+    .inicio-biblioteca {
+        top: 14px;
+        width: 170px;
+        padding: 12px;
+        gap: 10px;
+        border-radius: 14px;
+    }
+
+    .inicio-biblioteca p,
+    .inicio-biblioteca a {
+        font-size: 14px;
+    }
+
+    .inicio-biblioteca a {
+        padding: 7px 0;
+    }
+
+    .inicio-racha {
+        top: 14px;
+        left: calc(3.2% + 178px);
+        width: 60px;
+        border-radius: 14px;
+    }
+
+    .inicio-racha p {
+        font-size: 16px;
+    }
+}
+
 
 /* ============================= */
 /* CHARLA DE TEORÍA              */
@@ -2097,9 +2129,12 @@ body:has(.fin) .page-main {
     color: #ffffff;
 }
 
-/* La pregunta es lo más importante de la pantalla: más grande y en negrita. */
+/* La pregunta es lo más importante de la pantalla: más grande y en negrita.
+   Centrada y con el mismo ancho que las opciones (.nivel-opciones). */
 .nivel-enunciado {
-    margin: 26px 0 30px 14px;
+    width: min(100%, 940px);
+    margin: 26px auto 30px;
+    text-align: center;
     font-size: 36px;
     font-weight: 600;
     line-height: 1.25;
@@ -2193,7 +2228,7 @@ body:has(.fin) .page-main {
 
 @media (max-width: 700px) {
     .nivel-enunciado {
-        margin: 18px 0 20px;
+        margin: 18px auto 20px;
         font-size: 24px;
     }
 

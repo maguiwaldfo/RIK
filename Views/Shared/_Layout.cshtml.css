@@ -110,6 +110,85 @@ for details on configuring this project to bundle and minify static web assets. 
   justify-self: end;
 }
 
+/* RANGOS DE PANTALLA (los mismos en todo el sitio):
+   - Celular:     hasta 700px
+   - Tablet:      de 701px a 1024px
+   - Computadora: desde 1025px (son los estilos de arriba, sin media)
+   El header con sesión (.mapa-header) entra tal cual en tablet y computadora.
+   El header sin sesión (.encabezado) necesita unos 830px con los botones grandes. */
+
+/* TABLET: sin sesión, los botones del menú se achican para que todo entre en una sola fila.
+   (Bootstrap le pone flex-wrap: wrap a .nav; acá se saca para que no baje a otra fila.) */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .nav {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .nav a {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* CELULAR: todo tiene que entrar sin scroll de costado.
+   - Sin sesión: arriba el logo y "Inicia Sesión"; abajo el menú en 4 columnas iguales.
+   - Con sesión: logo, los 3 botones y el usuario en una fila, más chicos. */
+@media (max-width: 700px) {
+  .encabezado {
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .boton-login {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .mapa-header {
+    padding: 0 10px;
+    column-gap: 8px;
+  }
+
+  .mapa-marca .brand-mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mapa-nav {
+    gap: 6px;
+  }
+
+  .mapa-nav a {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .mapa-perfil {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+  }
+}
+
 /* Existing default styles */
 a.navbar-brand {
   white-space: normal;
