@@ -153,13 +153,12 @@ nav li:hover,
    Sin padding abajo: la mascota se apoya sobre las tarjetas amarillas.
    Para un hero más ancho en pantallas grandes, cambiá 1280px. */
 .rik .presentacion {
-    position: relative;
-    width: min(100%, 1280px);
-    height: auto;
-    min-height: clamp(380px, 46vw, 560px);
-    margin: 0 auto;
-    padding: clamp(20px, 3vw, 40px) 3% 0;
-    overflow: hidden;
+    width: 100%;                                   
+    padding-top: clamp(20px, 3vw, 40px);
+    padding-bottom: 0;
+    /* el contenido sigue ocupando el mismo ancho de antes, centrado */
+    padding-left:  max(3%, calc((100% - 1280px) / 2 + 3%));
+    padding-right: max(3%, calc((100% - 1280px) / 2 + 3%));
 
     display: grid;
     grid-template-columns: minmax(0, 66%) minmax(0, 1fr);
@@ -177,7 +176,7 @@ nav li:hover,
     left: 0;
     width: auto;
     height: 70%;
-    max-width: 40%;
+    max-width: 28%;   
     object-fit: contain;
     z-index: 0;
     pointer-events: none;
@@ -189,6 +188,7 @@ nav li:hover,
     left: auto;
     right: 0;
     bottom: 0;
+    max-width: 24%;
     transform: scaleX(-1) scaleY(-1);
 }
 
@@ -197,7 +197,7 @@ nav li:hover,
 .rik .hero-escena {
     /* --- Ajustes principales --- */
     --mascota-ancho: clamp(300px, 40vw, 760px);   /* tamaño de la mascota */
-    --texto-izq: 88%;                              /* más alto = el botón se aleja de la mascota */
+   --texto-izq: 76%;     /* antes 88%; más bajo = más al medio, 70% ya se mete sobre la pata */                             /* más alto = el botón se aleja de la mascota */
     --texto-abajo: 28%;                            /* más alto = el botón sube (a la altura de la pata) */
 
     grid-area: escena;
