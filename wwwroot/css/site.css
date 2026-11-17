@@ -1913,7 +1913,7 @@ body:has(.fin) .page-main {
    Centrada y con el mismo ancho que las opciones (.nivel-opciones). */
 .nivel-enunciado {
     width: min(100%, 940px);
-    margin: 26px auto 30px;
+    margin: 26px auto 70px;
     text-align: center;
     font-size: 36px;
     font-weight: 600;
@@ -1984,7 +1984,7 @@ body:has(.fin) .page-main {
 
 @media (max-width: 700px) {
     .nivel-enunciado {
-        margin: 18px auto 20px;
+        margin: 18px auto 36px;
         font-size: 24px;
     }
 

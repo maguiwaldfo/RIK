@@ -8,7 +8,11 @@ builder.Services.AddSession(options =>
 });
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// ReiniciarPartidaFilter: si se sale de un nivel a otra vista, la partida se reinicia.
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<RIK.Models.ReiniciarPartidaFilter>();
+});
 
 var app = builder.Build();
 

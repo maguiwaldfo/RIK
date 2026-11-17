@@ -203,15 +203,24 @@
                 return nodos[nodos.length - 1].offsetTop;
             }
 
-            // La capa se corre hacia la izquierda y baja lo necesario para que el camino
-            // siempre pase por el ancla: así en todo momento se ve como en la primera pantalla.
+            // Cuánto tiene que bajar la capa para que el camino pase por el ancla
+            // cuando la capa está corrida x píxeles hacia la izquierda.
+            function bajadaEnAncla(x) {
+                var y = lienzo.offsetHeight - (1 - ANCLA_Y) * mapa.clientHeight
+                        - alturaCamino(x + ANCLA_X * mapa.clientWidth);
+                return Math.max(0, Math.min(recorrido().y, y));
+            }
+
+            // La capa se mueve en línea recta (en diagonal) desde el principio hasta el final
+            // del camino: la bajada es proporcional al avance, sin seguir cada subida y bajada
+            // entre monedas.
             function mover(valor) {
                 var r = recorrido();
                 avance = Math.max(0, Math.min(1, valor));
                 var x = avance * r.x;
-                var y = lienzo.offsetHeight - (1 - ANCLA_Y) * mapa.clientHeight
-                        - alturaCamino(x + ANCLA_X * mapa.clientWidth);
-                y = Math.max(0, Math.min(r.y, y));
+                var yInicio = bajadaEnAncla(0);
+                var yFin = bajadaEnAncla(r.x);
+                var y = yInicio + (yFin - yInicio) * avance;
                 lienzo.style.transform = 'translate(' + (-x) + 'px, ' + y + 'px)';
             }
 

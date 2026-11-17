@@ -48,6 +48,10 @@ public class JuegoController : Controller
             return RedirectToAction("Index", "Login");
         }
 
+        // Que el navegador no guarde esta página: así, al volver con "Atrás" desde otra
+        // vista, se vuelve a pedir al servidor y la partida empieza de cero.
+        Response.Headers["Cache-Control"] = "no-store";
+
         Nivel nivel = bd.ObtenerNivel(nivelElegido);
 
         int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
