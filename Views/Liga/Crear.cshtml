@@ -1,3 +1,4 @@
+
 @{
     ViewData["Title"] = "Crear Liga";
 }
@@ -9,27 +10,42 @@
         <label>Nombre de la Liga:</label>
         <input type="text" name="Nombre" required />
     </div>
+
     <br />
+
     <div>
         <label>Capacidad Máxima:</label>
         <input type="number" name="Capacidad" value="10" required />
     </div>
+
     <br />
-    <div>
-        <label>Privacidad:</label>
-        <select name="Privacidad">
-            <option value="false">Pública</option>
-            <option value="true">Privada con Contraseña</option>
-        </select>
+
+    <select name="Privacidad" id="Privacidad" onchange="ActualizarContraseña()">
+        <option value="false">Pública</option>
+        <option value="true">Privada con Contraseña</option>
+    </select>
+
+    <br/>
+    <br/>
+
+    <div id="contrsena">
+        <label>Contraseña:</label>
+        <input type="password" name="Contraseña" id="Contraseña" />
     </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <p style="color: red;">@ViewBag.Error</p>
+    }
+
     <br />
-    <div>
-        <label>Contraseña (opcional):</label>
-        <input type="password" name="Contraseña" />
-    </div>
-    <br />
+
     <button type="submit">Guardar Liga</button>
 </form>
 
 <br />
+
 <a href="@Url.Action("Index", "Liga")">Volver a Ligas</a>
+
+
+<script src="~/js/Liga.js"></script>

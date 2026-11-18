@@ -1,3 +1,4 @@
+
 @{
     ViewData["Title"] = "Ligas y Tabla de Posiciones";
 }
@@ -8,15 +9,66 @@
     <a href="@Url.Action("Crear", "Liga")">Crear Nueva Liga</a>
 </div>
 
+@if (TempData["Mensaje"] != null)
+{
+    <section class="liga-aviso" role="status">@TempData["Mensaje"]</section>
+}
+
+<hr />
+
+<h2>Mis Ligas</h2>
+
+<div class="lista-ligas">
+    @foreach (RIK.Models.Liga liga in ViewBag.Ligas)
+    {
+        <div class="liga">
+            <h3>@liga.Nombre</h3>
+            <a href="@Url.Action("Index", "Liga", new { idLigaAmigos = liga.Id })">
+                Ver liga
+            </a>
+        </div>
+    }
+
+    <a class="liga-unirse" href="@Url.Action("UnirseALiga", "Liga")">+ Unirse a una liga</a>
+</div>
+
 <hr />
 
 <h2>Ranking Global</h2>
+
 @Html.Raw(ViewBag.HtmlTablaGlobal)
 
 <hr />
 
 <h2>@ViewBag.TituloLiga</h2>
+
 @Html.Raw(ViewBag.HtmlTablaLiga)
+
+@if (ViewBag.EsCreador == true)
+{
+    <section class="liga-compartir">
+        <h3>Invitá a tus amigos</h3>
+        <p>Compartí este link para que se sumen a la liga.</p>
+
+        <div class="liga-compartir-link">
+            <label class="visually-hidden" for="linkInvitacion">Link de invitación</label>
+            <input id="linkInvitacion" type="text" value="@ViewBag.LinkInvitacion" readonly />
+            <button type="button" onclick="CopiarLinkInvitacion()">Copiar link</button>
+        </div>
+        <span id="linkCopiado" class="liga-compartir-estado" aria-live="polite"></span>
+
+        @if (ViewBag.EsPrivada == true)
+        {
+            <a class="liga-solicitudes" href="@Url.Action("Solicitudes", "Liga", new { idLiga = ViewBag.IdLiga })">
+                Ver solicitudes
+                @if (ViewBag.CantidadSolicitudes > 0)
+                {
+                    <span class="liga-solicitudes-cantidad">@ViewBag.CantidadSolicitudes</span>
+                }
+            </a>
+        }
+    </section>
+}
 
 @if (ViewBag.IdLiga != null && ViewBag.IdLiga > 0)
 {
@@ -25,3 +77,5 @@
         <button type="submit">@ViewBag.TextoBotonLiga</button>
     </form>
 }
+
+<script src="~/js/Liga.js"></script>

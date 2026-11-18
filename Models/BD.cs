@@ -525,4 +525,99 @@ public void AbandonarLiga(int idLiga, int idUsuario)
         );
     }
 }
+
+    // UNIRSE A LIGAS Y SOLICITUDES
+
+    public List<LigaBusqueda> BuscarLigas(string nombre, int idUsuario)
+    {
+        List<LigaBusqueda> ligas = new List<LigaBusqueda>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            ligas = connection.Query<LigaBusqueda>(
+                "sp_BuscarLigas",
+                new { nombre = nombre, idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return ligas;
+    }
+
+    public LigaBusqueda ObtenerLigaPorCodigo(string codigo, int idUsuario)
+    {
+        LigaBusqueda liga = null;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            liga = connection.QueryFirstOrDefault<LigaBusqueda>(
+                "sp_ObtenerLigaPorCodigo",
+                new { codigo = codigo, idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return liga;
+    }
+
+    // Devuelve el código de sp_SolicitarUnirseALiga (1 entró, 2 solicitud enviada, <= 0 error)
+    public int SolicitarUnirseALiga(int idLiga, int idUsuario, string contraseña, string codigo)
+    {
+        int resultado = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            resultado = connection.QueryFirstOrDefault<int>(
+                "sp_SolicitarUnirseALiga",
+                new
+                {
+                    idLiga = idLiga,
+                    idUsuario = idUsuario,
+                    contraseña = contraseña,
+                    codigo = codigo
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return resultado;
+    }
+
+    public List<SolicitudLiga> ObtenerSolicitudesLiga(int idLiga, int idUsuarioCreador)
+    {
+        List<SolicitudLiga> solicitudes = new List<SolicitudLiga>();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            solicitudes = connection.Query<SolicitudLiga>(
+                "sp_ObtenerSolicitudesLiga",
+                new { idLiga = idLiga, idUsuarioCreador = idUsuarioCreador },
+                commandType: CommandType.StoredProcedure
+            ).ToList();
+        }
+
+        return solicitudes;
+    }
+
+    // Devuelve el código de sp_ResponderSolicitudLiga (1 aceptada, 2 vetada, <= 0 error)
+    public int ResponderSolicitudLiga(int idSolicitud, int idUsuarioCreador, bool aceptar)
+    {
+        int resultado = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            resultado = connection.QueryFirstOrDefault<int>(
+                "sp_ResponderSolicitudLiga",
+                new
+                {
+                    idSolicitud = idSolicitud,
+                    idUsuarioCreador = idUsuarioCreador,
+                    aceptar = aceptar
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return resultado;
+    }
 }

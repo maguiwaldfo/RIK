@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Unirse a una liga";
+
+    string busqueda = ViewBag.Busqueda;
+    string codigo = ViewBag.Codigo;
+    LigaBusqueda ligaInvitacion = ViewBag.LigaInvitacion;
+    List<LigaBusqueda> resultados = ViewBag.Resultados;
+}
+
+<div class="unirse-liga">
+    <a class="unirse-volver" href="@Url.Action("Index", "Liga")">← Volver a ligas</a>
+
+    <h1>Unirse a una liga</h1>
+    <p class="unirse-subtitulo">Las públicas son de entrada libre. En las privadas, quien creó la liga acepta a cada persona.</p>
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <p class="unirse-aviso" role="status">@TempData["Mensaje"]</p>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <p class="unirse-aviso unirse-aviso-error" role="alert">@TempData["Error"]</p>
+    }
+
+    @if (ViewBag.Error != null)
+    {
+        <p class="unirse-aviso unirse-aviso-error" role="alert">@ViewBag.Error</p>
+    }
+
+    <div class="unirse-formularios">
+        <section class="unirse-caja">
+            <h2>¿Te pasaron un link?</h2>
+            <p>Pegalo acá para ver la liga.</p>
+
+            <form class="unirse-campo" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+                <label class="visually-hidden" for="link">Link de invitación</label>
+                <input id="link" type="text" name="link" placeholder="Pegá el link de invitación" maxlength="300" autocomplete="off" required />
+                <button class="unirse-boton" type="submit">Ver liga</button>
+            </form>
+        </section>
+
+        <section class="unirse-caja">
+            <h2>Buscar por nombre</h2>
+            <p>Escribí el nombre completo o una parte.</p>
+
+            <form class="unirse-campo" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+                <label class="visually-hidden" for="busqueda">Nombre de la liga</label>
+                <input id="busqueda" type="search" name="busqueda" value="@busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
+                <button class="unirse-boton" type="submit">Buscar</button>
+            </form>
+        </section>
+    </div>
+
+    @if (ligaInvitacion != null)
+    {
+        <section class="unirse-resultados">
+            <h2>Te invitaron a esta liga</h2>
+            @await Html.PartialAsync("_TarjetaLiga", ligaInvitacion, new ViewDataDictionary(ViewData) { ["Codigo"] = codigo, ["Busqueda"] = "" })
+        </section>
+    }
+
+    @if (resultados != null)
+    {
+        <section class="unirse-resultados">
+            <h2>Resultados para "@busqueda"</h2>
+
+            @if (resultados.Count == 0)
+            {
+                <p class="unirse-vacio">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
+            }
+            else
+            {
+                foreach (LigaBusqueda liga in resultados)
+                {
+                    @await Html.PartialAsync("_TarjetaLiga", liga, new ViewDataDictionary(ViewData) { ["Codigo"] = "", ["Busqueda"] = busqueda })
+                }
+            }
+        </section>
+    }
+</div>

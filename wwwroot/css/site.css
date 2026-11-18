@@ -70,10 +70,30 @@ html {
     gap: 8px;
 }
 
-.marca img {
-    width: 40px;
-    height: 40px;
+/* Logo del header: mismo tamaño en todas las páginas
+   (con sesión, sin sesión, login y registro).
+   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
+   por eso se agranda con scale hasta que el círculo visible mida lo mismo
+   que el ícono de usuario (49px; 38px en celular). */
+.marca img,
+.brand-logo,
+.mapa-marca .brand-mark {
+    display: block;
+    width: 49px;
+    height: 49px;
     object-fit: contain;
+    background: none;
+    border-radius: 0;
+    transform: scale(1.38);
+}
+
+@media (max-width: 700px) {
+    .marca img,
+    .brand-logo,
+    .mapa-marca .brand-mark {
+        width: 38px;
+        height: 38px;
+    }
 }
 
 .marca h1 {
@@ -698,22 +718,11 @@ nav li:hover,
     color: #fff;
 }
 
+/* El tamaño del logo (.brand-logo) está en "2. HEADER COMPARTIDO" */
 .brand-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 70px;
-    min-width: 70px;
-    min-height: 70px;
-}
-
-.brand-logo {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-    display: block;
-    border-radius: 8px;
 }
 
 .brand-mark {
@@ -1391,17 +1400,7 @@ body:has(.inicio-mapa) .page-main {
     justify-self: start;
 }
 
-/* El logo del header mide lo mismo que el icono de usuario (49px).
-   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
-   por eso se la agranda hasta que el círculo visible llegue a 49px. */
-.mapa-marca .brand-mark {
-    width: 49px;
-    height: 49px;
-    object-fit: contain;
-    background: none;
-    border-radius: 0;
-    transform: scale(1.38);
-}
+/* El tamaño del logo (.brand-mark) está en "2. HEADER COMPARTIDO" */
 
 .mapa-nav {
     display: flex;
@@ -2250,4 +2249,1345 @@ body:has(.fin) {
     color: LinkText;
     text-decoration: underline;
     cursor: pointer;
+}
+
+
+/* ============================================================
+   14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
+   Todo se engancha a la estructura que ya genera la vista
+   (h1, h2, .lista-ligas, las <table> del controlador y el form),
+   sin clases nuevas. El scope es ".page-main:has(> .lista-ligas)",
+   que solo existe en esta vista.
+   ============================================================ */
+
+body:has(.lista-ligas) {
+    color: #173D20;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
+        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
+        #F6F9F5;
+    background-attachment: fixed;
+}
+
+.page-main:has(> .lista-ligas) {
+    --liga-verde: #064D2B;
+    --liga-verde-2: #0B6B3D;
+    --liga-oro: #FFE500;
+    --liga-oro-2: #FFC21A;
+    --liga-plata: #EEF2F7;
+    --liga-bronce: #FFE4D1;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+        "titulo  titulo"
+        "aviso   aviso"
+        "hmis    hmis"
+        "mis     mis"
+        "hglobal hliga"
+        "tglobal tliga"
+        "tglobal compartir"
+        "tglobal accion"
+        "tglobal .";
+    /* la última fila absorbe la altura del ranking global, así "compartir" queda pegado a la liga */
+    grid-template-rows: repeat(8, auto) 1fr;
+    align-content: start;
+    column-gap: clamp(24px, 5vw, 64px);
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    /* bootstrap .pb-3 usa !important: hace falta para dejar lugar al botón flotante */
+    padding-bottom: 140px !important;
+}
+
+.page-main:has(> .lista-ligas) > hr {
+    display: none;
+}
+
+/* ---------- Encabezado ---------- */
+
+.page-main:has(> .lista-ligas) > h1 {
+    grid-area: titulo;
+    margin: 0 0 32px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #DCE8DF;
+    color: var(--liga-verde);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+}
+
+/* ---------- Títulos de sección ---------- */
+
+.page-main:has(> .lista-ligas) > h2 {
+    margin: 0 0 16px;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 600;
+    color: #111;
+}
+
+.page-main:has(> .lista-ligas) > h2:nth-of-type(1) { grid-area: hmis; }
+.page-main:has(> .lista-ligas) > h2:nth-of-type(2) { grid-area: hglobal; }
+.page-main:has(> .lista-ligas) > h2:nth-of-type(3) { grid-area: hliga; }
+
+/* etiqueta chica arriba del título: texto con una barrita al costado (sin pill) */
+.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before,
+.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before {
+    display: block;
+    margin-bottom: 6px;
+    padding-left: 10px;
+    border-left: 3px solid var(--liga-oro-2);
+    color: var(--liga-verde-2);
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before { content: "Todos los jugadores"; }
+.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before { content: "Entre amigos"; }
+
+/* ---------- Mis ligas (chips) ---------- */
+
+.page-main > .lista-ligas {
+    grid-area: mis;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 44px;
+    padding: 4px 4px 12px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #B6E9C6 transparent;
+}
+
+.page-main > .lista-ligas:not(:has(.liga))::before {
+    content: "Todav\ED a no est\E1 s en ninguna liga. Cre\E1  una con el bot\F3 n + o sumate a la de un amigo.";
+    padding: 14px 18px;
+    border: 1.5px dashed #9CCFB0;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .7);
+    color: #3F6B50;
+    font-size: .9rem;
+}
+
+.lista-ligas .liga {
+    position: relative;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 220px;
+    padding: 12px 12px 12px 16px;
+    border: 1.5px solid #D6ECDD;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.lista-ligas .liga::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='8' r='3.2'/%3E%3Cpath d='M3 20c.8-3.4 3.2-5.2 6-5.2s5.2 1.8 6 5.2'/%3E%3Ccircle cx='17' cy='9' r='2.6'/%3E%3Cpath d='M16.5 14.2c2.4.2 4 1.8 4.5 4.6'/%3E%3C/svg%3E")
+        center / 22px no-repeat,
+        linear-gradient(135deg, #FFF29A, var(--liga-oro));
+}
+
+.lista-ligas .liga:hover {
+    transform: translateY(-3px);
+    border-color: #8FD1A8;
+    box-shadow: 0 14px 24px -14px rgba(6, 77, 43, .55);
+}
+
+.lista-ligas .liga h3 {
+    flex: 1;
+    margin: 0;
+    color: var(--liga-verde);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.lista-ligas .liga a {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+    border-radius: 10px;
+    background: var(--liga-verde);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* toda la tarjeta es clickeable */
+.lista-ligas .liga a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+
+.lista-ligas .liga:hover a {
+    background: var(--liga-oro);
+    color: var(--liga-verde);
+}
+
+/* ---------- Tablas de ranking ---------- */
+
+.page-main:has(> .lista-ligas) > table {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 18px;
+    border: 0;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
+        linear-gradient(160deg, var(--liga-verde-2), var(--liga-verde) 70%);
+    box-shadow:
+        0 24px 40px -22px rgba(6, 77, 43, .75),
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+    color: #fff;
+}
+
+.page-main:has(> .lista-ligas) > table:nth-of-type(1) { grid-area: tglobal; }
+.page-main:has(> .lista-ligas) > table:nth-of-type(2) { grid-area: tliga; }
+
+/* cada tarjeta mide lo que su lista, sin estirarse a la altura de la otra */
+.page-main:has(> .lista-ligas) > table {
+    align-self: start;
+}
+
+.page-main:has(> .lista-ligas) > table thead {
+    display: none;
+}
+
+.page-main:has(> .lista-ligas) > table tbody {
+    counter-reset: puesto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 520px;
+    padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .3) transparent;
+}
+
+.page-main:has(> .lista-ligas) > table tr {
+    counter-increment: puesto;
+    display: grid;
+    grid-template-columns: 32px 42px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 62px;
+    padding: 10px 14px 10px 12px;
+    border: 1.5px solid rgba(255, 255, 255, .14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: liga-entrar .45s ease backwards;
+}
+
+.page-main:has(> .lista-ligas) > table tr:hover {
+    transform: translateX(4px);
+    box-shadow: 0 10px 20px -12px rgba(0, 0, 0, .5);
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(2) { animation-delay: .06s; }
+.page-main:has(> .lista-ligas) > table tr:nth-child(3) { animation-delay: .12s; }
+.page-main:has(> .lista-ligas) > table tr:nth-child(4) { animation-delay: .18s; }
+.page-main:has(> .lista-ligas) > table tr:nth-child(n+5) { animation-delay: .24s; }
+
+@keyframes liga-entrar {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* puesto (1°, 2°, ...) */
+.page-main:has(> .lista-ligas) > table tr::before {
+    content: counter(puesto) "\B0";
+    order: 0;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .85);
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+/* avatar */
+.page-main:has(> .lista-ligas) > table tr::after {
+    content: "";
+    order: 1;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, .12);
+    border-radius: 50%;
+    background: #1D2A22 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CFE9D8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E") center / 20px no-repeat;
+}
+
+.page-main:has(> .lista-ligas) > table td {
+    padding: 0;
+    border: 0;
+}
+
+/* nombre */
+.page-main:has(> .lista-ligas) > table td:first-child {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.page-main:has(> .lista-ligas) > table td:first-child::after {
+    font-size: .66rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+/* puntos */
+.page-main:has(> .lista-ligas) > table td:last-child {
+    order: 3;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .16);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* 1° - oro */
+.page-main:has(> .lista-ligas) > table tr:nth-child(1) {
+    border-color: #FFF3A6;
+    background: linear-gradient(100deg, var(--liga-oro) 0%, var(--liga-oro-2) 100%);
+    color: #1B1B1B;
+    box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(1)::before {
+    border: 2px solid #E0B400;
+    background: #fff;
+    color: #7A5E00;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(1)::after {
+    border-color: #fff;
+    background-color: #1F1F1F;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFE500' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(1) td:first-child::after {
+    content: "\1F3C6\A0 CAMPE\D3 N";
+    color: var(--liga-verde);
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(1) td:last-child {
+    background: var(--liga-verde);
+    color: var(--liga-oro);
+}
+
+/* 2° - plata */
+.page-main:has(> .lista-ligas) > table tr:nth-child(2) {
+    border-color: #D3DCE8;
+    background: var(--liga-plata);
+    color: #1B1B1B;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(2)::before {
+    border-color: transparent;
+    background: #D6DEE9;
+    color: #4A5568;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(2)::after {
+    border-color: #fff;
+    background-color: #1F1F1F;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E2E8F0' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(2) td:first-child::after {
+    content: "\1F948\A0 2\B0  Lugar";
+    color: #5A6678;
+}
+
+/* 3° - bronce */
+.page-main:has(> .lista-ligas) > table tr:nth-child(3) {
+    border-color: #F3B98F;
+    background: var(--liga-bronce);
+    color: #1B1B1B;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(3)::before {
+    border-color: transparent;
+    background: #F6BF96;
+    color: #7A3B12;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(3)::after {
+    border-color: #fff;
+    background-color: #1F1F1F;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F4A86E' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(3) td:first-child::after {
+    content: "\1F949\A0 3\B0  Lugar";
+    color: #9A4A17;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(2) td:last-child,
+.page-main:has(> .lista-ligas) > table tr:nth-child(3) td:last-child {
+    background: #fff;
+    color: #173D20;
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .18);
+}
+
+/* fila "No hay datos..." (td con colspan) */
+.page-main:has(> .lista-ligas) > table tr:has(td[colspan]) {
+    counter-increment: none;
+    display: block;
+    border-style: dashed;
+    background: rgba(255, 255, 255, .06);
+    color: rgba(255, 255, 255, .85);
+    box-shadow: none;
+    transform: none;
+}
+
+.page-main:has(> .lista-ligas) > table tr:has(td[colspan])::before,
+.page-main:has(> .lista-ligas) > table tr:has(td[colspan])::after,
+.page-main:has(> .lista-ligas) > table td[colspan]::after {
+    content: none;
+}
+
+.page-main:has(> .lista-ligas) > table td[colspan] {
+    padding: 8px 4px;
+    background: none;
+    color: inherit;
+    font-size: .9rem;
+    font-weight: 400;
+    text-align: center;
+    white-space: normal;
+}
+
+/* sin ligas: el controlador manda un <p> en lugar de la tabla */
+.page-main:has(> .lista-ligas) > p {
+    grid-area: tliga;
+    align-self: start;
+    display: grid;
+    place-items: center;
+    min-height: 200px;
+    margin: 0;
+    padding: 28px;
+    border: 2px dashed #9CCFB0;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .75);
+    color: #3F6B50;
+    text-align: center;
+}
+
+/* ---------- Abandonar / Eliminar liga ---------- */
+
+.page-main:has(> .lista-ligas) > form {
+    grid-area: accion;
+    justify-self: end;
+    margin-top: 18px;
+}
+
+.page-main:has(> .lista-ligas) > form button {
+    padding: 9px 18px;
+    border: 1.5px solid #9CCFB0;
+    border-radius: 12px;
+    background: #fff;
+    color: var(--liga-verde);
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.page-main:has(> .lista-ligas) > form button:hover {
+    border-color: var(--liga-verde);
+    background: var(--liga-verde);
+    color: #fff;
+}
+
+.page-main:has(> .lista-ligas) > form[action$="/Eliminar"] button {
+    border-color: #F1B5AE;
+    color: #B42318;
+}
+
+.page-main:has(> .lista-ligas) > form[action$="/Eliminar"] button:hover {
+    border-color: #B42318;
+    background: #B42318;
+    color: #fff;
+}
+
+/* ---------- Botón flotante "Crear liga" ---------- */
+
+.page-main:has(> .lista-ligas) > div:first-of-type {
+    position: fixed;
+    right: clamp(16px, 3vw, 36px);
+    bottom: clamp(16px, 3vw, 32px);
+    z-index: 20;
+}
+
+.page-main:has(> .lista-ligas) > div:first-of-type a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--liga-verde);
+    font-size: .75rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-shadow: 0 0 6px #fff, 0 0 2px #fff;
+}
+
+.page-main:has(> .lista-ligas) > div:first-of-type a::before {
+    content: "+";
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--liga-verde);
+    color: #fff;
+    font-size: 2.3rem;
+    font-weight: 400;
+    line-height: 1;
+    text-shadow: none;
+    box-shadow: 0 0 0 4px #fff, 0 14px 26px -10px rgba(6, 77, 43, .8);
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+}
+
+.page-main:has(> .lista-ligas) > div:first-of-type a:hover::before {
+    transform: scale(1.08) rotate(90deg);
+    background: var(--liga-oro);
+    color: var(--liga-verde);
+}
+
+.page-main:has(> .lista-ligas) a:focus-visible,
+.page-main:has(> .lista-ligas) button:focus-visible {
+    outline: 3px solid var(--liga-oro);
+    outline-offset: 3px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+    .page-main:has(> .lista-ligas) {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "titulo"
+            "aviso"
+            "hmis"
+            "mis"
+            "hglobal"
+            "tglobal"
+            "hliga"
+            "tliga"
+            "compartir"
+            "accion";
+        grid-template-rows: none;
+        padding: 28px 16px;
+    }
+
+    .page-main:has(> .lista-ligas) > table:nth-of-type(1) {
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-main:has(> .lista-ligas) > table {
+        padding: 12px;
+        border-radius: 24px;
+    }
+
+    .page-main:has(> .lista-ligas) > table tr {
+        grid-template-columns: 28px 36px minmax(0, 1fr) auto;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .page-main:has(> .lista-ligas) > table tr::after {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-main:has(> .lista-ligas) *,
+    .page-main:has(> .lista-ligas) *::before,
+    .page-main:has(> .lista-ligas) *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* ============================================================
+   15. LIGA - COMPARTIR, UNIRSE Y SOLICITUDES
+   ============================================================ */
+
+/* ---------- Index: aviso, "Unirse a una liga" y compartir ---------- */
+
+.page-main:has(> .lista-ligas) > .liga-aviso {
+    grid-area: aviso;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    border-left: 4px solid #078B58;
+    border-radius: 8px;
+    background: #E6F4EC;
+    color: #173D20;
+    font-size: .92rem;
+}
+
+.lista-ligas .liga-unirse {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    border: 1.5px dashed #9CCFB0;
+    border-radius: 18px;
+    color: #064D2B;
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.lista-ligas .liga-unirse:hover {
+    border-color: #064D2B;
+    background: #fff;
+}
+
+.page-main:has(> .lista-ligas) > .liga-compartir {
+    grid-area: compartir;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.liga-compartir h3 {
+    margin: 0 0 2px;
+    color: #064D2B;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.liga-compartir p {
+    margin: 0 0 12px;
+    color: #4B6354;
+    font-size: .85rem;
+}
+
+.liga-compartir-link {
+    display: flex;
+    gap: 8px;
+}
+
+.liga-compartir-link input {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+    border: 1px solid #C9DCCF;
+    border-radius: 10px;
+    background: #F6F9F5;
+    color: #173D20;
+    font: inherit;
+    font-size: .82rem;
+}
+
+.liga-compartir-link button {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: #064D2B;
+    color: #fff;
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.liga-compartir-link button:hover {
+    background: #0B6B3D;
+}
+
+.liga-compartir-estado {
+    display: block;
+    min-height: 1.2em;
+    margin-top: 6px;
+    color: #078B58;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.liga-solicitudes {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    color: #064D2B;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.liga-solicitudes-cantidad {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: #FFE500;
+    color: #173D20;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ---------- Páginas "Unirse a una liga" y "Solicitudes" ---------- */
+
+body:has(.unirse-liga) {
+    background: #F6F9F5;
+    color: #173D20;
+}
+
+.unirse-liga {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+}
+
+.unirse-volver {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #3F6B50;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.unirse-volver:hover {
+    color: #064D2B;
+    text-decoration: underline;
+}
+
+.unirse-liga h1 {
+    margin: 0 0 6px;
+    color: #064D2B;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 700;
+}
+
+.unirse-subtitulo {
+    margin: 0 0 28px;
+    color: #4B6354;
+    font-size: .95rem;
+}
+
+.unirse-aviso {
+    margin: 0 0 20px;
+    padding: 12px 16px;
+    border-left: 4px solid #078B58;
+    border-radius: 8px;
+    background: #E6F4EC;
+    color: #173D20;
+    font-size: .92rem;
+}
+
+.unirse-aviso-error {
+    border-left-color: #B42318;
+    background: #FDECEA;
+    color: #7A1A12;
+}
+
+.unirse-formularios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+.unirse-caja {
+    padding: 20px;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.unirse-caja h2 {
+    margin: 0 0 2px;
+    color: #111;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.unirse-caja p {
+    margin: 0 0 14px;
+    color: #4B6354;
+    font-size: .85rem;
+}
+
+.unirse-campo {
+    display: flex;
+    gap: 8px;
+}
+
+.unirse-campo input,
+.unirse-form-accion input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #C9DCCF;
+    border-radius: 10px;
+    background: #fff;
+    color: #173D20;
+    font: inherit;
+    font-size: .9rem;
+}
+
+.unirse-campo input:focus,
+.unirse-form-accion input:focus {
+    border-color: #078B58;
+    outline: 2px solid rgba(7, 139, 88, .2);
+}
+
+.unirse-boton {
+    flex: 0 0 auto;
+    display: inline-block;
+    padding: 10px 18px;
+    border: 1.5px solid #064D2B;
+    border-radius: 10px;
+    background: #064D2B;
+    color: #fff;
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.unirse-boton:hover {
+    border-color: #0B6B3D;
+    background: #0B6B3D;
+    color: #fff;
+}
+
+.unirse-boton-secundario {
+    background: #fff;
+    color: #064D2B;
+}
+
+.unirse-boton-secundario:hover {
+    background: #E6F4EC;
+    color: #064D2B;
+}
+
+.unirse-boton-peligro {
+    border-color: #F1B5AE;
+    background: #fff;
+    color: #B42318;
+}
+
+.unirse-boton-peligro:hover {
+    border-color: #B42318;
+    background: #B42318;
+    color: #fff;
+}
+
+.unirse-resultados {
+    margin-bottom: 32px;
+}
+
+.unirse-resultados h2 {
+    margin: 0 0 14px;
+    color: #111;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.unirse-tarjeta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "info   etiqueta"
+        "accion accion";
+    align-items: center;
+    gap: 14px 16px;
+    margin-bottom: 12px;
+    padding: 16px 18px;
+    border: 1px solid #DCE8DF;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.unirse-tarjeta-info {
+    grid-area: info;
+    min-width: 0;
+}
+
+.unirse-tarjeta-info h3 {
+    margin: 0 0 2px;
+    color: #064D2B;
+    font-size: 1.05rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.unirse-tarjeta-info p {
+    margin: 0;
+    color: #5B7364;
+    font-size: .84rem;
+}
+
+.unirse-etiqueta {
+    grid-area: etiqueta;
+    justify-self: end;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: #E6F4EC;
+    color: #064D2B;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.unirse-etiqueta-privada {
+    background: #FFF6CC;
+    color: #6B5A00;
+}
+
+.unirse-tarjeta-accion {
+    grid-area: accion;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.unirse-form-accion {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 380px;
+}
+
+/* Cuando la acción es un solo botón, que no ocupe todo el ancho */
+.unirse-form-accion:not(:has(input[type="password"])) {
+    width: auto;
+}
+
+.unirse-estado {
+    color: #5B7364;
+    font-size: .85rem;
+    font-style: italic;
+}
+
+.unirse-vacio {
+    padding: 18px;
+    border: 1.5px dashed #9CCFB0;
+    border-radius: 16px;
+    background: #fff;
+    color: #3F6B50;
+    font-size: .9rem;
+}
+
+.unirse-liga a:focus-visible,
+.unirse-liga button:focus-visible,
+.liga-compartir button:focus-visible,
+.liga-unirse:focus-visible {
+    outline: 3px solid #FFC21A;
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+    .unirse-liga {
+        padding: 24px 16px 48px;
+    }
+
+    .unirse-formularios {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .unirse-form-accion {
+        max-width: none;
+    }
+}
+
+
+/* ============================================================
+   16. PERFIL (Index, Ajustes, ModificarMisDatos, CambiarContrasena)
+   Solo CSS, sin tocar las vistas. Las cuatro se renderizan dentro
+   del layout con un <main> sin clase: ese es el gancho.
+   Cada página se reconoce por lo que tiene adentro:
+     - Index:              el form de CerrarSesion
+     - Ajustes:            sin forms y con opciones sin link
+     - ModificarMisDatos:  el form de ModificarDatos
+     - CambiarContrasena:  el form de CambiarContrasena
+   ============================================================ */
+
+/* Las vistas traen <body class="mapa-body">, que bloquea el scroll: acá se libera */
+body.mapa-body:has(.page-main > main:not([class])) {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    background: #F6F9F5;
+    color: #173D20;
+}
+
+.page-main > main:not([class]) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 36px 20px 64px;
+}
+
+/* ---------- Título de cada página ---------- */
+
+.page-main > main:not([class])::before {
+    margin-bottom: 6px;
+    color: #064D2B;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.page-main > main:not([class]):has(form[action$="/CerrarSesion"])::before {
+    content: "Mi perfil";
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding-left: 80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23064D2B'/%3E%3Ccircle cx='32' cy='25' r='10' fill='%23FFE500'/%3E%3Cpath d='M14 52c2.8-9 10-14 18-14s15.2 5 18 14' fill='%23FFE500'/%3E%3C/svg%3E") left center / 64px no-repeat;
+}
+
+.page-main > main:not([class]):not(:has(form)):has(a:not([href]))::before {
+    content: "Ajustes";
+}
+
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"])::before {
+    content: "Mis datos";
+}
+
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"])::before {
+    content: "Cambiar contrase\F1 a";
+}
+
+/* ---------- Listas de opciones (Index y Ajustes) ---------- */
+
+.page-main > main:not([class]) > section:not(:has(a[href$="/Perfil"])):not(:has(#registroForm)) {
+    overflow: hidden;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.page-main > main:not([class]) > section > div + div {
+    border-top: 1px solid #EEF3EF;
+}
+
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"]),
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 18px;
+    border: 0;
+    background: none;
+    color: #173D20;
+    font: inherit;
+    font-size: .98rem;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"]) strong,
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link strong {
+    font-weight: 600;
+}
+
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a[href]:not([href$="/Perfil"]):hover,
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link:hover {
+    background: #F3F8F4;
+}
+
+/* ícono de cada opción */
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"])::before,
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #E6F4EC var(--icono) center / 20px no-repeat;
+}
+
+/* flecha a la derecha */
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a[href]:not([href$="/Perfil"])::after {
+    content: "\203A";
+    margin-left: auto;
+    color: #9DB3A5;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* opciones que todavía no tienen pantalla (no tienen link) */
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href]) {
+    cursor: default;
+}
+
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href])::after {
+    content: "Pr\F3 ximamente";
+    margin-left: auto;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #F1F3F2;
+    color: #6B7C72;
+    font-size: .72rem;
+    font-weight: 600;
+}
+
+/* íconos */
+.page-main > main:not([class]) a[href$="/Perfil/ModificarMisDatos"] {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]):has(form[action$="/CerrarSesion"]) > section > div:nth-child(2) > a {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-.6 1.6-2.1 2.6-4 2.6S8.6 4.6 8 3z'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]) a[href$="/Perfil/Ajustes"] {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h9M19 7h1M4 17h3M13 17h7'/%3E%3Ccircle cx='16' cy='7' r='2.5'/%3E%3Ccircle cx='10' cy='17' r='2.5'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]) a[href$="/Perfil/CambiarContrasena"] {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
+}
+
+/* Ajustes: Accesibilidad, Soporte, Idioma, Notificaciones */
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(1) > a:not([href]) {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='4.5' r='1.6'/%3E%3Cpath d='M5 8.5l7 1.5 7-1.5M12 10v4l-3 6M12 14l3 6'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(2) > a:not([href]) {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.4'/%3E%3Ccircle cx='12' cy='17' r='.6' fill='%23064D2B'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(3) > a:not([href]) {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(4) > a:not([href]) {
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E");
+}
+
+/* ---------- Cerrar sesión ---------- */
+
+.page-main > main:not([class]) form[action$="/CerrarSesion"] {
+    margin: 0;
+}
+
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link {
+    color: #B42318;
+    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B42318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10'/%3E%3C/svg%3E");
+}
+
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link::before {
+    background-color: #FDECEA;
+}
+
+.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link:hover {
+    background: #FEF5F4;
+}
+
+/* ---------- Link "Volver": arriba de todo, chiquito ---------- */
+
+/* Ajustes y Mis datos: la sección del Volver pasa arriba del título */
+.page-main > main:not([class]) > section:has(> div > a[href$="/Perfil"]) {
+    order: -1;
+    margin-bottom: -8px;
+}
+
+/* Mis datos y Cambiar contraseña: la sección se "abre" para poder reordenar lo de adentro */
+.page-main > main:not([class]):has(#registroForm) > section {
+    display: contents;
+}
+
+.page-main > main:not([class]):has(#registroForm) > section > div:has(> a[href$="/Perfil"]),
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) > section > div:has(> a[href$="/Perfil/ModificarMisDatos"]) {
+    order: -1;
+    margin-bottom: -8px;
+}
+
+.page-main > main:not([class]) a[href$="/Perfil"],
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"] {
+    color: #3F6B50;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.page-main > main:not([class]) a[href$="/Perfil"] strong,
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"] strong {
+    font-weight: 500;
+}
+
+.page-main > main:not([class]) a[href$="/Perfil"]::before,
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"]::before {
+    content: "\2190  ";
+}
+
+.page-main > main:not([class]) a[href$="/Perfil"]:hover,
+.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"]:hover {
+    color: #064D2B;
+    text-decoration: underline;
+}
+
+/* Mis datos: "Cambiar contraseña" como una opción más, debajo del formulario */
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) > section > div:has(> a[href$="/Perfil/CambiarContrasena"]) {
+    overflow: hidden;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+}
+
+/* ---------- Formularios (Mis datos y Cambiar contraseña) ---------- */
+
+.page-main > main:not([class]) #registroForm {
+    width: auto;
+    margin: 0;
+    padding: 24px;
+    gap: 18px;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 26px -20px rgba(6, 77, 43, .5);
+}
+
+.page-main > main:not([class]) #registroForm div {
+    margin-bottom: 0;
+}
+
+/* Mis datos no tiene <label>: se muestran con CSS */
+.page-main > main:not([class]) #registroForm label,
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field::before {
+    display: block;
+    margin-bottom: 6px;
+    color: #173D20;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(1)::before { content: "Nombre"; }
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(2)::before { content: "Email"; }
+.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(3)::before { content: "Nombre de usuario"; }
+
+.page-main > main:not([class]) #registroForm input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #C9DCCF;
+    border-radius: 10px;
+    background: #fff;
+    color: #173D20;
+    font: inherit;
+    font-size: .95rem;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.page-main > main:not([class]) #registroForm input::placeholder {
+    color: #8FA398;
+    font-size: .9rem;
+}
+
+.page-main > main:not([class]) #registroForm input:focus {
+    border-color: #078B58;
+    box-shadow: 0 0 0 3px rgba(7, 139, 88, .15);
+}
+
+.page-main > main:not([class]) #registroForm input.input-error {
+    border-color: #D9534F;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(217, 83, 79, .12);
+}
+
+/* mensajes de error (la vista de contraseña trae color: red en línea) */
+.page-main > main:not([class]) #registroForm .feedback {
+    margin-top: 6px;
+    color: #B42318 !important;
+    font-size: .8rem;
+    text-align: left;
+}
+
+.page-main > main:not([class]) #registroForm > p.feedback {
+    margin: 0;
+    padding: 10px 12px;
+    border-left: 4px solid #B42318;
+    border-radius: 8px;
+    background: #FDECEA;
+}
+
+.page-main > main:not([class]) #registroForm .submit-button {
+    height: 48px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: 12px;
+    background: #064D2B;
+    color: #fff;
+    font: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    transition: background .15s ease;
+}
+
+.page-main > main:not([class]) #registroForm .submit-button:hover {
+    background: #0B6B3D;
+}
+
+.page-main > main:not([class]) a:focus-visible,
+.page-main > main:not([class]) button:focus-visible {
+    outline: 3px solid #FFC21A;
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+    .page-main > main:not([class]) {
+        padding: 24px 16px 48px;
+    }
+
+    .page-main > main:not([class]) #registroForm {
+        padding: 18px;
+    }
 }

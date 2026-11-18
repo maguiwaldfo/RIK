@@ -32,11 +32,7 @@ for details on configuring this project to bundle and minify static web assets. 
   text-decoration: none;
 }
 
-.marca img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
+/* El tamaño del logo está en site.css ("2. HEADER COMPARTIDO"), igual para todos los headers */
 
 .nav {
   display: flex;
@@ -166,11 +162,6 @@ for details on configuring this project to bundle and minify static web assets. 
   .mapa-header {
     padding: 0 10px;
     column-gap: 8px;
-  }
-
-  .mapa-marca .brand-mark {
-    width: 34px;
-    height: 34px;
   }
 
   .mapa-nav {

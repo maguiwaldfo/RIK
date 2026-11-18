@@ -8,4 +8,5 @@ public class Liga
     public bool Privacidad { get; set; }
     public string Contraseña { get; set; }
     public int IdUsuarioCreador { get; set; }
+    public string CodigoInvitacion { get; set; }
 }
