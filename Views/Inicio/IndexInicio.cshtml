@@ -1,111 +1,30 @@
 @{
     ViewData["Title"] = "Inicio";
-
-    List<int> nivelesCompletados = ViewBag.NivelesCompletados as List<int>;
-    if (nivelesCompletados == null)
-    {
-        nivelesCompletados = new List<int>();
-    }
-
-    int maxNivelDesbloqueado = 1;
-    if (ViewBag.MaxNivelDesbloqueado is int valorMaximo)
-    {
-        maxNivelDesbloqueado = valorMaximo;
-    }
-
-    // Cantidad de niveles del mapa. Si se agregan niveles, alcanza con cambiar este número
-    // (o mandar ViewBag.TotalNiveles desde el controller): el camino se alarga solo.
-    int totalNiveles = 12;
-    if (ViewBag.TotalNiveles is int valorTotal && valorTotal > 0)
-    {
-        totalNiveles = valorTotal;
-    }
-
-    // ---- ARMADO DEL CAMINO ----
-    // Unidades: 1000 = ancho (o alto) de la pantalla. "y" negativa = hacia arriba.
-
-    // Primeros 5 niveles: son los de la primera pantalla del diseño.
-    var puntos = new List<int[]>
-    {
-        new[] { 92, -187 },
-        new[] { 283, -474 },
-        new[] { 513, -655 },
-        new[] { 738, -772 },
-        new[] { 934, -836 }
-    };
-
-    var camino = new System.Text.StringBuilder();
-    camino.Append("M -30 -360 C 20 -310, 60 -250, 92 -187 ");
-    camino.Append("C 110 -390, 120 -520, 195 -542 C 240 -554, 262 -510, 283 -474 ");
-    camino.Append("C 330 -390, 400 -290, 445 -360 C 485 -425, 470 -580, 513 -655 ");
-    camino.Append("C 560 -600, 640 -470, 685 -520 C 720 -560, 700 -700, 738 -772 ");
-    camino.Append("C 790 -715, 850 -700, 885 -750 C 905 -780, 915 -810, 934 -836 ");
-
-    // Del nivel 6 en adelante se van usando estos tramos, uno distinto por nivel
-    // (recién se repiten cada 7 niveles). Cada tramo son dos curvas, con sus puntos
-    // medidos desde la moneda anterior; los dos últimos números son la moneda siguiente.
-    int[][] tramos = new int[][]
-    {
-        new[] { 26, -124, 106, -204, 141, -154,   161, -129, 176, -114, 196, -104 },
-        new[] { 50, 30, 100, 120, 160, 50,        210, -10, 210, -140, 260, -200 },
-        new[] { 60, 20, 110, -10, 120, -80,       128, -130, 135, -180, 150, -220 },
-        new[] { 40, -100, 140, -140, 190, -100,   220, -80, 240, -65, 260, -50 },
-        new[] { 40, 30, 90, 50, 115, -10,         145, -80, 130, -170, 160, -230 },
-        new[] { 50, -80, 120, -60, 160, -10,      200, 40, 240, -20, 270, -70 },
-        new[] { 40, -60, 60, -30, 100, -50,       150, -75, 160, -140, 190, -180 }
-    };
-
-    for (int nivel = 6; nivel <= totalNiveles; nivel++)
-    {
-        int[] desde = puntos[puntos.Count - 1];
-        int[] t = tramos[(nivel - 6) % tramos.Length];
-
-        camino.Append($"C {desde[0] + t[0]} {desde[1] + t[1]}, {desde[0] + t[2]} {desde[1] + t[3]}, {desde[0] + t[4]} {desde[1] + t[5]} ");
-        camino.Append($"C {desde[0] + t[6]} {desde[1] + t[7]}, {desde[0] + t[8]} {desde[1] + t[9]}, {desde[0] + t[10]} {desde[1] + t[11]} ");
-
-        puntos.Add(new[] { desde[0] + t[10], desde[1] + t[11] });
-    }
-
-    // Después de la última moneda el camino sigue un poco y sale de la pantalla.
-    int[] ultimo = puntos[Math.Min(totalNiveles, puntos.Count) - 1];
-    if (totalNiveles >= 5)
-    {
-        camino.Append($"C {ultimo[0] + 50} {ultimo[1] - 60}, {ultimo[0] + 120} {ultimo[1] - 50}, {ultimo[0] + 170} {ultimo[1] - 110} ");
-        camino.Append($"C {ultimo[0] + 190} {ultimo[1] - 140}, {ultimo[0] + 210} {ultimo[1] - 170}, {ultimo[0] + 230} {ultimo[1] - 200}");
-    }
-
-    // Tamaño de la capa que se mueve: crece con la cantidad de niveles.
-    int anchoCamino = Math.Max(1000, ultimo[0] + 180);
-    int altoCamino = Math.Max(1000, -ultimo[1] + 110);
-
-    var cultura = System.Globalization.CultureInfo.InvariantCulture;
-    string tamanoLienzo = $"width: {(anchoCamino / 10.0).ToString("0.##", cultura)}%; height: {(altoCamino / 10.0).ToString("0.##", cultura)}%;";
 }
 
 <div class="inicio-mapa" id="inicioMapa">
 
     <!-- CAPA QUE SE MUEVE: CAMINO Y NIVELES -->
-    <div class="inicio-lienzo" id="inicioLienzo" style="@tamanoLienzo">
+    <div class="inicio-lienzo" id="inicioLienzo" style="@ViewBag.TamanoLienzo">
 
         <svg class="inicio-camino"
-             viewBox="0 -@altoCamino @anchoCamino @altoCamino"
+             viewBox="0 -@ViewBag.AltoCamino @ViewBag.AnchoCamino @ViewBag.AltoCamino"
              preserveAspectRatio="none"
              aria-hidden="true">
-            <path d="@camino" />
+            <path d="@ViewBag.Camino" />
         </svg>
 
-        @for (int nivel = 1; nivel <= totalNiveles; nivel++)
+        @for (int nivel = 1; nivel <= ViewBag.TotalNiveles; nivel++)
         {
-            bool estaCompletado = nivelesCompletados.Contains(nivel);
-            bool estaDesbloqueado = nivel <= maxNivelDesbloqueado;
+            bool estaCompletado = ViewBag.NivelesCompletados.Contains(nivel);
+            bool estaDesbloqueado = nivel <= ViewBag.MaxNivelDesbloqueado;
+            bool esActual = nivel == ViewBag.MaxNivelDesbloqueado;
 
-            string izquierda = (puntos[nivel - 1][0] * 100.0 / anchoCamino).ToString("0.##", cultura);
-            string arriba = ((altoCamino + puntos[nivel - 1][1]) * 100.0 / altoCamino).ToString("0.##", cultura);
-            string posicion = $"left: {izquierda}%; top: {arriba}%;";
+            string posicion = ViewBag.PosicionesNiveles[nivel - 1];
 
-            if (estaDesbloqueado && (estaCompletado || nivel == maxNivelDesbloqueado))
+            if (estaDesbloqueado && (estaCompletado || esActual))
             {
-                <a class="inicio-nodo inicio-nodo-desbloqueado @(nivel == maxNivelDesbloqueado ? "inicio-nodo-actual" : "")"
+                <a class="inicio-nodo inicio-nodo-desbloqueado @(esActual ? "inicio-nodo-actual" : "")"
                    style="@posicion"
                    href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })">
                     <img src="@Url.Content("~/imagenes/monedaNivel.png")" alt="Nivel @nivel" />
@@ -134,7 +53,7 @@
 
         <section class="inicio-racha">
             <img src="~/imagenes/llama.png" alt="Racha" />
-            <p>@nivelesCompletados.Count</p>
+            <p>@ViewBag.Racha</p>
         </section>
 
         <section class="inicio-desempeno">
@@ -142,7 +61,7 @@
             <div class="inicio-desempeno-tarjeta">
                 <div class="inicio-trofeo">
                     <img src="~/imagenes/trofeo.png" alt="" />
-                    <p>@nivelesCompletados.Count niveles completados</p>
+                    <p>@ViewBag.NivelesCompletados.Count niveles completados</p>
                 </div>
                 <div class="inicio-trofeo">
                     <img src="~/imagenes/trofeo.png" alt="" />

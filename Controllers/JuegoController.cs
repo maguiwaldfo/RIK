@@ -295,6 +295,7 @@ public class JuegoController : Controller
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
         bd.GuardarNivelCompletado(idUsuario, idNivel, puntos);
+        bd.ActualizarRacha(idUsuario);
 
         HttpContext.Session.SetString("EstadoPartida", "Guardado");
 
