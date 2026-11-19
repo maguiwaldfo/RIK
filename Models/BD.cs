@@ -620,4 +620,28 @@ public void AbandonarLiga(int idLiga, int idUsuario)
 
         return resultado;
     }
+    
+    public void ActualizarRacha(int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Execute(
+                "sp_ActualizarRacha",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
+
+    public int ObtenerRacha(int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            return connection.QueryFirstOrDefault<int>(
+                "sp_ObtenerRacha",
+                new { idUsuario = idUsuario },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
 }
