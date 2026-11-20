@@ -21,9 +21,16 @@
         <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
     </div>
 
-    <a href="@Url.Action("Teoria", "Juego", new { idNivel = ViewBag.Nivel })">
-        Iniciar nivel
-    </a>
+    @if (ViewBag.EstaDesbloqueado)
+    {
+        <a href="@Url.Action("Teoria", "Juego", new { idNivel = ViewBag.Nivel })">
+            Iniciar nivel
+        </a>
+    }
+    else
+    {
+        <p>Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
+    }
 }
 else
 {

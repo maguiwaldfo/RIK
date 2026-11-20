@@ -3780,3 +3780,467 @@ body.mapa-body:has(.page-main > main:not([class])) {
         padding: 18px;
     }
 }
+
+
+/* ============================================================
+   17. LIGA - CREAR (Views/Liga/Crear.cshtml)
+   Solo CSS, sin tocar la vista. El gancho es el form que apunta a
+   /Liga/Crear (Url.Action("Crear", "Liga")): si tu ruta es otra,
+   cambiá el "$=" del selector por el final real de la URL.
+   Usa la misma paleta que la pantalla de ranking (sección 14).
+   ============================================================ */
+
+body:has(form[action$="/Liga/Crear"]) {
+    color: #173D20;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
+        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
+        #F6F9F5;
+    background-attachment: fixed;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) {
+    --liga-verde: #064D2B;
+    --liga-verde-2: #0B6B3D;
+    --liga-oro: #FFE500;
+    --liga-oro-2: #FFC21A;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        "volver"
+        "titulo"
+        "form";
+    align-content: start;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 36px 20px 64px;
+    /* el <main> del layout trae .pb-3 de Bootstrap (padding-bottom con !important) */
+    padding-bottom: 64px !important;
+}
+
+/* los <br> de la vista sobran: el espaciado lo da el CSS */
+.page-main:has(> form[action$="/Liga/Crear"]) br {
+    display: none;
+}
+
+/* ---------- Volver y título ---------- */
+
+.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"] {
+    grid-area: volver;
+    justify-self: start;
+    margin-bottom: 18px;
+    color: #3F6B50;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"]::before {
+    content: "\2190  ";
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"]:hover {
+    color: var(--liga-verde);
+    text-decoration: underline;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > h1 {
+    grid-area: titulo;
+    margin: 0 0 22px;
+    color: var(--liga-verde);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+}
+
+/* ---------- Tarjeta del formulario ---------- */
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form {
+    grid-area: form;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 28px;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
+        linear-gradient(160deg, var(--liga-verde-2), var(--liga-verde) 70%);
+    box-shadow:
+        0 24px 40px -22px rgba(6, 77, 43, .75),
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+    color: #fff;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > div ~ div {
+    margin-top: 18px;
+}
+
+/* Cada título de campo es una barrita amarilla (el "Privacidad" se dibuja con CSS,
+   porque la vista no tiene label para el select) */
+.page-main:has(> form[action$="/Liga/Crear"]) > form label,
+.page-main:has(> form[action$="/Liga/Crear"]) > form > div:nth-of-type(2)::after {
+    display: block;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--liga-oro);
+    color: #000;
+    font-size: .8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > div:nth-of-type(2)::after {
+    content: "Privacidad";
+    margin: 18px 0 0;
+}
+
+/* ---------- Campos ---------- */
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form input,
+.page-main:has(> form[action$="/Liga/Crear"]) > form select {
+    display: block;
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: #173D20;
+    font: inherit;
+    font-size: .95rem;
+    outline: none;
+    transition: box-shadow .15s ease;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form select {
+    margin-top: 8px;
+    padding-right: 40px;
+    appearance: none;
+    cursor: pointer;
+    background:
+        #fff
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+        right 14px center / 16px no-repeat;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form option {
+    color: #173D20;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form input:focus,
+.page-main:has(> form[action$="/Liga/Crear"]) > form select:focus {
+    box-shadow: 0 0 0 3px var(--liga-oro);
+}
+
+/* Al abrir la página queda elegida "Pública": la contraseña arranca oculta.
+   Cuando el JS cambia el display en línea, ese valor le gana a esta regla. */
+.page-main:has(> form[action$="/Liga/Crear"]) > form:has(#Privacidad option[value="false"]:checked) > #contrsena {
+    display: none;
+}
+
+/* ---------- Mensaje de error (la vista le pone color: red en línea) ---------- */
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > p {
+    margin: 18px 0 0;
+    padding: 10px 12px;
+    border-left: 4px solid #B42318;
+    border-radius: 8px;
+    background: #FDECEA;
+    color: #B42318 !important;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* ---------- Botón guardar (mismo estilo 3D que "Comenzá a jugar") ---------- */
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"] {
+    --b-sombra: #C4B000;
+
+    height: 52px;
+    margin-top: 26px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--liga-oro);
+    color: #000;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 5px 0 var(--b-sombra);
+    cursor: pointer;
+    transition: transform .08s ease, box-shadow .08s ease, filter .15s ease;
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"]:hover {
+    filter: brightness(1.06);
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"]:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 var(--b-sombra);
+}
+
+.page-main:has(> form[action$="/Liga/Crear"]) a:focus-visible,
+.page-main:has(> form[action$="/Liga/Crear"]) button:focus-visible {
+    outline: 3px solid var(--liga-oro-2);
+    outline-offset: 3px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+    .page-main:has(> form[action$="/Liga/Crear"]) {
+        padding: 24px 16px 48px;
+    }
+
+    .page-main:has(> form[action$="/Liga/Crear"]) > form {
+        padding: 20px 16px 22px;
+        border-radius: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-main:has(> form[action$="/Liga/Crear"]) * {
+        transition: none !important;
+    }
+}
+
+
+/* ============================================================
+   18. BIBLIOTECA - TEORÍA Y MORALEJA (Views/Biblioteca/TeoriaMoraleja.cshtml)
+   Solo CSS, sin tocar la vista. El gancho es el <br> seguido del link
+   "Volver" a /Biblioteca, que está en la vista tanto cuando se encuentra
+   la teoría como cuando no. Si tu ruta de Biblioteca es otra, cambiá el
+   "$=" del selector por el final real de la URL.
+   Mismo lenguaje que el ranking y la charla: verde oscuro, amarillo,
+   Poppins y el botón amarillo grande de "Iniciar nivel".
+   ============================================================ */
+
+body:has(.page-main > br + a[href$="/Biblioteca"]) {
+    color: #173D20;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
+        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
+        #F6F9F5;
+    background-attachment: fixed;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) {
+    --tm-verde: #064D2B;
+    --tm-verde-2: #0B6B3D;
+    --tm-oro: #FFE500;
+    --tm-oro-2: #FFC21A;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 24px 56px;
+    /* el <main> del layout trae .pb-3 de Bootstrap (padding-bottom con !important) */
+    padding-bottom: 56px !important;
+}
+
+/* los <br> de la vista sobran: el espaciado lo da el CSS */
+.page-main:has(> br + a[href$="/Biblioteca"]) > br {
+    display: none;
+}
+
+/* ---------- Volver: arriba de todo, chiquito ---------- */
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"] {
+    order: -1;
+    align-self: flex-start;
+    color: #3F6B50;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"]::before {
+    content: "\2190  ";
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"]:hover {
+    color: var(--tm-verde);
+    text-decoration: underline;
+}
+
+/* ---------- Título ---------- */
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > h1 {
+    margin: 4px 0 6px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #DCE8DF;
+    color: var(--tm-verde);
+    font-size: clamp(1.75rem, 3.4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.15;
+}
+
+/* etiqueta chica arriba del título (barrita amarilla, como en el ranking) */
+.page-main:has(> br + a[href$="/Biblioteca"]) > h1::before {
+    content: "Teor\ED a y moraleja";
+    display: block;
+    margin-bottom: 8px;
+    padding-left: 10px;
+    border-left: 3px solid var(--tm-oro-2);
+    color: var(--tm-verde-2);
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+/* ---------- Tarjetas: teoría / historia / moraleja ---------- */
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div {
+    padding: 24px 28px 26px;
+    border-radius: 24px;
+    animation: liga-entrar .45s ease backwards;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) { animation-delay: .08s; }
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) { animation-delay: .16s; }
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    /* respeta los saltos de línea del texto cargado */
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* 1. Teoría: verde oscuro, título amarillo */
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) {
+    background:
+        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
+        linear-gradient(160deg, var(--tm-verde-2), var(--tm-verde) 70%);
+    box-shadow:
+        0 24px 40px -22px rgba(6, 77, 43, .75),
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+    color: #fff;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) h2 {
+    color: var(--tm-oro);
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) p {
+    color: rgba(255, 255, 255, .92);
+}
+
+/* 2. Historia: blanca con borde suave */
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) {
+    border: 1.5px solid #D6ECDD;
+    background: #fff;
+    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) h2 {
+    color: var(--tm-verde);
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) p {
+    color: #2B4A35;
+}
+
+/* 3. Moraleja: amarilla, es lo que hay que llevarse */
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) {
+    border: 1.5px solid #FFF3A6;
+    background: linear-gradient(100deg, var(--tm-oro) 0%, var(--tm-oro-2) 100%);
+    box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
+    color: #1B1B1B;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) h2 {
+    color: var(--tm-verde);
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) p {
+    color: #1B1B1B;
+    font-weight: 500;
+}
+
+/* ---------- Botón "Iniciar nivel" (igual al de la charla de teoría) ---------- */
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 72px;
+    margin-top: 10px;
+    border-radius: 20px;
+    background: #FFD700;
+    color: #000;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 400;
+    text-decoration: none;
+    transition: background .15s ease, transform .08s ease;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"]:hover {
+    background: #FFE033;
+    color: #000;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"]:active {
+    transform: translateY(2px);
+}
+
+/* ---------- Teoría no encontrada ---------- */
+
+.page-main:has(> br + a[href$="/Biblioteca"]) > p {
+    margin: 0;
+    padding: 18px;
+    border: 1.5px dashed #9CCFB0;
+    border-radius: 16px;
+    background: #fff;
+    color: #3F6B50;
+    font-size: .95rem;
+}
+
+.page-main:has(> br + a[href$="/Biblioteca"]) a:focus-visible {
+    outline: 3px solid var(--tm-oro-2);
+    outline-offset: 3px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+    .page-main:has(> br + a[href$="/Biblioteca"]) {
+        gap: 14px;
+        padding: 24px 16px 40px;
+    }
+
+    .page-main:has(> br + a[href$="/Biblioteca"]) > div {
+        padding: 18px 18px 20px;
+        border-radius: 20px;
+    }
+
+    .page-main:has(> br + a[href$="/Biblioteca"]) > div p {
+        font-size: .95rem;
+    }
+
+    .page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"] {
+        height: 60px;
+        border-radius: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-main:has(> br + a[href$="/Biblioteca"]) * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

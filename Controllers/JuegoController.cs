@@ -10,9 +10,24 @@ public class JuegoController : Controller
 
     public IActionResult Teoria(int idNivel)
     {
+        string nombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+
+        if (string.IsNullOrEmpty(nombreUsuario))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
         Nivel nivel = bd.ObtenerNivel(idNivel);
 
         if (nivel == null)
+        {
+            return RedirectToAction("IndexInicio", "Inicio");
+        }
+
+        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
+        List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
+
+        if (idNivel > 1 && !completados.Contains(idNivel - 1) && !completados.Contains(idNivel))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }

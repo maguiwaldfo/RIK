@@ -26,24 +26,30 @@ public class BibliotecaController : Controller
     }
 
     public IActionResult TeoriaMoraleja(int idTeoria)
-{
-    if (string.IsNullOrEmpty(ObtenerUsuarioActual()))
     {
-        return RedirectToAction("Index", "Login");
+        if (string.IsNullOrEmpty(ObtenerUsuarioActual()))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        List<TeoriaMoraleja> lista = bd.ObtenerTeoriaMoraleja(idTeoria);
+        TeoriaMoraleja detalle = null;
+
+        if (lista.Count > 0)
+        {
+            detalle = lista[0];
+        }
+
+        ViewBag.TeoriaMoraleja = detalle;
+        ViewBag.Nivel = idTeoria;
+
+        int idUsuario = bd.ObtenerIdUsuario(ObtenerUsuarioActual());
+        List<int> nivelesCompletados = bd.ObtenerNivelesCompletados(idUsuario);
+
+        ViewBag.EstaDesbloqueado = idTeoria == 1
+            || nivelesCompletados.Contains(idTeoria - 1)
+            || nivelesCompletados.Contains(idTeoria);
+
+        return View();
     }
-
-    List<TeoriaMoraleja> lista = bd.ObtenerTeoriaMoraleja(idTeoria);
-    TeoriaMoraleja detalle = null;
-
-    if (lista.Count > 0)
-    {
-        detalle = lista[0];
-    }
-
-    ViewBag.TeoriaMoraleja = detalle;
-
-    ViewBag.Nivel = idTeoria;
-
-    return View();
-}
 }
