@@ -54,7 +54,7 @@ public class LigaController : Controller
         string htmlGlobal = GenerarHtmlLeaderboardFigma(leaderboardGlobal, "No hay datos registrados en el ranking global.");
 
         string htmlLiga = "";
-        string tituloLiga = "Liga de Amigos";
+        string tituloLiga = "Mis ligas";
 
         if (ligaActual != null)
         {
