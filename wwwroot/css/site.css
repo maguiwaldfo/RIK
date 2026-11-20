@@ -2250,8 +2250,6 @@ body:has(.fin) {
     text-decoration: underline;
     cursor: pointer;
 }
-
-
 /* ============================================================
    14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
    Todo se engancha a la estructura que ya genera la vista
@@ -2318,6 +2316,20 @@ body:has(.lista-ligas) {
     line-height: 1.1;
 }
 
+/* ---------- Aviso (TempData["Mensaje"]) ---------- */
+
+.page-main:has(> .lista-ligas) > .liga-aviso {
+    grid-area: aviso;
+    margin: 0 0 28px;
+    padding: 12px 16px;
+    border: 1.5px solid #B6E9C6;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--liga-verde);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
 /* ---------- Títulos de sección ---------- */
 
 .page-main:has(> .lista-ligas) > h2 {
@@ -2354,6 +2366,7 @@ body:has(.lista-ligas) {
 .page-main > .lista-ligas {
     grid-area: mis;
     display: flex;
+    align-items: center;
     gap: 14px;
     margin-bottom: 44px;
     padding: 4px 4px 12px;
@@ -2370,6 +2383,26 @@ body:has(.lista-ligas) {
     background: rgba(255, 255, 255, .7);
     color: #3F6B50;
     font-size: .9rem;
+}
+
+/* botón "+ Unirse a una liga" */
+.lista-ligas .liga-unirse {
+    flex: 0 0 auto;
+    padding: 14px 18px;
+    border: 1.5px dashed #9CCFB0;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .7);
+    color: var(--liga-verde);
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.lista-ligas .liga-unirse:hover {
+    border-color: var(--liga-verde);
+    background: #fff;
 }
 
 .lista-ligas .liga {
@@ -2456,8 +2489,18 @@ body:has(.lista-ligas) {
     color: #fff;
 }
 
-.page-main:has(> .lista-ligas) > table:nth-of-type(1) { grid-area: tglobal; }
-.page-main:has(> .lista-ligas) > table:nth-of-type(2) { grid-area: tliga; }
+/* Ubicación de las tablas. Se enganchan por dos caminos (posición entre tablas y
+   "tabla que viene justo después del h2") y con !important, para que ninguna otra
+   regla las saque de su zona y terminen arriba de todo. */
+.page-main:has(> .lista-ligas) > table:first-of-type,
+.page-main:has(> .lista-ligas) > h2:nth-of-type(2) + table {
+    grid-area: tglobal !important;
+}
+
+.page-main:has(> .lista-ligas) > table:nth-of-type(2),
+.page-main:has(> .lista-ligas) > h2:nth-of-type(3) + table {
+    grid-area: tliga !important;
+}
 
 /* cada tarjeta mide lo que su lista, sin estirarse a la altura de la otra */
 .page-main:has(> .lista-ligas) > table {
@@ -2525,6 +2568,16 @@ body:has(.lista-ligas) {
     color: rgba(255, 255, 255, .85);
     font-size: .72rem;
     font-weight: 700;
+}
+
+/* puesto real, si el controlador emite data-puesto="1243" en el <tr>
+   (útil para mostrar al usuario cuando está fuera del top) */
+.page-main:has(> .lista-ligas) > table tr[data-puesto]:not([data-puesto=""])::before {
+    content: attr(data-puesto) "\B0";
+}
+
+.page-main:has(> .lista-ligas) > table tr[data-puesto]:not([data-puesto=""]):not(:nth-child(-n+3))::before {
+    font-size: .64rem;
 }
 
 /* avatar */
@@ -2662,6 +2715,17 @@ body:has(.lista-ligas) {
     box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .18);
 }
 
+/* usuario actual: requiere class="yo" en el <tr> que arma el controlador */
+.page-main:has(> .lista-ligas) > table tr.yo {
+    outline: 2.5px solid var(--liga-oro);
+    outline-offset: 2px;
+}
+
+.page-main:has(> .lista-ligas) > table tr.yo td:last-child {
+    background: var(--liga-oro);
+    color: var(--liga-verde);
+}
+
 /* fila "No hay datos..." (td con colspan) */
 .page-main:has(> .lista-ligas) > table tr:has(td[colspan]) {
     counter-increment: none;
@@ -2689,6 +2753,27 @@ body:has(.lista-ligas) {
     white-space: normal;
 }
 
+/* si "No hay datos" es la primera fila, las reglas de oro (1°) le ganan por especificidad:
+   este bloque las vuelve a pisar para que no salga con fondo verde ni "CAMPEÓN" */
+.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) {
+    border-color: rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .06);
+    color: rgba(255, 255, 255, .85);
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) td[colspan] {
+    padding: 8px 4px;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+    font-size: .9rem;
+    font-weight: 400;
+}
+
+.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) td[colspan]::after {
+    content: none;
+}
+
 /* sin ligas: el controlador manda un <p> en lugar de la tabla */
 .page-main:has(> .lista-ligas) > p {
     grid-area: tliga;
@@ -2702,6 +2787,110 @@ body:has(.lista-ligas) {
     border-radius: 30px;
     background: rgba(255, 255, 255, .75);
     color: #3F6B50;
+    text-align: center;
+}
+
+/* ---------- Invitar amigos (solo creador de la liga) ---------- */
+
+.page-main:has(> .lista-ligas) > .liga-compartir {
+    grid-area: compartir;
+    align-self: start;
+    margin-top: 20px;
+    padding: 18px;
+    border: 1.5px solid #D6ECDD;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
+}
+
+.liga-compartir h3 {
+    margin: 0 0 4px;
+    color: var(--liga-verde);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.liga-compartir p {
+    margin: 0 0 12px;
+    color: #3F6B50;
+    font-size: .88rem;
+}
+
+.liga-compartir-link {
+    display: flex;
+    gap: 8px;
+}
+
+/* label oculto visualmente pero accesible (no depende de la versión de Bootstrap) */
+.liga-compartir .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.liga-compartir-link input {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+    border: 1.5px solid #D6ECDD;
+    border-radius: 12px;
+    background: #F6F9F5;
+    color: #173D20;
+    font: inherit;
+    font-size: .85rem;
+}
+
+.liga-compartir-link button {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--liga-verde);
+    color: #fff;
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.liga-compartir-link button:hover {
+    background: var(--liga-oro);
+    color: var(--liga-verde);
+}
+
+.liga-compartir-estado {
+    display: block;
+    min-height: 1.2em;
+    margin-top: 8px;
+    color: var(--liga-verde-2);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.liga-solicitudes {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: var(--liga-verde);
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.liga-solicitudes-cantidad {
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: #B42318;
+    color: #fff;
+    font-size: .72rem;
     text-align: center;
 }
 
