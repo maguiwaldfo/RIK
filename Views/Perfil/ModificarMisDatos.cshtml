@@ -6,17 +6,17 @@
             <form id="registroForm" class="login-form" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
                 <div class="form-field">
-                    <input type="text" id="nombre" name="nombre" value="@(Context.Session.GetString("Nombre") ?? "")" />
+                    <input type="text" id="nombre" name="nombre" value="@ViewBag.Nombre" />
                     <p id="fb-nombre" class="feedback"></p>
                 </div>
 
                 <div class="form-field">
-                    <input type="email" id="email" name="email" value="@(Context.Session.GetString("Email") ?? "")" />
+                    <input type="email" id="email" name="email" value="@ViewBag.Email" />
                     <p id="fb-email" class="feedback"></p>
                 </div>
 
                 <div class="form-field">
-                    <input type="text" id="nombreUsuario" name="nombreUsuario" value="@(Context.Session.GetString("NombreUsuario") ?? "")" />
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" value="@ViewBag.NombreUsuario" />
                     <p id="fb-nombreUsuario" class="feedback"></p>
                     <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
                 </div>

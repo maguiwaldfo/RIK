@@ -1,10 +1,10 @@
 ﻿// El estado inicial viene de la session (si se refrescó, se retoma donde estaba).
-const datosNivel = document.getElementById("nivel").dataset;
+let datosNivel = document.getElementById("nivel");
 
-let preguntaActual = parseInt(datosNivel.preguntaActual);
-let vidas = parseInt(datosNivel.vidas);
-let puntos = parseInt(datosNivel.puntos);
-let segundos = parseInt(datosNivel.segundos);
+let preguntaActual = parseInt(datosNivel.getAttribute("data-pregunta-actual"));
+let vidas = parseInt(datosNivel.getAttribute("data-vidas"));
+let puntos = parseInt(datosNivel.getAttribute("data-puntos"));
+let segundos = parseInt(datosNivel.getAttribute("data-segundos"));
 let respondida = false;
 let comprobando = false;
 let terminada = false;
@@ -12,7 +12,7 @@ let terminada = false;
 // Opción marcada en la pregunta actual (todavía sin enviar).
 let opcionElegida = null;
 
-const totalPreguntas = document.querySelectorAll(".nivel-pregunta").length;
+let totalPreguntas = document.getElementsByClassName("nivel-pregunta").length;
 
 document.getElementById("pregunta-" + preguntaActual).style.display = "block";
 
@@ -68,10 +68,10 @@ function elegirOpcion(boton, idPregunta, idOpcion)
 
     if (opcionElegida != null)
     {
-        opcionElegida.boton.classList.remove("nivel-opcion-elegida");
+        opcionElegida.boton.className = "nivel-opcion";
     }
 
-    boton.classList.add("nivel-opcion-elegida");
+    boton.className = "nivel-opcion nivel-opcion-elegida";
 
     opcionElegida = {
         boton: boton,
@@ -103,14 +103,21 @@ function comprobar(idPregunta, idOpcion)
     comprobando = true;
     document.getElementById("enviar").disabled = true;
 
-    let boton = opcionElegida != null ? opcionElegida.boton : null;
+    let boton = null;
+    if (opcionElegida != null)
+    {
+        boton = opcionElegida.boton;
+    }
 
     fetch("/Juego/ComprobarRespuesta?idPregunta=" + idPregunta +
           "&idOpcion=" + idOpcion, {
         method: "POST"
     })
-    .then(respuesta => respuesta.text())
-    .then(resultado =>
+    .then(function (respuesta)
+    {
+        return respuesta.text();
+    })
+    .then(function (resultado)
     {
         comprobando = false;
 
@@ -122,8 +129,7 @@ function comprobar(idPregunta, idOpcion)
 
             if (boton != null)
             {
-                boton.classList.remove("nivel-opcion-elegida");
-                boton.classList.add("nivel-opcion-correcta");
+                boton.className = "nivel-opcion nivel-opcion-correcta";
             }
 
             document.getElementById("resultado").innerHTML =
@@ -150,8 +156,7 @@ function comprobar(idPregunta, idOpcion)
 
             if (boton != null)
             {
-                boton.classList.remove("nivel-opcion-elegida");
-                boton.classList.add("nivel-opcion-incorrecta");
+                boton.className = "nivel-opcion nivel-opcion-incorrecta";
                 boton.disabled = true;
             }
 
@@ -175,7 +180,7 @@ function comprobar(idPregunta, idOpcion)
             document.getElementById("enviar").disabled = (opcionElegida == null);
         }
     })
-    .catch(error =>
+    .catch(function (error)
     {
         comprobando = false;
         document.getElementById("resultado").innerHTML =
@@ -219,8 +224,11 @@ function finalizarNivel()
     fetch("/Juego/FinalizarNivel", {
         method: "POST"
     })
-    .then(respuesta => respuesta.text())
-    .then(resultado =>
+    .then(function (respuesta)
+    {
+        return respuesta.text();
+    })
+    .then(function (resultado)
     {
         if (resultado == "Completado")
         {
@@ -232,7 +240,7 @@ function finalizarNivel()
             document.getElementById("finalizar").style.display = "flex";
         }
     })
-    .catch(error =>
+    .catch(function (error)
     {
         document.getElementById("resultado").innerHTML =
             "No se pudo guardar el nivel.";

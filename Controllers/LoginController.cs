@@ -1,27 +1,13 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 using RIK.Models;
 
 namespace RIK.Controllers;
 
 public class LoginController : Controller
 {
-    BD bd = new BD();
-
     private bool HayUsuarioLogueado()
     {
         return !string.IsNullOrWhiteSpace(HttpContext.Session.GetString("NombreUsuario"));
-    }
-
-    public IActionResult Landing()
-    {
-        if (HayUsuarioLogueado())
-        {
-            return RedirectToAction("IndexInicio", "Inicio");
-        }
-
-        return RedirectToAction("Landing", "Inicio");
     }
 
     public IActionResult Index()
@@ -44,16 +30,6 @@ public class LoginController : Controller
         return View();
     }
 
-    public IActionResult IrAInicio()
-    {
-        if (HayUsuarioLogueado())
-        {
-            return RedirectToAction("IndexInicio", "Inicio");
-        }
-
-        return RedirectToAction(nameof(Index));
-    }
-
     [HttpPost]
     public IActionResult ValidarUsuario(string nombre, string email, string nombreUsuario, string contraseña)
     {
@@ -65,13 +41,13 @@ public class LoginController : Controller
             return View("Registrarse");
         }
 
-        if (bd.FijarseSiExisteUsuario(nombreUsuario))
+        if (BD.FijarseSiExisteUsuario(nombreUsuario))
         {
             ViewBag.ErrorMessage = "El nombre de usuario ya existe. Por favor, elija otro.";
             return View("Registrarse");
         }
 
-        bd.AgregarUsuario(usuario);
+        BD.AgregarUsuario(usuario);
 
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
@@ -88,7 +64,7 @@ public class LoginController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        Usuario usuario = bd.ObtenerUsuario(nombreUsuario, contraseña);
+        Usuario usuario = BD.ObtenerUsuario(nombreUsuario, contraseña);
 
         if (usuario != null)
         {
@@ -101,11 +77,5 @@ public class LoginController : Controller
 
         ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
         return View("Index");
-    }
-
-    public IActionResult CerrarSesion()
-    {
-        HttpContext.Session.Clear();
-        return RedirectToAction("Index");
     }
 }

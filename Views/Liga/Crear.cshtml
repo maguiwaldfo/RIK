@@ -1,7 +1,4 @@
-
-@{
-    ViewData["Title"] = "Crear Liga";
-}
+@* El título y el mensaje de error los prepara LigaController.Crear *@
 
 <h1>Crear una nueva Liga</h1>
 
@@ -33,10 +30,7 @@
         <input type="password" name="Contraseña" id="Contraseña" />
     </div>
 
-    @if (ViewBag.Error != null)
-    {
-        <p style="color: red;">@ViewBag.Error</p>
-    }
+    <p hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <br />
 

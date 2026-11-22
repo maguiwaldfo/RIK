@@ -7,15 +7,15 @@ namespace RIK.Models;
 // Refrescar la página del nivel no la borra, porque vuelve a pedir Juego/Nivel.
 public class ReiniciarPartidaFilter : IActionFilter
 {
-    // Acciones que forman parte de la partida: no la reinician.
-    private static readonly string[] accionesDelNivel = { "Nivel", "ComprobarRespuesta", "FinalizarNivel" };
-
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        string controlador = context.RouteData.Values["controller"]?.ToString();
-        string accion = context.RouteData.Values["action"]?.ToString();
+        string controlador = Convert.ToString(context.RouteData.Values["controller"]);
+        string accion = Convert.ToString(context.RouteData.Values["action"]);
 
-        if (controlador == "Juego" && accionesDelNivel.Contains(accion))
+        // Acciones que forman parte de la partida: no la reinician.
+        bool esAccionDelNivel = accion == "Nivel" || accion == "ComprobarRespuesta" || accion == "FinalizarNivel";
+
+        if (controlador == "Juego" && esAccionDelNivel)
         {
             return;
         }
@@ -44,7 +44,7 @@ public class ReiniciarPartidaFilter : IActionFilter
         session.Remove("Puntos");
         session.Remove("InicioPartida");
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < Nivel.PreguntasPorPartida; i++)
         {
             session.Remove("Pregunta" + i);
         }

@@ -1,58 +1,41 @@
-@{
-    Liga liga = ViewBag.Liga;
-    List<SolicitudLiga> solicitudes = ViewBag.Solicitudes;
-
-    ViewData["Title"] = "Solicitudes de " + liga.Nombre;
-}
+@* El título, los textos y qué se muestra los prepara LigaController.Solicitudes *@
 
 <div class="unirse-liga">
-    <a class="unirse-volver" href="@Url.Action("Index", "Liga", new { idLigaAmigos = liga.Id })">← Volver a la liga</a>
+    <a class="unirse-volver" href="@ViewBag.UrlVolver">← Volver a la liga</a>
 
-    <h1>Solicitudes para @liga.Nombre</h1>
-    <p class="unirse-subtitulo">@ViewBag.CantidadMiembros de @liga.Capacidad lugares ocupados</p>
+    <h1>@ViewBag.TituloPagina</h1>
+    <p class="unirse-subtitulo">@ViewBag.TextoLugares</p>
 
-    @if (TempData["Mensaje"] != null)
-    {
-        <p class="unirse-aviso" role="status">@TempData["Mensaje"]</p>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <p class="unirse-aviso unirse-aviso-error" role="alert">@TempData["Error"]</p>
-    }
+    <p class="unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
+    <p class="unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <section class="unirse-resultados">
-        @if (solicitudes.Count == 0)
-        {
-            <p class="unirse-vacio">No hay solicitudes pendientes. Compartí el link de la liga para que se sumen tus amigos.</p>
-        }
-        else
-        {
-            foreach (SolicitudLiga solicitud in solicitudes)
-            {
-                <article class="unirse-tarjeta">
-                    <div class="unirse-tarjeta-info">
-                        <h3>@solicitud.NombreUsuario</h3>
-                        <p>@solicitud.Nombre · pidió entrar el @solicitud.FechaSolicitud.ToString("dd/MM/yyyy HH:mm")</p>
-                    </div>
+        <p class="unirse-vacio" hidden="@ViewBag.OcultarVacio">No hay solicitudes pendientes. Compartí el link de la liga para que se sumen tus amigos.</p>
 
-                    <div class="unirse-tarjeta-accion">
-                        <form asp-controller="Liga" asp-action="ResponderSolicitud" method="post">
-                            <input type="hidden" name="idLiga" value="@liga.Id" />
-                            <input type="hidden" name="idSolicitud" value="@solicitud.Id" />
-                            <input type="hidden" name="aceptar" value="true" />
-                            <button class="unirse-boton" type="submit">Aceptar</button>
-                        </form>
+        @foreach (SolicitudLiga solicitud in ViewBag.Solicitudes)
+        {
+            <article class="unirse-tarjeta">
+                <div class="unirse-tarjeta-info">
+                    <h3>@solicitud.NombreUsuario</h3>
+                    <p>@solicitud.Detalle</p>
+                </div>
 
-                        <form asp-controller="Liga" asp-action="ResponderSolicitud" method="post">
-                            <input type="hidden" name="idLiga" value="@liga.Id" />
-                            <input type="hidden" name="idSolicitud" value="@solicitud.Id" />
-                            <input type="hidden" name="aceptar" value="false" />
-                            <button class="unirse-boton unirse-boton-peligro" type="submit">Vetar</button>
-                        </form>
-                    </div>
-                </article>
-            }
+                <div class="unirse-tarjeta-accion">
+                    <form asp-controller="Liga" asp-action="ResponderSolicitud" method="post">
+                        <input type="hidden" name="idLiga" value="@ViewBag.IdLiga" />
+                        <input type="hidden" name="idSolicitud" value="@solicitud.Id" />
+                        <input type="hidden" name="aceptar" value="true" />
+                        <button class="unirse-boton" type="submit">Aceptar</button>
+                    </form>
+
+                    <form asp-controller="Liga" asp-action="ResponderSolicitud" method="post">
+                        <input type="hidden" name="idLiga" value="@ViewBag.IdLiga" />
+                        <input type="hidden" name="idSolicitud" value="@solicitud.Id" />
+                        <input type="hidden" name="aceptar" value="false" />
+                        <button class="unirse-boton unirse-boton-peligro" type="submit">Vetar</button>
+                    </form>
+                </div>
+            </article>
         }
     </section>
 </div>

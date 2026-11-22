@@ -6,13 +6,6 @@ namespace RIK.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         if(!string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
@@ -21,22 +14,31 @@ public class HomeController : Controller
         }
         else
         {
-            return RedirectToAction("Landing", "Login");
+            return RedirectToAction("Landing", "Inicio");
         }
     }
 
     public IActionResult Privacy()
     {
+        ViewData["Title"] = "Privacy Policy";
         return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-    public IActionResult Landing()
-    {
+        // Id del pedido que falló, para poder buscarlo (viene de la plantilla de Visual Studio)
+        string requestId = HttpContext.TraceIdentifier;
+
+        if (Activity.Current != null)
+        {
+            requestId = Activity.Current.Id;
+        }
+
+        ViewData["Title"] = "Error";
+        ViewBag.RequestId = requestId;
+        ViewBag.OcultarRequestId = string.IsNullOrEmpty(requestId);
+
         return View();
     }
 }

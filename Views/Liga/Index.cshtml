@@ -1,7 +1,5 @@
-
-@{
-    ViewData["Title"] = "Ligas y Tabla de Posiciones";
-}
+@* Todos los datos y las decisiones (qué se muestra y qué no) los prepara LigaController.Index.
+   hidden="@ViewBag.Ocultar..." deja el elemento oculto cuando el controlador manda true. *@
 
 <h1>Tabla de Posiciones</h1>
 
@@ -9,17 +7,14 @@
     <a href="@Url.Action("Crear", "Liga")">Crear Nueva Liga</a>
 </div>
 
-@if (TempData["Mensaje"] != null)
-{
-    <section class="liga-aviso" role="status">@TempData["Mensaje"]</section>
-}
+<section class="liga-aviso" role="status" hidden="@ViewBag.OcultarAviso">@ViewBag.Mensaje</section>
 
 <hr />
 
 <h2>Mis Ligas</h2>
 
 <div class="lista-ligas">
-    @foreach (RIK.Models.Liga liga in ViewBag.Ligas)
+    @foreach (Liga liga in ViewBag.Ligas)
     {
         <div class="liga">
             <h3>@liga.Nombre</h3>
@@ -37,7 +32,31 @@
 <h2>Ranking Global</h2>
 
 <div class="ranking-global">
-    @Html.Raw(ViewBag.HtmlTablaGlobal)
+    <div class="ranking-tabla" hidden="@ViewBag.OcultarRankingGlobal">
+        @foreach (FilaRanking fila in ViewBag.RankingGlobal)
+        {
+            <div class="@fila.Clase">
+                <div class="ranking-izquierda">
+                    <div class="ranking-posicion">
+                        <div class="ranking-posicion-texto">@fila.Posicion</div>
+                    </div>
+                    <div class="ranking-avatar">
+                        <div class="ranking-avatar-cuadrado"></div>
+                    </div>
+                    <div class="ranking-nombre-columna">
+                        <div class="ranking-nombre">@fila.Nombre</div>
+                        <div class="ranking-subtitulo">@fila.Subtitulo</div>
+                    </div>
+                </div>
+                <div class="ranking-derecha">
+                    <div class="ranking-puntos">
+                        <div class="ranking-puntos-texto">@fila.Puntos</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <p hidden="@ViewBag.OcultarMensajeRankingGlobal">@ViewBag.MensajeRankingGlobal</p>
 </div>
 
 <hr />
@@ -45,41 +64,53 @@
 <h2>@ViewBag.TituloLiga</h2>
 
 <div class="ranking-liga">
-    @Html.Raw(ViewBag.HtmlTablaLiga)
+    <div class="ranking-tabla" hidden="@ViewBag.OcultarRankingLiga">
+        @foreach (FilaRanking fila in ViewBag.RankingLiga)
+        {
+            <div class="@fila.Clase">
+                <div class="ranking-izquierda">
+                    <div class="ranking-posicion">
+                        <div class="ranking-posicion-texto">@fila.Posicion</div>
+                    </div>
+                    <div class="ranking-avatar">
+                        <div class="ranking-avatar-cuadrado"></div>
+                    </div>
+                    <div class="ranking-nombre-columna">
+                        <div class="ranking-nombre">@fila.Nombre</div>
+                        <div class="ranking-subtitulo">@fila.Subtitulo</div>
+                    </div>
+                </div>
+                <div class="ranking-derecha">
+                    <div class="ranking-puntos">
+                        <div class="ranking-puntos-texto">@fila.Puntos</div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <p hidden="@ViewBag.OcultarMensajeRankingLiga">@ViewBag.MensajeRankingLiga</p>
 </div>
 
-@if (ViewBag.EsCreador == true)
-{
-    <section class="liga-compartir">
-        <h3>Invitá a tus amigos</h3>
-        <p>Compartí este link para que se sumen a la liga.</p>
+<section class="liga-compartir" hidden="@ViewBag.OcultarCompartir">
+    <h3>Invitá a tus amigos</h3>
+    <p>Compartí este link para que se sumen a la liga.</p>
 
-        <div class="liga-compartir-link">
-            <label class="visually-hidden" for="linkInvitacion">Link de invitación</label>
-            <input id="linkInvitacion" type="text" value="@ViewBag.LinkInvitacion" readonly />
-            <button type="button" onclick="CopiarLinkInvitacion()">Copiar link</button>
-        </div>
-        <span id="linkCopiado" class="liga-compartir-estado" aria-live="polite"></span>
+    <div class="liga-compartir-link">
+        <label class="visually-hidden" for="linkInvitacion">Link de invitación</label>
+        <input id="linkInvitacion" type="text" value="@ViewBag.LinkInvitacion" readonly />
+        <button type="button" onclick="CopiarLinkInvitacion()">Copiar link</button>
+    </div>
+    <span id="linkCopiado" class="liga-compartir-estado" aria-live="polite"></span>
 
-        @if (ViewBag.EsPrivada == true)
-        {
-            <a class="liga-solicitudes" href="@Url.Action("Solicitudes", "Liga", new { idLiga = ViewBag.IdLiga })">
-                Ver solicitudes
-                @if (ViewBag.CantidadSolicitudes > 0)
-                {
-                    <span class="liga-solicitudes-cantidad">@ViewBag.CantidadSolicitudes</span>
-                }
-            </a>
-        }
-    </section>
-}
+    <a class="liga-solicitudes" href="@ViewBag.UrlSolicitudes" hidden="@ViewBag.OcultarSolicitudes">
+        Ver solicitudes
+        <span class="liga-solicitudes-cantidad" hidden="@ViewBag.OcultarCantidadSolicitudes">@ViewBag.CantidadSolicitudes</span>
+    </a>
+</section>
 
-@if (ViewBag.IdLiga != null && ViewBag.IdLiga > 0)
-{
-    <form action="/Liga/@ViewBag.AccionLiga" method="post">
-        <input type="hidden" name="idLiga" value="@ViewBag.IdLiga" />
-        <button type="submit">@ViewBag.TextoBotonLiga</button>
-    </form>
-}
+<form action="@ViewBag.UrlAccionLiga" method="post" hidden="@ViewBag.OcultarAccionLiga">
+    <input type="hidden" name="idLiga" value="@ViewBag.IdLiga" />
+    <button type="submit">@ViewBag.TextoBotonLiga</button>
+</form>
 
 <script src="~/js/Liga.js"></script>

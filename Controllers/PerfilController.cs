@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 using RIK.Models;
 
 namespace RIK.Controllers;
@@ -21,18 +19,16 @@ public class PerfilController : Controller
 
     public IActionResult Ajustes()
     {
-       
-            if(string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
-            {
-                return RedirectToAction("Landing", "Inicio");
-            }
-            else
-            {
-                return View();
-            }
-        
+        if(string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
+        {
+            return RedirectToAction("Landing", "Inicio");
+        }
+        else
+        {
+            return View();
+        }
     }
-    
+
     public IActionResult ModificarMisDatos()
     {
         if(string.IsNullOrEmpty(HttpContext.Session.GetString("NombreUsuario")))
@@ -41,6 +37,7 @@ public class PerfilController : Controller
         }
         else
         {
+            CargarDatosUsuario();
             return View();
         }
     }
@@ -53,8 +50,18 @@ public class PerfilController : Controller
         }
         else
         {
+            ViewBag.ErrorMessage = "";
+            ViewBag.OcultarError = true;
             return View();
         }
+    }
+
+    // Datos del usuario para el formulario de "Mis datos" (antes la vista los leía de la Session)
+    private void CargarDatosUsuario()
+    {
+        ViewBag.Nombre = HttpContext.Session.GetString("Nombre");
+        ViewBag.Email = HttpContext.Session.GetString("Email");
+        ViewBag.NombreUsuario = HttpContext.Session.GetString("NombreUsuario");
     }
 
 
@@ -68,13 +75,18 @@ public class PerfilController : Controller
             return RedirectToAction("Landing", "Inicio");
         }
 
-        email = email?.Trim();
+        // Si hay un error se vuelve a mostrar el formulario con los datos actuales
+        CargarDatosUsuario();
+
+        if (email != null)
+        {
+            email = email.Trim();
+        }
         Usuario usuario = new Usuario(nombre, nombreUsuario, null, email);
 
-        BD bd = new BD();
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuarioActual);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuarioActual);
 
-        int resultado = bd.ModificarUsuario(idUsuario, usuario);
+        int resultado = BD.ModificarUsuario(idUsuario, usuario);
 
         if (resultado == 0)
         {
@@ -91,9 +103,8 @@ public class PerfilController : Controller
         HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
         HttpContext.Session.SetString("Nombre", usuario.Nombre);
         HttpContext.Session.SetString("Email", usuario.Email);
-        TempData["Mensaje"] = "Tus datos fueron modificados correctamente.";
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index");
     }
 
 
@@ -108,6 +119,9 @@ public class PerfilController : Controller
     public IActionResult CambiarContrasena(string contrasenaActual, string nuevaContrasena, string repetirContrasena)
     {
         string nombreUsuarioActual = HttpContext.Session.GetString("NombreUsuario");
+
+        // Si esta acción vuelve a mostrar la vista es porque hubo un error: el mensaje se muestra
+        ViewBag.OcultarError = false;
 
         if (string.IsNullOrEmpty(nombreUsuarioActual))
         {
@@ -128,14 +142,13 @@ public class PerfilController : Controller
             return View();
         }
 
-        if (!string.Equals(nuevaContrasena, repetirContrasena, StringComparison.Ordinal))
+        if (nuevaContrasena != repetirContrasena)
         {
             ViewBag.ErrorMessage = "La nueva contraseña y la confirmación no coinciden.";
             return View();
         }
 
-        BD bd = new BD();
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuarioActual);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuarioActual);
 
         if (idUsuario == 0)
         {
@@ -143,7 +156,7 @@ public class PerfilController : Controller
             return View();
         }
 
-        Usuario usuarioActual = bd.ObtenerUsuario(nombreUsuarioActual, contrasenaActual);
+        Usuario usuarioActual = BD.ObtenerUsuario(nombreUsuarioActual, contrasenaActual);
 
         if (usuarioActual == null)
         {
@@ -151,7 +164,7 @@ public class PerfilController : Controller
             return View();
         }
 
-        int resultado = bd.CambiarContrasena(idUsuario, contrasenaActual, nuevaContrasena, repetirContrasena);
+        int resultado = BD.CambiarContrasena(idUsuario, contrasenaActual, nuevaContrasena, repetirContrasena);
 
         if (resultado == 0)
         {
@@ -165,7 +178,6 @@ public class PerfilController : Controller
             return View();
         }
 
-        TempData["Mensaje"] = "Tu contraseña fue modificada correctamente.";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index");
     }
 }

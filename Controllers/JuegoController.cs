@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using RIK.Models;
 
@@ -6,7 +5,9 @@ namespace RIK.Controllers;
 
 public class JuegoController : Controller
 {
-    BD bd = new BD();
+    // Cantidad de preguntas de cada partida (está en Models/Nivel.cs).
+    // Acá se escribe RIK.Models.Nivel porque dentro de este controller "Nivel" es la acción Nivel(...).
+    private const int PreguntasPorPartida = RIK.Models.Nivel.PreguntasPorPartida;
 
     public IActionResult Teoria(int idNivel)
     {
@@ -17,17 +18,17 @@ public class JuegoController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        Nivel nivel = bd.ObtenerNivel(idNivel);
+        Nivel nivel = BD.ObtenerNivel(idNivel);
 
         if (nivel == null)
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
-        List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
+        List<int> completados = BD.ObtenerNivelesCompletados(idUsuario);
 
-        if (idNivel > 1 && !completados.Contains(idNivel - 1) && !completados.Contains(idNivel))
+        if (!RIK.Models.Nivel.EstaDesbloqueado(idNivel, completados))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
@@ -37,10 +38,42 @@ public class JuegoController : Controller
         ViewData["Title"] = nivel.Tema;
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.IdNivel = nivel.Id;
-        ViewBag.Nivel = nivel;
-        ViewBag.Charla = bd.ObtenerCharlaTeoria(idNivel) ?? new List<CharlaTeoria>();
+        ViewBag.UrlComenzar = Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id });
+
+        // "Comenzar desafío" solo se muestra si el nivel tiene preguntas suficientes para jugarlo.
+        // Si no las tiene, el botón no aparece (antes llevaba al mapa sin avisar).
+        int cantidadPreguntas = BD.ObtenerPreguntasNivel(idNivel).Count;
+        ViewBag.OcultarComenzar = cantidadPreguntas < PreguntasPorPartida;
 
         CargarImagenesPersonajes();
+
+        // Cada mensaje sabe si lo dice el chico o el perro (antes se decidía en la vista)
+        List<CharlaTeoria> charla = BD.ObtenerCharlaTeoria(idNivel);
+
+        foreach (CharlaTeoria mensaje in charla)
+        {
+            string personaje = "";
+
+            if (mensaje.Personaje != null)
+            {
+                personaje = mensaje.Personaje.Trim().ToLower();
+            }
+
+            if (personaje == "chico")
+            {
+                mensaje.ClaseFila = "charla-fila charla-fila-chico";
+                mensaje.CodigoPersonaje = "chico";
+                mensaje.ImagenCara = ViewBag.CaraChico;
+            }
+            else
+            {
+                mensaje.ClaseFila = "charla-fila charla-fila-perro";
+                mensaje.CodigoPersonaje = "perro";
+                mensaje.ImagenCara = ViewBag.CaraPerro;
+            }
+        }
+
+        ViewBag.Charla = charla;
 
         return View();
     }
@@ -67,23 +100,23 @@ public class JuegoController : Controller
         // vista, se vuelve a pedir al servidor y la partida empieza de cero.
         Response.Headers["Cache-Control"] = "no-store";
 
-        Nivel nivel = bd.ObtenerNivel(nivelElegido);
+        Nivel nivel = BD.ObtenerNivel(nivelElegido);
 
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
 
-        List<int> completados = bd.ObtenerNivelesCompletados(idUsuario);
+        List<int> completados = BD.ObtenerNivelesCompletados(idUsuario);
 
         if (nivel == null)
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        if (nivelElegido > 1 && !completados.Contains(nivelElegido - 1))
+        if (!RIK.Models.Nivel.EstaDesbloqueado(nivelElegido, completados))
         {
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        List<Pregunta> todasLasPreguntas = bd.ObtenerPreguntasNivel(nivelElegido);
+        List<Pregunta> todasLasPreguntas = BD.ObtenerPreguntasNivel(nivelElegido);
 
         // Si se refrescó la página, se retoma la partida con las preguntas guardadas en la session.
         List<Pregunta> preguntas = PreguntasPartidaEnCurso(nivelElegido, todasLasPreguntas);
@@ -92,14 +125,15 @@ public class JuegoController : Controller
         {
             preguntas = todasLasPreguntas;
 
-            if (preguntas.Count < 8)
+            if (preguntas.Count < PreguntasPorPartida)
             {
                 return RedirectToAction("IndexInicio", "Inicio");
             }
 
             Random random = new Random();
 
-            while (preguntas.Count > 8)
+            // Se sacan preguntas al azar hasta que queden las de una partida
+            while (preguntas.Count > PreguntasPorPartida)
             {
                 int aleatorio = random.Next(0, preguntas.Count);
                 preguntas.RemoveAt(aleatorio);
@@ -110,7 +144,7 @@ public class JuegoController : Controller
             HttpContext.Session.SetString("Vidas", "3");
             HttpContext.Session.SetString("Puntos", "0");
             HttpContext.Session.SetString("EstadoPartida", "Jugando");
-            HttpContext.Session.SetString("InicioPartida", DateTime.UtcNow.ToString("O"));
+            HttpContext.Session.SetString("InicioPartida", DateTime.Now.ToString());
 
             for (int i = 0; i < preguntas.Count; i++)
             {
@@ -129,10 +163,17 @@ public class JuegoController : Controller
         int.TryParse(HttpContext.Session.GetString("Vidas"), out vidas);
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
+        // id de cada pregunta en la vista ("pregunta-0", "pregunta-1"...): lo usa nivel.js
+        for (int i = 0; i < preguntas.Count; i++)
+        {
+            preguntas[i].IdHtml = "pregunta-" + i;
+        }
+
+        ViewData["Title"] = nivel.Tema;
         ViewBag.TemaNivel = nivel.Tema;
         ViewBag.PreguntasNivel = preguntas;
         ViewBag.PreguntaActual = preguntaActual;
-        ViewBag.Progreso = CalcularProgreso(preguntaActual, preguntas.Count);
+        ViewBag.EstiloBarra = "width: " + CalcularProgreso(preguntaActual, preguntas.Count) + "%;";
         ViewBag.Vidas = vidas;
         ViewBag.Puntos = puntos;
         ViewBag.Segundos = SegundosDePartida();
@@ -156,13 +197,10 @@ public class JuegoController : Controller
     {
         DateTime inicio;
 
-        if (DateTime.TryParse(
-                HttpContext.Session.GetString("InicioPartida"),
-                null,
-                DateTimeStyles.RoundtripKind,
-                out inicio))
+        if (DateTime.TryParse(HttpContext.Session.GetString("InicioPartida"), out inicio))
         {
-            return (int)(DateTime.UtcNow - inicio).TotalSeconds;
+            TimeSpan duracion = DateTime.Now - inicio;
+            return (int)duracion.TotalSeconds;
         }
 
         return 0;
@@ -181,17 +219,17 @@ public class JuegoController : Controller
         int posicion = 0;
 
         if (!int.TryParse(HttpContext.Session.GetString("PreguntaActual"), out posicion) ||
-            posicion < 0 || posicion >= 8)
+            posicion < 0 || posicion >= PreguntasPorPartida)
         {
             return null;
         }
 
         List<Pregunta> preguntas = new List<Pregunta>();
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < PreguntasPorPartida; i++)
         {
             string idPregunta = HttpContext.Session.GetString("Pregunta" + i);
-            Pregunta pregunta = todasLasPreguntas.Find(p => p.Id.ToString() == idPregunta);
+            Pregunta pregunta = BuscarPregunta(todasLasPreguntas, idPregunta);
 
             if (pregunta == null)
             {
@@ -202,6 +240,23 @@ public class JuegoController : Controller
         }
 
         return preguntas;
+    }
+
+    // Busca en la lista la pregunta con ese id (guardado como texto en la session).
+    // Si no está, devuelve null.
+    private Pregunta BuscarPregunta(List<Pregunta> preguntas, string idPregunta)
+    {
+        Pregunta encontrada = null;
+
+        foreach (Pregunta pregunta in preguntas)
+        {
+            if (pregunta.Id.ToString() == idPregunta)
+            {
+                encontrada = pregunta;
+            }
+        }
+
+        return encontrada;
     }
 
     [HttpPost]
@@ -218,7 +273,7 @@ public class JuegoController : Controller
 
         int posicion = 0;
 
-        if (!int.TryParse(posicionTexto, out posicion) || posicion < 0 || posicion >= 8)
+        if (!int.TryParse(posicionTexto, out posicion) || posicion < 0 || posicion >= PreguntasPorPartida)
         {
             return BadRequest("PreguntaInvalida");
         }
@@ -230,7 +285,7 @@ public class JuegoController : Controller
             return BadRequest("PreguntaInvalida");
         }
 
-        Pregunta pregunta = bd.ObtenerPregunta(idPregunta);
+        Pregunta pregunta = BD.ObtenerPregunta(idPregunta);
 
         if (pregunta == null)
         {
@@ -243,7 +298,7 @@ public class JuegoController : Controller
         int.TryParse(HttpContext.Session.GetString("Vidas"), out vidas);
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
-        if (bd.ComprobarOpcion(idPregunta, idOpcion))
+        if (BD.ComprobarOpcion(idPregunta, idOpcion))
         {
             puntos += 100;
             posicion++;
@@ -251,7 +306,7 @@ public class JuegoController : Controller
             HttpContext.Session.SetString("Puntos", puntos.ToString());
             HttpContext.Session.SetString("PreguntaActual", posicion.ToString());
 
-            if (posicion == 8)
+            if (posicion == PreguntasPorPartida)
             {
                 HttpContext.Session.SetString("EstadoPartida", "Ganado");
             }
@@ -298,7 +353,7 @@ public class JuegoController : Controller
             return BadRequest("NivelInvalido");
         }
 
-        int idUsuario = bd.ObtenerIdUsuario(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
 
         if (idUsuario == 0)
         {
@@ -309,8 +364,8 @@ public class JuegoController : Controller
 
         int.TryParse(HttpContext.Session.GetString("Puntos"), out puntos);
 
-        bd.GuardarNivelCompletado(idUsuario, idNivel, puntos);
-        bd.ActualizarRacha(idUsuario);
+        BD.GuardarNivelCompletado(idUsuario, idNivel, puntos);
+        BD.ActualizarRacha(idUsuario);
 
         HttpContext.Session.SetString("EstadoPartida", "Guardado");
 
@@ -332,19 +387,44 @@ public class JuegoController : Controller
             return RedirectToAction("IndexInicio", "Inicio");
         }
 
-        bool gano = estado == "Guardado";
+        bool gano = false;
+
+        if (estado == "Guardado")
+        {
+            gano = true;
+        }
 
         int puntos = LeerNumeroSession("Puntos");
         int vidas = LeerNumeroSession("Vidas");
 
         ViewBag.Gano = gano;
-        ViewBag.ImagenMascota = gano
-            ? Url.Content("~/imagenes/Ricky%20pantalla%20ganaste.png")
-            : Url.Content("~/imagenes/Ricky%20pantalla%20perdiste.png");
         ViewBag.Xp = CalcularXp(gano, puntos);
-        ViewBag.Aciertos = CalcularAciertos(puntos, vidas);
+        ViewBag.TextoAciertos = CalcularAciertos(puntos, vidas) + "%";
         ViewBag.Tiempo = FormatearTiempo(SegundosDePartida());
-        ViewBag.IdNivel = LeerNumeroSession("NivelActual");
+
+        int idNivel = LeerNumeroSession("NivelActual");
+
+        ViewData["Title"] = "Resultado";
+
+        // Textos según si ganó o perdió (antes se decidían en la vista)
+        if (gano)
+        {
+            ViewBag.ClaseFin = "fin fin-gano";
+            ViewBag.MensajeFin = "¡Pudiste aprender un tema nuevo! ¡Felicidades!";
+            ViewBag.AltMascota = "Riky festejando";
+            ViewBag.ImagenMascota = Url.Content("~/imagenes/Ricky%20pantalla%20ganaste.png");
+        }
+        else
+        {
+            ViewBag.ClaseFin = "fin fin-perdio";
+            ViewBag.MensajeFin = "¡Te quedaste sin vidas! Perdiste el nivel";
+            ViewBag.AltMascota = "Riky triste";
+            ViewBag.ImagenMascota = Url.Content("~/imagenes/Ricky%20pantalla%20perdiste.png");
+        }
+
+        // "Repasar tema nuevamente" solo aparece si perdió
+        ViewBag.OcultarRepasar = gano || idNivel == 0;
+        ViewBag.UrlRepasar = Url.Action("Teoria", "Juego", new { idNivel = idNivel });
 
         return View();
     }
@@ -393,15 +473,5 @@ public class JuegoController : Controller
         int resto = segundos % 60;
 
         return minutos + ":" + resto.ToString("00");
-    }
-
-    public IActionResult JugarNivel(int idNivel)
-    {
-         List<Pregunta> todasLasPreguntas = bd.ObtenerPreguntasNivel(idNivel);
-
-         Nivel nivel = new Nivel();
-         List<Pregunta> preguntasSeleccionadas = nivel.AgarrarPreguntas(todasLasPreguntas);
-
-        return View(preguntasSeleccionadas);
     }
 }

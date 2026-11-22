@@ -1,41 +1,29 @@
-@{
-    ViewData["Title"] = "Teoria y Moraleja";
-}
+@* Los textos y qué se muestra (teoría, botón de iniciar o avisos) los prepara BibliotecaController.TeoriaMoraleja *@
 
-@if (ViewBag.TeoriaMoraleja != null)
-{
-    <h1>@ViewBag.TeoriaMoraleja.Titulo</h1>
+<h1 hidden="@ViewBag.OcultarTeoria">@ViewBag.Titulo</h1>
 
-    <div>
-        <h2>@ViewBag.TeoriaMoraleja.TituloTeoria</h2>
-        <p>@ViewBag.TeoriaMoraleja.Teoria</p>
-    </div>
+<div hidden="@ViewBag.OcultarTeoria">
+    <h2>@ViewBag.TituloTeoria</h2>
+    <p>@ViewBag.TextoTeoria</p>
+</div>
 
-    <div>
-        <h2>@ViewBag.TeoriaMoraleja.TituloHistoria</h2>
-        <p>@ViewBag.TeoriaMoraleja.Historia</p>
-    </div>
+<div hidden="@ViewBag.OcultarTeoria">
+    <h2>@ViewBag.TituloHistoria</h2>
+    <p>@ViewBag.Historia</p>
+</div>
 
-    <div>
-        <h2>Moraleja</h2>
-        <p>@ViewBag.TeoriaMoraleja.Moraleja</p>
-    </div>
+<div hidden="@ViewBag.OcultarTeoria">
+    <h2>Moraleja</h2>
+    <p>@ViewBag.Moraleja</p>
+</div>
 
-    @if (ViewBag.EstaDesbloqueado)
-    {
-        <a href="@Url.Action("Teoria", "Juego", new { idNivel = ViewBag.Nivel })">
-            Iniciar nivel
-        </a>
-    }
-    else
-    {
-        <p>Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
-    }
-}
-else
-{
-    <p>No se encontró la teoría seleccionada.</p>
-}
+<a href="@ViewBag.UrlIniciarNivel" hidden="@ViewBag.OcultarIniciarNivel">
+    Iniciar nivel
+</a>
+
+<p hidden="@ViewBag.OcultarBloqueado">Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
+
+<p hidden="@ViewBag.OcultarNoEncontrada">No se encontró la teoría seleccionada.</p>
 
 <br />
 <a href="@Url.Action("Index", "Biblioteca")">

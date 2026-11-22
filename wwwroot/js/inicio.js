@@ -1,120 +1,168 @@
-(function () {
-            var mapa = document.getElementById('inicioMapa');
-            var lienzo = document.getElementById('inicioLienzo');
-            if (!mapa || !lienzo) return;
+// Mapa de niveles (Views/Inicio/IndexInicio.cshtml): el camino con las monedas
+// se puede mover con la rueda del mouse o arrastrando con el mouse o el dedo.
 
-            var avance = 0;           // 0 = inicio del camino, 1 = final
-            var arrastre = null;      // datos del arrastre en curso
-            var huboArrastre = false; // para no abrir un nivel al soltar un arrastre
+let mapa = document.getElementById("inicioMapa");
+let lienzo = document.getElementById("inicioLienzo");
 
-            // El camino sube en diagonal: al avanzar, la línea y las monedas
-            // bajan hacia la izquierda. El resto de la pantalla no se toca.
-            function recorrido() {
-                return {
-                    x: Math.max(1, lienzo.offsetWidth - mapa.clientWidth),
-                    y: Math.max(1, lienzo.offsetHeight - mapa.clientHeight)
-                };
-            }
+let avance = 0;           // 0 = inicio del camino, 1 = final
+let arrastre = null;      // datos del arrastre en curso
+let huboArrastre = false; // para no abrir un nivel al soltar un arrastre
 
-            // Punto de la pantalla donde se "apoya" el camino: el lugar del nivel 1
-            // cuando recién se empieza (abajo a la izquierda).
-            var ANCLA_X = 0.092;
-            var ANCLA_Y = 0.813;
-            var nodos = lienzo.querySelectorAll('.inicio-nodo');
+// Punto de la pantalla donde se "apoya" el camino: el lugar del nivel 1
+// cuando recién se empieza (abajo a la izquierda).
+let ANCLA_X = 0.092;
+let ANCLA_Y = 0.813;
 
-            // Altura del camino (dentro de la capa) en una posición horizontal dada,
-            // tomando como referencia el centro de las monedas.
-            function alturaCamino(x) {
-                if (!nodos.length) return 0;
-                if (x <= nodos[0].offsetLeft) return nodos[0].offsetTop;
-                for (var i = 1; i < nodos.length; i++) {
-                    var a = nodos[i - 1], b = nodos[i];
-                    if (x <= b.offsetLeft) {
-                        var p = (x - a.offsetLeft) / (b.offsetLeft - a.offsetLeft);
-                        return a.offsetTop + (b.offsetTop - a.offsetTop) * p;
-                    }
-                }
-                return nodos[nodos.length - 1].offsetTop;
-            }
+// El camino sube en diagonal: al avanzar, la línea y las monedas
+// bajan hacia la izquierda. El resto de la pantalla no se toca.
+function recorrido() {
+    return {
+        x: Math.max(1, lienzo.offsetWidth - mapa.clientWidth),
+        y: Math.max(1, lienzo.offsetHeight - mapa.clientHeight)
+    };
+}
 
-            // Cuánto tiene que bajar la capa para que el camino pase por el ancla
-            // cuando la capa está corrida x píxeles hacia la izquierda.
-            function bajadaEnAncla(x) {
-                var y = lienzo.offsetHeight - (1 - ANCLA_Y) * mapa.clientHeight
-                        - alturaCamino(x + ANCLA_X * mapa.clientWidth);
-                return Math.max(0, Math.min(recorrido().y, y));
-            }
+// Altura del camino (dentro de la capa) en una posición horizontal dada,
+// tomando como referencia el centro de las monedas.
+function alturaCamino(x) {
+    let nodos = lienzo.getElementsByClassName("inicio-nodo");
 
-            // La capa se mueve en línea recta (en diagonal) desde el principio hasta el final
-            // del camino: la bajada es proporcional al avance, sin seguir cada subida y bajada
-            // entre monedas.
-            function mover(valor) {
-                var r = recorrido();
-                avance = Math.max(0, Math.min(1, valor));
-                var x = avance * r.x;
-                var yInicio = bajadaEnAncla(0);
-                var yFin = bajadaEnAncla(r.x);
-                var y = yInicio + (yFin - yInicio) * avance;
-                lienzo.style.transform = 'translate(' + (-x) + 'px, ' + y + 'px)';
-            }
+    if (nodos.length == 0) {
+        return 0;
+    }
+    if (x <= nodos[0].offsetLeft) {
+        return nodos[0].offsetTop;
+    }
+    for (let i = 1; i < nodos.length; i++) {
+        let a = nodos[i - 1];
+        let b = nodos[i];
+        if (x <= b.offsetLeft) {
+            let p = (x - a.offsetLeft) / (b.offsetLeft - a.offsetLeft);
+            return a.offsetTop + (b.offsetTop - a.offsetTop) * p;
+        }
+    }
+    return nodos[nodos.length - 1].offsetTop;
+}
 
-            // Rueda del mouse: hacia arriba avanza por el camino (que sube), hacia abajo vuelve.
-            // Por eso deltaY va con el signo cambiado. El scroll horizontal queda igual.
-            mapa.addEventListener('wheel', function (e) {
-                e.preventDefault();
-                var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : -e.deltaY;
-                if (e.deltaMode === 1) delta *= 40;
-                mover(avance + delta / recorrido().x);
-            }, { passive: false });
+// Cuánto tiene que bajar la capa para que el camino pase por el ancla
+// cuando la capa está corrida x píxeles hacia la izquierda.
+function bajadaEnAncla(x) {
+    let y = lienzo.offsetHeight - (1 - ANCLA_Y) * mapa.clientHeight
+            - alturaCamino(x + ANCLA_X * mapa.clientWidth);
+    return Math.max(0, Math.min(recorrido().y, y));
+}
 
-            // Arrastre con mouse o dedo.
-            mapa.addEventListener('pointerdown', function (e) {
-                if (e.button !== 0 || e.target.closest('.inicio-pantalla')) return;
-                arrastre = { id: e.pointerId, x: e.clientX, y: e.clientY, inicio: avance, activo: false };
-                huboArrastre = false;
-            });
+// La capa se mueve en línea recta (en diagonal) desde el principio hasta el final
+// del camino: la bajada es proporcional al avance, sin seguir cada subida y bajada
+// entre monedas.
+function mover(valor) {
+    let r = recorrido();
+    avance = Math.max(0, Math.min(1, valor));
+    let x = avance * r.x;
+    let yInicio = bajadaEnAncla(0);
+    let yFin = bajadaEnAncla(r.x);
+    let y = yInicio + (yFin - yInicio) * avance;
+    lienzo.style.transform = "translate(" + (-x) + "px, " + y + "px)";
+}
 
-            mapa.addEventListener('pointermove', function (e) {
-                if (!arrastre || e.pointerId !== arrastre.id) return;
-                var dx = e.clientX - arrastre.x;
-                var dy = e.clientY - arrastre.y;
-                if (!arrastre.activo) {
-                    if (Math.abs(dx) + Math.abs(dy) < 6) return;
-                    arrastre.activo = true;
-                    huboArrastre = true;
-                    mapa.classList.add('inicio-arrastrando');
-                    mapa.setPointerCapture(arrastre.id);
-                }
-                var r = recorrido();
-                mover(arrastre.inicio + (dy - dx) / (r.x + r.y));
-            });
+// true si el elemento está dentro de los paneles fijos (biblioteca, racha, desempeño, mascota)
+function estaEnPaneles(elemento) {
+    while (elemento != null) {
+        if (elemento.className == "inicio-pantalla") {
+            return true;
+        }
+        elemento = elemento.parentElement;
+    }
+    return false;
+}
 
-            function soltar(e) {
-                if (!arrastre || e.pointerId !== arrastre.id) return;
-                arrastre = null;
-                mapa.classList.remove('inicio-arrastrando');
-            }
-            mapa.addEventListener('pointerup', soltar);
-            mapa.addEventListener('pointercancel', soltar);
+// Rueda del mouse: hacia arriba avanza por el camino (que sube), hacia abajo vuelve.
+// Por eso deltaY va con el signo cambiado. El scroll horizontal queda igual.
+function moverConRueda(e) {
+    e.preventDefault();
+    let delta = -e.deltaY;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        delta = e.deltaX;
+    }
+    if (e.deltaMode == 1) {
+        delta = delta * 40;
+    }
+    mover(avance + delta / recorrido().x);
+}
 
-            mapa.addEventListener('click', function (e) {
-                if (huboArrastre) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    huboArrastre = false;
-                }
-            }, true);
+// Arrastre con mouse o dedo.
+function empezarArrastre(e) {
+    if (e.button != 0 || estaEnPaneles(e.target)) {
+        return;
+    }
+    arrastre = { id: e.pointerId, x: e.clientX, y: e.clientY, inicio: avance, activo: false };
+    huboArrastre = false;
+}
 
-            mapa.addEventListener('dragstart', function (e) { e.preventDefault(); });
-            window.addEventListener('resize', function () { mover(avance); });
+function arrastrar(e) {
+    if (arrastre == null || e.pointerId != arrastre.id) {
+        return;
+    }
+    let dx = e.clientX - arrastre.x;
+    let dy = e.clientY - arrastre.y;
+    if (arrastre.activo == false) {
+        // Recién se cuenta como arrastre si se movió más de 6 píxeles
+        if (Math.abs(dx) + Math.abs(dy) < 6) {
+            return;
+        }
+        arrastre.activo = true;
+        huboArrastre = true;
+        mapa.className = "inicio-mapa inicio-arrastrando";
+        mapa.setPointerCapture(arrastre.id);
+    }
+    let r = recorrido();
+    mover(arrastre.inicio + (dy - dx) / (r.x + r.y));
+}
 
-            // Al entrar, el mapa arranca en el nivel que toca jugar: esa moneda queda
-            // abajo a la izquierda, donde está el nivel 1 cuando recién se empieza.
-            var actual = lienzo.querySelector('.inicio-nodo-actual');
-            if (actual) {
-                lienzo.style.transition = 'none';
-                mover((actual.offsetLeft - mapa.clientWidth * ANCLA_X) / recorrido().x);
-                lienzo.offsetWidth;
-                lienzo.style.transition = '';
-            }
-        })();
+function soltar(e) {
+    if (arrastre == null || e.pointerId != arrastre.id) {
+        return;
+    }
+    arrastre = null;
+    mapa.className = "inicio-mapa";
+}
+
+// Si se terminó de arrastrar sobre una moneda, no se abre el nivel
+function evitarClickDespuesDeArrastrar(e) {
+    if (huboArrastre) {
+        e.preventDefault();
+        e.stopPropagation();
+        huboArrastre = false;
+    }
+}
+
+function iniciarMapa() {
+    if (mapa == null || lienzo == null) {
+        return;
+    }
+
+    mapa.onwheel = moverConRueda;
+    mapa.onpointerdown = empezarArrastre;
+    mapa.onpointermove = arrastrar;
+    mapa.onpointerup = soltar;
+    mapa.onpointercancel = soltar;
+    mapa.onclick = evitarClickDespuesDeArrastrar;
+    mapa.ondragstart = function (e) {
+        e.preventDefault();
+    };
+    window.onresize = function () {
+        mover(avance);
+    };
+
+    // Al entrar, el mapa arranca en el nivel que toca jugar: esa moneda queda
+    // abajo a la izquierda, donde está el nivel 1 cuando recién se empieza.
+    let actual = lienzo.getElementsByClassName("inicio-nodo-actual")[0];
+    if (actual != null) {
+        lienzo.style.transition = "none";
+        mover((actual.offsetLeft - mapa.clientWidth * ANCLA_X) / recorrido().x);
+        lienzo.offsetWidth; // obliga al navegador a aplicar el movimiento antes de volver a activar la transición
+        lienzo.style.transition = "";
+    }
+}
+
+iniciarMapa();

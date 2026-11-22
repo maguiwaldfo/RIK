@@ -1,6 +1,4 @@
-@{
-    ViewData["Title"] = "Inicio";
-}
+@* El camino y cada moneda (posición, imagen, link o bloqueada) los prepara InicioController.IndexInicio *@
 
 <div class="inicio-mapa" id="inicioMapa">
 
@@ -8,38 +6,18 @@
     <div class="inicio-lienzo" id="inicioLienzo" style="@ViewBag.TamanoLienzo">
 
         <svg class="inicio-camino"
-             viewBox="0 -@ViewBag.AltoCamino @ViewBag.AnchoCamino @ViewBag.AltoCamino"
+             viewBox="@ViewBag.ViewBoxCamino"
              preserveAspectRatio="none"
              aria-hidden="true">
             <path d="@ViewBag.Camino" />
         </svg>
 
-        @for (int nivel = 1; nivel <= ViewBag.TotalNiveles; nivel++)
+        @* Las monedas sin link (Url = null) no se pueden abrir *@
+        @foreach (NodoMapa nodo in ViewBag.Nodos)
         {
-            bool estaCompletado = ViewBag.NivelesCompletados.Contains(nivel);
-            bool estaDesbloqueado = nivel <= ViewBag.MaxNivelDesbloqueado;
-            bool esActual = nivel == ViewBag.MaxNivelDesbloqueado;
-
-            string posicion = ViewBag.PosicionesNiveles[nivel - 1];
-
-            if (estaDesbloqueado && (estaCompletado || esActual))
-            {
-                <a class="inicio-nodo inicio-nodo-desbloqueado @(esActual ? "inicio-nodo-actual" : "")"
-                   style="@posicion"
-                   href="@Url.Action("Teoria", "Juego", new { idNivel = nivel })">
-                    <img src="@Url.Content("~/imagenes/monedaNivel.png")" alt="Nivel @nivel" />
-                </a>
-            }
-            else
-            {
-                string imagenMoneda = estaDesbloqueado
-                    ? "~/imagenes/monedaNivel.png"
-                    : "~/imagenes/monedaBloqueada.png";
-
-                <div class="inicio-nodo @(estaDesbloqueado ? "" : "inicio-nodo-bloqueado")" style="@posicion">
-                    <img src="@Url.Content(imagenMoneda)" alt="Nivel bloqueado" />
-                </div>
-            }
+            <a class="@nodo.Clase" style="@nodo.Estilo" href="@nodo.Url">
+                <img src="@nodo.Imagen" alt="@nodo.Alt" />
+            </a>
         }
     </div>
 
@@ -61,7 +39,7 @@
             <div class="inicio-desempeno-tarjeta">
                 <div class="inicio-trofeo">
                     <img src="~/imagenes/trofeo.png" alt="" />
-                    <p>@ViewBag.NivelesCompletados.Count niveles completados</p>
+                    <p>@ViewBag.CantidadCompletados niveles completados</p>
                 </div>
                 <div class="inicio-trofeo">
                     <img src="~/imagenes/trofeo.png" alt="" />

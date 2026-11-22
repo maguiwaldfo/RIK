@@ -8,4 +8,7 @@ public class SolicitudLiga
     public string NombreUsuario { get; set; }
     public string Nombre { get; set; }
     public DateTime FechaSolicitud { get; set; }
+
+    // Texto listo para mostrar (nombre y fecha). Lo arma LigaController.Solicitudes.
+    public string Detalle { get; set; } = "";
 }

@@ -1,4 +1,5 @@
-/* La fuente Poppins se carga con un <link> en el <head> de _Layout, Login/Index y Login/Registrarse. */
+/* Poppins: la usa todo el sitio. Tiene que quedar primero en el archivo. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 
 /* ============================================================
@@ -1909,7 +1910,7 @@ body:has(.fin) {
 /* ============================================================
    14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
    Todo se engancha a la estructura que ya genera la vista
-   (h1, h2, .lista-ligas, los rankings que arma el controlador y el form),
+   (h1, h2, .lista-ligas, los rankings y el form),
    sin clases nuevas. El scope es ".page-main:has(> .lista-ligas)",
    que solo existe en esta vista.
    ============================================================ */
@@ -2094,8 +2095,8 @@ body:has(.lista-ligas) {
     to   { opacity: 1; transform: none; }
 }
 
-/* Contenedores de los rankings (Views/Liga/Index.cshtml): el HTML que arma el
-   controlador va adentro, y cada contenedor se ubica en su zona de la grilla. */
+/* Contenedores de los rankings (Views/Liga/Index.cshtml): cada contenedor
+   se ubica en su zona de la grilla. */
 .page-main:has(> .lista-ligas) > .ranking-global {
     grid-area: tglobal;
     align-self: start;
@@ -2108,13 +2109,13 @@ body:has(.lista-ligas) {
     min-width: 0;
 }
 
-/* el ranking exportado de Figma trae width: 484px en línea: que no se salga en pantallas chicas */
+/* el ranking mide 484px (.ranking-tabla): que no se salga en pantallas chicas */
 .ranking-global > div,
 .ranking-liga > div {
     max-width: 100%;
 }
 
-/* sin ligas o sin datos: el controlador manda un <p> en lugar del ranking */
+/* sin ligas o sin datos: se muestra el <p> con el mensaje en lugar del ranking */
 .page-main:has(> .lista-ligas) .ranking-global > p,
 .page-main:has(> .lista-ligas) .ranking-liga > p {
     display: grid;
@@ -2127,6 +2128,323 @@ body:has(.lista-ligas) {
     background: rgba(255, 255, 255, .75);
     color: #3F6B50;
     text-align: center;
+}
+
+/* ============================================================
+   14b. RANKINGS (Views/Liga/Index.cshtml)
+   Antes LigaController armaba el ranking como un string de HTML con
+   estilos en línea (exportado de Figma) y la vista lo pegaba con Html.Raw.
+   Ahora la vista lo arma con un foreach (ViewBag.RankingGlobal /
+   ViewBag.RankingLiga) y los mismos estilos están en estas clases.
+   Cada fila tiene una clase según el puesto: oro (1°), plata (2°),
+   bronce (3°) y resto (4° en adelante).
+   ============================================================ */
+
+.ranking-tabla {
+    width: 484px;
+    padding: 28px;
+    position: relative;
+    background: #0A4D28;
+    border-radius: 40px;
+    outline: 4px rgba(6, 56, 29, 0.30) solid;
+    outline-offset: -4px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 14px;
+    display: inline-flex;
+    font-family: 'Baloo 2', sans-serif;
+}
+
+/* partes que son iguales en todas las filas */
+.ranking-izquierda {
+    padding-left: 4px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    display: flex;
+}
+.ranking-nombre-columna {
+    flex-direction: column;
+    display: inline-flex;
+}
+.ranking-derecha {
+    padding-right: 4px;
+}
+
+/* 1° puesto */
+.ranking-fila-oro {
+    align-self: stretch;
+    padding: 10px;
+    position: relative;
+    background: linear-gradient(90deg, #FFE566 0%, #FFD700 50%, #F5C300 100%);
+    border-radius: 9999px;
+    box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.10), 0px 10px 15px -3px rgba(0, 0, 0, 0.10), 0px 0px 0px 4px rgba(255, 215, 0, 0.70);
+    justify-content: space-between;
+    align-items: center;
+    display: inline-flex;
+}
+.ranking-fila-oro .ranking-posicion {
+    width: 36px;
+    height: 36px;
+    background: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 9999px;
+    outline: 2px #FFD700 solid;
+    outline-offset: -2px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-oro .ranking-posicion-texto {
+    color: #1C1917;
+    font-size: 16px;
+    font-weight: 800;
+}
+.ranking-fila-oro .ranking-avatar {
+    width: 44px;
+    height: 44px;
+    background: #1C1917;
+    box-shadow: 0px 0px 0px 2px white;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-oro .ranking-avatar-cuadrado {
+    width: 16px;
+    height: 16px;
+    background: #FFD700;
+    border-radius: 2px;
+}
+.ranking-fila-oro .ranking-nombre {
+    color: #0C0A09;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 32px;
+}
+.ranking-fila-oro .ranking-subtitulo {
+    color: #0A4D28;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.60px;
+}
+.ranking-fila-oro .ranking-puntos {
+    padding: 4px 20px;
+    background: #0A4D28;
+    border-radius: 9999px;
+    outline: 1px rgba(255, 255, 255, 0.20) solid;
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.10);
+}
+.ranking-fila-oro .ranking-puntos-texto {
+    color: #FFD700;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+/* 2° puesto */
+.ranking-fila-plata {
+    align-self: stretch;
+    padding: 10px;
+    position: relative;
+    background: #F1F5F9;
+    border-radius: 9999px;
+    box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 2px #CBD5E1;
+    justify-content: space-between;
+    align-items: center;
+    display: inline-flex;
+}
+.ranking-fila-plata .ranking-posicion {
+    width: 36px;
+    height: 36px;
+    background: #E2E8F0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05) inset;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-plata .ranking-posicion-texto {
+    color: #292524;
+    font-size: 16px;
+    font-weight: 800;
+}
+.ranking-fila-plata .ranking-avatar {
+    width: 44px;
+    height: 44px;
+    background: #1C1917;
+    box-shadow: 0px 0px 0px 2px #CBD5E1;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-plata .ranking-avatar-cuadrado {
+    width: 16px;
+    height: 16px;
+    background: #E2E8F0;
+    border-radius: 2px;
+}
+.ranking-fila-plata .ranking-nombre {
+    color: #0C0A09;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+}
+.ranking-fila-plata .ranking-subtitulo {
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+}
+.ranking-fila-plata .ranking-puntos {
+    padding: 4px 20px;
+    background: white;
+    border-radius: 9999px;
+    outline: 1px #E2E8F0 solid;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+}
+.ranking-fila-plata .ranking-puntos-texto {
+    color: #1C1917;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+/* 3° puesto */
+.ranking-fila-bronce {
+    align-self: stretch;
+    padding: 10px;
+    position: relative;
+    background: #FFE9D6;
+    border-radius: 9999px;
+    box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 2px #E6A877;
+    justify-content: space-between;
+    align-items: center;
+    display: inline-flex;
+}
+.ranking-fila-bronce .ranking-posicion {
+    width: 36px;
+    height: 36px;
+    background: #F4CAA5;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05) inset;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-bronce .ranking-posicion-texto {
+    color: #743C11;
+    font-size: 16px;
+    font-weight: 800;
+}
+.ranking-fila-bronce .ranking-avatar {
+    width: 44px;
+    height: 44px;
+    background: #1C1917;
+    box-shadow: 0px 0px 0px 2px #E6A877;
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-bronce .ranking-avatar-cuadrado {
+    width: 16px;
+    height: 16px;
+    background: #F4CAA5;
+    border-radius: 2px;
+}
+.ranking-fila-bronce .ranking-nombre {
+    color: #0C0A09;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+}
+.ranking-fila-bronce .ranking-subtitulo {
+    color: #96541F;
+    font-size: 12px;
+    font-weight: 700;
+}
+.ranking-fila-bronce .ranking-puntos {
+    padding: 4px 20px;
+    background: white;
+    border-radius: 9999px;
+    outline: 1px #F4CAA5 solid;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+}
+.ranking-fila-bronce .ranking-puntos-texto {
+    color: #1C1917;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+/* del 4° puesto en adelante */
+.ranking-fila-resto {
+    align-self: stretch;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 9999px;
+    outline: 1px rgba(255, 255, 255, 0.20) solid;
+    outline-offset: -1px;
+    justify-content: space-between;
+    align-items: center;
+    display: inline-flex;
+}
+.ranking-fila-resto .ranking-posicion {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 9999px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-resto .ranking-posicion-texto {
+    color: rgba(255, 255, 255, 0.80);
+    font-size: 16px;
+    font-weight: 700;
+}
+.ranking-fila-resto .ranking-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(28, 25, 23, 0.80);
+    border-radius: 9999px;
+    outline: 1px rgba(255, 255, 255, 0.10) solid;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.ranking-fila-resto .ranking-avatar-cuadrado {
+    width: 13.33px;
+    height: 13.33px;
+    background: rgba(255, 255, 255, 0.70);
+    border-radius: 2px;
+}
+.ranking-fila-resto .ranking-nombre {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+}
+.ranking-fila-resto .ranking-puntos {
+    padding: 4px 20px;
+    background: rgba(255, 255, 255, 0.20);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 9999px;
+}
+.ranking-fila-resto .ranking-puntos-texto {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+/* del 4° en adelante no hay subtítulo ("CAMPEÓN", "2° Lugar"...) */
+.ranking-fila-resto .ranking-subtitulo {
+    display: none;
 }
 
 /* ---------- Invitar amigos (solo creador de la liga) ---------- */
@@ -2616,8 +2934,9 @@ body:has(.unirse-liga) {
     max-width: 380px;
 }
 
-/* Cuando la acción es un solo botón, que no ocupe todo el ancho */
-.unirse-form-accion:not(:has(input[type="password"])) {
+/* Cuando la acción es un solo botón, que no ocupe todo el ancho
+   (la clase la agrega LigaController.ArmarTarjeta) */
+.unirse-form-solo-boton {
     width: auto;
 }
 
@@ -2963,10 +3282,10 @@ body.mapa-body:has(.page-main > main:not([class])) {
     box-shadow: 0 0 0 3px rgba(217, 83, 79, .12);
 }
 
-/* mensajes de error (la vista de contraseña trae color: red en línea) */
+/* mensajes de error del formulario */
 .page-main > main:not([class]) #registroForm .feedback {
     margin-top: 6px;
-    color: #B42318 !important;
+    color: #B42318;
     font-size: .8rem;
     text-align: left;
 }
@@ -3165,7 +3484,7 @@ body:has(form[action$="/Liga/Crear"]) {
     display: none;
 }
 
-/* ---------- Mensaje de error (la vista le pone color: red en línea) ---------- */
+/* ---------- Mensaje de error ---------- */
 
 .page-main:has(> form[action$="/Liga/Crear"]) > form > p {
     margin: 18px 0 0;
@@ -3173,7 +3492,7 @@ body:has(form[action$="/Liga/Crear"]) {
     border-left: 4px solid #B42318;
     border-radius: 8px;
     background: #FDECEA;
-    color: #B42318 !important;
+    color: #B42318;
     font-size: .85rem;
     font-weight: 600;
 }

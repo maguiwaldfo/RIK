@@ -1,18 +1,27 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Primitives;
 using RIK.Models;
 
 namespace RIK.Controllers;
 
 public class LigaController : Controller
 {
-    private BD bd = new BD();
-
     private string ObtenerUsuarioActual()
     {
         return HttpContext.Session.GetString("NombreUsuario");
+    }
+
+    // Avisos que se muestran una sola vez en la página siguiente (después de un RedirectToAction).
+    // Se guardan en la Session y se borran apenas se leen.
+    private void GuardarAviso(string clave, string texto)
+    {
+        HttpContext.Session.SetString(clave, texto);
+    }
+
+    private string LeerAviso(string clave)
+    {
+        string texto = HttpContext.Session.GetString(clave);
+        HttpContext.Session.Remove(clave);
+        return texto;
     }
 
     public IActionResult Index(int idLigaAmigos = 0)
@@ -24,24 +33,46 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = bd.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
 
         if (idUsuario == 0)
         {
             return RedirectToAction("Index", "Login");
         }
 
+        ViewData["Title"] = "Ligas y Tabla de Posiciones";
+
         // Obtener todas las ligas del usuario
-        List<Liga> ligas = bd.ObtenerLigasDeUsuario(idUsuario);
+        List<Liga> ligas = BD.ObtenerLigasDeUsuario(idUsuario);
 
         ViewBag.Ligas = ligas;
+
+        // Aviso que llega desde otra acción (por ejemplo, después de unirse a una liga)
+        string mensaje = LeerAviso("AvisoLiga");
+        ViewBag.Mensaje = mensaje;
+        ViewBag.OcultarAviso = string.IsNullOrEmpty(mensaje);
+
+        // Valores por defecto: sin liga elegida no se muestra "Invitar amigos" ni el botón de abandonar/eliminar
+        ViewBag.IdLiga = 0;
+        ViewBag.OcultarAccionLiga = true;
+        ViewBag.UrlAccionLiga = "";
+        ViewBag.TextoBotonLiga = "";
+        ViewBag.OcultarCompartir = true;
+        ViewBag.LinkInvitacion = "";
+        ViewBag.OcultarSolicitudes = true;
+        ViewBag.UrlSolicitudes = "";
+        ViewBag.CantidadSolicitudes = 0;
+        ViewBag.OcultarCantidadSolicitudes = true;
 
         // Seleccionar la liga que se quiere mostrar
         Liga ligaActual = null;
 
-        if (idLigaAmigos != 0)
+        foreach (Liga liga in ligas)
         {
-            ligaActual = ligas.Find(l => l.Id == idLigaAmigos);
+            if (liga.Id == idLigaAmigos)
+            {
+                ligaActual = liga;
+            }
         }
 
         // Si no se seleccionó ninguna, mostrar la primera
@@ -50,51 +81,56 @@ public class LigaController : Controller
             ligaActual = ligas[0];
         }
 
-        List<UsuarioRanking> leaderboardGlobal = bd.ObtenerLeaderboardGlobal();
-        string htmlGlobal = GenerarHtmlLeaderboardFigma(leaderboardGlobal, "No hay datos registrados en el ranking global.");
+        List<UsuarioRanking> leaderboardGlobal = BD.ObtenerLeaderboardGlobal();
 
-        string htmlLiga = "";
+        ViewBag.RankingGlobal = ArmarRanking(leaderboardGlobal);
+        ViewBag.OcultarRankingGlobal = leaderboardGlobal.Count == 0;
+        ViewBag.MensajeRankingGlobal = "No hay datos registrados en el ranking global.";
+        ViewBag.OcultarMensajeRankingGlobal = leaderboardGlobal.Count > 0;
+
+        // Ranking de la liga elegida (vacío si no pertenece a ninguna liga)
+        List<UsuarioRanking> leaderboardLiga = new List<UsuarioRanking>();
+        string mensajeRankingLiga = "No hay ligas. Todavía no pertenecés a ninguna liga de amigos.";
         string tituloLiga = "Mis ligas";
 
         if (ligaActual != null)
         {
-            List<UsuarioRanking> leaderboardLiga = bd.ObtenerLeaderboardLiga(ligaActual.Id);
+            leaderboardLiga = BD.ObtenerLeaderboardLiga(ligaActual.Id);
+            mensajeRankingLiga = "No hay participantes en esta liga.";
 
             ViewBag.IdLiga = ligaActual.Id;
-            ViewBag.AccionLiga = "Abandonar";
+            ViewBag.OcultarAccionLiga = false;
+            ViewBag.UrlAccionLiga = Url.Action("Abandonar", "Liga");
             ViewBag.TextoBotonLiga = "Abandonar liga";
 
             if (ligaActual.IdUsuarioCreador == idUsuario)
             {
-                ViewBag.AccionLiga = "Eliminar";
+                ViewBag.UrlAccionLiga = Url.Action("Eliminar", "Liga");
                 ViewBag.TextoBotonLiga = "Eliminar liga";
 
                 // Solo el dueño puede compartir la liga y ver las solicitudes
-                ViewBag.EsCreador = true;
-                ViewBag.EsPrivada = ligaActual.Privacidad;
+                ViewBag.OcultarCompartir = false;
                 ViewBag.LinkInvitacion = Url.Action("UnirseALiga", "Liga", new { codigo = ligaActual.CodigoInvitacion }, Request.Scheme);
 
                 if (ligaActual.Privacidad)
                 {
-                    ViewBag.CantidadSolicitudes = bd.ObtenerSolicitudesLiga(ligaActual.Id, idUsuario).Count;
+                    int cantidadSolicitudes = BD.ObtenerSolicitudesLiga(ligaActual.Id, idUsuario).Count;
+
+                    ViewBag.OcultarSolicitudes = false;
+                    ViewBag.UrlSolicitudes = Url.Action("Solicitudes", "Liga", new { idLiga = ligaActual.Id });
+                    ViewBag.CantidadSolicitudes = cantidadSolicitudes;
+                    ViewBag.OcultarCantidadSolicitudes = cantidadSolicitudes == 0;
                 }
             }
 
             tituloLiga = "Liga: " + ligaActual.Nombre;
-            htmlLiga = GenerarHtmlLeaderboardFigma(leaderboardLiga, "No hay participantes en esta liga.");
-        }
-        else
-        {
-            ViewBag.IdLiga = 0;
-            ViewBag.AccionLiga = "";
-            ViewBag.TextoBotonLiga = "";
-
-            htmlLiga = "<p>No hay ligas. Todavía no pertenecés a ninguna liga de amigos.</p>";
         }
 
-        ViewBag.HtmlTablaGlobal = htmlGlobal;
         ViewBag.TituloLiga = tituloLiga;
-        ViewBag.HtmlTablaLiga = htmlLiga;
+        ViewBag.RankingLiga = ArmarRanking(leaderboardLiga);
+        ViewBag.OcultarRankingLiga = leaderboardLiga.Count == 0;
+        ViewBag.MensajeRankingLiga = mensajeRankingLiga;
+        ViewBag.OcultarMensajeRankingLiga = leaderboardLiga.Count > 0;
 
         return View();
     }
@@ -111,8 +147,10 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        busqueda = (busqueda ?? "").Trim();
-        codigo = (codigo ?? "").Trim().ToUpperInvariant();
+        busqueda = TextoLimpio(busqueda);
+        codigo = TextoLimpio(codigo).ToUpper();
+
+        string error = "";
 
         if (!string.IsNullOrWhiteSpace(link))
         {
@@ -120,7 +158,7 @@ public class LigaController : Controller
 
             if (codigo == "")
             {
-                ViewBag.Error = "Ese link no es válido. Pedile a quien creó la liga que te lo vuelva a pasar.";
+                error = "Ese link no es válido. Pedile a quien creó la liga que te lo vuelva a pasar.";
             }
         }
 
@@ -130,12 +168,12 @@ public class LigaController : Controller
         {
             if (EsCodigoValido(codigo))
             {
-                ligaInvitacion = bd.ObtenerLigaPorCodigo(codigo, idUsuario);
+                ligaInvitacion = BD.ObtenerLigaPorCodigo(codigo, idUsuario);
             }
 
             if (ligaInvitacion == null)
             {
-                ViewBag.Error = "No encontramos ninguna liga con ese link. Puede que la hayan eliminado.";
+                error = "No encontramos ninguna liga con ese link. Puede que la hayan eliminado.";
                 codigo = "";
             }
         }
@@ -149,13 +187,52 @@ public class LigaController : Controller
                 busqueda = busqueda.Substring(0, 50);
             }
 
-            resultados = bd.BuscarLigas(busqueda, idUsuario);
+            resultados = BD.BuscarLigas(busqueda, idUsuario);
         }
 
+        ViewData["Title"] = "Unirse a una liga";
         ViewBag.Busqueda = busqueda;
-        ViewBag.Codigo = codigo;
-        ViewBag.LigaInvitacion = ligaInvitacion;
-        ViewBag.Resultados = resultados;
+
+        // Mensajes que llegan desde SolicitarUnirse y errores de esta misma página
+        string mensaje = LeerAviso("AvisoLiga");
+        string errorAnterior = LeerAviso("ErrorLiga");
+
+        if (!string.IsNullOrEmpty(errorAnterior))
+        {
+            error = (errorAnterior + " " + error).Trim();
+        }
+
+        ViewBag.Mensaje = mensaje;
+        ViewBag.OcultarMensaje = string.IsNullOrEmpty(mensaje);
+        ViewBag.Error = error;
+        ViewBag.OcultarError = error == "";
+
+        // Tarjeta de la liga del link de invitación (lista de 0 o 1 tarjetas)
+        List<TarjetaLiga> tarjetasInvitacion = new List<TarjetaLiga>();
+
+        if (ligaInvitacion != null)
+        {
+            tarjetasInvitacion.Add(ArmarTarjeta(ligaInvitacion, codigo, ""));
+        }
+
+        ViewBag.TarjetasInvitacion = tarjetasInvitacion;
+        ViewBag.OcultarInvitacion = ligaInvitacion == null;
+
+        // Tarjetas de los resultados de la búsqueda
+        List<TarjetaLiga> tarjetasResultados = new List<TarjetaLiga>();
+
+        if (resultados != null)
+        {
+            foreach (LigaBusqueda liga in resultados)
+            {
+                tarjetasResultados.Add(ArmarTarjeta(liga, "", busqueda));
+            }
+        }
+
+        ViewBag.TarjetasResultados = tarjetasResultados;
+        ViewBag.OcultarResultados = resultados == null;
+        ViewBag.TituloResultados = "Resultados para \"" + busqueda + "\"";
+        ViewBag.OcultarSinResultados = resultados == null || resultados.Count > 0;
 
         return View();
     }
@@ -172,33 +249,42 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        codigo = (codigo ?? "").Trim().ToUpperInvariant();
+        codigo = TextoLimpio(codigo).ToUpper();
 
         if (!EsCodigoValido(codigo))
         {
             codigo = "";
         }
 
-        int resultado = bd.SolicitarUnirseALiga(
-            idLiga,
-            idUsuario,
-            string.IsNullOrEmpty(contraseña) ? null : contraseña,
-            codigo == "" ? null : codigo
-        );
+        // Al procedure se le manda null cuando no hay contraseña o no hay código
+        string contraseñaParaBD = null;
+        string codigoParaBD = null;
+
+        if (!string.IsNullOrEmpty(contraseña))
+        {
+            contraseñaParaBD = contraseña;
+        }
+
+        if (codigo != "")
+        {
+            codigoParaBD = codigo;
+        }
+
+        int resultado = BD.SolicitarUnirseALiga(idLiga, idUsuario, contraseñaParaBD, codigoParaBD);
 
         if (resultado == 1)
         {
-            TempData["Mensaje"] = "¡Listo! Ya sos parte de la liga.";
+            GuardarAviso("AvisoLiga", "¡Listo! Ya sos parte de la liga.");
             return RedirectToAction("Index", new { idLigaAmigos = idLiga });
         }
 
         if (resultado == 2)
         {
-            TempData["Mensaje"] = "Solicitud enviada. Cuando el creador de la liga la acepte, vas a aparecer en el ranking.";
+            GuardarAviso("AvisoLiga", "Solicitud enviada. Cuando el creador de la liga la acepte, vas a aparecer en el ranking.");
         }
         else
         {
-            TempData["Error"] = MensajeErrorUnirse(resultado);
+            GuardarAviso("ErrorLiga", MensajeErrorUnirse(resultado));
         }
 
         return RedirectToAction("UnirseALiga", new { busqueda = busqueda, codigo = codigo });
@@ -215,16 +301,37 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        Liga liga = bd.ObtenerLigaPorId(idLiga);
+        Liga liga = BD.ObtenerLigaPorId(idLiga);
 
         if (liga == null || liga.IdUsuarioCreador != idUsuario)
         {
             return RedirectToAction("Index");
         }
 
-        ViewBag.Liga = liga;
-        ViewBag.Solicitudes = bd.ObtenerSolicitudesLiga(idLiga, idUsuario);
-        ViewBag.CantidadMiembros = bd.ObtenerLeaderboardLiga(idLiga).Count;
+        List<SolicitudLiga> solicitudes = BD.ObtenerSolicitudesLiga(idLiga, idUsuario);
+        int cantidadMiembros = BD.ObtenerLeaderboardLiga(idLiga).Count;
+
+        // El texto de cada solicitud (nombre y fecha) se arma acá para que la vista solo lo muestre
+        foreach (SolicitudLiga solicitud in solicitudes)
+        {
+            solicitud.Detalle = solicitud.Nombre + " · pidió entrar el " + solicitud.FechaSolicitud.ToString("dd/MM/yyyy HH:mm");
+        }
+
+        ViewData["Title"] = "Solicitudes de " + liga.Nombre;
+        ViewBag.IdLiga = liga.Id;
+        ViewBag.UrlVolver = Url.Action("Index", "Liga", new { idLigaAmigos = liga.Id });
+        ViewBag.TituloPagina = "Solicitudes para " + liga.Nombre;
+        ViewBag.TextoLugares = cantidadMiembros + " de " + liga.Capacidad + " lugares ocupados";
+        ViewBag.Solicitudes = solicitudes;
+        ViewBag.OcultarVacio = solicitudes.Count > 0;
+
+        string mensaje = LeerAviso("AvisoLiga");
+        string error = LeerAviso("ErrorLiga");
+
+        ViewBag.Mensaje = mensaje;
+        ViewBag.OcultarMensaje = string.IsNullOrEmpty(mensaje);
+        ViewBag.Error = error;
+        ViewBag.OcultarError = string.IsNullOrEmpty(error);
 
         return View();
     }
@@ -241,23 +348,23 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        int resultado = bd.ResponderSolicitudLiga(idSolicitud, idUsuario, aceptar);
+        int resultado = BD.ResponderSolicitudLiga(idSolicitud, idUsuario, aceptar);
 
         if (resultado == 1)
         {
-            TempData["Mensaje"] = "Solicitud aceptada. Ya está en tu liga.";
+            GuardarAviso("AvisoLiga", "Solicitud aceptada. Ya está en tu liga.");
         }
         else if (resultado == 2)
         {
-            TempData["Mensaje"] = "Solicitud vetada.";
+            GuardarAviso("AvisoLiga", "Solicitud vetada.");
         }
         else if (resultado == -2)
         {
-            TempData["Error"] = "La liga está llena. Para aceptar a alguien más tiene que liberarse un lugar.";
+            GuardarAviso("ErrorLiga", "La liga está llena. Para aceptar a alguien más tiene que liberarse un lugar.");
         }
         else
         {
-            TempData["Error"] = "No encontramos esa solicitud. Puede que ya la hayas respondido.";
+            GuardarAviso("ErrorLiga", "No encontramos esa solicitud. Puede que ya la hayas respondido.");
         }
 
         return RedirectToAction("Solicitudes", new { idLiga = idLiga });
@@ -272,7 +379,18 @@ public class LigaController : Controller
             return 0;
         }
 
-        return bd.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        return BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+    }
+
+    // Si el texto es null lo cambia por "", y le saca los espacios de los costados.
+    private string TextoLimpio(string texto)
+    {
+        if (texto == null)
+        {
+            return "";
+        }
+
+        return texto.Trim();
     }
 
     // Acepta el link completo (https://.../Liga/UnirseALiga?codigo=ABC123) o solo el código.
@@ -281,18 +399,38 @@ public class LigaController : Controller
         string texto = link.Trim();
         string codigo = texto;
 
-        if (Uri.TryCreate(texto, UriKind.Absolute, out Uri uri))
+        // Si es un link, el código es lo que viene después de "codigo=" (hasta el próximo "&" o "#")
+        if (texto.Contains("://"))
         {
-            Dictionary<string, StringValues> parametros = QueryHelpers.ParseQuery(uri.Query);
             codigo = "";
 
-            if (parametros.ContainsKey("codigo"))
+            int posicionPregunta = texto.IndexOf('?');
+
+            if (posicionPregunta != -1)
             {
-                codigo = parametros["codigo"].ToString();
+                string parametros = "&" + texto.Substring(posicionPregunta + 1);
+                int posicionCodigo = parametros.ToLower().IndexOf("&codigo=");
+
+                if (posicionCodigo != -1)
+                {
+                    codigo = parametros.Substring(posicionCodigo + "&codigo=".Length);
+
+                    int fin = codigo.IndexOf('&');
+                    if (fin != -1)
+                    {
+                        codigo = codigo.Substring(0, fin);
+                    }
+
+                    fin = codigo.IndexOf('#');
+                    if (fin != -1)
+                    {
+                        codigo = codigo.Substring(0, fin);
+                    }
+                }
             }
         }
 
-        codigo = codigo.Trim().ToUpperInvariant();
+        codigo = codigo.Trim().ToUpper();
 
         if (!EsCodigoValido(codigo))
         {
@@ -302,9 +440,90 @@ public class LigaController : Controller
         return codigo;
     }
 
+    // Un código válido tiene entre 1 y 12 caracteres, solo letras mayúsculas (A-Z) y números.
     private bool EsCodigoValido(string codigo)
     {
-        return Regex.IsMatch(codigo ?? "", "^[A-Z0-9]{1,12}$");
+        string permitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        if (codigo == null || codigo.Length == 0 || codigo.Length > 12)
+        {
+            return false;
+        }
+
+        bool valido = true;
+
+        foreach (char letra in codigo)
+        {
+            if (permitidos.IndexOf(letra) == -1)
+            {
+                valido = false;
+            }
+        }
+
+        return valido;
+    }
+
+    // Prepara todo lo que muestra una tarjeta de "Unirse a una liga".
+    // Antes estas decisiones estaban en la vista _TarjetaLiga.cshtml.
+    // codigo: código del link de invitación ("" si se llegó buscando).
+    // busqueda: texto buscado, para volver a la misma búsqueda después de enviar.
+    private TarjetaLiga ArmarTarjeta(LigaBusqueda liga, string codigo, string busqueda)
+    {
+        TarjetaLiga tarjeta = new TarjetaLiga();
+
+        tarjeta.Id = liga.Id;
+        tarjeta.Nombre = liga.Nombre;
+        tarjeta.Detalle = "Creada por " + liga.NombreCreador + " · " + liga.CantidadMiembros + "/" + liga.Capacidad + " miembros";
+        tarjeta.Busqueda = busqueda;
+        tarjeta.UrlVerLiga = Url.Action("Index", "Liga", new { idLigaAmigos = liga.Id });
+        tarjeta.IdCampoContraseña = "contraseña-" + liga.Id;
+
+        if (liga.Privacidad)
+        {
+            tarjeta.TextoEtiqueta = "Privada";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta unirse-etiqueta-privada";
+            tarjeta.TextoBoton = "Solicitar unirse";
+            // Con el link de invitación no hace falta la contraseña, pero el dueño igual tiene que aceptar
+            tarjeta.Codigo = codigo;
+        }
+        else
+        {
+            tarjeta.TextoEtiqueta = "Pública";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta";
+            tarjeta.TextoBoton = "Unirse";
+            tarjeta.Codigo = "";
+        }
+
+        // De estas tres cosas se muestra una sola: el link a la liga, un texto de estado o el formulario
+        tarjeta.OcultarVerLiga = !liga.EsMiembro;
+        tarjeta.TextoEstado = "";
+
+        if (!liga.EsMiembro && liga.SolicitudPendiente)
+        {
+            tarjeta.TextoEstado = "Solicitud enviada, esperando respuesta";
+        }
+        else if (!liga.EsMiembro && liga.EstaLlena)
+        {
+            tarjeta.TextoEstado = "Liga completa";
+        }
+
+        tarjeta.OcultarEstado = tarjeta.TextoEstado == "";
+        tarjeta.OcultarFormulario = liga.EsMiembro || liga.SolicitudPendiente || liga.EstaLlena;
+
+        // La contraseña se pide solo en ligas privadas a las que se llegó buscando (sin código)
+        tarjeta.PideContraseña = !tarjeta.OcultarFormulario && liga.Privacidad && codigo == "";
+        tarjeta.OcultarContraseña = !tarjeta.PideContraseña;
+
+        if (tarjeta.PideContraseña)
+        {
+            tarjeta.ClaseFormulario = "unirse-form-accion";
+        }
+        else
+        {
+            tarjeta.ClaseFormulario = "unirse-form-accion unirse-form-solo-boton";
+        }
+
+        return tarjeta;
     }
 
     private string MensajeErrorUnirse(int resultado)
@@ -340,6 +559,10 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
+        ViewData["Title"] = "Crear Liga";
+        ViewBag.Error = "";
+        ViewBag.OcultarError = true;
+
         return View();
     }
 
@@ -358,8 +581,8 @@ public class LigaController : Controller
             liga.Contraseña = "";
         }
 
-        int idUsuario = bd.ObtenerIdUsuarioPorNombre(nombreUsuario);
-        int idLigaCreada = bd.CrearLiga(liga, idUsuario);
+        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idLigaCreada = BD.CrearLiga(liga, idUsuario);
 
         return RedirectToAction("Index", new { idLigaAmigos = idLigaCreada });
     }
@@ -371,19 +594,19 @@ public class LigaController : Controller
 
         if (nombreUsuario == null)
         {
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = bd.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
 
-        Liga liga = bd.ObtenerLigaPorId(idLiga);
+        Liga liga = BD.ObtenerLigaPorId(idLiga);
 
         if (liga == null || liga.IdUsuarioCreador != idUsuario)
         {
             return RedirectToAction("Index");
         }
 
-        bd.EliminarLiga(idLiga, idUsuario);
+        BD.EliminarLiga(idLiga, idUsuario);
 
         return RedirectToAction("Index");
     }
@@ -395,133 +618,62 @@ public class LigaController : Controller
 
         if (nombreUsuario == null)
         {
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = bd.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
 
-        Liga liga = bd.ObtenerLigaPorId(idLiga);
+        Liga liga = BD.ObtenerLigaPorId(idLiga);
 
         if (liga == null || liga.IdUsuarioCreador == idUsuario)
         {
             return RedirectToAction("Index");
         }
 
-        bd.AbandonarLiga(idLiga, idUsuario);
+        BD.AbandonarLiga(idLiga, idUsuario);
 
         return RedirectToAction("Index");
     }
 
-    private string GenerarHtmlLeaderboardFigma(List<UsuarioRanking> lista, string mensajeVacio)
+    // Prepara las filas del ranking que muestra la vista Liga/Index.
+    // Los tres primeros puestos tienen otro color (oro, plata y bronce) y un subtítulo.
+    private List<FilaRanking> ArmarRanking(List<UsuarioRanking> lista)
     {
-        if (lista == null || lista.Count == 0)
-        {
-            return "<p>" + mensajeVacio + "</p>";
-        }
-
-        string html = "<div style=\"width: 484px; padding: 28px; position: relative; background: #0A4D28; border-radius: 40px; outline: 4px rgba(6, 56, 29, 0.30) solid; outline-offset: -4px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 14px; display: inline-flex; font-family: 'Baloo 2', sans-serif;\">";
-
+        List<FilaRanking> filas = new List<FilaRanking>();
         int posicion = 1;
 
-        foreach (UsuarioRanking item in lista)
+        foreach (UsuarioRanking usuario in lista)
         {
-            string nombreMostrar = item.NombreUsuario;
-            int puntos = item.PuntajeTotal;
+            FilaRanking fila = new FilaRanking();
+            fila.Posicion = posicion + "°";
+            fila.Nombre = usuario.NombreUsuario;
+            fila.Puntos = usuario.PuntajeTotal + " pts";
 
             if (posicion == 1)
             {
-                html += $@"
-                <div style=""align-self: stretch; padding: 10px; position: relative; background: linear-gradient(90deg, #FFE566 0%, #FFD700 50%, #F5C300 100%); border-radius: 9999px; box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.10), 0px 10px 15px -3px rgba(0, 0, 0, 0.10), 0px 0px 0px 4px rgba(255, 215, 0, 0.70); justify-content: space-between; align-items: center; display: inline-flex;"">
-                    <div style=""padding-left: 4px; justify-content: flex-start; align-items: center; gap: 12px; display: flex;"">
-                        <div style=""width: 36px; height: 36px; background: white; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); border-radius: 9999px; outline: 2px #FFD700 solid; outline-offset: -2px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""color: #1C1917; font-size: 16px; font-weight: 800;"">1°</div>
-                        </div>
-                        <div style=""width: 44px; height: 44px; background: #1C1917; box-shadow: 0px 0px 0px 2px white; border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""width: 16px; height: 16px; background: #FFD700; border-radius: 2px;""></div>
-                        </div>
-                        <div style=""flex-direction: column; display: inline-flex;"">
-                            <div style=""color: #0C0A09; font-size: 24px; font-weight: 800; line-height: 32px;"">{nombreMostrar}</div>
-                            <div style=""color: #0A4D28; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.60px;"">🥇 CAMPEÓN</div>
-                        </div>
-                    </div>
-                    <div style=""padding-right: 4px;"">
-                        <div style=""padding: 4px 20px; background: #0A4D28; border-radius: 9999px; outline: 1px rgba(255, 255, 255, 0.20) solid; box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.10);"">
-                            <div style=""color: #FFD700; font-size: 18px; font-weight: 800; line-height: 28px;"">{puntos} pts</div>
-                        </div>
-                    </div>
-                </div>";
+                fila.Clase = "ranking-fila ranking-fila-oro";
+                fila.Subtitulo = "🥇 CAMPEÓN";
             }
             else if (posicion == 2)
             {
-                html += $@"
-                <div style=""align-self: stretch; padding: 10px; position: relative; background: #F1F5F9; border-radius: 9999px; box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 2px #CBD5E1; justify-content: space-between; align-items: center; display: inline-flex;"">
-                    <div style=""padding-left: 4px; justify-content: flex-start; align-items: center; gap: 12px; display: flex;"">
-                        <div style=""width: 36px; height: 36px; background: #E2E8F0; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05) inset; border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""color: #292524; font-size: 16px; font-weight: 800;"">2°</div>
-                        </div>
-                        <div style=""width: 44px; height: 44px; background: #1C1917; box-shadow: 0px 0px 0px 2px #CBD5E1; border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""width: 16px; height: 16px; background: #E2E8F0; border-radius: 2px;""></div>
-                        </div>
-                        <div style=""flex-direction: column; display: inline-flex;"">
-                            <div style=""color: #0C0A09; font-size: 24px; font-weight: 700; line-height: 32px;"">{nombreMostrar}</div>
-                            <div style=""color: #475569; font-size: 12px; font-weight: 700;"">🥈 2° Lugar</div>
-                        </div>
-                    </div>
-                    <div style=""padding-right: 4px;"">
-                        <div style=""padding: 4px 20px; background: white; border-radius: 9999px; outline: 1px #E2E8F0 solid; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);"">
-                            <div style=""color: #1C1917; font-size: 18px; font-weight: 800; line-height: 28px;"">{puntos} pts</div>
-                        </div>
-                    </div>
-                </div>";
+                fila.Clase = "ranking-fila ranking-fila-plata";
+                fila.Subtitulo = "🥈 2° Lugar";
             }
             else if (posicion == 3)
             {
-                html += $@"
-                <div style=""align-self: stretch; padding: 10px; position: relative; background: #FFE9D6; border-radius: 9999px; box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.10), 0px 4px 6px -1px rgba(0, 0, 0, 0.10), 0px 0px 0px 2px #E6A877; justify-content: space-between; align-items: center; display: inline-flex;"">
-                    <div style=""padding-left: 4px; justify-content: flex-start; align-items: center; gap: 12px; display: flex;"">
-                        <div style=""width: 36px; height: 36px; background: #F4CAA5; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05) inset; border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""color: #743C11; font-size: 16px; font-weight: 800;"">3°</div>
-                        </div>
-                        <div style=""width: 44px; height: 44px; background: #1C1917; box-shadow: 0px 0px 0px 2px #E6A877; border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""width: 16px; height: 16px; background: #F4CAA5; border-radius: 2px;""></div>
-                        </div>
-                        <div style=""flex-direction: column; display: inline-flex;"">
-                            <div style=""color: #0C0A09; font-size: 24px; font-weight: 700; line-height: 32px;"">{nombreMostrar}</div>
-                            <div style=""color: #96541F; font-size: 12px; font-weight: 700;"">🥉 3° Lugar</div>
-                        </div>
-                    </div>
-                    <div style=""padding-right: 4px;"">
-                        <div style=""padding: 4px 20px; background: white; border-radius: 9999px; outline: 1px #F4CAA5 solid; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);"">
-                            <div style=""color: #1C1917; font-size: 18px; font-weight: 800; line-height: 28px;"">{puntos} pts</div>
-                        </div>
-                    </div>
-                </div>";
+                fila.Clase = "ranking-fila ranking-fila-bronce";
+                fila.Subtitulo = "🥉 3° Lugar";
             }
             else
             {
-                html += $@"
-                <div style=""align-self: stretch; padding: 10px; background: rgba(255, 255, 255, 0.10); box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); border-radius: 9999px; outline: 1px rgba(255, 255, 255, 0.20) solid; outline-offset: -1px; justify-content: space-between; align-items: center; display: inline-flex;"">
-                    <div style=""padding-left: 4px; justify-content: flex-start; align-items: center; gap: 12px; display: flex;"">
-                        <div style=""width: 36px; height: 36px; background: rgba(255, 255, 255, 0.10); border-radius: 9999px; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""color: rgba(255, 255, 255, 0.80); font-size: 16px; font-weight: 700;"">{posicion}°</div>
-                        </div>
-                        <div style=""width: 44px; height: 44px; background: rgba(28, 25, 23, 0.80); border-radius: 9999px; outline: 1px rgba(255, 255, 255, 0.10) solid; justify-content: center; align-items: center; display: flex;"">
-                            <div style=""width: 13.33px; height: 13.33px; background: rgba(255, 255, 255, 0.70); border-radius: 2px;""></div>
-                        </div>
-                        <div style=""color: white; font-size: 24px; font-weight: 700; line-height: 32px;"">{nombreMostrar}</div>
-                    </div>
-                    <div style=""padding-right: 4px;"">
-                        <div style=""padding: 4px 20px; background: rgba(255, 255, 255, 0.20); box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05); border-radius: 9999px;"">
-                            <div style=""color: white; font-size: 18px; font-weight: 700; line-height: 28px;"">{puntos} pts</div>
-                        </div>
-                    </div>
-                </div>";
+                fila.Clase = "ranking-fila ranking-fila-resto";
+                fila.Subtitulo = "";
             }
 
+            filas.Add(fila);
             posicion++;
         }
 
-        html += "</div>";
-        return html;
+        return filas;
     }
 }

@@ -1,26 +1,14 @@
-@{
-    ViewData["Title"] = "Resultado";
-}
+@* Todos los datos y textos (ganó o perdió, xp, tiempo, aciertos, botones) los prepara JuegoController.Resultado *@
 
-@* Todos los datos (gano, xp, tiempo, aciertos, idNivel) los calcula JuegoController.Resultado *@
-<div class="fin @(ViewBag.Gano ? "fin-gano" : "fin-perdio")">
+<div class="@ViewBag.ClaseFin">
 
-    <p class="fin-mensaje">
-        @if (ViewBag.Gano)
-        {
-            <text>¡Pudiste aprender un tema nuevo! ¡Felicidades!</text>
-        }
-        else
-        {
-            <text>¡Te quedaste sin vidas! Perdiste el nivel</text>
-        }
-    </p>
+    <p class="fin-mensaje">@ViewBag.MensajeFin</p>
 
     <div class="fin-cuerpo">
 
         <img class="fin-mascota"
              src="@ViewBag.ImagenMascota"
-             alt="@(ViewBag.Gano ? "Riky festejando" : "Riky triste")" />
+             alt="@ViewBag.AltMascota" />
 
         <div class="fin-datos">
             <div class="fin-dato fin-dato-xp">
@@ -35,7 +23,7 @@
 
             <div class="fin-dato">
                 <span class="fin-etiqueta">Aciertos</span>
-                <span class="fin-valor">@(ViewBag.Aciertos)%</span>
+                <span class="fin-valor">@ViewBag.TextoAciertos</span>
             </div>
         </div>
 
@@ -44,10 +32,6 @@
     <!-- Botones abajo de todo. Si ganó: solo "Volver". Si perdió: "Volver" y "Repasar tema", mitad y mitad. -->
     <div class="fin-acciones">
         <a class="charla-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
-
-        @if (!ViewBag.Gano && ViewBag.IdNivel != 0)
-        {
-            <a class="charla-boton fin-boton" href="@Url.Action("Teoria", "Juego", new { idNivel = ViewBag.IdNivel })">Repasar tema nuevamente</a>
-        }
+        <a class="charla-boton fin-boton" href="@ViewBag.UrlRepasar" hidden="@ViewBag.OcultarRepasar">Repasar tema nuevamente</a>
     </div>
 </div>

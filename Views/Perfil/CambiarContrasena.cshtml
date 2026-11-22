@@ -19,10 +19,7 @@
                 <input type="password" id="repetirContrasena" name="repetirContrasena" placeholder="Repetir nueva contraseña" required />
             </div>
 
-            @if (!string.IsNullOrWhiteSpace(ViewBag.ErrorMessage))
-            {
-                <p class="feedback" style="color: red;">@ViewBag.ErrorMessage</p>
-            }
+            <p class="feedback" hidden="@ViewBag.OcultarError">@ViewBag.ErrorMessage</p>
 
             <button type="submit" class="submit-button">Guardar contraseña</button>
         </form>

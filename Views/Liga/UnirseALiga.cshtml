@@ -1,11 +1,4 @@
-@{
-    ViewData["Title"] = "Unirse a una liga";
-
-    string busqueda = ViewBag.Busqueda;
-    string codigo = ViewBag.Codigo;
-    LigaBusqueda ligaInvitacion = ViewBag.LigaInvitacion;
-    List<LigaBusqueda> resultados = ViewBag.Resultados;
-}
+@* Los mensajes, las búsquedas y cada tarjeta (con lo que muestra o no) los prepara LigaController.UnirseALiga *@
 
 <div class="unirse-liga">
     <a class="unirse-volver" href="@Url.Action("Index", "Liga")">← Volver a ligas</a>
@@ -13,20 +6,8 @@
     <h1>Unirse a una liga</h1>
     <p class="unirse-subtitulo">Las públicas son de entrada libre. En las privadas, quien creó la liga acepta a cada persona.</p>
 
-    @if (TempData["Mensaje"] != null)
-    {
-        <p class="unirse-aviso" role="status">@TempData["Mensaje"]</p>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <p class="unirse-aviso unirse-aviso-error" role="alert">@TempData["Error"]</p>
-    }
-
-    @if (ViewBag.Error != null)
-    {
-        <p class="unirse-aviso unirse-aviso-error" role="alert">@ViewBag.Error</p>
-    }
+    <p class="unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
+    <p class="unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <div class="unirse-formularios">
         <section class="unirse-caja">
@@ -46,36 +27,77 @@
 
             <form class="unirse-campo" action="@Url.Action("UnirseALiga", "Liga")" method="get">
                 <label class="visually-hidden" for="busqueda">Nombre de la liga</label>
-                <input id="busqueda" type="search" name="busqueda" value="@busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
+                <input id="busqueda" type="search" name="busqueda" value="@ViewBag.Busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
                 <button class="unirse-boton" type="submit">Buscar</button>
             </form>
         </section>
     </div>
 
-    @if (ligaInvitacion != null)
-    {
-        <section class="unirse-resultados">
-            <h2>Te invitaron a esta liga</h2>
-            @await Html.PartialAsync("_TarjetaLiga", ligaInvitacion, new ViewDataDictionary(ViewData) { ["Codigo"] = codigo, ["Busqueda"] = "" })
-        </section>
-    }
+    <section class="unirse-resultados" hidden="@ViewBag.OcultarInvitacion">
+        <h2>Te invitaron a esta liga</h2>
 
-    @if (resultados != null)
-    {
-        <section class="unirse-resultados">
-            <h2>Resultados para "@busqueda"</h2>
+        @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasInvitacion)
+        {
+            <article class="unirse-tarjeta">
+                <div class="unirse-tarjeta-info">
+                    <h3>@tarjeta.Nombre</h3>
+                    <p>@tarjeta.Detalle</p>
+                </div>
 
-            @if (resultados.Count == 0)
-            {
-                <p class="unirse-vacio">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
-            }
-            else
-            {
-                foreach (LigaBusqueda liga in resultados)
-                {
-                    @await Html.PartialAsync("_TarjetaLiga", liga, new ViewDataDictionary(ViewData) { ["Codigo"] = "", ["Busqueda"] = busqueda })
-                }
-            }
-        </section>
-    }
+                <span class="@tarjeta.ClaseEtiqueta">@tarjeta.TextoEtiqueta</span>
+
+                <div class="unirse-tarjeta-accion">
+                    <a class="unirse-boton unirse-boton-secundario" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
+
+                    <span class="unirse-estado" hidden="@tarjeta.OcultarEstado">@tarjeta.TextoEstado</span>
+
+                    <form class="@tarjeta.ClaseFormulario" asp-controller="Liga" asp-action="SolicitarUnirse" method="post" hidden="@tarjeta.OcultarFormulario">
+                        <input type="hidden" name="idLiga" value="@tarjeta.Id" />
+                        <input type="hidden" name="busqueda" value="@tarjeta.Busqueda" />
+                        <input type="hidden" name="codigo" value="@tarjeta.Codigo" />
+
+                        <label class="visually-hidden" for="@tarjeta.IdCampoContraseña" hidden="@tarjeta.OcultarContraseña">Contraseña de la liga</label>
+                        <input id="@tarjeta.IdCampoContraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
+
+                        <button class="unirse-boton" type="submit">@tarjeta.TextoBoton</button>
+                    </form>
+                </div>
+            </article>
+        }
+    </section>
+
+    <section class="unirse-resultados" hidden="@ViewBag.OcultarResultados">
+        <h2>@ViewBag.TituloResultados</h2>
+
+        <p class="unirse-vacio" hidden="@ViewBag.OcultarSinResultados">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
+
+        @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasResultados)
+        {
+            <article class="unirse-tarjeta">
+                <div class="unirse-tarjeta-info">
+                    <h3>@tarjeta.Nombre</h3>
+                    <p>@tarjeta.Detalle</p>
+                </div>
+
+                <span class="@tarjeta.ClaseEtiqueta">@tarjeta.TextoEtiqueta</span>
+
+                <div class="unirse-tarjeta-accion">
+                    <a class="unirse-boton unirse-boton-secundario" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
+
+                    <span class="unirse-estado" hidden="@tarjeta.OcultarEstado">@tarjeta.TextoEstado</span>
+
+                    <form class="@tarjeta.ClaseFormulario" asp-controller="Liga" asp-action="SolicitarUnirse" method="post" hidden="@tarjeta.OcultarFormulario">
+                        <input type="hidden" name="idLiga" value="@tarjeta.Id" />
+                        <input type="hidden" name="busqueda" value="@tarjeta.Busqueda" />
+                        <input type="hidden" name="codigo" value="@tarjeta.Codigo" />
+
+                        <label class="visually-hidden" for="@tarjeta.IdCampoContraseña" hidden="@tarjeta.OcultarContraseña">Contraseña de la liga</label>
+                        <input id="@tarjeta.IdCampoContraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
+
+                        <button class="unirse-boton" type="submit">@tarjeta.TextoBoton</button>
+                    </form>
+                </div>
+            </article>
+        }
+    </section>
 </div>

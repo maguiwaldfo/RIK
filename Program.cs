@@ -1,11 +1,7 @@
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
+builder.Services.AddSession();
 
 // Add services to the container.
 // ReiniciarPartidaFilter: si se sale de un nivel a otra vista, la partida se reinicia.
@@ -14,7 +10,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<RIK.Models.ReiniciarPartidaFilter>();
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -1,46 +1,31 @@
-@using RIK.Models
+@* El título, la charla (quién dice cada mensaje) y las imágenes los prepara JuegoController.Teoria *@
 
-@* El título, el nivel, la charla y las imágenes de los personajes los carga JuegoController.Teoria *@
+<div class="charla charla-teoria" id="charla" data-cuerpo-chico="@ViewBag.CuerpoChico" data-cuerpo-perro="@ViewBag.CuerpoPerro">
 
-@if (ViewBag.Nivel == null)
-{
-    <p>No se encontró el nivel solicitado.</p>
-    <a href="@Url.Action("Index", "Biblioteca")">Volver</a>
-}
-else
-{
-    <div class="charla charla-teoria" id="charla" data-cuerpo-chico="@ViewBag.CuerpoChico" data-cuerpo-perro="@ViewBag.CuerpoPerro">
+    <h1 class="charla-tema">@ViewBag.TemaNivel</h1>
 
-        <h1 class="charla-tema">@ViewBag.TemaNivel</h1>
+    <!-- PASO A PASO: lo arma el script, de a dos mensajes, con los personajes de medio cuerpo -->
+    <div class="charla-paso" id="charlaPaso" hidden></div>
 
-        <!-- PASO A PASO: lo arma el script, de a dos mensajes, con los personajes de medio cuerpo -->
-        <div class="charla-paso" id="charlaPaso" hidden></div>
-
-        <!-- RESUMEN: la charla completa con las caras. Se muestra al terminar el paso a paso -->
-        <div class="charla-resumen" id="charlaResumen">
-            @foreach (CharlaTeoria mensaje in ViewBag.Charla)
-            {
-                bool esChico = string.Equals(mensaje.Personaje?.Trim(), "Chico", StringComparison.OrdinalIgnoreCase);
-
-                <div class="charla-fila @(esChico ? "charla-fila-chico" : "charla-fila-perro")"
-                     data-personaje="@(esChico ? "chico" : "perro")">
-                    <img class="charla-cara"
-                         src="@(esChico ? ViewBag.CaraChico : ViewBag.CaraPerro)"
-                         alt="@mensaje.Personaje" />
-                    <p class="charla-globo">@mensaje.Texto</p>
-                </div>
-            }
-        </div>
-
-        <div class="charla-acciones">
-            <button type="button" class="charla-boton" id="charlaSiguiente" hidden>Siguiente</button>
-            <a class="charla-boton" id="charlaComenzar"
-               href="@Url.Action("Nivel", "Juego", new { nivelElegido = ViewBag.IdNivel })">
-                Comenzar desafío
-            </a>
-        </div>
+    <!-- RESUMEN: la charla completa con las caras. Se muestra al terminar el paso a paso -->
+    <div class="charla-resumen" id="charlaResumen">
+        @foreach (CharlaTeoria mensaje in ViewBag.Charla)
+        {
+            <div class="@mensaje.ClaseFila" data-personaje="@mensaje.CodigoPersonaje">
+                <img class="charla-cara" src="@mensaje.ImagenCara" alt="@mensaje.Personaje" />
+                <p class="charla-globo">@mensaje.Texto</p>
+            </div>
+        }
     </div>
-}
+
+    <div class="charla-acciones">
+        <button type="button" class="charla-boton" id="charlaSiguiente" hidden>Siguiente</button>
+        @* Si el nivel no tiene preguntas suficientes, el controller pone OcultarComenzar = true *@
+        <a class="charla-boton" id="charlaComenzar" href="@ViewBag.UrlComenzar" hidden="@ViewBag.OcultarComenzar">
+            Comenzar desafío
+        </a>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/teoria.js" asp-append-version="true"></script>

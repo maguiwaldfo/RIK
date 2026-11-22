@@ -1,17 +1,16 @@
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
-using RIK.Models;
-
 namespace RIK.Models;
 
-public class BD
+// Clase estática: se usa directo con BD.Metodo(...), sin crear un objeto.
+public static class BD
 {
-    private string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
+    private static string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
 
     // USUARIOS
 
-    public void AgregarUsuario(Usuario usuario)
+    public static void AgregarUsuario(Usuario usuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -29,7 +28,7 @@ public class BD
         }
     }
 
-    public int ModificarUsuario(int idUsuario, Usuario usuario)
+    public static int ModificarUsuario(int idUsuario, Usuario usuario)
     {
         int resultado = 0;
 
@@ -51,7 +50,7 @@ public class BD
         return resultado;
     }
 
-    public int CambiarContrasena(int idUsuario, string contrasenaActual, string nuevaContrasena, string repetirContrasena)
+    public static int CambiarContrasena(int idUsuario, string contrasenaActual, string nuevaContrasena, string repetirContrasena)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -69,7 +68,7 @@ public class BD
         }
     }
 
-    public bool FijarseSiExisteUsuario(string nombreUsuario)
+    public static bool FijarseSiExisteUsuario(string nombreUsuario)
     {
         bool existe = false;
 
@@ -90,7 +89,7 @@ public class BD
         return existe;
     }
 
-    public Usuario ObtenerUsuario(string nombreUsuario, string contraseña)
+    public static Usuario ObtenerUsuario(string nombreUsuario, string contraseña)
     {
         Usuario usuario = null;
 
@@ -106,7 +105,7 @@ public class BD
         return usuario;
     }
 
-    public int ObtenerIdUsuario(string nombreUsuario)
+    public static int ObtenerIdUsuario(string nombreUsuario)
     {
         int idUsuario = 0;
 
@@ -124,7 +123,7 @@ public class BD
 
     // NIVELES
 
-    public Nivel ObtenerNivel(int idNivel)
+    public static Nivel ObtenerNivel(int idNivel)
     {
         Nivel nivel = null;
 
@@ -140,23 +139,7 @@ public class BD
         return nivel;
     }
 
-    public Nivel ObtenerNivelPorNombre(string tema)
-    {
-        Nivel nivel = null;
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            nivel = connection.QueryFirstOrDefault<Nivel>(
-                "sp_ObtenerNivelPorNombre",
-                new { tema = tema },
-                commandType: CommandType.StoredProcedure
-            );
-        }
-
-        return nivel;
-    }
-
-    public List<Nivel> ObtenerNiveles()
+    public static List<Nivel> ObtenerNiveles()
     {
         List<Nivel> niveles = new List<Nivel>();
 
@@ -168,10 +151,24 @@ public class BD
             ).ToList();
         }
 
+        // Se ordenan por Id (el procedure no tiene ORDER BY) para que el mapa los muestre en orden.
+        for (int i = 0; i < niveles.Count - 1; i++)
+        {
+            for (int j = 0; j < niveles.Count - 1 - i; j++)
+            {
+                if (niveles[j].Id > niveles[j + 1].Id)
+                {
+                    Nivel auxiliar = niveles[j];
+                    niveles[j] = niveles[j + 1];
+                    niveles[j + 1] = auxiliar;
+                }
+            }
+        }
+
         return niveles;
     }
 
-    public List<int> ObtenerNivelesCompletados(int idUsuario)
+    public static List<int> ObtenerNivelesCompletados(int idUsuario)
     {
         List<int> niveles = new List<int>();
 
@@ -187,7 +184,7 @@ public class BD
         return niveles;
     }
 
-    public void GuardarNivelCompletado(int idUsuario, int idNivel, int puntaje)
+    public static void GuardarNivelCompletado(int idUsuario, int idNivel, int puntaje)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -206,32 +203,32 @@ public class BD
 
     // PREGUNTAS
 
-public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
-{
-    List<Pregunta> preguntas;
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public static List<Pregunta> ObtenerPreguntasNivel(int idNivel)
     {
-        preguntas = connection.Query<Pregunta>(
-            "sp_ObtenerPreguntasNivel",
-            new { idNivel = idNivel },
-            commandType: CommandType.StoredProcedure
-        ).ToList();
+        List<Pregunta> preguntas;
 
-        foreach (Pregunta pregunta in preguntas)
+        using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            pregunta.Opciones = connection.Query<Opcion>(
-                "sp_ObtenerOpcionesPregunta",
-                new { idPregunta = pregunta.Id },
+            preguntas = connection.Query<Pregunta>(
+                "sp_ObtenerPreguntasNivel",
+                new { idNivel = idNivel },
                 commandType: CommandType.StoredProcedure
             ).ToList();
+
+            foreach (Pregunta pregunta in preguntas)
+            {
+                pregunta.Opciones = connection.Query<Opcion>(
+                    "sp_ObtenerOpcionesPregunta",
+                    new { idPregunta = pregunta.Id },
+                    commandType: CommandType.StoredProcedure
+                ).ToList();
+            }
         }
+
+        return preguntas;
     }
 
-    return preguntas;
-}
-
-    public Pregunta ObtenerPregunta(int idPregunta)
+    public static Pregunta ObtenerPregunta(int idPregunta)
     {
         Pregunta pregunta = null;
 
@@ -247,25 +244,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return pregunta;
     }
 
-    // OPCIONES
-
-    public List<Opcion> ObtenerOpcionesPregunta(int idPregunta)
-    {
-        List<Opcion> opciones = new List<Opcion>();
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            opciones = connection.Query<Opcion>(
-                "sp_ObtenerOpcionesPregunta",
-                new { idPregunta = idPregunta },
-                commandType: CommandType.StoredProcedure
-            ).ToList();
-        }
-
-        return opciones;
-    }
-
-    public bool ComprobarOpcion(int idPregunta, int idOpcion)
+    public static bool ComprobarOpcion(int idPregunta, int idOpcion)
     {
         bool esCorrecta = false;
 
@@ -287,7 +266,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
 
     // TEORIAS
 
-    public List<Teoria> ObtenerTeorias()
+    public static List<Teoria> ObtenerTeorias()
     {
         List<Teoria> teorias = new List<Teoria>();
 
@@ -302,7 +281,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return teorias;
     }
 
-    public List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
+    public static List<CharlaTeoria> ObtenerCharlaTeoria(int idNivel)
     {
         List<CharlaTeoria> charla = new List<CharlaTeoria>();
 
@@ -318,7 +297,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return charla;
     }
 
-    public List<TeoriaMoraleja> ObtenerTeoriaMoraleja(int idTeoria)
+    public static List<TeoriaMoraleja> ObtenerTeoriaMoraleja(int idTeoria)
     {
         List<TeoriaMoraleja> lista = new List<TeoriaMoraleja>();
 
@@ -336,23 +315,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
 
     // LIGAS Y LEADERBOARD
 
-    public int ObtenerPuntajeTotalUsuario(int idUsuario)
-    {
-        int puntaje = 0;
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            puntaje = connection.QueryFirstOrDefault<int>(
-                "sp_ObtenerPuntajeTotalUsuario",
-                new { idUsuario = idUsuario },
-                commandType: CommandType.StoredProcedure
-            );
-        }
-
-        return puntaje;
-    }
-
-    public List<UsuarioRanking> ObtenerLeaderboardGlobal()
+    public static List<UsuarioRanking> ObtenerLeaderboardGlobal()
     {
         List<UsuarioRanking> ranking = new List<UsuarioRanking>();
 
@@ -367,29 +330,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return ranking;
     }
 
-    public int ObtenerPrimeraLigaDeUsuario(int idUsuario)
-    {
-        int ? idLiga = 0;
-
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            idLiga = connection.QueryFirstOrDefault<int>(
-                "sp_ObtenerPrimeraLigaDeUsuario",
-                new { idUsuario = idUsuario },
-                commandType: CommandType.StoredProcedure
-            );
-        }
-        if (idLiga == null)
-        {
-            return 0;
-        }
-        else
-        {
-            return idLiga.Value;
-        }
-    }
-
-    public List<Liga> ObtenerLigasDeUsuario(int idUsuario)
+    public static List<Liga> ObtenerLigasDeUsuario(int idUsuario)
     {
         List<Liga> ligas = new List<Liga>();
 
@@ -405,7 +346,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return ligas;
     }
 
-    public List<UsuarioRanking> ObtenerLeaderboardLiga(int idLiga)
+    public static List<UsuarioRanking> ObtenerLeaderboardLiga(int idLiga)
     {
         List<UsuarioRanking> ranking = new List<UsuarioRanking>();
 
@@ -421,7 +362,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return ranking;
     }
 
-    public Liga ObtenerLigaPorId(int idLiga)
+    public static Liga ObtenerLigaPorId(int idLiga)
     {
         Liga liga = null;
 
@@ -437,32 +378,32 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return liga;
     }
 
-  public int CrearLiga(Liga liga, int idUsuarioCreador)
-  {
-    int idLigaCreada = 0;
-
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public static int CrearLiga(Liga liga, int idUsuarioCreador)
     {
-        idLigaCreada = connection.QueryFirstOrDefault<int>(
-            "sp_CrearLiga",
-            new
-            {
-                nombre = liga.Nombre,
-                capacidad = liga.Capacidad,
-                privacidad = liga.Privacidad,
-                contraseña = liga.Contraseña,
-                idUsuarioCreador = idUsuarioCreador
-            },
-            commandType: CommandType.StoredProcedure
-        );
+        int idLigaCreada = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            idLigaCreada = connection.QueryFirstOrDefault<int>(
+                "sp_CrearLiga",
+                new
+                {
+                    nombre = liga.Nombre,
+                    capacidad = liga.Capacidad,
+                    privacidad = liga.Privacidad,
+                    contraseña = liga.Contraseña,
+                    idUsuarioCreador = idUsuarioCreador
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        UnirUsuarioALiga(idLigaCreada, idUsuarioCreador);
+
+        return idLigaCreada;
     }
 
-    UnirUsuarioALiga(idLigaCreada, idUsuarioCreador);
-
-    return idLigaCreada;
-  }
-
-    public void UnirUsuarioALiga(int idLiga, int idUsuario)
+    public static void UnirUsuarioALiga(int idLiga, int idUsuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -478,7 +419,7 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         }
     }
 
-    public int ObtenerIdUsuarioPorNombre(string nombreUsuario)
+    public static int ObtenerIdUsuarioPorNombre(string nombreUsuario)
     {
         int idUsuario = 0;
 
@@ -494,41 +435,41 @@ public List<Pregunta> ObtenerPreguntasNivel(int idNivel)
         return idUsuario;
     }
 
-    public void EliminarLiga(int idLiga, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public static void EliminarLiga(int idLiga, int idUsuario)
     {
-        connection.Execute(
-            "sp_EliminarLiga",
-            new
-            {
-                idLiga = idLiga,
-                idUsuario = idUsuario
-            },
-            commandType: CommandType.StoredProcedure
-        );
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Execute(
+                "sp_EliminarLiga",
+                new
+                {
+                    idLiga = idLiga,
+                    idUsuario = idUsuario
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
     }
-}
 
-public void AbandonarLiga(int idLiga, int idUsuario)
-{
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    public static void AbandonarLiga(int idLiga, int idUsuario)
     {
-        connection.Execute(
-            "sp_AbandonarLiga",
-            new
-            {
-                idLiga = idLiga,
-                idUsuario = idUsuario
-            },
-            commandType: CommandType.StoredProcedure
-        );
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Execute(
+                "sp_AbandonarLiga",
+                new
+                {
+                    idLiga = idLiga,
+                    idUsuario = idUsuario
+                },
+                commandType: CommandType.StoredProcedure
+            );
+        }
     }
-}
 
     // UNIRSE A LIGAS Y SOLICITUDES
 
-    public List<LigaBusqueda> BuscarLigas(string nombre, int idUsuario)
+    public static List<LigaBusqueda> BuscarLigas(string nombre, int idUsuario)
     {
         List<LigaBusqueda> ligas = new List<LigaBusqueda>();
 
@@ -544,7 +485,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
         return ligas;
     }
 
-    public LigaBusqueda ObtenerLigaPorCodigo(string codigo, int idUsuario)
+    public static LigaBusqueda ObtenerLigaPorCodigo(string codigo, int idUsuario)
     {
         LigaBusqueda liga = null;
 
@@ -561,7 +502,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
     }
 
     // Devuelve el código de sp_SolicitarUnirseALiga (1 entró, 2 solicitud enviada, <= 0 error)
-    public int SolicitarUnirseALiga(int idLiga, int idUsuario, string contraseña, string codigo)
+    public static int SolicitarUnirseALiga(int idLiga, int idUsuario, string contraseña, string codigo)
     {
         int resultado = 0;
 
@@ -583,7 +524,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
         return resultado;
     }
 
-    public List<SolicitudLiga> ObtenerSolicitudesLiga(int idLiga, int idUsuarioCreador)
+    public static List<SolicitudLiga> ObtenerSolicitudesLiga(int idLiga, int idUsuarioCreador)
     {
         List<SolicitudLiga> solicitudes = new List<SolicitudLiga>();
 
@@ -600,7 +541,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
     }
 
     // Devuelve el código de sp_ResponderSolicitudLiga (1 aceptada, 2 vetada, <= 0 error)
-    public int ResponderSolicitudLiga(int idSolicitud, int idUsuarioCreador, bool aceptar)
+    public static int ResponderSolicitudLiga(int idSolicitud, int idUsuarioCreador, bool aceptar)
     {
         int resultado = 0;
 
@@ -621,7 +562,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
         return resultado;
     }
     
-    public void ActualizarRacha(int idUsuario)
+    public static void ActualizarRacha(int idUsuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
@@ -633,7 +574,7 @@ public void AbandonarLiga(int idLiga, int idUsuario)
         }
     }
 
-    public int ObtenerRacha(int idUsuario)
+    public static int ObtenerRacha(int idUsuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {

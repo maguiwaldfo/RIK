@@ -1,140 +1,205 @@
+// Validación del formulario de registro (Login/Registrarse) y de "Modificar mis datos" (Perfil).
 // Cada campo tiene su propio mensaje: se muestra solo si hay un error
 // y se oculta apenas el usuario lo corrige.
-// Las reglas son las mismas que valida el servidor en Usuario.ValidarDatosRegistro.
-// Si falta algún elemento en la página no se rompe el script: se avisa y se sigue con lo que hay
-// (el servidor igual valida los datos).
-const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-const formatoEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+// Las reglas son las mismas que valida el servidor en Usuario.ValidarDatosRegistro
+// (el servidor igual vuelve a validar todo).
 
-const elementosFaltantes = [];
+let letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+let letrasConAcentos = letras + "áéíóúÁÉÍÓÚñÑ";
+let numeros = "0123456789";
 
-function obtenerElemento(id) {
-  const el = document.getElementById(id);
-  if (el === null) {
-    elementosFaltantes.push(id);
-  }
-  return el;
+// true si el texto no está vacío y tiene solo letras (con acentos y ñ) y espacios
+function soloLetrasYEspacios(texto) {
+    if (texto.length == 0) {
+        return false;
+    }
+    for (let i = 0; i < texto.length; i++) {
+        let letra = texto[i];
+        let esEspacio = letra.trim() == "";
+        if (letrasConAcentos.indexOf(letra) == -1 && esEspacio == false) {
+            return false;
+        }
+    }
+    return true;
 }
 
-// Si falta el <p> del mensaje pero el input existe, se crea uno debajo del input
-function obtenerFeedback(id, input) {
-  const fb = obtenerElemento(id);
-  if (fb !== null || input === null) {
-    return fb;
-  }
-  const nuevo = document.createElement("p");
-  nuevo.id = id;
-  nuevo.className = "feedback";
-  input.insertAdjacentElement("afterend", nuevo);
-  return nuevo;
+// true si todas las letras del texto están en "permitidos" (y el texto no está vacío)
+function tieneSolo(texto, permitidos) {
+    if (texto.length == 0) {
+        return false;
+    }
+    for (let i = 0; i < texto.length; i++) {
+        if (permitidos.indexOf(texto[i]) == -1) {
+            return false;
+        }
+    }
+    return true;
 }
 
-const inputNombre = obtenerElemento("nombre");
-const emailInput = obtenerElemento("email");
-const inputUsuario = obtenerElemento("nombreUsuario");
-const inputContrasena = obtenerElemento("contrasena");
-
-const camposRegistro = [
-  {
-    input: inputNombre,
-    feedback: obtenerFeedback("fb-nombre", inputNombre),
-    validar: valor => {
-      if (valor.trim() === "") return "El nombre es obligatorio.";
-      if (!soloLetras.test(valor)) return "El nombre solo puede tener letras y espacios.";
-      return "";
+// Formato nombre@dominio.com: un solo @, algo antes, y después del último punto al menos 2 letras
+function emailValido(email) {
+    let posicionArroba = email.indexOf("@");
+    if (posicionArroba <= 0 || email.indexOf("@", posicionArroba + 1) != -1) {
+        return false;
     }
-  },
-  {
-    input: emailInput,
-    feedback: obtenerFeedback("fb-email", emailInput),
-    validar: valor => {
-      if (valor === "") return "El email es obligatorio.";
-      if (valor.length > 50) return "El email puede tener como máximo 50 caracteres.";
-      if (!formatoEmail.test(valor)) return "El email no es válido (ej: nombre@mail.com).";
-      return "";
-    }
-  },
-  {
-    input: inputUsuario,
-    feedback: obtenerFeedback("fb-nombreUsuario", inputUsuario),
-    validar: valor => {
-      if (valor.trim() === "") return "El nombre de usuario es obligatorio.";
-      if (!soloLetras.test(valor)) return "El nombre de usuario solo puede tener letras.";
-      if (valor.length < 6) return "El nombre de usuario debe tener al menos 6 letras.";
-      return "";
-    }
-  },
-  {
-    input: inputContrasena,
-    feedback: obtenerFeedback("fb-contrasena", inputContrasena),
-    validar: valor => {
-      // En "Modificar mis datos" el input tiene data-opcional: vacío significa "no cambiar la contraseña"
-      if (valor === "" && inputContrasena.dataset.opcional === "true") return "";
-      if (valor === "") return "La contraseña es obligatoria.";
-      if (valor.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
-      return "";
-    }
-  }
-].filter(campo => campo.input !== null); // sin input no hay nada que validar
 
-const fbServidor = document.getElementById("fb-servidor"); // opcional: solo tiene texto si el servidor mandó un error
+    let usuario = email.substring(0, posicionArroba);
+    let dominio = email.substring(posicionArroba + 1);
 
-mostrarAvisoFaltantes();
+    if (tieneSolo(usuario, letras + numeros + "._%+-") == false) {
+        return false;
+    }
+    if (tieneSolo(dominio, letras + numeros + ".-") == false) {
+        return false;
+    }
 
-function mostrarFeedback(campo, mensaje) {
-  campo.feedback.textContent = mensaje;
-  campo.input.classList.toggle("input-error", mensaje !== "");
+    let posicionPunto = dominio.lastIndexOf(".");
+    if (posicionPunto <= 0) {
+        return false;
+    }
+
+    let terminacion = dominio.substring(posicionPunto + 1);
+    if (terminacion.length < 2 || tieneSolo(terminacion, letras) == false) {
+        return false;
+    }
+
+    return true;
 }
 
+// Cada función devuelve el mensaje de error, o "" si el valor está bien
+function validarNombre(valor) {
+    if (valor.trim() == "") {
+        return "El nombre es obligatorio.";
+    }
+    if (soloLetrasYEspacios(valor) == false) {
+        return "El nombre solo puede tener letras y espacios.";
+    }
+    return "";
+}
+
+function validarEmail(valor) {
+    if (valor == "") {
+        return "El email es obligatorio.";
+    }
+    if (valor.length > 50) {
+        return "El email puede tener como máximo 50 caracteres.";
+    }
+    if (emailValido(valor) == false) {
+        return "El email no es válido (ej: nombre@mail.com).";
+    }
+    return "";
+}
+
+function validarNombreUsuario(valor) {
+    if (valor.trim() == "") {
+        return "El nombre de usuario es obligatorio.";
+    }
+    if (soloLetrasYEspacios(valor) == false) {
+        return "El nombre de usuario solo puede tener letras.";
+    }
+    if (valor.length < 6) {
+        return "El nombre de usuario debe tener al menos 6 letras.";
+    }
+    return "";
+}
+
+function validarContrasena(valor) {
+    // Si el input tiene data-opcional="true", vacío significa "no cambiar la contraseña"
+    let input = document.getElementById("contrasena");
+    if (valor == "" && input.getAttribute("data-opcional") == "true") {
+        return "";
+    }
+    if (valor == "") {
+        return "La contraseña es obligatoria.";
+    }
+    if (valor.length < 8) {
+        return "La contraseña debe tener al menos 8 caracteres.";
+    }
+    return "";
+}
+
+// Campos del formulario: id del input, id de su mensaje y la función que lo valida.
+// En "Modificar mis datos" no está la contraseña: los campos que no existen se saltean.
+let camposRegistro = [
+    { idInput: "nombre", idFeedback: "fb-nombre", validar: validarNombre },
+    { idInput: "email", idFeedback: "fb-email", validar: validarEmail },
+    { idInput: "nombreUsuario", idFeedback: "fb-nombreUsuario", validar: validarNombreUsuario },
+    { idInput: "contrasena", idFeedback: "fb-contrasena", validar: validarContrasena }
+];
+
+function existeCampo(campo) {
+    let input = document.getElementById(campo.idInput);
+    let feedback = document.getElementById(campo.idFeedback);
+    return input != null && feedback != null;
+}
+
+// Valida un campo, muestra su mensaje y marca el input en rojo si hay error
 function validarCampo(campo) {
-  const mensaje = campo.validar(campo.input.value);
-  mostrarFeedback(campo, mensaje);
-  return mensaje === "";
+    let input = document.getElementById(campo.idInput);
+    let feedback = document.getElementById(campo.idFeedback);
+
+    if (campo.idInput == "email") {
+        input.value = input.value.trim(); // se envía sin espacios, así el servidor no lo rechaza
+    }
+
+    let mensaje = campo.validar(input.value);
+    feedback.innerHTML = mensaje;
+
+    if (mensaje == "") {
+        input.className = "";
+        return true;
+    } else {
+        input.className = "input-error";
+        return false;
+    }
 }
 
-function limpiarEmail() {
-  if (emailInput !== null) {
-    emailInput.value = emailInput.value.trim(); // se envía sin espacios, así el servidor no lo rechaza
-  }
-}
-
+// Se llama desde el onsubmit del formulario: si hay errores, no se envía
 function registrarUsuario() {
-  limpiarEmail();
+    let primeroConError = null;
 
-  let primeroConError = null;
-
-  camposRegistro.forEach(campo => {
-    if (!validarCampo(campo) && primeroConError === null) {
-      primeroConError = campo;
+    for (let i = 0; i < camposRegistro.length; i++) {
+        let campo = camposRegistro[i];
+        if (existeCampo(campo)) {
+            let estaBien = validarCampo(campo);
+            if (estaBien == false && primeroConError == null) {
+                primeroConError = campo;
+            }
+        }
     }
-  });
 
-  if (primeroConError !== null) {
-    primeroConError.input.focus();
-    return false; // Evita que el formulario se envíe si hay errores
-  }
+    if (primeroConError != null) {
+        document.getElementById(primeroConError.idInput).focus();
+        return false;
+    }
 
-  return true;
+    return true;
 }
 
-camposRegistro.forEach(campo => {
-  // Al salir del campo se valida; mientras escribe, solo se re-valida si ya mostraba un error
-  campo.input.addEventListener("blur", () => {
-    if (campo.input === emailInput) {
-      limpiarEmail();
-    }
-    validarCampo(campo);
-  });
-  campo.input.addEventListener("input", () => {
-    if (campo.feedback.textContent !== "") {
-      validarCampo(campo);
-    }
-  });
-});
+// Al salir del campo se valida; mientras escribe, solo se re-valida si ya mostraba un error
+function prepararCampo(campo) {
+    let input = document.getElementById(campo.idInput);
+    let feedback = document.getElementById(campo.idFeedback);
 
-// El error del servidor (ej: usuario repetido) deja de aplicar cuando se cambia el nombre de usuario
-if (inputUsuario !== null && fbServidor !== null) {
-  inputUsuario.addEventListener("input", () => {
-    fbServidor.textContent = "";
-  });
+    input.onblur = function () {
+        validarCampo(campo);
+    };
+
+    input.oninput = function () {
+        if (feedback.innerHTML != "") {
+            validarCampo(campo);
+        }
+
+        // El error del servidor (ej: usuario repetido) deja de aplicar cuando se cambia el nombre de usuario
+        let fbServidor = document.getElementById("fb-servidor");
+        if (campo.idInput == "nombreUsuario" && fbServidor != null) {
+            fbServidor.innerHTML = "";
+        }
+    };
+}
+
+for (let i = 0; i < camposRegistro.length; i++) {
+    if (existeCampo(camposRegistro[i])) {
+        prepararCampo(camposRegistro[i]);
+    }
 }
