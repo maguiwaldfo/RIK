@@ -1,5 +1,4 @@
-/* Poppins: la usa todo el sitio pero ninguna vista la cargaba. Tiene que quedar primero en el archivo. */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+/* La fuente Poppins se carga con un <link> en el <head> de _Layout, Login/Index y Login/Registrarse. */
 
 
 /* ============================================================
@@ -19,24 +18,8 @@ body {
     color: #FFFFFF;
 }
 
-:root {
-    --rik-verde:        #078B58;   /* fondo de la landing */
-    --rik-verde-oscuro: #064D2B;   /* header, tarjetas oscuras */
-    --rik-verde-card:   #07512F;
-    --rik-verde-texto:  #173D20;
-    --rik-amarillo:     #FFE500;
-    --rik-amarillo-hov: #F2D600;
-    --rik-menta:        #B6E9C6;
-    --rik-radio:        12px;
-}
-
 html {
     scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .rik * { transition: none !important; animation: none !important; }
 }
 
 .page-shell {
@@ -55,8 +38,7 @@ html {
    2. HEADER COMPARTIDO (_Layout)
    ============================================================ */
 
-.login-header,
-.registrarse-header {
+.login-header {
     position: sticky;
     top: 0;
     left: 0;
@@ -96,44 +78,10 @@ html {
     }
 }
 
-.marca h1 {
-    color: #FFFFFF;
-    font-size: 30px;
-    font-weight: normal;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-nav li {
-    background-color: #FFE500;
-    padding: 7px 10px;
-    border-radius: 5px;
-}
-
 nav a {
     color: #000000;
     text-decoration: none;
     font-size: 11px;
-}
-
-nav li:hover,
-.boton-sesion:hover {
-    background-color: #F2D600;
-}
-
-.boton-sesion {
-    background-color: #FFE500;
-    color: #000000;
-    text-decoration: none;
-    text-align: center;
-    font-size: 11px;
-    padding: 10px 22px;
-    border-radius: 5px;
 }
 
 
@@ -144,7 +92,7 @@ nav li:hover,
 .rik {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--rik-verde);
+    background-color: #078B58;
     color: #FFFFFF;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     overflow-x: hidden;
@@ -166,7 +114,7 @@ nav li:hover,
 .rik .portada {
     width: 100%;
     padding: 0 0 8px;
-    background-color: var(--rik-verde);
+    background-color: #078B58;
 }
 
 /* Dos columnas: escena (mascota + frase + botón) | logo.
@@ -215,16 +163,11 @@ nav li:hover,
 /* ---------- Escena: mascota apoyada en las tarjetas, "agarrando" el botón ---------- */
 
 .rik .hero-escena {
-    /* --- Ajustes principales --- */
-    --mascota-ancho: clamp(300px, 40vw, 760px);   /* tamaño de la mascota */
-   --texto-izq: 76%;     /* antes 88%; más bajo = más al medio, 70% ya se mete sobre la pata */                             /* más alto = el botón se aleja de la mascota */
-    --texto-abajo: 28%;                            /* más alto = el botón sube (a la altura de la pata) */
-
     grid-area: escena;
     align-self: end;
     justify-self: start;
     position: relative;
-    width: var(--mascota-ancho);
+    width: clamp(300px, 40vw, 760px);   /* tamaño de la mascota */
 }
 
 .rik .mascota {
@@ -239,8 +182,8 @@ nav li:hover,
 
 .rik .hero-texto {
     position: absolute;
-    left: var(--texto-izq);
-    bottom: var(--texto-abajo);
+    left: 76%;      /* más bajo = el texto se acerca a la mascota */
+    bottom: 28%;    /* más alto = el botón sube (a la altura de la pata) */
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -273,7 +216,7 @@ nav li:hover,
     width: max-content;
     max-width: none;
     padding: 12px 20px;
-    background-color: var(--rik-verde-oscuro);
+    background-color: #064D2B;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     z-index: 3;
@@ -307,52 +250,42 @@ nav li:hover,
 
 /* ---------- Botones 3D (estilo Duolingo) ---------- */
 
+/* El efecto 3D es una sombra sólida (sin desenfoque) debajo del botón. */
 .rik .boton-jugar a,
 .rik .boton-cierre {
-    --b-color:  #FFE500;   /* cara del botón */
-    --b-sombra: #C4B000;   /* borde inferior */
-    --b-texto:  #000000;
-    --b-alto:   5px;       /* profundidad */
-
-    background-color: var(--b-color);
-    color: var(--b-texto);
+    background-color: #FFE500;
+    color: #000000;
     border: none;
     border-radius: 14px;
-    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
+    box-shadow: 0 5px 0 #C4B000;
     transform: translateY(0);
     cursor: pointer;
     text-decoration: none;
     font-weight: 700;
-    text-transform: none;
     transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
 }
 
 .rik .boton-jugar a:hover,
 .rik .boton-cierre:hover {
-    background-color: var(--b-color);
-    color: var(--b-texto);
     filter: brightness(1.06);
-    transform: translateY(0);
-    box-shadow: 0 var(--b-alto) 0 var(--b-sombra);
 }
 
 /* Al presionar, el botón baja y la sombra casi desaparece */
 .rik .boton-jugar a:active,
 .rik .boton-cierre:active {
-    transform: translateY(calc(var(--b-alto) - 1px));
-    box-shadow: 0 1px 0 var(--b-sombra);
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #C4B000;
 }
 
 /* Variante verde oscuro (botón del cierre) */
 .rik .boton-cierre {
-    --b-color:  #064D2B;
-    --b-sombra: #03301B;
-    --b-texto:  #FFFFFF;
+    background-color: #064D2B;
+    color: #FFFFFF;
+    box-shadow: 0 5px 0 #03301B;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .rik .boton-jugar a,
-    .rik .boton-cierre { transition: none; }
+.rik .boton-cierre:active {
+    box-shadow: 0 1px 0 #03301B;
 }
 
 /* ---------- Tarjetas: quiénes somos / visión / misión ---------- */
@@ -376,8 +309,8 @@ nav li:hover,
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--rik-amarillo);
-    border-radius: var(--rik-radio);
+    background-color: #FFE500;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -410,8 +343,8 @@ nav li:hover,
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
-    background-color: var(--rik-verde-card);
-    border-radius: var(--rik-radio);
+    background-color: #07512F;
+    border-radius: 12px;
     color: #FFFFFF;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -422,7 +355,7 @@ nav li:hover,
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--rik-amarillo);
+    background-color: #FFE500;
     border-radius: 10px;
     font-size: 22px;
     line-height: 1;
@@ -433,7 +366,7 @@ nav li:hover,
     font-size: clamp(32px, 4vw, 44px);
     font-weight: 700;
     line-height: 1.05;
-    color: var(--rik-amarillo);
+    color: #FFE500;
 }
 
 .rik .estadistica p {
@@ -461,7 +394,7 @@ nav li:hover,
 .rik .carousel-inner {
     border-radius: 20px;
     overflow: hidden;
-    background-color: var(--rik-verde-oscuro);
+    background-color: #064D2B;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
@@ -486,7 +419,7 @@ nav li:hover,
     border: none;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.88);
-    color: var(--rik-verde-oscuro);
+    color: #064D2B;
     cursor: pointer;
     z-index: 2;
     transition: background-color 0.15s ease;
@@ -523,7 +456,7 @@ nav li:hover,
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background-color: var(--rik-menta);
+    background-color: #B6E9C6;
     border-radius: 16px;
 }
 
@@ -575,7 +508,7 @@ nav li:hover,
     }
 
     .rik .hero-escena {
-        --mascota-ancho: min(70vw, 460px);
+        width: min(70vw, 460px);
         justify-self: center;
     }
 }
@@ -667,7 +600,10 @@ nav li:hover,
 .login-body::before {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: linear-gradient(180deg, rgba(12, 141, 89, 0.12), rgba(12, 141, 89, 0.18));
     pointer-events: none;
 }
@@ -675,7 +611,10 @@ nav li:hover,
 .login-body::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-image: url('/imagenes/rik%20registro.png');
     background-repeat: no-repeat;
     background-position: left bottom;
@@ -690,7 +629,6 @@ nav li:hover,
 .login-form,
 .social-login,
 .login-button,
-.login-nav,
 .login-brand,
 .register-link {
     position: relative;
@@ -736,25 +674,6 @@ nav li:hover,
     justify-content: center;
     font-weight: 700;
     font-size: 20px;
-}
-
-.login-nav {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.login-nav a {
-    background: #FFE500;
-    color: black;
-    text-decoration: none;
-    text-align: center;
-    padding: 11px 32px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    display: inline-block;
 }
 
 .login-button {
@@ -855,24 +774,6 @@ nav li:hover,
     font-weight: 700;
 }
 
-.social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.social-button {
-    width: 34px;
-    height: 34px;
-    border: 1px solid #d8d8d8;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-}
-
 .feedback {
     min-height: 20px;
     margin-top: 10px;
@@ -908,56 +809,20 @@ nav li:hover,
 .registro-body::before {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: linear-gradient(180deg, rgba(11, 157, 96, 0.18) 0%, rgba(11, 157, 96, 0.06) 100%);
     pointer-events: none;
 }
 
-.registrarse-header,
 .registro-body h2,
 #registroForm,
 .registro-body p,
 #resultado {
     position: relative;
     z-index: 1;
-}
-
-.registrarse-header {
-    width: 100%;
-    min-height: 70px;
-    background: rgba(7, 77, 43, 0.55);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    gap: 16px;
-    box-sizing: border-box;
-}
-
-.registrarse-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    font-size: 24px;
-    color: #fff;
-}
-
-.registrarse-nav {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.registrarse-nav a {
-    background: #f4d200;
-    color: #000;
-    text-decoration: none;
-    font-size: 12px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-weight: 600;
 }
 
 .registro-body h2 {
@@ -1027,10 +892,7 @@ nav li:hover,
 }
 
 /* Tiene que ir DESPUÉS de ".registro-body a", que si no pinta de blanco los botones amarillos */
-.login-nav a,
-.login-button,
-.registrarse-nav a,
-.registrarse-header .login-button {
+.login-button {
     color: #000000;
 }
 
@@ -1087,7 +949,6 @@ body:has(.inicio-mapa) .page-main {
 }
 
 .inicio-mapa {
-    --inicio-moneda: clamp(64px, 8vw, 112px);
     width: 100%;
     height: calc(100vh - 80px);
     position: relative;
@@ -1119,7 +980,6 @@ body:has(.inicio-mapa) .page-main {
     z-index: 1;
     width: 260%;
     height: 200%;
-    will-change: transform;
     transition: transform 0.18s ease-out;
 }
 
@@ -1129,7 +989,10 @@ body:has(.inicio-mapa) .page-main {
 
 .inicio-camino {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     overflow: visible;
@@ -1148,8 +1011,8 @@ body:has(.inicio-mapa) .page-main {
 
 .inicio-nodo {
     position: absolute;
-    width: var(--inicio-moneda);
-    height: var(--inicio-moneda);
+    width: clamp(64px, 8vw, 112px);
+    height: clamp(64px, 8vw, 112px);
     transform: translate(-50%, -50%);
     z-index: 3;
     display: block;
@@ -1432,145 +1295,6 @@ body:has(.inicio-mapa) .page-main {
     text-decoration: none;
     font-size: 30px;
     justify-self: end;
-}
-
-.mapa-biblioteca {
-    position: relative;
-    z-index: 10;
-}
-
-.mapa-biblioteca a {
-    display: inline-block;
-    position: relative;
-    z-index: 11;
-}
-
-/* Fondo */
-
-.mapa-main {
-    height: calc(100vh - 80px);
-    min-height: 0;
-    background-color: white;
-    overflow: hidden;
-}
-
-.mapa-contenido {
-    width: 100%;
-    max-width: 1400px;
-    height: 100%;
-    margin: auto;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Camino de niveles */
-
-.camino-niveles {
-    position: absolute;
-    inset: 0;
-}
-
-.lineas-camino {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: visible;
-}
-
-.camino-base,
-.camino-progreso {
-    fill: none;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-}
-
-.camino-base {
-    stroke: rgba(0, 0, 0, 0.28);
-    stroke-width: 7;
-}
-
-.camino-progreso {
-    stroke: #1D9D66;
-    stroke-width: 9;
-    filter: drop-shadow(0 0 8px rgba(29, 157, 102, 0.5));
-    transition: stroke-dashoffset 0.6s ease;
-}
-
-/* Monedas de los niveles */
-
-.nodo {
-    position: absolute;
-    width: 75px;
-    height: 75px;
-    transform: translate(-50%, -50%);
-    text-decoration: none;
-    z-index: 2;
-    display: block;
-}
-
-.nodo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.nodo-disponible,
-.nodo-bloqueado {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nodo-disponible {
-    background: #FFE500;
-    border: 5px solid #064D2B;
-    box-sizing: border-box;
-    color: #064D2B;
-    font-size: 38px;
-    font-weight: bold;
-    box-shadow: 0 8px 18px rgba(6, 77, 43, 0.2);
-}
-
-.nodo-disponible:hover {
-    transform: scale(1.08);
-}
-
-.nodo-bloqueado {
-    background: #D9D9D9;
-    font-size: 39px;
-    border: 3px solid rgba(0, 0, 0, 0.08);
-}
-
-/* Recorrido de niveles: posiciones de las monedas sobre el camino */
-
-.nivel-1  { left: 12%; top: 90%; }
-.nivel-2  { left: 24%; top: 82%; }
-.nivel-3  { left: 38%; top: 73%; }
-.nivel-4  { left: 25%; top: 65%; }
-.nivel-5  { left: 45%; top: 56%; }
-.nivel-6  { left: 60%; top: 47%; }
-.nivel-7  { left: 76%; top: 38%; }
-.nivel-8  { left: 65%; top: 29%; }
-.nivel-9  { left: 48%; top: 20%; }
-.nivel-10 { left: 30%; top: 13%; }
-.nivel-11 { left: 58%; top: 7%; }
-.nivel-12 { left: 84%; top: 2%; }
-
-@media (max-width: 700px) {
-    .nodo {
-        width: 65px;
-        height: 65px;
-    }
-
-    .nodo-bloqueado {
-        font-size: 29px;
-    }
 }
 
 
@@ -1930,8 +1654,8 @@ body:has(.fin) .page-main {
 
 .nivel-opcion {
     min-height: 120px;
-    padding: 16px 24px;
-    border: none;
+    padding: 12px 20px;                 /* 16px 24px menos los 4px del borde */
+    border: 4px solid transparent;      /* el borde de color aparece al elegir */
     border-radius: 8px;
     background: #D9D9D9;
     color: #000000;
@@ -1939,7 +1663,7 @@ body:has(.fin) .page-main {
     font-size: 22px;
     line-height: 1.4;
     cursor: pointer;
-    transition: background 0.15s ease, box-shadow 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .nivel-opcion:hover {
@@ -1953,13 +1677,13 @@ body:has(.fin) .page-main {
 .nivel-opcion-elegida,
 .nivel-opcion-elegida:hover {
     background: #FFF3A6;
-    box-shadow: inset 0 0 0 4px #FFD700;
+    border-color: #FFD700;
 }
 
 .nivel-opcion-correcta,
 .nivel-opcion-correcta:hover {
     background: #BFE8CD;
-    box-shadow: inset 0 0 0 4px #0A4D28;
+    border-color: #0A4D28;
 }
 
 .nivel-opcion-incorrecta,
@@ -2020,7 +1744,6 @@ body:has(.fin) {
 }
 
 .fin {
-    --fin-color: #0A4D28;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -2028,10 +1751,6 @@ body:has(.fin) {
     margin: 0 auto;
     /* Arriba deja más aire, así el cartel queda un poco más abajo del header. */
     padding: clamp(28px, 10vh, 100px) 0 24px;
-}
-
-.fin-perdio {
-    --fin-color: #F5333F;
 }
 
 .fin-mensaje {
@@ -2090,9 +1809,14 @@ body:has(.fin) {
 }
 
 .fin-etiqueta {
-    color: var(--fin-color);
+    color: #0A4D28;
     font-size: 30px;
     line-height: 1.1;
+}
+
+/* si perdió, las etiquetas van en rojo */
+.fin-perdio .fin-etiqueta {
+    color: #F5333F;
 }
 
 .fin-valor {
@@ -2170,75 +1894,8 @@ body:has(.fin) {
 
 
 /* ============================================================
-   12. RESULTADO (versión anterior, posiblemente sin uso)
-   Si ninguna vista usa .resultado, podés borrar este bloque.
-   ============================================================ */
-
-.resultado {
-    max-width: 700px;
-    margin: 70px auto;
-    padding: 35px;
-    background: white;
-    border-radius: 20px;
-    text-align: center;
-}
-
-.resultado h1 {
-    color: #064D2B;
-}
-
-.estadisticas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin: 35px 0;
-}
-
-.estadistica {
-    background: #E8F2ED;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.estadistica h2 {
-    font-size: 16px;
-}
-
-.estadistica p {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.resultado a {
-    display: inline-block;
-    background: #FFE500;
-    color: black;
-    padding: 15px 30px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-@media (max-width: 600px) {
-    .resultado {
-        margin: 20px;
-        padding: 20px;
-    }
-
-    .estadisticas {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* ============================================================
    13. UTILIDADES
    ============================================================ */
-
-.sin-ligas {
-    text-align: center;
-    margin-top: 20px;
-}
 
 /* Botón que se ve como link (ej: "Cerrar sesión" en Perfil, que tiene que enviarse por POST) */
 .boton-link {
@@ -2246,14 +1903,13 @@ body:has(.fin) {
     border: none;
     padding: 0;
     font: inherit;
-    color: LinkText;
     text-decoration: underline;
     cursor: pointer;
 }
 /* ============================================================
    14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
    Todo se engancha a la estructura que ya genera la vista
-   (h1, h2, .lista-ligas, las <table> del controlador y el form),
+   (h1, h2, .lista-ligas, los rankings que arma el controlador y el form),
    sin clases nuevas. El scope es ".page-main:has(> .lista-ligas)",
    que solo existe en esta vista.
    ============================================================ */
@@ -2268,13 +1924,6 @@ body:has(.lista-ligas) {
 }
 
 .page-main:has(> .lista-ligas) {
-    --liga-verde: #064D2B;
-    --liga-verde-2: #0B6B3D;
-    --liga-oro: #FFE500;
-    --liga-oro-2: #FFC21A;
-    --liga-plata: #EEF2F7;
-    --liga-bronce: #FFE4D1;
-
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
@@ -2309,25 +1958,11 @@ body:has(.lista-ligas) {
     margin: 0 0 32px;
     padding-bottom: 18px;
     border-bottom: 1px solid #DCE8DF;
-    color: var(--liga-verde);
+    color: #064D2B;
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 700;
     letter-spacing: -.01em;
     line-height: 1.1;
-}
-
-/* ---------- Aviso (TempData["Mensaje"]) ---------- */
-
-.page-main:has(> .lista-ligas) > .liga-aviso {
-    grid-area: aviso;
-    margin: 0 0 28px;
-    padding: 12px 16px;
-    border: 1.5px solid #B6E9C6;
-    border-radius: 14px;
-    background: #fff;
-    color: var(--liga-verde);
-    font-size: .9rem;
-    font-weight: 600;
 }
 
 /* ---------- Títulos de sección ---------- */
@@ -2349,17 +1984,16 @@ body:has(.lista-ligas) {
     display: block;
     margin-bottom: 6px;
     padding-left: 10px;
-    border-left: 3px solid var(--liga-oro-2);
-    color: var(--liga-verde-2);
+    border-left: 3px solid #FFC21A;
+    color: #0B6B3D;
     font-size: .72rem;
     font-weight: 600;
     line-height: 1.3;
     letter-spacing: .1em;
-    text-transform: uppercase;
 }
 
-.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before { content: "Todos los jugadores"; }
-.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before { content: "Entre amigos"; }
+.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before { content: "TODOS LOS JUGADORES"; }
+.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before { content: "ENTRE AMIGOS"; }
 
 /* ---------- Mis ligas (chips) ---------- */
 
@@ -2383,26 +2017,6 @@ body:has(.lista-ligas) {
     background: rgba(255, 255, 255, .7);
     color: #3F6B50;
     font-size: .9rem;
-}
-
-/* botón "+ Unirse a una liga" */
-.lista-ligas .liga-unirse {
-    flex: 0 0 auto;
-    padding: 14px 18px;
-    border: 1.5px dashed #9CCFB0;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, .7);
-    color: var(--liga-verde);
-    font-size: .85rem;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background .2s ease, border-color .2s ease;
-}
-
-.lista-ligas .liga-unirse:hover {
-    border-color: var(--liga-verde);
-    background: #fff;
 }
 
 .lista-ligas .liga {
@@ -2429,7 +2043,7 @@ body:has(.lista-ligas) {
     background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='8' r='3.2'/%3E%3Cpath d='M3 20c.8-3.4 3.2-5.2 6-5.2s5.2 1.8 6 5.2'/%3E%3Ccircle cx='17' cy='9' r='2.6'/%3E%3Cpath d='M16.5 14.2c2.4.2 4 1.8 4.5 4.6'/%3E%3C/svg%3E")
         center / 22px no-repeat,
-        linear-gradient(135deg, #FFF29A, var(--liga-oro));
+        linear-gradient(135deg, #FFF29A, #FFE500);
 }
 
 .lista-ligas .liga:hover {
@@ -2441,7 +2055,7 @@ body:has(.lista-ligas) {
 .lista-ligas .liga h3 {
     flex: 1;
     margin: 0;
-    color: var(--liga-verde);
+    color: #064D2B;
     font-size: 1rem;
     font-weight: 700;
 }
@@ -2450,7 +2064,7 @@ body:has(.lista-ligas) {
     flex: 0 0 auto;
     padding: 6px 12px;
     border-radius: 10px;
-    background: var(--liga-verde);
+    background: #064D2B;
     color: #fff;
     font-size: .75rem;
     font-weight: 600;
@@ -2462,322 +2076,47 @@ body:has(.lista-ligas) {
 .lista-ligas .liga a::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     border-radius: inherit;
 }
 
 .lista-ligas .liga:hover a {
-    background: var(--liga-oro);
-    color: var(--liga-verde);
+    background: #FFE500;
+    color: #064D2B;
 }
 
-/* ---------- Tablas de ranking ---------- */
-
-.page-main:has(> .lista-ligas) > table {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 18px;
-    border: 0;
-    border-radius: 30px;
-    background:
-        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
-        linear-gradient(160deg, var(--liga-verde-2), var(--liga-verde) 70%);
-    box-shadow:
-        0 24px 40px -22px rgba(6, 77, 43, .75),
-        inset 0 1px 0 rgba(255, 255, 255, .12);
-    color: #fff;
-}
-
-/* Ubicación de las tablas. Se enganchan por dos caminos (posición entre tablas y
-   "tabla que viene justo después del h2") y con !important, para que ninguna otra
-   regla las saque de su zona y terminen arriba de todo. */
-.page-main:has(> .lista-ligas) > table:first-of-type,
-.page-main:has(> .lista-ligas) > h2:nth-of-type(2) + table {
-    grid-area: tglobal !important;
-}
-
-.page-main:has(> .lista-ligas) > table:nth-of-type(2),
-.page-main:has(> .lista-ligas) > h2:nth-of-type(3) + table {
-    grid-area: tliga !important;
-}
-
-/* cada tarjeta mide lo que su lista, sin estirarse a la altura de la otra */
-.page-main:has(> .lista-ligas) > table {
-    align-self: start;
-}
-
-.page-main:has(> .lista-ligas) > table thead {
-    display: none;
-}
-
-.page-main:has(> .lista-ligas) > table tbody {
-    counter-reset: puesto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-height: 520px;
-    padding: 4px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, .3) transparent;
-}
-
-.page-main:has(> .lista-ligas) > table tr {
-    counter-increment: puesto;
-    display: grid;
-    grid-template-columns: 32px 42px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-    min-height: 62px;
-    padding: 10px 14px 10px 12px;
-    border: 1.5px solid rgba(255, 255, 255, .14);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, .08);
-    color: #fff;
-    transition: transform .2s ease, box-shadow .2s ease;
-    animation: liga-entrar .45s ease backwards;
-}
-
-.page-main:has(> .lista-ligas) > table tr:hover {
-    transform: translateX(4px);
-    box-shadow: 0 10px 20px -12px rgba(0, 0, 0, .5);
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(2) { animation-delay: .06s; }
-.page-main:has(> .lista-ligas) > table tr:nth-child(3) { animation-delay: .12s; }
-.page-main:has(> .lista-ligas) > table tr:nth-child(4) { animation-delay: .18s; }
-.page-main:has(> .lista-ligas) > table tr:nth-child(n+5) { animation-delay: .24s; }
-
+/* Animación de entrada (la usan las tarjetas de Teoría y moraleja, sección 18) */
 @keyframes liga-entrar {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: none; }
 }
 
-/* puesto (1°, 2°, ...) */
-.page-main:has(> .lista-ligas) > table tr::before {
-    content: counter(puesto) "\B0";
-    order: 0;
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid rgba(255, 255, 255, .22);
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .1);
-    color: rgba(255, 255, 255, .85);
-    font-size: .72rem;
-    font-weight: 700;
-}
-
-/* puesto real, si el controlador emite data-puesto="1243" en el <tr>
-   (útil para mostrar al usuario cuando está fuera del top) */
-.page-main:has(> .lista-ligas) > table tr[data-puesto]:not([data-puesto=""])::before {
-    content: attr(data-puesto) "\B0";
-}
-
-.page-main:has(> .lista-ligas) > table tr[data-puesto]:not([data-puesto=""]):not(:nth-child(-n+3))::before {
-    font-size: .64rem;
-}
-
-/* avatar */
-.page-main:has(> .lista-ligas) > table tr::after {
-    content: "";
-    order: 1;
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(255, 255, 255, .12);
-    border-radius: 50%;
-    background: #1D2A22 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CFE9D8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E") center / 20px no-repeat;
-}
-
-.page-main:has(> .lista-ligas) > table td {
-    padding: 0;
-    border: 0;
-}
-
-/* nombre */
-.page-main:has(> .lista-ligas) > table td:first-child {
-    order: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+/* Contenedores de los rankings (Views/Liga/Index.cshtml): el HTML que arma el
+   controlador va adentro, y cada contenedor se ubica en su zona de la grilla. */
+.page-main:has(> .lista-ligas) > .ranking-global {
+    grid-area: tglobal;
+    align-self: start;
     min-width: 0;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
 }
 
-.page-main:has(> .lista-ligas) > table td:first-child::after {
-    font-size: .66rem;
-    font-weight: 600;
-    letter-spacing: .02em;
-}
-
-/* puntos */
-.page-main:has(> .lista-ligas) > table td:last-child {
-    order: 3;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .16);
-    color: #fff;
-    font-size: .85rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-
-/* 1° - oro */
-.page-main:has(> .lista-ligas) > table tr:nth-child(1) {
-    border-color: #FFF3A6;
-    background: linear-gradient(100deg, var(--liga-oro) 0%, var(--liga-oro-2) 100%);
-    color: #1B1B1B;
-    box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(1)::before {
-    border: 2px solid #E0B400;
-    background: #fff;
-    color: #7A5E00;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(1)::after {
-    border-color: #fff;
-    background-color: #1F1F1F;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFE500' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(1) td:first-child::after {
-    content: "\1F3C6\A0 CAMPE\D3 N";
-    color: var(--liga-verde);
-    font-weight: 700;
-    letter-spacing: .08em;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(1) td:last-child {
-    background: var(--liga-verde);
-    color: var(--liga-oro);
-}
-
-/* 2° - plata */
-.page-main:has(> .lista-ligas) > table tr:nth-child(2) {
-    border-color: #D3DCE8;
-    background: var(--liga-plata);
-    color: #1B1B1B;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(2)::before {
-    border-color: transparent;
-    background: #D6DEE9;
-    color: #4A5568;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(2)::after {
-    border-color: #fff;
-    background-color: #1F1F1F;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E2E8F0' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(2) td:first-child::after {
-    content: "\1F948\A0 2\B0  Lugar";
-    color: #5A6678;
-}
-
-/* 3° - bronce */
-.page-main:has(> .lista-ligas) > table tr:nth-child(3) {
-    border-color: #F3B98F;
-    background: var(--liga-bronce);
-    color: #1B1B1B;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(3)::before {
-    border-color: transparent;
-    background: #F6BF96;
-    color: #7A3B12;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(3)::after {
-    border-color: #fff;
-    background-color: #1F1F1F;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F4A86E' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='8.5' r='3.6'/%3E%3Cpath d='M5.5 19.5c1.2-3.3 3.6-5 6.5-5s5.3 1.7 6.5 5'/%3E%3C/svg%3E");
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(3) td:first-child::after {
-    content: "\1F949\A0 3\B0  Lugar";
-    color: #9A4A17;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(2) td:last-child,
-.page-main:has(> .lista-ligas) > table tr:nth-child(3) td:last-child {
-    background: #fff;
-    color: #173D20;
-    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .18);
-}
-
-/* usuario actual: requiere class="yo" en el <tr> que arma el controlador */
-.page-main:has(> .lista-ligas) > table tr.yo {
-    outline: 2.5px solid var(--liga-oro);
-    outline-offset: 2px;
-}
-
-.page-main:has(> .lista-ligas) > table tr.yo td:last-child {
-    background: var(--liga-oro);
-    color: var(--liga-verde);
-}
-
-/* fila "No hay datos..." (td con colspan) */
-.page-main:has(> .lista-ligas) > table tr:has(td[colspan]) {
-    counter-increment: none;
-    display: block;
-    border-style: dashed;
-    background: rgba(255, 255, 255, .06);
-    color: rgba(255, 255, 255, .85);
-    box-shadow: none;
-    transform: none;
-}
-
-.page-main:has(> .lista-ligas) > table tr:has(td[colspan])::before,
-.page-main:has(> .lista-ligas) > table tr:has(td[colspan])::after,
-.page-main:has(> .lista-ligas) > table td[colspan]::after {
-    content: none;
-}
-
-.page-main:has(> .lista-ligas) > table td[colspan] {
-    padding: 8px 4px;
-    background: none;
-    color: inherit;
-    font-size: .9rem;
-    font-weight: 400;
-    text-align: center;
-    white-space: normal;
-}
-
-/* si "No hay datos" es la primera fila, las reglas de oro (1°) le ganan por especificidad:
-   este bloque las vuelve a pisar para que no salga con fondo verde ni "CAMPEÓN" */
-.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) {
-    border-color: rgba(255, 255, 255, .25);
-    background: rgba(255, 255, 255, .06);
-    color: rgba(255, 255, 255, .85);
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) td[colspan] {
-    padding: 8px 4px;
-    border-radius: 0;
-    background: none;
-    color: inherit;
-    font-size: .9rem;
-    font-weight: 400;
-}
-
-.page-main:has(> .lista-ligas) > table tr:nth-child(n):has(td[colspan]) td[colspan]::after {
-    content: none;
-}
-
-/* sin ligas: el controlador manda un <p> en lugar de la tabla */
-.page-main:has(> .lista-ligas) > p {
+.page-main:has(> .lista-ligas) > .ranking-liga {
     grid-area: tliga;
     align-self: start;
+    min-width: 0;
+}
+
+/* el ranking exportado de Figma trae width: 484px en línea: que no se salga en pantallas chicas */
+.ranking-global > div,
+.ranking-liga > div {
+    max-width: 100%;
+}
+
+/* sin ligas o sin datos: el controlador manda un <p> en lugar del ranking */
+.page-main:has(> .lista-ligas) .ranking-global > p,
+.page-main:has(> .lista-ligas) .ranking-liga > p {
     display: grid;
     place-items: center;
     min-height: 200px;
@@ -2792,35 +2131,6 @@ body:has(.lista-ligas) {
 
 /* ---------- Invitar amigos (solo creador de la liga) ---------- */
 
-.page-main:has(> .lista-ligas) > .liga-compartir {
-    grid-area: compartir;
-    align-self: start;
-    margin-top: 20px;
-    padding: 18px;
-    border: 1.5px solid #D6ECDD;
-    border-radius: 24px;
-    background: #fff;
-    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
-}
-
-.liga-compartir h3 {
-    margin: 0 0 4px;
-    color: var(--liga-verde);
-    font-size: 1.05rem;
-    font-weight: 700;
-}
-
-.liga-compartir p {
-    margin: 0 0 12px;
-    color: #3F6B50;
-    font-size: .88rem;
-}
-
-.liga-compartir-link {
-    display: flex;
-    gap: 8px;
-}
-
 /* label oculto visualmente pero accesible (no depende de la versión de Bootstrap) */
 .liga-compartir .visually-hidden {
     position: absolute;
@@ -2832,66 +2142,6 @@ body:has(.lista-ligas) {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-}
-
-.liga-compartir-link input {
-    flex: 1;
-    min-width: 0;
-    padding: 9px 12px;
-    border: 1.5px solid #D6ECDD;
-    border-radius: 12px;
-    background: #F6F9F5;
-    color: #173D20;
-    font: inherit;
-    font-size: .85rem;
-}
-
-.liga-compartir-link button {
-    flex: 0 0 auto;
-    padding: 9px 16px;
-    border: 0;
-    border-radius: 12px;
-    background: var(--liga-verde);
-    color: #fff;
-    font: inherit;
-    font-size: .85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s ease, color .2s ease;
-}
-
-.liga-compartir-link button:hover {
-    background: var(--liga-oro);
-    color: var(--liga-verde);
-}
-
-.liga-compartir-estado {
-    display: block;
-    min-height: 1.2em;
-    margin-top: 8px;
-    color: var(--liga-verde-2);
-    font-size: .8rem;
-    font-weight: 600;
-}
-
-.liga-solicitudes {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    color: var(--liga-verde);
-    font-size: .85rem;
-    font-weight: 600;
-}
-
-.liga-solicitudes-cantidad {
-    min-width: 22px;
-    padding: 1px 7px;
-    border-radius: 999px;
-    background: #B42318;
-    color: #fff;
-    font-size: .72rem;
-    text-align: center;
 }
 
 /* ---------- Abandonar / Eliminar liga ---------- */
@@ -2907,7 +2157,7 @@ body:has(.lista-ligas) {
     border: 1.5px solid #9CCFB0;
     border-radius: 12px;
     background: #fff;
-    color: var(--liga-verde);
+    color: #064D2B;
     font: inherit;
     font-size: .85rem;
     font-weight: 600;
@@ -2916,8 +2166,8 @@ body:has(.lista-ligas) {
 }
 
 .page-main:has(> .lista-ligas) > form button:hover {
-    border-color: var(--liga-verde);
-    background: var(--liga-verde);
+    border-color: #064D2B;
+    background: #064D2B;
     color: #fff;
 }
 
@@ -2946,7 +2196,7 @@ body:has(.lista-ligas) {
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    color: var(--liga-verde);
+    color: #064D2B;
     font-size: .75rem;
     font-weight: 600;
     text-decoration: none;
@@ -2960,7 +2210,7 @@ body:has(.lista-ligas) {
     width: 62px;
     height: 62px;
     border-radius: 50%;
-    background: var(--liga-verde);
+    background: #064D2B;
     color: #fff;
     font-size: 2.3rem;
     font-weight: 400;
@@ -2972,13 +2222,13 @@ body:has(.lista-ligas) {
 
 .page-main:has(> .lista-ligas) > div:first-of-type a:hover::before {
     transform: scale(1.08) rotate(90deg);
-    background: var(--liga-oro);
-    color: var(--liga-verde);
+    background: #FFE500;
+    color: #064D2B;
 }
 
 .page-main:has(> .lista-ligas) a:focus-visible,
 .page-main:has(> .lista-ligas) button:focus-visible {
-    outline: 3px solid var(--liga-oro);
+    outline: 3px solid #FFE500;
     outline-offset: 3px;
 }
 
@@ -3001,37 +2251,6 @@ body:has(.lista-ligas) {
         grid-template-rows: none;
         padding: 28px 16px;
     }
-
-    .page-main:has(> .lista-ligas) > table:nth-of-type(1) {
-        margin-bottom: 40px;
-    }
-}
-
-@media (max-width: 480px) {
-    .page-main:has(> .lista-ligas) > table {
-        padding: 12px;
-        border-radius: 24px;
-    }
-
-    .page-main:has(> .lista-ligas) > table tr {
-        grid-template-columns: 28px 36px minmax(0, 1fr) auto;
-        gap: 8px;
-        padding: 8px 10px;
-    }
-
-    .page-main:has(> .lista-ligas) > table tr::after {
-        width: 34px;
-        height: 34px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .page-main:has(> .lista-ligas) *,
-    .page-main:has(> .lista-ligas) *::before,
-    .page-main:has(> .lista-ligas) *::after {
-        animation: none !important;
-        transition: none !important;
-    }
 }
 
 
@@ -3039,12 +2258,15 @@ body:has(.lista-ligas) {
    15. LIGA - COMPARTIR, UNIRSE Y SOLICITUDES
    ============================================================ */
 
-/* ---------- Index: aviso, "Unirse a una liga" y compartir ---------- */
+/* ---------- Index: aviso, "Unirse a una liga" y compartir ----------
+   (antes estaban repetidas en la sección 14; quedaron juntas acá con el mismo resultado) */
 
 .page-main:has(> .lista-ligas) > .liga-aviso {
     grid-area: aviso;
-    margin-bottom: 24px;
+    margin: 0 0 24px;
     padding: 12px 16px;
+    border: 1.5px solid #B6E9C6;
+    font-weight: 600;
     border-left: 4px solid #078B58;
     border-radius: 8px;
     background: #E6F4EC;
@@ -3059,6 +2281,7 @@ body:has(.lista-ligas) {
     padding: 12px 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 18px;
+    background: rgba(255, 255, 255, .7);
     color: #064D2B;
     font-size: .9rem;
     font-weight: 600;
@@ -3074,6 +2297,8 @@ body:has(.lista-ligas) {
 
 .page-main:has(> .lista-ligas) > .liga-compartir {
     grid-area: compartir;
+    align-self: start;
+    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
     margin-top: 18px;
     padding: 18px 20px;
     border: 1px solid #DCE8DF;
@@ -3122,10 +2347,12 @@ body:has(.lista-ligas) {
     font-size: .85rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background .2s ease, color .2s ease;
 }
 
 .liga-compartir-link button:hover {
     background: #0B6B3D;
+    color: #fff;
 }
 
 .liga-compartir-estado {
@@ -3148,6 +2375,7 @@ body:has(.lista-ligas) {
 }
 
 .liga-solicitudes-cantidad {
+    text-align: center;
     display: inline-grid;
     place-items: center;
     min-width: 22px;
@@ -3540,7 +2768,10 @@ body.mapa-body:has(.page-main > main:not([class])) {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    background: #E6F4EC var(--icono) center / 20px no-repeat;
+    background-color: #E6F4EC;
+    background-position: center;
+    background-size: 20px;
+    background-repeat: no-repeat;
 }
 
 /* flecha a la derecha */
@@ -3568,38 +2799,38 @@ body.mapa-body:has(.page-main > main:not([class])) {
     font-weight: 600;
 }
 
-/* íconos */
-.page-main > main:not([class]) a[href$="/Perfil/ModificarMisDatos"] {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E");
+/* íconos de cada opción (se dibujan en el ::before) */
+.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) a[href$="/Perfil/ModificarMisDatos"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):has(form[action$="/CerrarSesion"]) > section > div:nth-child(2) > a {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-.6 1.6-2.1 2.6-4 2.6S8.6 4.6 8 3z'/%3E%3C/svg%3E");
+.page-main > main:not([class]):has(form[action$="/CerrarSesion"]) > section > div:nth-child(2) > a::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-.6 1.6-2.1 2.6-4 2.6S8.6 4.6 8 3z'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]) a[href$="/Perfil/Ajustes"] {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h9M19 7h1M4 17h3M13 17h7'/%3E%3Ccircle cx='16' cy='7' r='2.5'/%3E%3Ccircle cx='10' cy='17' r='2.5'/%3E%3C/svg%3E");
+.page-main > main:not([class]) a[href$="/Perfil/Ajustes"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h9M19 7h1M4 17h3M13 17h7'/%3E%3Ccircle cx='16' cy='7' r='2.5'/%3E%3Ccircle cx='10' cy='17' r='2.5'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]) a[href$="/Perfil/CambiarContrasena"] {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
+.page-main > main:not([class]) a[href$="/Perfil/CambiarContrasena"]::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
 }
 
 /* Ajustes: Accesibilidad, Soporte, Idioma, Notificaciones */
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(1) > a:not([href]) {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='4.5' r='1.6'/%3E%3Cpath d='M5 8.5l7 1.5 7-1.5M12 10v4l-3 6M12 14l3 6'/%3E%3C/svg%3E");
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(1) > a:not([href])::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='4.5' r='1.6'/%3E%3Cpath d='M5 8.5l7 1.5 7-1.5M12 10v4l-3 6M12 14l3 6'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(2) > a:not([href]) {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.4'/%3E%3Ccircle cx='12' cy='17' r='.6' fill='%23064D2B'/%3E%3C/svg%3E");
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(2) > a:not([href])::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.4'/%3E%3Ccircle cx='12' cy='17' r='.6' fill='%23064D2B'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(3) > a:not([href]) {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z'/%3E%3C/svg%3E");
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(3) > a:not([href])::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(4) > a:not([href]) {
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E");
+.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(4) > a:not([href])::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E");
 }
 
 /* ---------- Cerrar sesión ---------- */
@@ -3610,11 +2841,11 @@ body.mapa-body:has(.page-main > main:not([class])) {
 
 .page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link {
     color: #B42318;
-    --icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B42318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10'/%3E%3C/svg%3E");
 }
 
 .page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link::before {
     background-color: #FDECEA;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B42318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10'/%3E%3C/svg%3E");
 }
 
 .page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link:hover {
@@ -3800,11 +3031,6 @@ body:has(form[action$="/Liga/Crear"]) {
 }
 
 .page-main:has(> form[action$="/Liga/Crear"]) {
-    --liga-verde: #064D2B;
-    --liga-verde-2: #0B6B3D;
-    --liga-oro: #FFE500;
-    --liga-oro-2: #FFC21A;
-
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
@@ -3840,14 +3066,14 @@ body:has(form[action$="/Liga/Crear"]) {
 }
 
 .page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"]:hover {
-    color: var(--liga-verde);
+    color: #064D2B;
     text-decoration: underline;
 }
 
 .page-main:has(> form[action$="/Liga/Crear"]) > h1 {
     grid-area: titulo;
     margin: 0 0 22px;
-    color: var(--liga-verde);
+    color: #064D2B;
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 700;
     letter-spacing: -.01em;
@@ -3864,7 +3090,7 @@ body:has(form[action$="/Liga/Crear"]) {
     border-radius: 30px;
     background:
         radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
-        linear-gradient(160deg, var(--liga-verde-2), var(--liga-verde) 70%);
+        linear-gradient(160deg, #0B6B3D, #064D2B 70%);
     box-shadow:
         0 24px 40px -22px rgba(6, 77, 43, .75),
         inset 0 1px 0 rgba(255, 255, 255, .12);
@@ -3883,7 +3109,7 @@ body:has(form[action$="/Liga/Crear"]) {
     margin-bottom: 8px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: var(--liga-oro);
+    background: #FFE500;
     color: #000;
     font-size: .8rem;
     font-weight: 600;
@@ -3930,7 +3156,7 @@ body:has(form[action$="/Liga/Crear"]) {
 
 .page-main:has(> form[action$="/Liga/Crear"]) > form input:focus,
 .page-main:has(> form[action$="/Liga/Crear"]) > form select:focus {
-    box-shadow: 0 0 0 3px var(--liga-oro);
+    box-shadow: 0 0 0 3px #FFE500;
 }
 
 /* Al abrir la página queda elegida "Pública": la contraseña arranca oculta.
@@ -3955,18 +3181,16 @@ body:has(form[action$="/Liga/Crear"]) {
 /* ---------- Botón guardar (mismo estilo 3D que "Comenzá a jugar") ---------- */
 
 .page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"] {
-    --b-sombra: #C4B000;
-
     height: 52px;
     margin-top: 26px;
     border: 0;
     border-radius: 14px;
-    background: var(--liga-oro);
+    background: #FFE500;
     color: #000;
     font: inherit;
     font-size: 1rem;
     font-weight: 700;
-    box-shadow: 0 5px 0 var(--b-sombra);
+    box-shadow: 0 5px 0 #C4B000;
     cursor: pointer;
     transition: transform .08s ease, box-shadow .08s ease, filter .15s ease;
 }
@@ -3977,12 +3201,12 @@ body:has(form[action$="/Liga/Crear"]) {
 
 .page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"]:active {
     transform: translateY(4px);
-    box-shadow: 0 1px 0 var(--b-sombra);
+    box-shadow: 0 1px 0 #C4B000;
 }
 
 .page-main:has(> form[action$="/Liga/Crear"]) a:focus-visible,
 .page-main:has(> form[action$="/Liga/Crear"]) button:focus-visible {
-    outline: 3px solid var(--liga-oro-2);
+    outline: 3px solid #FFC21A;
     outline-offset: 3px;
 }
 
@@ -3999,11 +3223,6 @@ body:has(form[action$="/Liga/Crear"]) {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .page-main:has(> form[action$="/Liga/Crear"]) * {
-        transition: none !important;
-    }
-}
 
 
 /* ============================================================
@@ -4026,11 +3245,6 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) {
-    --tm-verde: #064D2B;
-    --tm-verde-2: #0B6B3D;
-    --tm-oro: #FFE500;
-    --tm-oro-2: #FFC21A;
-
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -4061,7 +3275,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"]:hover {
-    color: var(--tm-verde);
+    color: #064D2B;
     text-decoration: underline;
 }
 
@@ -4071,7 +3285,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
     margin: 4px 0 6px;
     padding-bottom: 18px;
     border-bottom: 1px solid #DCE8DF;
-    color: var(--tm-verde);
+    color: #064D2B;
     font-size: clamp(1.75rem, 3.4vw, 2.4rem);
     font-weight: 700;
     letter-spacing: -.01em;
@@ -4080,17 +3294,16 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 
 /* etiqueta chica arriba del título (barrita amarilla, como en el ranking) */
 .page-main:has(> br + a[href$="/Biblioteca"]) > h1::before {
-    content: "Teor\ED a y moraleja";
+    content: "TEOR\CD A Y MORALEJA";
     display: block;
     margin-bottom: 8px;
     padding-left: 10px;
-    border-left: 3px solid var(--tm-oro-2);
-    color: var(--tm-verde-2);
+    border-left: 3px solid #FFC21A;
+    color: #0B6B3D;
     font-size: .72rem;
     font-weight: 600;
     line-height: 1.3;
     letter-spacing: .1em;
-    text-transform: uppercase;
 }
 
 /* ---------- Tarjetas: teoría / historia / moraleja ---------- */
@@ -4124,7 +3337,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) {
     background:
         radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
-        linear-gradient(160deg, var(--tm-verde-2), var(--tm-verde) 70%);
+        linear-gradient(160deg, #0B6B3D, #064D2B 70%);
     box-shadow:
         0 24px 40px -22px rgba(6, 77, 43, .75),
         inset 0 1px 0 rgba(255, 255, 255, .12);
@@ -4132,7 +3345,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) h2 {
-    color: var(--tm-oro);
+    color: #FFE500;
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) p {
@@ -4147,7 +3360,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) h2 {
-    color: var(--tm-verde);
+    color: #064D2B;
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) p {
@@ -4157,13 +3370,13 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 /* 3. Moraleja: amarilla, es lo que hay que llevarse */
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) {
     border: 1.5px solid #FFF3A6;
-    background: linear-gradient(100deg, var(--tm-oro) 0%, var(--tm-oro-2) 100%);
+    background: linear-gradient(100deg, #FFE500 0%, #FFC21A 100%);
     box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
     color: #1B1B1B;
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) h2 {
-    color: var(--tm-verde);
+    color: #064D2B;
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) p {
@@ -4211,7 +3424,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 .page-main:has(> br + a[href$="/Biblioteca"]) a:focus-visible {
-    outline: 3px solid var(--tm-oro-2);
+    outline: 3px solid #FFC21A;
     outline-offset: 3px;
 }
 
@@ -4235,12 +3448,5 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
     .page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"] {
         height: 60px;
         border-radius: 16px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .page-main:has(> br + a[href$="/Biblioteca"]) * {
-        animation: none !important;
-        transition: none !important;
     }
 }
