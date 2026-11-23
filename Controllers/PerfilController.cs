@@ -84,6 +84,12 @@ public class PerfilController : Controller
         }
         Usuario usuario = new Usuario(nombre, nombreUsuario, null, email);
 
+        if (!Usuario.ValidarDatosRegistro(usuario.Nombre, usuario.NombreUsuario, usuario.Contraseña, usuario.Email, contraseñaOpcional: true))
+        {
+            ViewBag.ErrorMessage = "Los datos ingresados no son válidos.";
+            return View("ModificarMisDatos");
+        }
+
         int idUsuario = BD.ObtenerIdUsuario(nombreUsuarioActual);
 
         int resultado = BD.ModificarUsuario(idUsuario, usuario);

@@ -565,6 +565,7 @@ public class LigaController : Controller
         ViewData["Title"] = "Crear Liga";
         ViewBag.Error = "";
         ViewBag.OcultarError = true;
+        ViewBag.Liga = new Liga { Capacidad = 10 };
 
         return View();
     }
@@ -577,6 +578,15 @@ public class LigaController : Controller
         if (string.IsNullOrEmpty(nombreUsuario))
         {
             return RedirectToAction("Index", "Login");
+        }
+
+        if (liga.Privacidad && string.IsNullOrWhiteSpace(liga.Contraseña))
+        {
+            ViewData["Title"] = "Crear Liga";
+            ViewBag.Error = "Las ligas privadas necesitan una contraseña.";
+            ViewBag.OcultarError = false;
+            ViewBag.Liga = liga;
+            return View();
         }
 
         if (liga.Contraseña == null)

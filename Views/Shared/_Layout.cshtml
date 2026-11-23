@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RIK.styles.css" asp-append-version="true" />
 </head>
-<body class="@ViewData["ClaseBody"]">
+<div lang="es" class="@ViewData["ClaseBody"]">
 
 @if (string.IsNullOrEmpty(Context.Session.GetString("NombreUsuario")))
 {
@@ -49,7 +48,7 @@ else
 }
 
     <div class="page-shell">
-        <main role="main" class="pb-3 page-main @ViewData["ClaseMain"]">
+        <main role="main" class="page-main @ViewData["ClaseMain"]">
             @RenderBody()
         </main>
     </div>
@@ -58,5 +57,4 @@ else
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+</div>

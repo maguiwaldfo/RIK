@@ -145,6 +145,7 @@ public class JuegoController : Controller
             HttpContext.Session.SetString("Puntos", "0");
             HttpContext.Session.SetString("EstadoPartida", "Jugando");
             HttpContext.Session.SetString("InicioPartida", DateTime.Now.ToString());
+            HttpContext.Session.Remove("DuracionPartida");
 
             for (int i = 0; i < preguntas.Count; i++)
             {
@@ -192,9 +193,14 @@ public class JuegoController : Controller
         return preguntaActual * 100 / totalPreguntas;
     }
 
-    // Segundos que pasaron desde que empezó la partida (se guardó en la session "InicioPartida").
+    // Durante la partida calcula los segundos; al terminar devuelve la duración guardada.
     private int SegundosDePartida()
     {
+        if (HttpContext.Session.GetString("DuracionPartida") != null)
+        {
+            return LeerNumeroSession("DuracionPartida");
+        }
+
         DateTime inicio;
 
         if (DateTime.TryParse(HttpContext.Session.GetString("InicioPartida"), out inicio))
@@ -308,6 +314,7 @@ public class JuegoController : Controller
 
             if (posicion == PreguntasPorPartida)
             {
+                HttpContext.Session.SetString("DuracionPartida", SegundosDePartida().ToString());
                 HttpContext.Session.SetString("EstadoPartida", "Ganado");
             }
 
@@ -321,6 +328,7 @@ public class JuegoController : Controller
 
             if (vidas == 0)
             {
+                HttpContext.Session.SetString("DuracionPartida", SegundosDePartida().ToString());
                 HttpContext.Session.SetString("EstadoPartida", "Perdido");
 
                 return Ok("SinVidas");

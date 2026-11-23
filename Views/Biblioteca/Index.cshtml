@@ -1,20 +1,22 @@
-<main class ="mapa-body">
-    <div class="biblioteca-grid">
-        @foreach (Teoria teoria in ViewBag.Teorias)
-        {
-            <a href="@teoria.Url" hidden="@teoria.EsBloqueada">
-                <div class="card">
-                    <img class="card-img-top" src="@teoria.Imagen" alt="@teoria.Nombre" />
-                    <h2 class="card-title">@teoria.Nombre</h2>
-                </div>
-            </a>
+@{
+    ViewData["ClaseBody"] = "mapa-body";
+}
 
-            <div class="card" hidden="@teoria.OcultarBloqueada">
-                <img class="card-img-top" src="/imagenes/candado.png" alt="Bloqueado" />
-                <h3 class="card-title">Próximamente</h3>
+<div class="biblioteca-grid">
+    @foreach (Teoria teoria in ViewBag.Teorias)
+    {
+        <a href="@teoria.Url" hidden="@teoria.EsBloqueada">
+            <div class="card">
+                <img class="card-img-top" src="@teoria.Imagen" alt="@teoria.Nombre" />
+                <h2 class="card-title">@teoria.Nombre</h2>
             </div>
-        }
+        </a>
 
-        <h2 class="alert" hidden="@ViewBag.OcultarSinTeorias">TEORÍAS NO ENCONTRADAS</h2>
-    </div>
-</main>
+        <div class="card" hidden="@teoria.OcultarBloqueada">
+            <img class="card-img-top" src="/imagenes/candado.png" alt="Bloqueado" />
+            <h3 class="card-title">Próximamente</h3>
+        </div>
+    }
+
+    <h2 class="alert" hidden="@ViewBag.OcultarSinTeorias">TEORÍAS NO ENCONTRADAS</h2>
+</div>

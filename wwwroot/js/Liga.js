@@ -16,6 +16,11 @@ function ActualizarContraseña() {
     }
 }
 
+// Al volver de un error, conserva la privacidad elegida y vuelve a pedir la contraseña.
+if (document.getElementById("Privacidad") != null) {
+    ActualizarContraseña();
+}
+
 function CopiarLinkInvitacion() {
     let input = document.getElementById("linkInvitacion");
     let estado = document.getElementById("linkCopiado");
