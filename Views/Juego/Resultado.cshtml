@@ -3,37 +3,37 @@
 }
 
 <div class="@ViewBag.ClaseFin">
-
     <p class="fin-mensaje">@ViewBag.MensajeFin</p>
 
     <div class="fin-cuerpo">
-
         <img class="fin-mascota"
              src="@ViewBag.ImagenMascota"
              alt="@ViewBag.AltMascota" />
 
-        <div class="fin-datos list-group">
-            <div class="fin-dato fin-dato-xp list-group-item item-simple">
-                <span class="fin-etiqueta">XP</span>
-                <span class="fin-valor">+@ViewBag.Xp pts</span>
-            </div>
-
-            <div class="fin-dato list-group-item item-simple">
-                <span class="fin-etiqueta">Tiempo</span>
-                <span class="fin-valor">@ViewBag.Tiempo min</span>
-            </div>
-
-            <div class="fin-dato list-group-item item-simple">
-                <span class="fin-etiqueta">Aciertos</span>
-                <span class="fin-valor">@ViewBag.TextoAciertos</span>
-            </div>
+        <div style="width: 210px; height: 133px; position: relative">
+            <div style="width: 210px; height: 125px; left: 0px; top: 8px; position: absolute; background: #D9D9D9; border-radius: 10px; border: 4px #FFEA00 solid"></div>
+            <span style="left: 20px; top: 61px; position: absolute; color: black; font-size: 48px; font-family: Poppins; font-weight: 400; word-wrap: break-word">@ViewBag.Xp</span>
+            <span class="fin-etiqueta" style="left: 79px; top: 0px; position: absolute; font-size: 48px; font-family: Poppins; font-weight: 400; word-wrap: break-word">XP</span>
         </div>
 
-    </div>
+        <div style="width: 210px; height: 132px; position: relative">
+            <div style="width: 210px; height: 125px; left: 0px; top: 7px; position: absolute; background: #D9D9D9; border-radius: 10px; border: 4px #FFEA00 solid"></div>
+            <span class="fin-valor" style="width: 197px; height: 59px; left： 13px; top: 71px; position: absolute; color: black; font-size： 48px; font-family： Poppins; font-weight： 400; word-wrap： break-word">@ViewBag.Tiempo min</span>
+            <span class="fin-etiqueta" style="left: 13px; top: 0px; position: absolute; font-size: 48px; font-family: Poppins; font-weight: 400; word-wrap: break-word">Tiempo</span>
+        </div>
 
-    <!-- Botones abajo de todo. Si ganó: solo "Volver". Si perdió: "Volver" y "Repasar tema", mitad y mitad. -->
-    <div class="fin-acciones">
-        <a class="juego-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
-        <a class="juego-boton fin-boton" href="@ViewBag.UrlRepasar" hidden="@ViewBag.OcultarRepasar">Repasar tema nuevamente</a>
+        <div style="width: 210px; height: 133px; position: relative">
+            <div style="width: 210px; height: 125px; left: 0px; top: 8px; position: absolute">
+                <div style="width: 210px; height: 125px; left: 0px; top: 0px; position: absolute; background: #D9D9D9; border-radius: 10px; border: 4px #FFEA00 solid"></div>
+            </div>
+            <span class="fin-valor" style="left: 70px; top: 61px; position: absolute; color: black; font-size: 48px; font-family: Poppins; font-weight: 400; word-wrap: break-word">@ViewBag.TextoAciertos</span>
+            <span class="fin-etiqueta" style="left: 8px; top: 0px; position: absolute; font-size: 48px; font-family: Poppins; font-weight: 400; word-wrap: break-word">Aciertos</span>
+        </div>
+
+        <!-- Botones abajo de todo. Si ganó: solo "Volver". Si perdió: "Volver" y "Repasar tema". -->
+        <div class="fin-acciones @(ViewBag.OcultarRepasar ? "fin-acciones-una" : "")">
+            <a class="juego-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
+            <a class="juego-boton fin-boton" href="@ViewBag.UrlRepasar" hidden="@ViewBag.OcultarRepasar">Repasar tema nuevamente</a>
+        </div>
     </div>
 </div>

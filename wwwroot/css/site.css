@@ -1872,140 +1872,224 @@ header.mapa-header a.navbar-brand {
         gap: 12px;
     }
 }
-
-
 /* ============================================================
    11. RESULTADO DEL NIVEL (.fin)
-   Ocupa todo el alto debajo del header (ver "Pantallas que ocupan todo el alto" en la sección 9).
+   Funciona con el HTML de Figma tal cual: las tres cajas son <div> sin clase,
+   hijos directos de .fin-cuerpo, en este orden: 2° XP, 3° Tiempo, 4° Aciertos
+   (el 1° hijo es la mascota).
+
+   Dos versiones con el mismo HTML:
+     - Victoria: <div class="fin">
+     - Derrota:  <div class="fin fin-perdio">
+
+   Victoria:  mensaje (derecha) / mascota a la izquierda y, a su derecha,
+              Tiempo, XP, Aciertos / botón. Todo junto, centrado en el alto.
+   Derrota:   mensaje (izquierda) / mascota a la izquierda y, a su derecha,
+              Tiempo, Aciertos, XP / botón (que tapa un poco la mascota)
    ============================================================ */
 
 .fin {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;   /* victoria: todo el conjunto centrado en el alto */
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
-    /* Arriba deja más aire, así el cartel queda un poco más abajo del header. */
-    padding-top: clamp(28px, 10vh, 100px);
+    padding-top: clamp(16px, 3vh, 28px);
     padding-right: 0;
     padding-bottom: 24px;
     padding-left: 0;
 }
 
-.fin-mensaje {
-    align-self: flex-start;
+/* ---------- Mensaje ---------- */
+
+/* Victoria: verde, pegado a la derecha */
+.fin .fin-mensaje {
+    align-self: flex-end;
+    width: 70%;
     max-width: 100%;
     margin: 0;
-    padding-top: 22px;
-    padding-right: 26px;
-    padding-bottom: 22px;
-    padding-left: 26px;
+    padding-top: clamp(14px, 2.4vw, 34px);
+    padding-right: clamp(16px, 2.4vw, 34px);
+    padding-bottom: clamp(14px, 2.4vw, 34px);
+    padding-left: clamp(24px, 4.8vw, 68px);
     border-radius: 8px;
     background: #0A7A3E;
     color: #000000;
-    font-size: 22px;
+    font-size: clamp(17px, 2.3vw, 32px);
     line-height: 1.3;
 }
 
+/* Derrota: rojo, pegado a la izquierda */
 .fin-perdio .fin-mensaje {
+    align-self: flex-start;
+    width: 62%;
+    padding-left: clamp(16px, 2.4vw, 34px);
     background: #FF5A65;
 }
 
-/* Mascota a la izquierda, datos al centro. Ocupa el espacio libre y se apoya sobre los botones. */
+/* ---------- Cuerpo: grilla compartida ---------- */
+
+/* La mascota en la primera columna y las 3 cajas a su derecha, en la misma fila.
+   Victoria: el cuerpo no se estira, así el mensaje, la mascota y el botón quedan juntos. */
 .fin-cuerpo {
+    flex: none;
+    display: grid;
+    grid-template-columns: minmax(200px, 28%) repeat(3, minmax(0, 1fr));
+    align-items: end;
+    row-gap: 14px;
+    margin-top: 24px;
+}
+
+/* Derrota: el mensaje arriba, el cuerpo se estira y queda pegado abajo, sobre el botón */
+.fin-perdio {
+    justify-content: flex-start;
+}
+
+.fin-perdio .fin-cuerpo {
     flex: 1;
-    display: flex;
-    align-items: flex-end;
-    gap: 40px;
+    grid-template-columns: minmax(200px, 26%) repeat(3, minmax(0, 1fr));
+    align-content: end;
     margin-top: 10px;
 }
 
+/* ---------- Mascota ---------- */
+
 .fin-mascota {
-    flex: none;
-    width: 34%;
-    min-width: 220px;
+    grid-column: 1;
+    justify-self: start;
+    width: 100%;
     max-width: 400px;
     height: auto;
-    /* Se apoya sobre el botón, como en el diseño. */
+    /* se apoya sobre las cajas */
     margin-bottom: -14px;
 }
 
-/* Los datos quedan un poco arriba de la mitad: centrados, y el margen de abajo los sube. */
-.fin-datos {
-    flex: 1;
-    align-self: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px 40px;
-    max-width: 560px;
-    margin-bottom: 30vh;
+/* derrota: baja más y el botón la tapa, como en el diseño */
+.fin-perdio .fin-mascota {
+    margin-bottom: clamp(-90px, -6vw, -20px);
 }
 
-.fin-dato {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
+/* ---------- Las tres cajas de Figma ---------- */
+
+/* Son los <div> sin clase que hay dentro de .fin-cuerpo (menos los botones).
+   Cada una trae su tamaño y su posición adentro (en línea): acá solo se las ubica en la grilla. */
+.fin-cuerpo > div:not(.fin-acciones) {
+    justify-self: center;
+    align-self: end;
 }
 
-/* Los datos (XP, tiempo, aciertos) son un list-group de Bootstrap: se sacan las esquinas, el borde,
-   el relleno, el fondo blanco, el color y el position: relative que Bootstrap pone en cada ítem */
-.fin-datos.list-group {
-    flex-direction: row;
-    border-radius: 0;
+/* Orden en el HTML: 2° = XP, 3° = Tiempo, 4° = Aciertos.
+   Victoria: Tiempo, XP, Aciertos. Derrota: Tiempo, Aciertos, XP. */
+.fin-cuerpo > div:nth-child(3) { order: 1; }   /* Tiempo */
+.fin-cuerpo > div:nth-child(2) { order: 2; }   /* XP */
+.fin-cuerpo > div:nth-child(4) { order: 3; }   /* Aciertos */
+
+.fin-perdio .fin-cuerpo > div:nth-child(4) { order: 2; }   /* Aciertos */
+.fin-perdio .fin-cuerpo > div:nth-child(2) { order: 3; }   /* XP */
+
+/* El número del XP (el <span> sin clase de la caja de XP) va centrado en la caja.
+   Hace falta !important porque el HTML de Figma trae "left: 20px" en línea. */
+.fin-cuerpo > div:nth-child(2) > span:not(.fin-etiqueta) {
+    left: 0 !important;
+    width: 100%;
+    text-align: center;
 }
 
-.fin-dato-xp {
-    grid-column: 1 / -1;
-}
-
+/* Etiquetas: verdes al ganar, rojas al perder (el color no viene en el HTML) */
 .fin-etiqueta {
     color: #0A4D28;
-    font-size: 30px;
-    line-height: 1.1;
 }
 
-/* si perdió, las etiquetas van en rojo */
 .fin-perdio .fin-etiqueta {
     color: #F5333F;
 }
 
+
 .fin-valor {
-    min-width: 150px;
-    padding-top: 6px;
-    padding-right: 16px;
-    padding-bottom: 6px;
-    padding-left: 16px;
-    border: 3px solid #FFD700;
-    border-radius: 8px;
-    background: #D9D9D9;
-    color: #000000;
-    font-size: 30px;
-    line-height: 1.2;
-    text-align: center;
-    white-space: nowrap;
+    left: 13px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 48px;
+    font-weight: 400;
+    word-wrap: break-word;
 }
 
-/* Si hay dos botones, cada uno ocupa la mitad del ancho; si hay uno solo, ocupa todo. */
+/* ---------- Botones ---------- */
+
+/* Los botones quedan abajo de todo, ocupando todo el ancho de la grilla.
+   Si hay dos, comparten el ancho; si hay uno, ocupa toda la fila. */
 .fin-acciones {
+    grid-column: 1 / -1;
+    order: 9;
     display: flex;
     gap: 24px;
 }
 
+.fin-acciones-una {
+    justify-content: center;
+}
+
+.fin-acciones-una .fin-boton {
+    flex: 1 1 0;
+    max-width: none;
+    font-size: clamp(24px, 3.2vw, 42px);
+}
+
 .fin-boton {
-    position: relative;
+    position: relative;      /* queda por delante de la mascota */
     flex: 1 1 0;
     width: auto;
-    height: 68px;
-    font-size: 30px;
+    height: auto;
+    /* si el texto es largo ("Repasar tema nuevamente") el botón crece en vez de desbordarse */
+    min-height: clamp(56px, 6.6vw, 84px);
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    font-size: clamp(18px, 2.6vw, 34px);
+    line-height: 1.2;
+    text-align: center;
+}
+
+/* ---------- Pantallas más chicas ---------- */
+
+/* Las cajas de Figma miden 210px fijos: en pantallas chicas se achican con zoom */
+@media (max-width: 1000px) {
+    .fin-cuerpo > div:not(.fin-acciones) {
+        zoom: .75;
+    }
 }
 
 @media (max-width: 700px) {
-    .fin-cuerpo {
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px;
+    .fin .fin-mensaje,
+    .fin-perdio .fin-mensaje {
+        align-self: stretch;
+        width: 100%;
+        padding-top: 14px;
+        padding-right: 18px;
+        padding-bottom: 14px;
+        padding-left: 18px;
+        font-size: 17px;
+    }
+
+    /* las dos versiones: la mascota arriba, centrada, y las 3 cajas en una fila */
+    .fin-cuerpo,
+    .fin-perdio .fin-cuerpo {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 10px;
+    }
+
+    .fin-mascota,
+    .fin-perdio .fin-mascota {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: 200px;
+        max-width: none;
+        margin-bottom: 0;
+    }
+
+    .fin-cuerpo > div:not(.fin-acciones) {
+        zoom: .5;
     }
 
     .fin-acciones {
@@ -2015,43 +2099,14 @@ header.mapa-header a.navbar-brand {
 
     .fin-boton {
         flex: none;
-        height: 56px;
-        font-size: 22px;
+        min-height: 56px;
+        font-size: 20px;
     }
 
-    .fin-mascota {
-        width: 200px;
-        min-width: 0;
-        max-width: none;
-        margin-bottom: 0;
-    }
-
-    .fin-datos {
-        flex: none;
+    .fin-acciones-una .fin-boton {
         width: 100%;
-        gap: 20px;
-        margin-bottom: 24px;
-    }
-
-    .fin-etiqueta,
-    .fin-valor {
-        font-size: 22px;
-    }
-
-    .fin-valor {
-        min-width: 110px;
-    }
-
-    .fin-mensaje {
-        font-size: 17px;
-        padding-top: 14px;
-        padding-right: 18px;
-        padding-bottom: 14px;
-        padding-left: 18px;
     }
 }
-
-
 /* ============================================================
    13. UTILIDADES
    ============================================================ */
