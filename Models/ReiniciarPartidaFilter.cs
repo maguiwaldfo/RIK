@@ -43,6 +43,7 @@ public class ReiniciarPartidaFilter : IActionFilter
         session.Remove("Vidas");
         session.Remove("Puntos");
         session.Remove("InicioPartida");
+        session.Remove("DuracionPartida");
 
         for (int i = 0; i < Nivel.PreguntasPorPartida; i++)
         {

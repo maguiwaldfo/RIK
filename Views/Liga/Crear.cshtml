@@ -8,19 +8,19 @@
 <form class="card crearliga-form" action="@Url.Action("Crear", "Liga")" method="post">
     <div class="crearliga-campo">
         <label class="form-label campo-titulo">Nombre de la Liga:</label>
-        <input type="text" class="form-control" name="Nombre" required />
+        <input type="text" class="form-control" name="Nombre" value="@ViewBag.Liga.Nombre" required />
     </div>
 
     <div class="crearliga-campo">
         <label class="form-label campo-titulo">Capacidad Máxima:</label>
-        <input type="number" class="form-control" name="Capacidad" value="10" required />
+        <input type="number" class="form-control" name="Capacidad" value="@ViewBag.Liga.Capacidad" required />
     </div>
 
     <div class="crearliga-campo">
         <p class="campo-titulo form-label">Privacidad</p>
         <select class="form-select" name="Privacidad" id="Privacidad" onchange="ActualizarContraseña()">
-            <option value="false">Pública</option>
-            <option value="true">Privada con Contraseña</option>
+            <option value="false" selected="@(!ViewBag.Liga.Privacidad)">Pública</option>
+            <option value="true" selected="@ViewBag.Liga.Privacidad">Privada con Contraseña</option>
         </select>
     </div>
 
