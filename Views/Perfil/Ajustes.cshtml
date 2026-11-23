@@ -1,28 +1,33 @@
+@{
+    ViewData["ClaseBody"] = "pagina-perfil";
+}
+
 <body class="mapa-body">
-<main>
+<main class="perfil">
+    <h1 class="perfil-titulo">Ajustes</h1>
 
-    <section>
+    <section class="list-group caja-blanca">
 
-        <div>
-            <a><strong>Accesibilidad</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-proximamente icono-accesibilidad"><strong>Accesibilidad</strong><span class="badge proximamente">Próximamente</span></a>
         </div>
 
-        <div>
-            <a><strong>Soporte</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-proximamente icono-soporte"><strong>Soporte</strong><span class="badge proximamente">Próximamente</span></a>
         </div>
 
-        <div>
-            <a><strong>Idioma</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-proximamente icono-idioma"><strong>Idioma</strong><span class="badge proximamente">Próximamente</span></a>
         </div>
 
-        <div>
-            <a><strong>Notificaciones</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-proximamente icono-notificaciones"><strong>Notificaciones</strong><span class="badge proximamente">Próximamente</span></a>
         </div>
     </section>
-    <section>
+    <section class="volver-arriba">
 
         <div>
-            <a href="@Url.Action("Index", "Perfil")"><strong>Volver</strong></a>
+            <a class="link-volver" href="@Url.Action("Index", "Perfil")"><strong>Volver</strong></a>
         </div>
     </section>
 

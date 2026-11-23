@@ -1,4 +1,6 @@
-@* El título, la charla (quién dice cada mensaje) y las imágenes los prepara JuegoController.Teoria *@
+@{
+    ViewData["ClaseBody"] = "pagina-juego";
+}
 
 <div class="charla charla-teoria" id="charla" data-cuerpo-chico="@ViewBag.CuerpoChico" data-cuerpo-perro="@ViewBag.CuerpoPerro">
 
@@ -19,9 +21,9 @@
     </div>
 
     <div class="charla-acciones">
-        <button type="button" class="charla-boton" id="charlaSiguiente" hidden>Siguiente</button>
+        <button type="button" class="juego-boton" id="charlaSiguiente" hidden>Siguiente</button>
         @* Si el nivel no tiene preguntas suficientes, el controller pone OcultarComenzar = true *@
-        <a class="charla-boton" id="charlaComenzar" href="@ViewBag.UrlComenzar" hidden="@ViewBag.OcultarComenzar">
+        <a class="juego-boton" id="charlaComenzar" href="@ViewBag.UrlComenzar" hidden="@ViewBag.OcultarComenzar">
             Comenzar desafío
         </a>
     </div>

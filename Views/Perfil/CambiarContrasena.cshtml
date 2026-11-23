@@ -1,22 +1,27 @@
+@{
+    ViewData["ClaseBody"] = "pagina-perfil";
+}
+
 <body class="mapa-body">
-<main>
+<main class="perfil">
+    <h1 class="perfil-titulo">Cambiar contraseña</h1>
 
-    <section>
-        <form id="registroForm" class="login-form" action="@Url.Action("CambiarContrasena", "Perfil")" method="post" novalidate>
+    <section class="seccion-abierta">
+        <form id="registroForm" class="login-form capa-arriba" action="@Url.Action("CambiarContrasena", "Perfil")" method="post" novalidate>
 
             <div class="form-field">
-                <label for="contrasenaActual">Contraseña actual</label>
-                <input type="password" id="contrasenaActual" name="contrasenaActual" placeholder="Contraseña actual" required />
+                <label class="form-label" for="contrasenaActual">Contraseña actual</label>
+                <input type="password" id="contrasenaActual" class="form-control" name="contrasenaActual" placeholder="Contraseña actual" required />
             </div>
 
             <div class="form-field">
-                <label for="nuevaContrasena">Nueva contraseña</label>
-                <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva contraseña" required />
+                <label class="form-label" for="nuevaContrasena">Nueva contraseña</label>
+                <input type="password" id="nuevaContrasena" class="form-control" name="nuevaContrasena" placeholder="Nueva contraseña" required />
             </div>
 
             <div class="form-field">
-                <label for="repetirContrasena">Repetir nueva contraseña</label>
-                <input type="password" id="repetirContrasena" name="repetirContrasena" placeholder="Repetir nueva contraseña" required />
+                <label class="form-label" for="repetirContrasena">Repetir nueva contraseña</label>
+                <input type="password" id="repetirContrasena" class="form-control" name="repetirContrasena" placeholder="Repetir nueva contraseña" required />
             </div>
 
             <p class="feedback" hidden="@ViewBag.OcultarError">@ViewBag.ErrorMessage</p>
@@ -24,8 +29,8 @@
             <button type="submit" class="submit-button">Guardar contraseña</button>
         </form>
 
-        <div>
-            <a href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Volver</strong></a>
+        <div class="volver-arriba">
+            <a class="link-volver" href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Volver</strong></a>
         </div>
     </section>
 

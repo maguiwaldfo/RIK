@@ -8,7 +8,10 @@
 
 * {
     margin: 0;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     box-sizing: border-box;
 }
 
@@ -40,10 +43,6 @@ html {
    ============================================================ */
 
 .login-header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
@@ -96,25 +95,22 @@ nav a {
     background-color: #078B58;
     color: #FFFFFF;
     font-family: 'Poppins', 'Segoe UI', sans-serif;
-    overflow-x: hidden;
+    overflow: hidden auto;
 }
 
 
-.rik [id] {
+.rik .ancla {
     scroll-margin-top: 90px;
-}
-
-.rik a:focus-visible,
-.rik button:focus-visible {
-    outline: 3px solid #FFFFFF;
-    outline-offset: 3px;
 }
 
 /* ---------- Portada ---------- */
 
 .rik .portada {
     width: 100%;
-    padding: 0 0 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 8px;
+    padding-left: 0;
     background-color: #078B58;
 }
 
@@ -199,7 +195,8 @@ nav a {
     position: relative;
     align-self: start;
     justify-self: center;
-    width: min(100%, 300px);   /* antes 440 o 560; bajalo a 240 si lo querés más chico */
+    width: 100%;   /* antes 440 o 560; bajalo a 240 si lo querés más chico */
+    max-width: 300px;
     margin-right: 6%;
     z-index: 2;
 }
@@ -216,7 +213,10 @@ nav a {
     position: relative;
     width: max-content;
     max-width: none;
-    padding: 12px 20px;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
     background-color: #064D2B;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -244,61 +244,77 @@ nav a {
     align-items: center;
     justify-content: center;
     min-width: 220px;
-    padding: 18px 28px;
+    padding-top: 18px;
+    padding-right: 28px;
+    padding-bottom: 18px;
+    padding-left: 28px;
     font-size: clamp(18px, 2vw, 24px);
     line-height: 1.2;
 }
 
 /* ---------- Botones 3D (estilo Duolingo) ---------- */
 
-/* El efecto 3D es una sombra sólida (sin desenfoque) debajo del botón. */
-.rik .boton-jugar a,
-.rik .boton-cierre {
+/* El efecto 3D es una sombra sólida (sin desenfoque) debajo del botón.
+   Lo usan "Comenzá a jugar", el botón del cierre y "Guardar liga". */
+.boton-3d {
     background-color: #FFE500;
     color: #000000;
     border: none;
     border-radius: 14px;
     box-shadow: 0 5px 0 #C4B000;
-    transform: translateY(0);
     cursor: pointer;
     text-decoration: none;
     font-weight: 700;
     transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
 }
 
-.rik .boton-jugar a:hover,
-.rik .boton-cierre:hover {
+.boton-3d:hover {
     filter: brightness(1.06);
 }
 
 /* Al presionar, el botón baja y la sombra casi desaparece */
-.rik .boton-jugar a:active,
-.rik .boton-cierre:active {
+.boton-3d:active {
     transform: translateY(4px);
     box-shadow: 0 1px 0 #C4B000;
 }
 
 /* Variante verde oscuro (botón del cierre) */
-.rik .boton-cierre {
+.boton-3d-verde {
     background-color: #064D2B;
     color: #FFFFFF;
     box-shadow: 0 5px 0 #03301B;
 }
 
-.rik .boton-cierre:active {
+.boton-3d-verde:active {
     box-shadow: 0 1px 0 #03301B;
 }
 
 /* ---------- Tarjetas: quiénes somos / visión / misión ---------- */
 
+/* Las tarjetas y las estadísticas son cards de Bootstrap con el estilo de RIK.
+   Bootstrap les agrega borde, flex en columna que ocupa todo el alto, position: relative
+   y corte de palabras largas: acá se sacan. */
+.rik .card {
+    position: static;
+    flex-direction: row;
+    flex-grow: 0;
+    min-width: auto;
+    border: 0;
+    overflow-wrap: normal;
+}
+
 .rik .informacion-rik {
     position: relative;
     z-index: 1;
-    width: min(96%, 1600px);
+    width: 96%;
+    max-width: 1600px;
     margin: 0 auto;               /* centradas en la pantalla */
     justify-self: center;         /* centradas si siguen dentro de la grilla del hero */
     grid-column: 1 / -1;          /* ocupan todo el ancho de la grilla, no solo una columna */
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(16px, 2.5vw, 40px);
@@ -306,7 +322,10 @@ nav a {
 
 .rik .tarjeta-info {
     min-height: 0;                 /* la altura ahora depende solo del texto */
-    padding: 18px 28px;
+    padding-top: 18px;
+    padding-right: 28px;
+    padding-bottom: 18px;
+    padding-left: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -328,9 +347,13 @@ nav a {
 /* ---------- Logros y estadísticas ---------- */
 
 .rik .estadisticas {
-    width: min(92%, 1100px);
+    width: 92%;
+    max-width: 1100px;
     margin: clamp(32px, 5vw, 64px) auto 0;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(14px, 2vw, 28px);
@@ -339,7 +362,10 @@ nav a {
 .rik .estadistica {
     width: auto;
     margin: 0;
-    padding: 22px 22px 24px;
+    padding-top: 22px;
+    padding-right: 22px;
+    padding-bottom: 24px;
+    padding-left: 22px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -383,7 +409,10 @@ nav a {
 
 .rik .galeria {
     width: 100%;
-    padding: clamp(32px, 5vw, 64px) 0 8px;
+    padding-top: clamp(32px, 5vw, 64px);
+    padding-right: 0;
+    padding-bottom: 8px;
+    padding-left: 0;
 }
 
 .rik #carouselStackedBottom {
@@ -413,7 +442,10 @@ nav a {
     transform: translateY(-50%);
     width: 44px;
     height: 44px;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -430,8 +462,8 @@ nav a {
     background-color: #FFFFFF;
 }
 
-.rik .btn-icon[data-bs-slide="prev"] { left: 12px; }
-.rik .btn-icon[data-bs-slide="next"] { right: 12px; }
+.rik .flecha-anterior { left: 12px; }
+.rik .flecha-siguiente { right: 12px; }
 
 /* Los <span> de las flechas venían vacíos: se dibujan acá */
 .rik .carousel-icon-prev::before,
@@ -447,12 +479,16 @@ nav a {
 /* ---------- Cierre ---------- */
 
 .rik .cierre {
-    width: min(92%, 1100px);
+    width: 92%;
+    max-width: 1100px;
     margin: clamp(32px, 5vw, 64px) auto clamp(32px, 5vw, 56px);
 }
 
 .rik .caja-cierre {
-    padding: clamp(20px, 3vw, 32px);
+    padding-top: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    padding-bottom: clamp(20px, 3vw, 32px);
+    padding-left: clamp(20px, 3vw, 32px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -484,7 +520,10 @@ nav a {
 /* El aspecto 3D (colores, sombra, hover) viene del bloque "Botones 3D" */
 .rik .boton-cierre {
     flex: none;
-    padding: 14px 24px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
     font-size: 15px;
     line-height: 1.3;
     text-align: center;
@@ -505,7 +544,8 @@ nav a {
     .rik .logo-hero {
         justify-self: center;
         margin-right: 0;
-        width: min(100%, 340px);
+        width: 100%;
+        max-width: 340px;
     }
 
     .rik .hero-escena {
@@ -523,7 +563,8 @@ nav a {
     }
 
     .rik .logo-hero {
-        width: min(70%, 280px);
+        width: 70%;
+        max-width: 280px;
     }
 
     .rik .hero-escena {
@@ -534,7 +575,8 @@ nav a {
     }
 
     .rik .mascota {
-        width: min(80%, 340px);
+        width: 80%;
+        max-width: 340px;
     }
 
     .rik .hero-texto {
@@ -586,11 +628,13 @@ nav a {
 .login-body {
     margin: 0;
     min-height: 100vh;
-    background-color: #0c8d59;
-    background-image: url('/imagenes/rik%20registro.png');
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-size: 42vw auto;
+    /* Fondos de arriba hacia abajo: el perro al 55% (el PNG ya viene transparente),
+       el degradado verde, el perro entero y el color de base. */
+    background:
+        url('/imagenes/rik%20registro%20transparente.png') left bottom / 42vw auto no-repeat,
+        linear-gradient(180deg, rgba(12, 141, 89, 0.12), rgba(12, 141, 89, 0.18)),
+        url('/imagenes/rik%20registro.png') left bottom / 42vw auto no-repeat,
+        #0c8d59;
     font-family: Arial, sans-serif;
     color: #fff;
     font-size: 16px;
@@ -598,40 +642,8 @@ nav a {
     position: relative;
 }
 
-.login-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(180deg, rgba(12, 141, 89, 0.12), rgba(12, 141, 89, 0.18));
-    pointer-events: none;
-}
-
-.login-body::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url('/imagenes/rik%20registro.png');
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-size: 42vw auto;
-    opacity: 0.55;
-    pointer-events: none;
-}
-
-.login-header,
-.login-main,
-.login-panel,
-.login-form,
-.social-login,
-.login-button,
-.login-brand,
-.register-link {
+/* Lo que tiene que quedar por encima del fondo (login, registro y formularios de Perfil) */
+.capa-arriba {
     position: relative;
     z-index: 1;
 }
@@ -643,7 +655,10 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
+    padding-top: 0;
+    padding-right: 24px;
+    padding-bottom: 0;
+    padding-left: 24px;
     gap: 16px;
     box-sizing: border-box;
 }
@@ -682,14 +697,15 @@ nav a {
     color: #000;
     text-decoration: none;
     font-size: 13px;
-    padding: 10px 18px;
+    padding-top: 10px;
+    padding-right: 18px;
+    padding-bottom: 10px;
+    padding-left: 18px;
     border-radius: 5px;
     font-weight: 700;
 }
 
 .login-main {
-    position: relative;
-    z-index: 1;
     width: 100%;
     min-height: calc(100vh - 56px);
     background: transparent;
@@ -700,7 +716,10 @@ nav a {
     gap: 12px;
     overflow: hidden;
     box-sizing: border-box;
-    padding: 20px 0 30px;
+    padding-top: 20px;
+    padding-right: 0;
+    padding-bottom: 30px;
+    padding-left: 0;
 }
 
 .login-panel {
@@ -709,7 +728,10 @@ nav a {
     width: min(420px, 82vw);
     background: rgba(6, 77, 43, 0.32);
     border-radius: 14px;
-    padding: 30px 26px 24px;
+    padding-top: 30px;
+    padding-right: 26px;
+    padding-bottom: 24px;
+    padding-left: 26px;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
@@ -726,7 +748,10 @@ nav a {
     border-radius: 9px;
     background: #e9e9e9;
     color: #1b1b1b;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     font-size: 16px;
     outline: none;
     box-sizing: border-box;
@@ -801,36 +826,13 @@ nav a {
 .registro-body {
     margin: 0;
     min-height: 100vh;
-    background-color: #0b9d60;
+    /* el degradado va arriba del color de base */
+    background:
+        linear-gradient(180deg, rgba(11, 157, 96, 0.18) 0%, rgba(11, 157, 96, 0.06) 100%),
+        #0b9d60;
     font-family: Arial, sans-serif;
     color: #fff;
     position: relative;
-}
-
-.registro-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(180deg, rgba(11, 157, 96, 0.18) 0%, rgba(11, 157, 96, 0.06) 100%);
-    pointer-events: none;
-}
-
-.registro-body h2,
-#registroForm,
-.registro-body p,
-#resultado {
-    position: relative;
-    z-index: 1;
-}
-
-.registro-body h2 {
-    text-align: center;
-    margin: 32px auto 16px;
-    font-size: 2.2rem;
-    color: #fff;
 }
 
 #registroForm {
@@ -839,7 +841,10 @@ nav a {
     background: rgba(0, 88, 52, 0.9);
     border: 3px solid rgba(16, 76, 47, 0.9);
     border-radius: 18px;
-    padding: 28px 22px 24px;
+    padding-top: 28px;
+    padding-right: 22px;
+    padding-bottom: 24px;
+    padding-left: 22px;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -863,22 +868,12 @@ nav a {
     border-radius: 10px;
     background: #eaeaea;
     color: #222;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     font-size: 1rem;
     box-sizing: border-box;
-}
-
-#registroForm input[type="submit"] {
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: 10px;
-    background: #f4d200;
-    color: #0a0a0a;
-    font-weight: 700;
-    font-size: 1.05rem;
-    cursor: pointer;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.12);
 }
 
 .registro-body p {
@@ -893,10 +888,6 @@ nav a {
 }
 
 /* Tiene que ir DESPUÉS de ".registro-body a", que si no pinta de blanco los botones amarillos */
-.login-button {
-    color: #000000;
-}
-
 .registro-imagotipo-wrap {
     display: flex;
     justify-content: center;
@@ -937,16 +928,19 @@ nav a {
    6. INICIO (mapa de niveles arrastrable)
    ============================================================ */
 
-body:has(.inicio-mapa) {
+.pagina-mapa {
     background: #ffffff;
     overflow: hidden;
     font-family: 'Poppins', Arial, sans-serif;
 }
 
-body:has(.inicio-mapa) .page-shell,
-body:has(.inicio-mapa) .page-main {
+.pagina-mapa .page-shell,
+.pagina-mapa .page-main {
     min-height: 0;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 .inicio-mapa {
@@ -1049,7 +1043,10 @@ body:has(.inicio-mapa) .page-main {
     pointer-events: none;
 }
 
-.inicio-pantalla > * {
+.inicio-biblioteca,
+.inicio-racha,
+.inicio-desempeno,
+.inicio-mascota {
     pointer-events: auto;
 }
 
@@ -1062,13 +1059,32 @@ body:has(.inicio-mapa) .page-main {
     color: #ffffff;
 }
 
+/* Los tres paneles son cards de Bootstrap: se sacan el borde gris y el corte de palabras largas
+   (y en Desempeño, el position: relative y el flex en columna) que agrega .card */
+.inicio-biblioteca.card,
+.inicio-racha.card,
+.inicio-desempeno-tarjeta.card {
+    border: 0;
+    overflow-wrap: normal;
+}
+
+.inicio-desempeno-tarjeta.card {
+    position: static;
+    flex-direction: row;
+}
+
 .inicio-biblioteca {
     position: absolute;
     top: 24px;
     left: 3.2%;
     z-index: 4;
-    width: clamp(220px, 24%, 313px);
-    padding: 26px 20px;
+    width: 24%;
+    min-width: 220px;
+    max-width: 313px;
+    padding-top: 26px;
+    padding-right: 20px;
+    padding-bottom: 26px;
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1084,7 +1100,10 @@ body:has(.inicio-mapa) .page-main {
 .inicio-biblioteca a {
     width: 100%;
     max-width: 229px;
-    padding: 9px 0;
+    padding-top: 9px;
+    padding-right: 0;
+    padding-bottom: 9px;
+    padding-left: 0;
     background: #FFEA00;
     border-radius: 10px;
     text-align: center;
@@ -1102,7 +1121,9 @@ body:has(.inicio-mapa) .page-main {
     top: clamp(180px, 31%, 215px);
     left: 3.2%;
     z-index: 4;
-    width: clamp(96px, 10%, 132px);
+    width: 10%;
+    min-width: 96px;
+    max-width: 132px;
     aspect-ratio: 1;
     display: flex;
     flex-direction: column;
@@ -1127,7 +1148,9 @@ body:has(.inicio-mapa) .page-main {
     left: 30%;
     bottom: 14px;
     z-index: 2;
-    width: clamp(300px, 33%, 423px);
+    width: 33%;
+    min-width: 300px;
+    max-width: 423px;
 }
 
 .inicio-desempeno h2 {
@@ -1142,7 +1165,10 @@ body:has(.inicio-mapa) .page-main {
     justify-content: space-around;
     align-items: flex-start;
     gap: 8px;
-    padding: 16px 18px;
+    padding-top: 16px;
+    padding-right: 18px;
+    padding-bottom: 16px;
+    padding-left: 18px;
 }
 
 .inicio-trofeo {
@@ -1172,7 +1198,9 @@ body:has(.inicio-mapa) .page-main {
     right: 0;
     bottom: 0;
     z-index: 1;
-    width: clamp(240px, 34%, 470px);
+    width: 34%;
+    min-width: 240px;
+    max-width: 470px;
     pointer-events: none;
 }
 
@@ -1192,6 +1220,8 @@ body:has(.inicio-mapa) .page-main {
     .inicio-desempeno {
         left: 34%;
         width: 60%;
+        min-width: 0;
+        max-width: none;
     }
 }
 
@@ -1201,7 +1231,12 @@ body:has(.inicio-mapa) .page-main {
     .inicio-biblioteca {
         top: 14px;
         width: 170px;
-        padding: 12px;
+        min-width: 0;
+        max-width: none;
+        padding-top: 12px;
+        padding-right: 12px;
+        padding-bottom: 12px;
+        padding-left: 12px;
         gap: 10px;
         border-radius: 14px;
     }
@@ -1212,13 +1247,19 @@ body:has(.inicio-mapa) .page-main {
     }
 
     .inicio-biblioteca a {
-        padding: 7px 0;
+        padding-top: 4.7946%;
+        padding-right: 0;
+        padding-bottom: 4.7946%;
+        padding-left: 0;
     }
 
     .inicio-racha {
         top: 14px;
-        left: calc(3.2% + 178px);
+        left: 3.2%;
+        margin-left: 178px;
         width: 60px;
+        min-width: 0;
+        max-width: none;
         border-radius: 14px;
     }
 
@@ -1251,7 +1292,10 @@ body:has(.inicio-mapa) .page-main {
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     justify-content: space-between;
-    padding: 0 4%;
+    padding-top: 0;
+    padding-right: 4%;
+    padding-bottom: 0;
+    padding-left: 4%;
     box-sizing: border-box;
     position: relative;
     z-index: 5;
@@ -1278,11 +1322,55 @@ body:has(.inicio-mapa) .page-main {
     background: #FFE500;
     color: black;
     text-align: center;
-    padding: 11px 32px;
+    padding-top: 11px;
+    padding-right: 32px;
+    padding-bottom: 11px;
+    padding-left: 32px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     display: inline-block;
+}
+
+/* Los dos headers son un navbar de Bootstrap con nav y nav-link: se sacan el salto de línea
+   y el tamaño y los márgenes del logo que agrega Bootstrap, y se devuelve lo que heredaban */
+.encabezado.navbar,
+.mapa-header.navbar {
+    flex-wrap: nowrap;
+}
+
+/* el menú del juego es un navbar-nav de Bootstrap (no .nav: el CSS del template usa .nav para el
+   menú de la landing): se sacan la columna y la lista sin viñetas que trae.
+   (el menú de la landing ya tenía la clase nav desde antes: ese queda como estaba) */
+.mapa-nav.navbar-nav {
+    flex-direction: row;
+    list-style-type: disc;
+}
+
+/* (el header viejo del template, _Layout.cshtml.css, también le da estilos a a.navbar-brand:
+   por eso estos selectores tienen que ser más específicos) */
+header.encabezado a.navbar-brand,
+header.mapa-header a.navbar-brand {
+    margin-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: inherit;
+    text-align: inherit;
+    word-break: inherit;
+}
+
+header.mapa-header a.navbar-brand {
+    text-decoration: underline;
+}
+
+/* al pasar el mouse el logo mantiene el color de los links del layout */
+.mapa-header.navbar {
+    --bs-navbar-brand-hover-color: #0077cc;
+}
+
+.encabezado .nav-link,
+.mapa-nav .nav-link {
+    background-position: 0% 0%;
 }
 
 .mapa-perfil {
@@ -1312,7 +1400,14 @@ body:has(.inicio-mapa) .page-main {
     justify-items: center;
 }
 
-.biblioteca-grid .teoria {
+/* cada teoría es una card de Bootstrap con el estilo de RIK
+   (Bootstrap le agrega borde, flex en columna, position: relative y corte de palabras largas) */
+.biblioteca-grid .card {
+    position: static;
+    display: block;
+    flex-direction: row;
+    border: 0;
+    overflow-wrap: normal;
     width: 210px;
     height: 255px;
     background-color: #064D2B;
@@ -1323,18 +1418,22 @@ body:has(.inicio-mapa) .page-main {
     transition: transform 0.2s ease;
 }
 
-.biblioteca-grid .teoria img {
+.biblioteca-grid .card-img-top {
+    display: inline;
+    border-radius: 0;
     width: 100%;
     height: 155px;
     object-fit: cover;
 }
 
-.biblioteca-grid .teoria h2,
-.biblioteca-grid .teoria h3 {
+.biblioteca-grid .card-title {
     font-size: 20px;
     font-weight: normal;
     line-height: 1.4;
-    padding: 12px 14px;
+    padding-top: 12px;
+    padding-right: 14px;
+    padding-bottom: 12px;
+    padding-left: 14px;
     margin: 0;
 }
 
@@ -1343,7 +1442,19 @@ body:has(.inicio-mapa) .page-main {
     color: white;
 }
 
-.biblioteca-grid a:hover .teoria {
+/* "TEORÍAS NO ENCONTRADAS": alert de Bootstrap sin el borde, el relleno ni el margen que trae */
+.biblioteca-grid > .alert {
+    position: static;
+    margin-bottom: .5rem;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.biblioteca-grid a:hover .card {
     transform: scale(1.05);
 }
 
@@ -1353,28 +1464,19 @@ body:has(.inicio-mapa) .page-main {
    (la barra, las vidas y el botón amarillo también los usan Nivel y Resultado)
    ============================================================ */
 
-body:has(.charla) {
+/* Pantallas del juego (teoría, nivel y resultado): la view le pone la clase al body.
+   Ocupan todo el alto debajo del header, así el botón queda abajo de todo. */
+.pagina-juego {
     background: #ffffff;
     color: #000000;
     font-family: "Poppins", Arial, sans-serif;
-}
-
-/* Pantallas que ocupan todo el alto debajo del header (teoría, nivel y resultado),
-   así el botón queda abajo de todo. */
-body:has(.charla-teoria),
-body:has(.nivel),
-body:has(.fin) {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-body:has(.charla-teoria) .page-shell,
-body:has(.charla-teoria) .page-main,
-body:has(.nivel) .page-shell,
-body:has(.nivel) .page-main,
-body:has(.fin) .page-shell,
-body:has(.fin) .page-main {
+.pagina-juego .page-shell,
+.pagina-juego .page-main {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -1384,7 +1486,10 @@ body:has(.fin) .page-main {
 .charla {
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
-    padding: 28px 0 40px;
+    padding-top: 28px;
+    padding-right: 0;
+    padding-bottom: 40px;
+    padding-left: 0;
 }
 
 /* Teoría: el tema arriba, la charla centrada en el espacio libre y el botón abajo.
@@ -1408,7 +1513,10 @@ body:has(.fin) .page-main {
     gap: 22px;
 }
 
-.charla-barra {
+/* barra de progreso: progress de Bootstrap con los colores de RIK */
+.charla-estado .progress {
+    display: block;
+    font-size: inherit;
     flex: 1;
     height: 26px;
     border-radius: 13px;
@@ -1416,7 +1524,14 @@ body:has(.fin) .page-main {
     overflow: hidden;
 }
 
-.charla-barra-relleno {
+.charla-estado .progress-bar {
+    display: block;
+    flex-direction: row;
+    justify-content: normal;
+    overflow: visible;
+    color: inherit;
+    text-align: inherit;
+    white-space: inherit;
     height: 100%;
     border-radius: 13px;
     background: #0A4D28;
@@ -1485,7 +1600,10 @@ body:has(.fin) .page-main {
 .charla-globo {
     margin: 0;
     max-width: 72%;
-    padding: 14px 24px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
     border-radius: 22px;
     background: #D9D9D9;
     color: #000000;
@@ -1534,15 +1652,19 @@ body:has(.fin) .page-main {
     bottom: 0;
     z-index: 1;
     margin-top: 10px;
-    padding: 16px 0 24px;
+    padding-top: 16px;
+    padding-right: 0;
+    padding-bottom: 24px;
+    padding-left: 0;
     background: #ffffff;
 }
 
-.charla-boton {
+.juego-boton {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: min(100%, 978px);
+    width: 100%;
+    max-width: 978px;
     height: 84px;
     border: none;
     border-radius: 20px;
@@ -1555,17 +1677,17 @@ body:has(.fin) .page-main {
     cursor: pointer;
 }
 
-.charla-boton:hover {
+.juego-boton:hover {
     background: #FFE033;
     color: #000000;
 }
 
-.charla-boton:disabled {
+.juego-boton:disabled {
     opacity: 0.55;
     cursor: default;
 }
 
-.charla-boton:disabled:hover {
+.juego-boton:disabled:hover {
     background: #FFD700;
 }
 
@@ -1588,10 +1710,13 @@ body:has(.fin) .page-main {
     .charla-globo {
         max-width: none;
         font-size: 14px;
-        padding: 10px 16px;
+        padding-top: 10px;
+        padding-right: 16px;
+        padding-bottom: 10px;
+        padding-left: 16px;
     }
 
-    .charla-boton {
+    .juego-boton {
         height: 60px;
         font-size: 26px;
     }
@@ -1612,7 +1737,10 @@ body:has(.fin) .page-main {
     line-height: 1;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    padding: 8px 14px;
+    padding-top: 8px;
+    padding-right: 14px;
+    padding-bottom: 8px;
+    padding-left: 14px;
     border-radius: 10px;
     background: #0A4D28;
     color: #ffffff;
@@ -1636,7 +1764,8 @@ body:has(.fin) .page-main {
 /* La pregunta es lo más importante de la pantalla: más grande y en negrita.
    Centrada y con el mismo ancho que las opciones (.nivel-opciones). */
 .nivel-enunciado {
-    width: min(100%, 940px);
+    width: 100%;
+    max-width: 940px;
     margin: 26px auto 70px;
     text-align: center;
     font-size: 36px;
@@ -1649,13 +1778,18 @@ body:has(.fin) .page-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px 80px;
-    width: min(100%, 940px);
+    width: 100%;
+    max-width: 940px;
     margin: 0 auto;
 }
 
 .nivel-opcion {
     min-height: 120px;
-    padding: 12px 20px;                 /* 16px 24px menos los 4px del borde */
+    /* 16px 24px menos los 4px del borde */
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
     border: 4px solid transparent;      /* el borde de color aparece al elegir */
     border-radius: 8px;
     background: #D9D9D9;
@@ -1694,7 +1828,14 @@ body:has(.fin) .page-main {
     cursor: default;
 }
 
+/* resultado de cada respuesta: alert de Bootstrap sin el borde ni el relleno que trae */
 .nivel-resultado {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
     min-height: 28px;
     margin: 18px 0 0;
     text-align: center;
@@ -1738,12 +1879,6 @@ body:has(.fin) .page-main {
    Ocupa todo el alto debajo del header (ver "Pantallas que ocupan todo el alto" en la sección 9).
    ============================================================ */
 
-body:has(.fin) {
-    background: #ffffff;
-    color: #000000;
-    font-family: "Poppins", Arial, sans-serif;
-}
-
 .fin {
     flex: 1;
     display: flex;
@@ -1751,14 +1886,20 @@ body:has(.fin) {
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
     /* Arriba deja más aire, así el cartel queda un poco más abajo del header. */
-    padding: clamp(28px, 10vh, 100px) 0 24px;
+    padding-top: clamp(28px, 10vh, 100px);
+    padding-right: 0;
+    padding-bottom: 24px;
+    padding-left: 0;
 }
 
 .fin-mensaje {
     align-self: flex-start;
     max-width: 100%;
     margin: 0;
-    padding: 22px 26px;
+    padding-top: 22px;
+    padding-right: 26px;
+    padding-bottom: 22px;
+    padding-left: 26px;
     border-radius: 8px;
     background: #0A7A3E;
     color: #000000;
@@ -1781,7 +1922,9 @@ body:has(.fin) {
 
 .fin-mascota {
     flex: none;
-    width: clamp(220px, 34%, 400px);
+    width: 34%;
+    min-width: 220px;
+    max-width: 400px;
     height: auto;
     /* Se apoya sobre el botón, como en el diseño. */
     margin-bottom: -14px;
@@ -1805,6 +1948,13 @@ body:has(.fin) {
     gap: 6px;
 }
 
+/* Los datos (XP, tiempo, aciertos) son un list-group de Bootstrap: se sacan las esquinas, el borde,
+   el relleno, el fondo blanco, el color y el position: relative que Bootstrap pone en cada ítem */
+.fin-datos.list-group {
+    flex-direction: row;
+    border-radius: 0;
+}
+
 .fin-dato-xp {
     grid-column: 1 / -1;
 }
@@ -1822,7 +1972,10 @@ body:has(.fin) {
 
 .fin-valor {
     min-width: 150px;
-    padding: 6px 16px;
+    padding-top: 6px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-left: 16px;
     border: 3px solid #FFD700;
     border-radius: 8px;
     background: #D9D9D9;
@@ -1868,6 +2021,8 @@ body:has(.fin) {
 
     .fin-mascota {
         width: 200px;
+        min-width: 0;
+        max-width: none;
         margin-bottom: 0;
     }
 
@@ -1889,7 +2044,10 @@ body:has(.fin) {
 
     .fin-mensaje {
         font-size: 17px;
-        padding: 14px 18px;
+        padding-top: 14px;
+        padding-right: 18px;
+        padding-bottom: 14px;
+        padding-left: 18px;
     }
 }
 
@@ -1902,20 +2060,85 @@ body:has(.fin) {
 .boton-link {
     background: none;
     border: none;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     font: inherit;
     text-decoration: underline;
     cursor: pointer;
 }
+
+/* Link "Volver" con flecha (Unirse, Solicitudes, Perfil, Crear liga y Teoría y moraleja) */
+.link-volver {
+    color: #3F6B50;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.link-volver::before {
+    content: "\2190  ";
+}
+
+.link-volver:hover {
+    color: #064D2B;
+    text-decoration: underline;
+}
+
+/* Caja blanca con borde redondeado (listas de Perfil y "Cambiar contraseña" en Mis datos) */
+.caja-blanca {
+    overflow: hidden;
+    border: 1px solid #DCE8DF;
+    border-radius: 18px;
+    background: #fff;
+}
+
+/* El "Volver" de Ajustes, Mis datos y Cambiar contraseña pasa arriba del título */
+.volver-arriba {
+    order: -1;
+    margin-bottom: -8px;
+}
+
+/* Ítems de list-group de Bootstrap sin el relleno, el borde, el fondo, el color ni el
+   position: relative que trae cada ítem (listas de Perfil y datos del Resultado) */
+.list-group-item.item-simple {
+    position: static;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+}
+
+/* Cards de Bootstrap sin el flex en columna, el position: relative, el color ni el corte
+   de palabras largas ("Invitá a tus amigos" y las cajas de búsqueda de Unirse) */
+.card.card-plana {
+    position: static;
+    display: block;
+    flex-direction: row;
+    min-width: auto;
+    color: inherit;
+    overflow-wrap: normal;
+}
+
+/* input-group de Bootstrap con el campo y el botón separados (link de invitación y buscadores) */
+.input-group.grupo-separado {
+    position: static;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: normal;
+    gap: 8px;
+}
 /* ============================================================
    14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
-   Todo se engancha a la estructura que ya genera la vista
-   (h1, h2, .lista-ligas, los rankings y el form),
-   sin clases nuevas. El scope es ".page-main:has(> .lista-ligas)",
-   que solo existe en esta vista.
+   La view le pone .pagina-liga al <main> del layout.
    ============================================================ */
 
-body:has(.lista-ligas) {
+/* fondo con degradado (Liga, Crear liga y Teoría y moraleja): la view le pone la clase al body */
+.fondo-degradado {
     color: #173D20;
     background:
         radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
@@ -1924,7 +2147,7 @@ body:has(.lista-ligas) {
     background-attachment: fixed;
 }
 
-.page-main:has(> .lista-ligas) {
+.pagina-liga {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
@@ -1943,18 +2166,17 @@ body:has(.lista-ligas) {
     column-gap: clamp(24px, 5vw, 64px);
     max-width: 1120px;
     margin: 0 auto;
-    padding: 40px 24px;
+    padding-top: 40px;
+    padding-right: 24px;
+    padding-left: 24px;
     /* bootstrap .pb-3 usa !important: hace falta para dejar lugar al botón flotante */
     padding-bottom: 140px !important;
 }
 
-.page-main:has(> .lista-ligas) > hr {
-    display: none;
-}
 
 /* ---------- Encabezado ---------- */
 
-.page-main:has(> .lista-ligas) > h1 {
+.pagina-liga .liga-titulo {
     grid-area: titulo;
     margin: 0 0 32px;
     padding-bottom: 18px;
@@ -1968,20 +2190,20 @@ body:has(.lista-ligas) {
 
 /* ---------- Títulos de sección ---------- */
 
-.page-main:has(> .lista-ligas) > h2 {
+.pagina-liga .liga-subtitulo {
     margin: 0 0 16px;
     font-size: clamp(1.35rem, 2.4vw, 1.75rem);
     font-weight: 600;
     color: #111;
 }
 
-.page-main:has(> .lista-ligas) > h2:nth-of-type(1) { grid-area: hmis; }
-.page-main:has(> .lista-ligas) > h2:nth-of-type(2) { grid-area: hglobal; }
-.page-main:has(> .lista-ligas) > h2:nth-of-type(3) { grid-area: hliga; }
+.pagina-liga .liga-subtitulo-mis { grid-area: hmis; }
+.pagina-liga .liga-subtitulo-global { grid-area: hglobal; }
+.pagina-liga .liga-subtitulo-amigos { grid-area: hliga; }
 
-/* etiqueta chica arriba del título: texto con una barrita al costado (sin pill) */
-.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before,
-.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before {
+/* etiqueta chica arriba del título: texto con una barrita al costado (sin pill).
+   La usan Liga (Index) y Teoría y moraleja. */
+.etiqueta-seccion {
     display: block;
     margin-bottom: 6px;
     padding-left: 10px;
@@ -1993,26 +2215,38 @@ body:has(.lista-ligas) {
     letter-spacing: .1em;
 }
 
-.page-main:has(> .lista-ligas) > h2:nth-of-type(2)::before { content: "TODOS LOS JUGADORES"; }
-.page-main:has(> .lista-ligas) > h2:nth-of-type(3)::before { content: "ENTRE AMIGOS"; }
-
 /* ---------- Mis ligas (chips) ---------- */
 
-.page-main > .lista-ligas {
+.pagina-liga .lista-ligas {
     grid-area: mis;
     display: flex;
     align-items: center;
     gap: 14px;
     margin-bottom: 44px;
-    padding: 4px 4px 12px;
-    overflow-x: auto;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 12px;
+    padding-left: 4px;
+    overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: #B6E9C6 transparent;
 }
 
-.page-main > .lista-ligas:not(:has(.liga))::before {
-    content: "Todav\ED a no est\E1 s en ninguna liga. Cre\E1  una con el bot\F3 n + o sumate a la de un amigo.";
-    padding: 14px 18px;
+/* "Mis ligas" es un nav-pills de Bootstrap: se saca el salto de línea (las ligas siguen en una sola
+   fila con scroll) */
+.lista-ligas.nav {
+    flex-wrap: nowrap;
+    list-style-type: disc;
+}
+
+/* aviso de "sin ligas": alert de Bootstrap con el estilo de RIK */
+.lista-ligas-vacia {
+    position: static;
+    margin: 0;
+    padding-top: 14px;
+    padding-right: 18px;
+    padding-bottom: 14px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 16px;
     background: rgba(255, 255, 255, .7);
@@ -2027,7 +2261,10 @@ body:has(.lista-ligas) {
     align-items: center;
     gap: 16px;
     min-width: 220px;
-    padding: 12px 12px 12px 16px;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
     border: 1.5px solid #D6ECDD;
     border-radius: 18px;
     background: #fff;
@@ -2063,7 +2300,10 @@ body:has(.lista-ligas) {
 
 .lista-ligas .liga a {
     flex: 0 0 auto;
-    padding: 6px 12px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
     border-radius: 10px;
     background: #064D2B;
     color: #fff;
@@ -2097,32 +2337,30 @@ body:has(.lista-ligas) {
 
 /* Contenedores de los rankings (Views/Liga/Index.cshtml): cada contenedor
    se ubica en su zona de la grilla. */
-.page-main:has(> .lista-ligas) > .ranking-global {
+.pagina-liga .ranking-global {
     grid-area: tglobal;
     align-self: start;
     min-width: 0;
 }
 
-.page-main:has(> .lista-ligas) > .ranking-liga {
+.pagina-liga .ranking-liga {
     grid-area: tliga;
     align-self: start;
     min-width: 0;
 }
 
-/* el ranking mide 484px (.ranking-tabla): que no se salga en pantallas chicas */
-.ranking-global > div,
-.ranking-liga > div {
-    max-width: 100%;
-}
-
 /* sin ligas o sin datos: se muestra el <p> con el mensaje en lugar del ranking */
-.page-main:has(> .lista-ligas) .ranking-global > p,
-.page-main:has(> .lista-ligas) .ranking-liga > p {
+.pagina-liga .ranking-vacio {
+    position: static;
     display: grid;
-    place-items: center;
+    align-items: center;
+    justify-items: center;
     min-height: 200px;
     margin: 0;
-    padding: 28px;
+    padding-top: 28px;
+    padding-right: 28px;
+    padding-bottom: 28px;
+    padding-left: 28px;
     border: 2px dashed #9CCFB0;
     border-radius: 30px;
     background: rgba(255, 255, 255, .75);
@@ -2140,9 +2378,14 @@ body:has(.lista-ligas) {
    bronce (3°) y resto (4° en adelante).
    ============================================================ */
 
+/* mide 484px, pero sin salirse en pantallas chicas */
 .ranking-tabla {
     width: 484px;
-    padding: 28px;
+    max-width: 100%;
+    padding-top: 28px;
+    padding-right: 28px;
+    padding-bottom: 28px;
+    padding-left: 28px;
     position: relative;
     background: #0A4D28;
     border-radius: 40px;
@@ -2154,6 +2397,19 @@ body:has(.lista-ligas) {
     gap: 14px;
     display: inline-flex;
     font-family: 'Baloo 2', sans-serif;
+}
+
+/* El ranking es un list-group de Bootstrap: a cada fila se le sacan el borde gris, el color
+   y las esquinas que Bootstrap pone en la primera y la última (todas siguen siendo una píldora) */
+.ranking-tabla > .list-group-item {
+    border: 0;
+    border-radius: 9999px;
+    color: inherit;
+}
+
+/* del 4° puesto en adelante las filas no llevan position: relative */
+.ranking-tabla > .ranking-fila-resto.list-group-item {
+    position: static;
 }
 
 /* partes que son iguales en todas las filas */
@@ -2175,7 +2431,10 @@ body:has(.lista-ligas) {
 /* 1° puesto */
 .ranking-fila-oro {
     align-self: stretch;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     position: relative;
     background: linear-gradient(90deg, #FFE566 0%, #FFD700 50%, #F5C300 100%);
     border-radius: 9999px;
@@ -2227,11 +2486,25 @@ body:has(.lista-ligas) {
     color: #0A4D28;
     font-size: 12px;
     font-weight: 800;
-    text-transform: uppercase;
     letter-spacing: 0.60px;
 }
+/* los puntos de cada fila son un badge de Bootstrap: se le sacan el tamaño, el color,
+   la alineación y el display que trae (los colores de cada puesto están más abajo) */
+.ranking-puntos.badge {
+    display: block;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    white-space: inherit;
+}
+
 .ranking-fila-oro .ranking-puntos {
-    padding: 4px 20px;
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 20px;
     background: #0A4D28;
     border-radius: 9999px;
     outline: 1px rgba(255, 255, 255, 0.20) solid;
@@ -2247,7 +2520,10 @@ body:has(.lista-ligas) {
 /* 2° puesto */
 .ranking-fila-plata {
     align-self: stretch;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     position: relative;
     background: #F1F5F9;
     border-radius: 9999px;
@@ -2287,7 +2563,8 @@ body:has(.lista-ligas) {
     background: #E2E8F0;
     border-radius: 2px;
 }
-.ranking-fila-plata .ranking-nombre {
+/* el nombre y los puntos son iguales en plata y bronce */
+.ranking-fila-medalla .ranking-nombre {
     color: #0C0A09;
     font-size: 24px;
     font-weight: 700;
@@ -2299,13 +2576,16 @@ body:has(.lista-ligas) {
     font-weight: 700;
 }
 .ranking-fila-plata .ranking-puntos {
-    padding: 4px 20px;
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 20px;
     background: white;
     border-radius: 9999px;
     outline: 1px #E2E8F0 solid;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
-.ranking-fila-plata .ranking-puntos-texto {
+.ranking-fila-medalla .ranking-puntos-texto {
     color: #1C1917;
     font-size: 18px;
     font-weight: 800;
@@ -2315,7 +2595,10 @@ body:has(.lista-ligas) {
 /* 3° puesto */
 .ranking-fila-bronce {
     align-self: stretch;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     position: relative;
     background: #FFE9D6;
     border-radius: 9999px;
@@ -2367,23 +2650,22 @@ body:has(.lista-ligas) {
     font-weight: 700;
 }
 .ranking-fila-bronce .ranking-puntos {
-    padding: 4px 20px;
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 20px;
     background: white;
     border-radius: 9999px;
     outline: 1px #F4CAA5 solid;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
-.ranking-fila-bronce .ranking-puntos-texto {
-    color: #1C1917;
-    font-size: 18px;
-    font-weight: 800;
-    line-height: 28px;
-}
-
 /* del 4° puesto en adelante */
 .ranking-fila-resto {
     align-self: stretch;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     background: rgba(255, 255, 255, 0.10);
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 9999px;
@@ -2430,7 +2712,10 @@ body:has(.lista-ligas) {
     line-height: 32px;
 }
 .ranking-fila-resto .ranking-puntos {
-    padding: 4px 20px;
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 20px;
     background: rgba(255, 255, 255, 0.20);
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 9999px;
@@ -2455,7 +2740,10 @@ body:has(.lista-ligas) {
     width: 1px;
     height: 1px;
     margin: -1px;
-    padding: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
@@ -2464,52 +2752,22 @@ body:has(.lista-ligas) {
 
 /* ---------- Abandonar / Eliminar liga ---------- */
 
-.page-main:has(> .lista-ligas) > form {
+.pagina-liga .liga-accion {
     grid-area: accion;
     justify-self: end;
     margin-top: 18px;
 }
 
-.page-main:has(> .lista-ligas) > form button {
-    padding: 9px 18px;
-    border: 1.5px solid #9CCFB0;
-    border-radius: 12px;
-    background: #fff;
-    color: #064D2B;
-    font: inherit;
-    font-size: .85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s ease, color .2s ease, border-color .2s ease;
-}
-
-.page-main:has(> .lista-ligas) > form button:hover {
-    border-color: #064D2B;
-    background: #064D2B;
-    color: #fff;
-}
-
-.page-main:has(> .lista-ligas) > form[action$="/Eliminar"] button {
-    border-color: #F1B5AE;
-    color: #B42318;
-}
-
-.page-main:has(> .lista-ligas) > form[action$="/Eliminar"] button:hover {
-    border-color: #B42318;
-    background: #B42318;
-    color: #fff;
-}
-
 /* ---------- Botón flotante "Crear liga" ---------- */
 
-.page-main:has(> .lista-ligas) > div:first-of-type {
+.pagina-liga .liga-crear {
     position: fixed;
     right: clamp(16px, 3vw, 36px);
     bottom: clamp(16px, 3vw, 32px);
     z-index: 20;
 }
 
-.page-main:has(> .lista-ligas) > div:first-of-type a {
+.pagina-liga .crearliga-boton {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2521,10 +2779,11 @@ body:has(.lista-ligas) {
     text-shadow: 0 0 6px #fff, 0 0 2px #fff;
 }
 
-.page-main:has(> .lista-ligas) > div:first-of-type a::before {
+.pagina-liga .crearliga-boton::before {
     content: "+";
     display: grid;
-    place-items: center;
+    align-items: center;
+    justify-items: center;
     width: 62px;
     height: 62px;
     border-radius: 50%;
@@ -2538,22 +2797,16 @@ body:has(.lista-ligas) {
     transition: transform .2s ease, background .2s ease, color .2s ease;
 }
 
-.page-main:has(> .lista-ligas) > div:first-of-type a:hover::before {
+.pagina-liga .crearliga-boton:hover::before {
     transform: scale(1.08) rotate(90deg);
     background: #FFE500;
     color: #064D2B;
 }
 
-.page-main:has(> .lista-ligas) a:focus-visible,
-.page-main:has(> .lista-ligas) button:focus-visible {
-    outline: 3px solid #FFE500;
-    outline-offset: 3px;
-}
-
 /* ---------- Responsive ---------- */
 
 @media (max-width: 860px) {
-    .page-main:has(> .lista-ligas) {
+    .pagina-liga {
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas:
             "titulo"
@@ -2567,7 +2820,10 @@ body:has(.lista-ligas) {
             "compartir"
             "accion";
         grid-template-rows: none;
-        padding: 28px 16px;
+        padding-top: 28px;
+        padding-right: 16px;
+        padding-bottom: 28px;
+        padding-left: 16px;
     }
 }
 
@@ -2579,10 +2835,15 @@ body:has(.lista-ligas) {
 /* ---------- Index: aviso, "Unirse a una liga" y compartir ----------
    (antes estaban repetidas en la sección 14; quedaron juntas acá con el mismo resultado) */
 
-.page-main:has(> .lista-ligas) > .liga-aviso {
+/* aviso: alert de Bootstrap con los colores de RIK */
+.pagina-liga .liga-aviso {
+    position: static;
     grid-area: aviso;
     margin: 0 0 24px;
-    padding: 12px 16px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
     border: 1.5px solid #B6E9C6;
     font-weight: 600;
     border-left: 4px solid #078B58;
@@ -2596,7 +2857,10 @@ body:has(.lista-ligas) {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    padding: 12px 18px;
+    padding-top: 12px;
+    padding-right: 18px;
+    padding-bottom: 12px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 18px;
     background: rgba(255, 255, 255, .7);
@@ -2613,17 +2877,22 @@ body:has(.lista-ligas) {
     background: #fff;
 }
 
-.page-main:has(> .lista-ligas) > .liga-compartir {
+.pagina-liga .liga-compartir {
     grid-area: compartir;
     align-self: start;
     box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
     margin-top: 18px;
-    padding: 18px 20px;
+    padding-top: 18px;
+    padding-right: 20px;
+    padding-bottom: 18px;
+    padding-left: 20px;
     border: 1px solid #DCE8DF;
     border-radius: 18px;
     background: #fff;
 }
 
+/* "Invitá a tus amigos" es una card de Bootstrap: se sacan el flex en columna, el position: relative,
+   el color y el corte de palabras largas que agrega .card */
 .liga-compartir h3 {
     margin: 0 0 2px;
     color: #064D2B;
@@ -2637,15 +2906,14 @@ body:has(.lista-ligas) {
     font-size: .85rem;
 }
 
-.liga-compartir-link {
-    display: flex;
-    gap: 8px;
-}
-
-.liga-compartir-link input {
+/* link de invitación: input-group de Bootstrap, pero con el campo y el botón separados como en RIK */
+.liga-compartir .input-group .form-control {
     flex: 1;
     min-width: 0;
-    padding: 9px 12px;
+    padding-top: 9px;
+    padding-right: 12px;
+    padding-bottom: 9px;
+    padding-left: 12px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #F6F9F5;
@@ -2654,24 +2922,13 @@ body:has(.lista-ligas) {
     font-size: .82rem;
 }
 
-.liga-compartir-link button {
-    flex: 0 0 auto;
-    padding: 9px 16px;
-    border: 0;
-    border-radius: 10px;
-    background: #064D2B;
-    color: #fff;
-    font: inherit;
-    font-size: .85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s ease, color .2s ease;
+.liga-compartir .input-group .form-control:focus {
+    color: #173D20;
+    background: #F6F9F5;
+    border-color: #C9DCCF;
+    box-shadow: none;
 }
 
-.liga-compartir-link button:hover {
-    background: #0B6B3D;
-    color: #fff;
-}
 
 .liga-compartir-estado {
     display: block;
@@ -2692,24 +2949,31 @@ body:has(.lista-ligas) {
     font-weight: 600;
 }
 
-.liga-solicitudes-cantidad {
+/* cantidad de solicitudes: badge de Bootstrap con los colores de RIK */
+.liga-solicitudes .badge {
     text-align: center;
     display: inline-grid;
-    place-items: center;
+    align-items: center;
+    justify-items: center;
     min-width: 22px;
     height: 22px;
-    padding: 0 6px;
+    padding-top: 0;
+    padding-right: 6px;
+    padding-bottom: 0;
+    padding-left: 6px;
     border-radius: 11px;
     background: #FFE500;
     color: #173D20;
     font-size: .75rem;
     font-weight: 700;
+    line-height: inherit;
+    white-space: inherit;
     text-decoration: none;
 }
 
 /* ---------- Páginas "Unirse a una liga" y "Solicitudes" ---------- */
 
-body:has(.unirse-liga) {
+.pagina-unirse {
     background: #F6F9F5;
     color: #173D20;
 }
@@ -2717,20 +2981,15 @@ body:has(.unirse-liga) {
 .unirse-liga {
     max-width: 860px;
     margin: 0 auto;
-    padding: 32px 24px 64px;
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 64px;
+    padding-left: 24px;
 }
 
 .unirse-volver {
     display: inline-block;
     margin-bottom: 18px;
-    color: #3F6B50;
-    font-size: .9rem;
-    text-decoration: none;
-}
-
-.unirse-volver:hover {
-    color: #064D2B;
-    text-decoration: underline;
 }
 
 .unirse-liga h1 {
@@ -2746,9 +3005,15 @@ body:has(.unirse-liga) {
     font-size: .95rem;
 }
 
-.unirse-aviso {
+/* avisos: alert de Bootstrap con los colores de RIK */
+.unirse-liga .unirse-aviso {
+    position: static;
     margin: 0 0 20px;
-    padding: 12px 16px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    border: 0;
     border-left: 4px solid #078B58;
     border-radius: 8px;
     background: #E6F4EC;
@@ -2756,7 +3021,7 @@ body:has(.unirse-liga) {
     font-size: .92rem;
 }
 
-.unirse-aviso-error {
+.unirse-liga .unirse-aviso-error {
     border-left-color: #B42318;
     background: #FDECEA;
     color: #7A1A12;
@@ -2770,12 +3035,17 @@ body:has(.unirse-liga) {
 }
 
 .unirse-caja {
-    padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
     border: 1px solid #DCE8DF;
     border-radius: 18px;
     background: #fff;
 }
 
+/* las dos cajas de búsqueda son cards de Bootstrap: se sacan el flex en columna, el position: relative,
+   el color y el corte de palabras largas que agrega .card */
 .unirse-caja h2 {
     margin: 0 0 2px;
     color: #111;
@@ -2789,16 +3059,15 @@ body:has(.unirse-liga) {
     font-size: .85rem;
 }
 
-.unirse-campo {
-    display: flex;
-    gap: 8px;
-}
-
-.unirse-campo input,
+/* buscadores: input-group de Bootstrap, pero con el campo y el botón separados como en RIK */
+.unirse-caja .input-group .form-control,
 .unirse-form-accion input {
     flex: 1;
     min-width: 0;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #fff;
@@ -2807,16 +3076,59 @@ body:has(.unirse-liga) {
     font-size: .9rem;
 }
 
-.unirse-campo input:focus,
+.unirse-caja .input-group .form-control:focus,
 .unirse-form-accion input:focus {
+    color: #173D20;
+    background: #fff;
+    box-shadow: none;
     border-color: #078B58;
     outline: 2px solid rgba(7, 139, 88, .2);
 }
 
-.unirse-boton {
+/* Lo que Bootstrap cambia en .input-group y .form-control y RIK no usa:
+   pega el campo con el botón (margen de -1px y esquinas rectas), los pone en position: relative,
+   les saca la apariencia del navegador, les agrega una transición y cambia el color del placeholder. */
+.liga-compartir .input-group > .form-control,
+.liga-compartir .input-group > .liga-boton,
+.unirse-caja .input-group > .form-control,
+.unirse-caja .input-group > .liga-boton {
+    /* las reglas de .input-group de Bootstrap son muy específicas: hace falta !important */
+    margin-left: 0 !important;
+    border-radius: 10px !important;
+}
+
+.liga-compartir .input-group .form-control,
+.unirse-caja .input-group .form-control,
+.unirse-form-accion .form-control {
+    position: static;
+    appearance: auto;
+    transition: initial;
+}
+
+/* la contraseña de cada liga privada no ocupa todo el ancho como el form-control de Bootstrap */
+.unirse-form-accion .form-control {
+    width: auto;
+}
+
+.unirse-caja .input-group .campo-busqueda {
+    appearance: textfield;
+}
+
+.liga-compartir .input-group .form-control::placeholder,
+.unirse-caja .input-group .form-control::placeholder,
+.unirse-form-accion .form-control::placeholder {
+    color: revert;
+}
+
+/* Botones de Liga, Unirse y Solicitudes: verde ("Copiar link", "Buscar", "Unirse", "Aceptar"...).
+   .secundario-boton lo hace blanco ("Ya sos parte", "Abandonar liga") y .peligro-boton, rojo. */
+.liga-boton {
     flex: 0 0 auto;
     display: inline-block;
-    padding: 10px 18px;
+    padding-top: 10px;
+    padding-right: 18px;
+    padding-bottom: 10px;
+    padding-left: 18px;
     border: 1.5px solid #064D2B;
     border-radius: 10px;
     background: #064D2B;
@@ -2830,29 +3142,30 @@ body:has(.unirse-liga) {
     transition: background .2s ease, color .2s ease, border-color .2s ease;
 }
 
-.unirse-boton:hover {
+.liga-boton:hover {
     border-color: #0B6B3D;
     background: #0B6B3D;
     color: #fff;
 }
 
-.unirse-boton-secundario {
+.secundario-boton {
     background: #fff;
     color: #064D2B;
 }
 
-.unirse-boton-secundario:hover {
+.secundario-boton:hover {
     background: #E6F4EC;
     color: #064D2B;
 }
 
-.unirse-boton-peligro {
+/* Botón de peligro: "Eliminar liga" y "Vetar" (rojo, y relleno al pasar el mouse) */
+.peligro-boton {
     border-color: #F1B5AE;
     background: #fff;
     color: #B42318;
 }
 
-.unirse-boton-peligro:hover {
+.peligro-boton:hover {
     border-color: #B42318;
     background: #B42318;
     color: #fff;
@@ -2878,10 +3191,29 @@ body:has(.unirse-liga) {
     align-items: center;
     gap: 14px 16px;
     margin-bottom: 12px;
-    padding: 16px 18px;
+    padding-top: 16px;
+    padding-right: 18px;
+    padding-bottom: 16px;
+    padding-left: 18px;
     border: 1px solid #DCE8DF;
     border-radius: 16px;
     background: #fff;
+}
+
+/* Los resultados y las solicitudes son un list-group de Bootstrap, pero cada liga o pedido sigue
+   siendo una tarjeta separada: se sacan el flex en columna, el position: relative, el color,
+   y las esquinas y el borde de arriba que Bootstrap junta entre ítems */
+.unirse-resultados.list-group {
+    display: block;
+    flex-direction: row;
+    border-radius: 0;
+}
+
+.unirse-resultados .unirse-tarjeta.list-group-item {
+    position: static;
+    color: inherit;
+    border-top-width: 1px;
+    border-radius: 16px;
 }
 
 .unirse-tarjeta-info {
@@ -2903,10 +3235,17 @@ body:has(.unirse-liga) {
     font-size: .84rem;
 }
 
+/* etiqueta Pública / Privada: badge de Bootstrap con el estilo de RIK */
 .unirse-etiqueta {
+    line-height: inherit;
+    text-align: inherit;
+    white-space: inherit;
     grid-area: etiqueta;
     justify-self: end;
-    padding: 3px 10px;
+    padding-top: 3px;
+    padding-right: 10px;
+    padding-bottom: 3px;
+    padding-left: 10px;
     border-radius: 6px;
     background: #E6F4EC;
     color: #064D2B;
@@ -2946,8 +3285,13 @@ body:has(.unirse-liga) {
     font-style: italic;
 }
 
+/* "no hay resultados / solicitudes": alert de Bootstrap con el estilo de RIK */
 .unirse-vacio {
-    padding: 18px;
+    position: static;
+    padding-top: 18px;
+    padding-right: 18px;
+    padding-bottom: 18px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 16px;
     background: #fff;
@@ -2955,17 +3299,12 @@ body:has(.unirse-liga) {
     font-size: .9rem;
 }
 
-.unirse-liga a:focus-visible,
-.unirse-liga button:focus-visible,
-.liga-compartir button:focus-visible,
-.liga-unirse:focus-visible {
-    outline: 3px solid #FFC21A;
-    outline-offset: 2px;
-}
-
 @media (max-width: 700px) {
     .unirse-liga {
-        padding: 24px 16px 48px;
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 48px;
+        padding-left: 16px;
     }
 
     .unirse-formularios {
@@ -2980,45 +3319,40 @@ body:has(.unirse-liga) {
 
 /* ============================================================
    16. PERFIL (Index, Ajustes, ModificarMisDatos, CambiarContrasena)
-   Solo CSS, sin tocar las vistas. Las cuatro se renderizan dentro
-   del layout con un <main> sin clase: ese es el gancho.
-   Cada página se reconoce por lo que tiene adentro:
-     - Index:              el form de CerrarSesion
-     - Ajustes:            sin forms y con opciones sin link
-     - ModificarMisDatos:  el form de ModificarDatos
-     - CambiarContrasena:  el form de CambiarContrasena
+   Cada view le pone .pagina-perfil al body y .perfil a su <main>.
    ============================================================ */
 
-/* Las vistas traen <body class="mapa-body">, que bloquea el scroll: acá se libera */
-body.mapa-body:has(.page-main > main:not([class])) {
-    height: auto;
+.pagina-perfil {
     min-height: 100vh;
-    overflow: visible;
     background: #F6F9F5;
     color: #173D20;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
-.page-main > main:not([class]) {
+.perfil {
     display: flex;
     flex-direction: column;
     gap: 16px;
     max-width: 560px;
     margin: 0 auto;
-    padding: 36px 20px 64px;
+    padding-top: 36px;
+    padding-right: 20px;
+    padding-bottom: 64px;
+    padding-left: 20px;
 }
 
 /* ---------- Título de cada página ---------- */
 
-.page-main > main:not([class])::before {
-    margin-bottom: 6px;
+.perfil-titulo {
+    margin: 0 0 6px;
     color: #064D2B;
     font-size: clamp(1.6rem, 3vw, 2rem);
     font-weight: 700;
     line-height: 1.15;
 }
 
-.page-main > main:not([class]):has(form[action$="/CerrarSesion"])::before {
-    content: "Mi perfil";
+/* "Mi perfil" lleva el avatar a la izquierda */
+.perfil-titulo-avatar {
     display: flex;
     align-items: center;
     min-height: 64px;
@@ -3026,38 +3360,30 @@ body.mapa-body:has(.page-main > main:not([class])) {
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23064D2B'/%3E%3Ccircle cx='32' cy='25' r='10' fill='%23FFE500'/%3E%3Cpath d='M14 52c2.8-9 10-14 18-14s15.2 5 18 14' fill='%23FFE500'/%3E%3C/svg%3E") left center / 64px no-repeat;
 }
 
-.page-main > main:not([class]):not(:has(form)):has(a:not([href]))::before {
-    content: "Ajustes";
-}
-
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"])::before {
-    content: "Mis datos";
-}
-
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"])::before {
-    content: "Cambiar contrase\F1 a";
-}
-
 /* ---------- Listas de opciones (Index y Ajustes) ---------- */
 
-.page-main > main:not([class]) > section:not(:has(a[href$="/Perfil"])):not(:has(#registroForm)) {
-    overflow: hidden;
-    border: 1px solid #DCE8DF;
-    border-radius: 18px;
-    background: #fff;
+/* Las listas son list-group de Bootstrap. Bootstrap las arma en columna con flex, le pone a cada
+   ítem relleno, borde gris, fondo blanco, color y position: relative; RIK no usa nada de eso
+   (el borde y el fondo los tiene la lista entera, y el espacio lo da el link de adentro). */
+.perfil .list-group {
+    display: block;
+    flex-direction: row;
 }
 
-.page-main > main:not([class]) > section > div + div {
+.perfil .perfil-opcion + .perfil-opcion {
     border-top: 1px solid #EEF3EF;
 }
 
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"]),
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link {
+/* Opciones de Perfil y Ajustes (y "Cambiar contraseña" en Mis datos). Cerrar sesión tiene su color, en rojo */
+.perfil .opcion-boton {
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding: 14px 18px;
+    padding-top: 14px;
+    padding-right: 18px;
+    padding-bottom: 14px;
+    padding-left: 18px;
     border: 0;
     background: none;
     color: #173D20;
@@ -3069,19 +3395,16 @@ body.mapa-body:has(.page-main > main:not([class])) {
     transition: background .15s ease;
 }
 
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"]) strong,
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link strong {
+.perfil .opcion-boton strong {
     font-weight: 600;
 }
 
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a[href]:not([href$="/Perfil"]):hover,
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link:hover {
+.perfil .opcion-link:hover {
     background: #F3F8F4;
 }
 
 /* ícono de cada opción */
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href$="/Perfil"])::before,
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link::before {
+.perfil .opcion-boton::before {
     content: "";
     flex: 0 0 auto;
     width: 38px;
@@ -3094,7 +3417,7 @@ body.mapa-body:has(.page-main > main:not([class])) {
 }
 
 /* flecha a la derecha */
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a[href]:not([href$="/Perfil"])::after {
+.perfil .opcion-link::after {
     content: "\203A";
     margin-left: auto;
     color: #9DB3A5;
@@ -3103,130 +3426,100 @@ body.mapa-body:has(.page-main > main:not([class])) {
 }
 
 /* opciones que todavía no tienen pantalla (no tienen link) */
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href]) {
+.perfil .opcion-proximamente {
     cursor: default;
 }
 
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) > section > div > a:not([href])::after {
-    content: "Pr\F3 ximamente";
+/* "Próximamente": badge de Bootstrap con los colores de RIK */
+.perfil .proximamente {
     margin-left: auto;
-    padding: 3px 9px;
+    padding-top: 3px;
+    padding-right: 9px;
+    padding-bottom: 3px;
+    padding-left: 9px;
     border-radius: 6px;
     background: #F1F3F2;
     color: #6B7C72;
     font-size: .72rem;
     font-weight: 600;
+    line-height: inherit;
+    text-align: inherit;
+    white-space: inherit;
 }
 
 /* íconos de cada opción (se dibujan en el ::before) */
-.page-main > main:not([class]):not(:has(form[action$="/CambiarContrasena"])) a[href$="/Perfil/ModificarMisDatos"]::before {
+.perfil .icono-datos::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):has(form[action$="/CerrarSesion"]) > section > div:nth-child(2) > a::before {
+.perfil .icono-personalizar::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3 3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c-.6 1.6-2.1 2.6-4 2.6S8.6 4.6 8 3z'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]) a[href$="/Perfil/Ajustes"]::before {
+.perfil .icono-ajustes::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h9M19 7h1M4 17h3M13 17h7'/%3E%3Ccircle cx='16' cy='7' r='2.5'/%3E%3Ccircle cx='10' cy='17' r='2.5'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]) a[href$="/Perfil/CambiarContrasena"]::before {
+.perfil .icono-contrasena::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
 }
 
 /* Ajustes: Accesibilidad, Soporte, Idioma, Notificaciones */
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(1) > a:not([href])::before {
+.perfil .icono-accesibilidad::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='4.5' r='1.6'/%3E%3Cpath d='M5 8.5l7 1.5 7-1.5M12 10v4l-3 6M12 14l3 6'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(2) > a:not([href])::before {
+.perfil .icono-soporte::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.4'/%3E%3Ccircle cx='12' cy='17' r='.6' fill='%23064D2B'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(3) > a:not([href])::before {
+.perfil .icono-idioma::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]):not(:has(form)) > section > div:nth-child(4) > a:not([href])::before {
+.perfil .icono-notificaciones::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E");
 }
 
 /* ---------- Cerrar sesión ---------- */
 
-.page-main > main:not([class]) form[action$="/CerrarSesion"] {
+.perfil .cerrarsesion-form {
     margin: 0;
 }
 
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link {
+.perfil .cerrarsesion-boton {
     color: #B42318;
 }
 
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link::before {
+.perfil .cerrarsesion-boton::before {
     background-color: #FDECEA;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B42318' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 8l-4 4 4 4M6 12h10'/%3E%3C/svg%3E");
 }
 
-.page-main > main:not([class]) form[action$="/CerrarSesion"] .boton-link:hover {
+.perfil .cerrarsesion-boton:hover {
     background: #FEF5F4;
 }
 
-/* ---------- Link "Volver": arriba de todo, chiquito ---------- */
-
-/* Ajustes y Mis datos: la sección del Volver pasa arriba del título */
-.page-main > main:not([class]) > section:has(> div > a[href$="/Perfil"]) {
-    order: -1;
-    margin-bottom: -8px;
-}
+/* ---------- Link "Volver" ---------- */
 
 /* Mis datos y Cambiar contraseña: la sección se "abre" para poder reordenar lo de adentro */
-.page-main > main:not([class]):has(#registroForm) > section {
+.perfil .seccion-abierta {
     display: contents;
 }
 
-.page-main > main:not([class]):has(#registroForm) > section > div:has(> a[href$="/Perfil"]),
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) > section > div:has(> a[href$="/Perfil/ModificarMisDatos"]) {
-    order: -1;
-    margin-bottom: -8px;
-}
-
-.page-main > main:not([class]) a[href$="/Perfil"],
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"] {
-    color: #3F6B50;
-    font-size: .9rem;
-    text-decoration: none;
-}
-
-.page-main > main:not([class]) a[href$="/Perfil"] strong,
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"] strong {
+.perfil .link-volver strong {
     font-weight: 500;
-}
-
-.page-main > main:not([class]) a[href$="/Perfil"]::before,
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"]::before {
-    content: "\2190  ";
-}
-
-.page-main > main:not([class]) a[href$="/Perfil"]:hover,
-.page-main > main:not([class]):has(form[action$="/CambiarContrasena"]) a[href$="/Perfil/ModificarMisDatos"]:hover {
-    color: #064D2B;
-    text-decoration: underline;
-}
-
-/* Mis datos: "Cambiar contraseña" como una opción más, debajo del formulario */
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) > section > div:has(> a[href$="/Perfil/CambiarContrasena"]) {
-    overflow: hidden;
-    border: 1px solid #DCE8DF;
-    border-radius: 18px;
-    background: #fff;
 }
 
 /* ---------- Formularios (Mis datos y Cambiar contraseña) ---------- */
 
-.page-main > main:not([class]) #registroForm {
+.perfil #registroForm {
     width: auto;
     margin: 0;
-    padding: 24px;
+    padding-top: 4.6154%;
+    padding-right: 4.6154%;
+    padding-bottom: 4.6154%;
+    padding-left: 4.6154%;
     gap: 18px;
     border: 1px solid #DCE8DF;
     border-radius: 18px;
@@ -3234,13 +3527,15 @@ body.mapa-body:has(.page-main > main:not([class])) {
     box-shadow: 0 12px 26px -20px rgba(6, 77, 43, .5);
 }
 
-.page-main > main:not([class]) #registroForm div {
+.perfil #registroForm div {
     margin-bottom: 0;
 }
 
 /* Mis datos no tiene <label>: se muestran con CSS */
-.page-main > main:not([class]) #registroForm label,
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field::before {
+.perfil #registroForm label,
+.perfil .campo-nombre::before,
+.perfil .campo-email::before,
+.perfil .campo-usuario::before {
     display: block;
     margin-bottom: 6px;
     color: #173D20;
@@ -3248,14 +3543,23 @@ body.mapa-body:has(.page-main > main:not([class])) {
     font-weight: 600;
 }
 
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(1)::before { content: "Nombre"; }
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(2)::before { content: "Email"; }
-.page-main > main:not([class]):has(form[action$="/ModificarDatos"]) #registroForm .form-field:nth-of-type(3)::before { content: "Nombre de usuario"; }
+.perfil .campo-nombre::before { content: "Nombre"; }
+.perfil .campo-email::before { content: "Email"; }
+.perfil .campo-usuario::before { content: "Nombre de usuario"; }
 
-.page-main > main:not([class]) #registroForm input {
+/* campos: form-control de Bootstrap con el estilo de RIK
+   (Bootstrap les saca la apariencia del navegador y los pasa a block; acá vuelven a como estaban).
+   El selector es "input" y no ".form-control" porque registrarse.js le reemplaza la clase al campo
+   cuando valida (queda "input-error" o vacía), y el estilo tiene que seguir igual. */
+.perfil #registroForm input {
+    display: inline-block;
+    appearance: auto;
     width: 100%;
     height: 46px;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #fff;
@@ -3266,39 +3570,42 @@ body.mapa-body:has(.page-main > main:not([class])) {
     transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-.page-main > main:not([class]) #registroForm input::placeholder {
+.perfil #registroForm input::placeholder {
     color: #8FA398;
     font-size: .9rem;
 }
 
-.page-main > main:not([class]) #registroForm input:focus {
+.perfil #registroForm input:focus {
     border-color: #078B58;
     box-shadow: 0 0 0 3px rgba(7, 139, 88, .15);
 }
 
-.page-main > main:not([class]) #registroForm input.input-error {
+.perfil #registroForm input.input-error {
     border-color: #D9534F;
     outline: none;
     box-shadow: 0 0 0 3px rgba(217, 83, 79, .12);
 }
 
 /* mensajes de error del formulario */
-.page-main > main:not([class]) #registroForm .feedback {
+.perfil #registroForm .feedback {
     margin-top: 6px;
     color: #B42318;
     font-size: .8rem;
     text-align: left;
 }
 
-.page-main > main:not([class]) #registroForm > p.feedback {
+.perfil #registroForm > p.feedback {
     margin: 0;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border-left: 4px solid #B42318;
     border-radius: 8px;
     background: #FDECEA;
 }
 
-.page-main > main:not([class]) #registroForm .submit-button {
+.perfil #registroForm .submit-button {
     height: 48px;
     margin-top: 4px;
     border: 0;
@@ -3311,45 +3618,34 @@ body.mapa-body:has(.page-main > main:not([class])) {
     transition: background .15s ease;
 }
 
-.page-main > main:not([class]) #registroForm .submit-button:hover {
+.perfil #registroForm .submit-button:hover {
     background: #0B6B3D;
 }
 
-.page-main > main:not([class]) a:focus-visible,
-.page-main > main:not([class]) button:focus-visible {
-    outline: 3px solid #FFC21A;
-    outline-offset: 2px;
-}
-
 @media (max-width: 700px) {
-    .page-main > main:not([class]) {
-        padding: 24px 16px 48px;
+    .perfil {
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 48px;
+        padding-left: 16px;
     }
 
-    .page-main > main:not([class]) #registroForm {
-        padding: 18px;
+    .perfil #registroForm {
+        padding-top: 18px;
+        padding-right: 18px;
+        padding-bottom: 18px;
+        padding-left: 18px;
     }
 }
 
 
 /* ============================================================
    17. LIGA - CREAR (Views/Liga/Crear.cshtml)
-   Solo CSS, sin tocar la vista. El gancho es el form que apunta a
-   /Liga/Crear (Url.Action("Crear", "Liga")): si tu ruta es otra,
-   cambiá el "$=" del selector por el final real de la URL.
+   La view le pone .pagina-crearliga al <main> del layout.
    Usa la misma paleta que la pantalla de ranking (sección 14).
    ============================================================ */
 
-body:has(form[action$="/Liga/Crear"]) {
-    color: #173D20;
-    background:
-        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
-        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
-        #F6F9F5;
-    background-attachment: fixed;
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) {
+.pagina-crearliga {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
@@ -3359,37 +3655,22 @@ body:has(form[action$="/Liga/Crear"]) {
     align-content: start;
     max-width: 540px;
     margin: 0 auto;
-    padding: 36px 20px 64px;
+    padding-top: 36px;
+    padding-right: 20px;
+    padding-left: 20px;
     /* el <main> del layout trae .pb-3 de Bootstrap (padding-bottom con !important) */
     padding-bottom: 64px !important;
 }
 
-/* los <br> de la vista sobran: el espaciado lo da el CSS */
-.page-main:has(> form[action$="/Liga/Crear"]) br {
-    display: none;
-}
-
 /* ---------- Volver y título ---------- */
 
-.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"] {
+.pagina-crearliga .crearliga-volver {
     grid-area: volver;
     justify-self: start;
     margin-bottom: 18px;
-    color: #3F6B50;
-    font-size: .9rem;
-    text-decoration: none;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"]::before {
-    content: "\2190  ";
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) > a[href$="/Liga"]:hover {
-    color: #064D2B;
-    text-decoration: underline;
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) > h1 {
+.pagina-crearliga .crearliga-titulo {
     grid-area: titulo;
     margin: 0 0 22px;
     color: #064D2B;
@@ -3401,11 +3682,20 @@ body:has(form[action$="/Liga/Crear"]) {
 
 /* ---------- Tarjeta del formulario ---------- */
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form {
+/* es una card de Bootstrap: se sacan el borde gris, el position: relative
+   y el corte de palabras largas que agrega .card */
+.pagina-crearliga .crearliga-form {
+    position: static;
+    min-width: auto;
+    border: 0;
+    overflow-wrap: normal;
     grid-area: form;
     display: flex;
     flex-direction: column;
-    padding: 26px 24px 28px;
+    padding-top: 26px;
+    padding-right: 24px;
+    padding-bottom: 28px;
+    padding-left: 24px;
     border-radius: 30px;
     background:
         radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
@@ -3416,17 +3706,18 @@ body:has(form[action$="/Liga/Crear"]) {
     color: #fff;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form > div ~ div {
+.pagina-crearliga .crearliga-campo ~ .crearliga-campo {
     margin-top: 18px;
 }
 
-/* Cada título de campo es una barrita amarilla (el "Privacidad" se dibuja con CSS,
-   porque la vista no tiene label para el select) */
-.page-main:has(> form[action$="/Liga/Crear"]) > form label,
-.page-main:has(> form[action$="/Liga/Crear"]) > form > div:nth-of-type(2)::after {
+/* Cada título de campo es una barrita amarilla */
+.pagina-crearliga .campo-titulo {
     display: block;
     margin-bottom: 8px;
-    padding: 8px 12px;
+    padding-top: 8px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+    padding-left: 12px;
     border-radius: 8px;
     background: #FFE500;
     color: #000;
@@ -3435,22 +3726,20 @@ body:has(form[action$="/Liga/Crear"]) {
     text-align: center;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form > div:nth-of-type(2)::after {
-    content: "Privacidad";
-    margin: 18px 0 0;
-}
-
 /* ---------- Campos ---------- */
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form input,
-.page-main:has(> form[action$="/Liga/Crear"]) > form select {
+/* campos: form-control y form-select de Bootstrap con el estilo de RIK */
+.pagina-crearliga .form-control,
+.pagina-crearliga .form-select {
     display: block;
     width: 100%;
     height: 44px;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     border: 0;
     border-radius: 10px;
-    background: #fff;
     color: #173D20;
     font: inherit;
     font-size: .95rem;
@@ -3458,8 +3747,13 @@ body:has(form[action$="/Liga/Crear"]) {
     transition: box-shadow .15s ease;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form select {
-    margin-top: 8px;
+/* Bootstrap les saca la apariencia del navegador (y las flechitas del número): acá vuelve */
+.pagina-crearliga .form-control {
+    background: #fff;
+    appearance: auto;
+}
+
+.pagina-crearliga .form-select {
     padding-right: 40px;
     appearance: none;
     cursor: pointer;
@@ -3469,26 +3763,32 @@ body:has(form[action$="/Liga/Crear"]) {
         right 14px center / 16px no-repeat;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form option {
+.pagina-crearliga option {
     color: #173D20;
 }
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form input:focus,
-.page-main:has(> form[action$="/Liga/Crear"]) > form select:focus {
+.pagina-crearliga .form-control:focus,
+.pagina-crearliga .form-select:focus {
     box-shadow: 0 0 0 3px #FFE500;
 }
 
 /* Al abrir la página queda elegida "Pública": la contraseña arranca oculta.
    Cuando el JS cambia el display en línea, ese valor le gana a esta regla. */
-.page-main:has(> form[action$="/Liga/Crear"]) > form:has(#Privacidad option[value="false"]:checked) > #contrsena {
+.pagina-crearliga .crearliga-contrasena {
     display: none;
 }
 
 /* ---------- Mensaje de error ---------- */
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form > p {
+/* error: alert de Bootstrap con los colores de RIK */
+.pagina-crearliga .crearliga-error {
+    position: static;
     margin: 18px 0 0;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    border: 0;
     border-left: 4px solid #B42318;
     border-radius: 8px;
     background: #FDECEA;
@@ -3499,108 +3799,63 @@ body:has(form[action$="/Liga/Crear"]) {
 
 /* ---------- Botón guardar (mismo estilo 3D que "Comenzá a jugar") ---------- */
 
-.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"] {
+/* el aspecto 3D viene de la clase .boton-3d */
+.pagina-crearliga .guardarliga-boton {
     height: 52px;
     margin-top: 26px;
-    border: 0;
-    border-radius: 14px;
-    background: #FFE500;
-    color: #000;
-    font: inherit;
     font-size: 1rem;
-    font-weight: 700;
-    box-shadow: 0 5px 0 #C4B000;
-    cursor: pointer;
-    transition: transform .08s ease, box-shadow .08s ease, filter .15s ease;
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"]:hover {
-    filter: brightness(1.06);
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) > form > button[type="submit"]:active {
-    transform: translateY(4px);
-    box-shadow: 0 1px 0 #C4B000;
-}
-
-.page-main:has(> form[action$="/Liga/Crear"]) a:focus-visible,
-.page-main:has(> form[action$="/Liga/Crear"]) button:focus-visible {
-    outline: 3px solid #FFC21A;
-    outline-offset: 3px;
 }
 
 /* ---------- Responsive ---------- */
 
 @media (max-width: 480px) {
-    .page-main:has(> form[action$="/Liga/Crear"]) {
-        padding: 24px 16px 48px;
+    .pagina-crearliga {
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 48px;
+        padding-left: 16px;
     }
 
-    .page-main:has(> form[action$="/Liga/Crear"]) > form {
-        padding: 20px 16px 22px;
+    .pagina-crearliga .crearliga-form {
+        padding-top: 20px;
+        padding-right: 16px;
+        padding-bottom: 22px;
+        padding-left: 16px;
         border-radius: 24px;
     }
 }
 
 
-
 /* ============================================================
    18. BIBLIOTECA - TEORÍA Y MORALEJA (Views/Biblioteca/TeoriaMoraleja.cshtml)
-   Solo CSS, sin tocar la vista. El gancho es el <br> seguido del link
-   "Volver" a /Biblioteca, que está en la vista tanto cuando se encuentra
-   la teoría como cuando no. Si tu ruta de Biblioteca es otra, cambiá el
-   "$=" del selector por el final real de la URL.
+   La view le pone .pagina-moraleja al <main> del layout.
    Mismo lenguaje que el ranking y la charla: verde oscuro, amarillo,
    Poppins y el botón amarillo grande de "Iniciar nivel".
    ============================================================ */
 
-body:has(.page-main > br + a[href$="/Biblioteca"]) {
-    color: #173D20;
-    background:
-        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
-        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
-        #F6F9F5;
-    background-attachment: fixed;
-}
-
-.page-main:has(> br + a[href$="/Biblioteca"]) {
+.pagina-moraleja {
     display: flex;
     flex-direction: column;
     gap: 18px;
     max-width: 860px;
     margin: 0 auto;
-    padding: 32px 24px 56px;
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-left: 24px;
     /* el <main> del layout trae .pb-3 de Bootstrap (padding-bottom con !important) */
     padding-bottom: 56px !important;
 }
 
-/* los <br> de la vista sobran: el espaciado lo da el CSS */
-.page-main:has(> br + a[href$="/Biblioteca"]) > br {
-    display: none;
-}
-
 /* ---------- Volver: arriba de todo, chiquito ---------- */
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"] {
+.pagina-moraleja .moraleja-volver {
     order: -1;
     align-self: flex-start;
-    color: #3F6B50;
-    font-size: .9rem;
-    text-decoration: none;
-}
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"]::before {
-    content: "\2190  ";
-}
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href$="/Biblioteca"]:hover {
-    color: #064D2B;
-    text-decoration: underline;
 }
 
 /* ---------- Título ---------- */
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > h1 {
+.pagina-moraleja .moraleja-titulo {
     margin: 4px 0 6px;
     padding-bottom: 18px;
     border-bottom: 1px solid #DCE8DF;
@@ -3611,39 +3866,39 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
     line-height: 1.15;
 }
 
-/* etiqueta chica arriba del título (barrita amarilla, como en el ranking) */
-.page-main:has(> br + a[href$="/Biblioteca"]) > h1::before {
-    content: "TEOR\CD A Y MORALEJA";
-    display: block;
+/* la etiqueta chica arriba del título usa .etiqueta-seccion (sección 14), acá un poco más separada */
+.pagina-moraleja .moraleja-titulo .etiqueta-seccion {
     margin-bottom: 8px;
-    padding-left: 10px;
-    border-left: 3px solid #FFC21A;
-    color: #0B6B3D;
-    font-size: .72rem;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: .1em;
 }
 
 /* ---------- Tarjetas: teoría / historia / moraleja ---------- */
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div {
-    padding: 24px 28px 26px;
+/* cada tarjeta es una card de Bootstrap con el estilo de RIK
+   (Bootstrap le agrega borde, flex en columna, position: relative y corte de palabras largas) */
+.pagina-moraleja .moraleja-tarjeta {
+    position: static;
+    display: block;
+    flex-direction: row;
+    flex-grow: 0;
+    min-width: auto;
+    border: 0;
+    overflow-wrap: normal;
+    padding-top: 24px;
+    padding-right: 28px;
+    padding-bottom: 26px;
+    padding-left: 28px;
     border-radius: 24px;
     animation: liga-entrar .45s ease backwards;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) { animation-delay: .08s; }
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) { animation-delay: .16s; }
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > div h2 {
+.pagina-moraleja .moraleja-tarjeta .card-title {
     margin: 0 0 10px;
     font-size: clamp(1.15rem, 2vw, 1.4rem);
     font-weight: 700;
     line-height: 1.25;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div p {
+.pagina-moraleja .moraleja-tarjeta .card-text {
     margin: 0;
     font-size: 1rem;
     line-height: 1.7;
@@ -3653,7 +3908,7 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
 }
 
 /* 1. Teoría: verde oscuro, título amarillo */
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) {
+.pagina-moraleja .tarjeta-teoria {
     background:
         radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
         linear-gradient(160deg, #0B6B3D, #064D2B 70%);
@@ -3663,78 +3918,59 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
     color: #fff;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) h2 {
+.pagina-moraleja .tarjeta-teoria .card-title {
     color: #FFE500;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(1) p {
+.pagina-moraleja .tarjeta-teoria .card-text {
     color: rgba(255, 255, 255, .92);
 }
 
 /* 2. Historia: blanca con borde suave */
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) {
+.pagina-moraleja .tarjeta-historia {
+    animation-delay: .08s;
     border: 1.5px solid #D6ECDD;
     background: #fff;
     box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) h2 {
+.pagina-moraleja .tarjeta-historia .card-title {
     color: #064D2B;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(2) p {
+.pagina-moraleja .tarjeta-historia .card-text {
     color: #2B4A35;
 }
 
 /* 3. Moraleja: amarilla, es lo que hay que llevarse */
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) {
+.pagina-moraleja .tarjeta-moraleja {
+    animation-delay: .16s;
     border: 1.5px solid #FFF3A6;
     background: linear-gradient(100deg, #FFE500 0%, #FFC21A 100%);
     box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
     color: #1B1B1B;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) h2 {
+.pagina-moraleja .tarjeta-moraleja .card-title {
     color: #064D2B;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > div:nth-of-type(3) p {
+.pagina-moraleja .tarjeta-moraleja .card-text {
     color: #1B1B1B;
     font-weight: 500;
 }
 
-/* ---------- Botón "Iniciar nivel" (igual al de la charla de teoría) ---------- */
+/* ---------- Avisos ---------- */
+/* El botón "Iniciar nivel" usa .juego-boton, el mismo de la charla de teoría */
 
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 72px;
-    margin-top: 10px;
-    border-radius: 20px;
-    background: #FFD700;
-    color: #000;
-    font-size: clamp(22px, 3vw, 32px);
-    font-weight: 400;
-    text-decoration: none;
-    transition: background .15s ease, transform .08s ease;
-}
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"]:hover {
-    background: #FFE033;
-    color: #000;
-}
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"]:active {
-    transform: translateY(2px);
-}
-
-/* ---------- Teoría no encontrada ---------- */
-
-.page-main:has(> br + a[href$="/Biblioteca"]) > p {
+/* avisos (nivel bloqueado, teoría no encontrada): alert de Bootstrap con el estilo de RIK */
+.pagina-moraleja .moraleja-aviso {
+    position: static;
     margin: 0;
-    padding: 18px;
+    padding-top: 18px;
+    padding-right: 18px;
+    padding-bottom: 18px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 16px;
     background: #fff;
@@ -3742,30 +3978,26 @@ body:has(.page-main > br + a[href$="/Biblioteca"]) {
     font-size: .95rem;
 }
 
-.page-main:has(> br + a[href$="/Biblioteca"]) a:focus-visible {
-    outline: 3px solid #FFC21A;
-    outline-offset: 3px;
-}
-
 /* ---------- Responsive ---------- */
 
 @media (max-width: 700px) {
-    .page-main:has(> br + a[href$="/Biblioteca"]) {
+    .pagina-moraleja {
         gap: 14px;
-        padding: 24px 16px 40px;
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 40px;
+        padding-left: 16px;
     }
 
-    .page-main:has(> br + a[href$="/Biblioteca"]) > div {
-        padding: 18px 18px 20px;
+    .pagina-moraleja .moraleja-tarjeta {
+        padding-top: 18px;
+        padding-right: 18px;
+        padding-bottom: 20px;
+        padding-left: 18px;
         border-radius: 20px;
     }
 
-    .page-main:has(> br + a[href$="/Biblioteca"]) > div p {
+    .pagina-moraleja .moraleja-tarjeta .card-text {
         font-size: .95rem;
-    }
-
-    .page-main:has(> br + a[href$="/Biblioteca"]) > a[href*="/Juego/Teoria"] {
-        height: 60px;
-        border-radius: 16px;
     }
 }

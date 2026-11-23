@@ -46,6 +46,7 @@ public class LigaController : Controller
         List<Liga> ligas = BD.ObtenerLigasDeUsuario(idUsuario);
 
         ViewBag.Ligas = ligas;
+        ViewBag.OcultarSinLigas = ligas.Count > 0;
 
         // Aviso que llega desde otra acción (por ejemplo, después de unirse a una liga)
         string mensaje = LeerAviso("AvisoLiga");
@@ -57,6 +58,7 @@ public class LigaController : Controller
         ViewBag.OcultarAccionLiga = true;
         ViewBag.UrlAccionLiga = "";
         ViewBag.TextoBotonLiga = "";
+        ViewBag.ClaseBotonLiga = "";
         ViewBag.OcultarCompartir = true;
         ViewBag.LinkInvitacion = "";
         ViewBag.OcultarSolicitudes = true;
@@ -107,6 +109,7 @@ public class LigaController : Controller
             {
                 ViewBag.UrlAccionLiga = Url.Action("Eliminar", "Liga");
                 ViewBag.TextoBotonLiga = "Eliminar liga";
+                ViewBag.ClaseBotonLiga = "peligro-boton";
 
                 // Solo el dueño puede compartir la liga y ver las solicitudes
                 ViewBag.OcultarCompartir = false;
@@ -481,7 +484,7 @@ public class LigaController : Controller
         if (liga.Privacidad)
         {
             tarjeta.TextoEtiqueta = "Privada";
-            tarjeta.ClaseEtiqueta = "unirse-etiqueta unirse-etiqueta-privada";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta unirse-etiqueta-privada badge";
             tarjeta.TextoBoton = "Solicitar unirse";
             // Con el link de invitación no hace falta la contraseña, pero el dueño igual tiene que aceptar
             tarjeta.Codigo = codigo;
@@ -489,7 +492,7 @@ public class LigaController : Controller
         else
         {
             tarjeta.TextoEtiqueta = "Pública";
-            tarjeta.ClaseEtiqueta = "unirse-etiqueta";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta badge";
             tarjeta.TextoBoton = "Unirse";
             tarjeta.Codigo = "";
         }
@@ -651,22 +654,22 @@ public class LigaController : Controller
 
             if (posicion == 1)
             {
-                fila.Clase = "ranking-fila ranking-fila-oro";
+                fila.Clase = "ranking-fila ranking-fila-oro list-group-item";
                 fila.Subtitulo = "🥇 CAMPEÓN";
             }
             else if (posicion == 2)
             {
-                fila.Clase = "ranking-fila ranking-fila-plata";
+                fila.Clase = "ranking-fila ranking-fila-plata ranking-fila-medalla list-group-item";
                 fila.Subtitulo = "🥈 2° Lugar";
             }
             else if (posicion == 3)
             {
-                fila.Clase = "ranking-fila ranking-fila-bronce";
+                fila.Clase = "ranking-fila ranking-fila-bronce ranking-fila-medalla list-group-item";
                 fila.Subtitulo = "🥉 3° Lugar";
             }
             else
             {
-                fila.Clase = "ranking-fila ranking-fila-resto";
+                fila.Clase = "ranking-fila ranking-fila-resto list-group-item";
                 fila.Subtitulo = "";
             }
 

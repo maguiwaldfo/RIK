@@ -1,44 +1,47 @@
-@* Los mensajes, las búsquedas y cada tarjeta (con lo que muestra o no) los prepara LigaController.UnirseALiga *@
+@{
+    ViewData["ClaseBody"] = "pagina-unirse";
+}
+
 
 <div class="unirse-liga">
-    <a class="unirse-volver" href="@Url.Action("Index", "Liga")">← Volver a ligas</a>
+    <a class="unirse-volver link-volver" href="@Url.Action("Index", "Liga")">Volver a ligas</a>
 
     <h1>Unirse a una liga</h1>
     <p class="unirse-subtitulo">Las públicas son de entrada libre. En las privadas, quien creó la liga acepta a cada persona.</p>
 
-    <p class="unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
-    <p class="unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <p class="alert alert-success unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
+    <p class="alert alert-danger unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <div class="unirse-formularios">
-        <section class="unirse-caja">
+        <section class="unirse-caja card card-plana">
             <h2>¿Te pasaron un link?</h2>
             <p>Pegalo acá para ver la liga.</p>
 
-            <form class="unirse-campo" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+            <form class="input-group grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
                 <label class="visually-hidden" for="link">Link de invitación</label>
-                <input id="link" type="text" name="link" placeholder="Pegá el link de invitación" maxlength="300" autocomplete="off" required />
-                <button class="unirse-boton" type="submit">Ver liga</button>
+                <input id="link" class="form-control" type="text" name="link" placeholder="Pegá el link de invitación" maxlength="300" autocomplete="off" required />
+                <button class="liga-boton" type="submit">Ver liga</button>
             </form>
         </section>
 
-        <section class="unirse-caja">
+        <section class="unirse-caja card card-plana">
             <h2>Buscar por nombre</h2>
             <p>Escribí el nombre completo o una parte.</p>
 
-            <form class="unirse-campo" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+            <form class="input-group grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
                 <label class="visually-hidden" for="busqueda">Nombre de la liga</label>
-                <input id="busqueda" type="search" name="busqueda" value="@ViewBag.Busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
-                <button class="unirse-boton" type="submit">Buscar</button>
+                <input id="busqueda" class="form-control campo-busqueda" type="search" name="busqueda" value="@ViewBag.Busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
+                <button class="liga-boton" type="submit">Buscar</button>
             </form>
         </section>
     </div>
 
-    <section class="unirse-resultados" hidden="@ViewBag.OcultarInvitacion">
+    <section class="unirse-resultados list-group" hidden="@ViewBag.OcultarInvitacion">
         <h2>Te invitaron a esta liga</h2>
 
         @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasInvitacion)
         {
-            <article class="unirse-tarjeta">
+            <article class="unirse-tarjeta list-group-item">
                 <div class="unirse-tarjeta-info">
                     <h3>@tarjeta.Nombre</h3>
                     <p>@tarjeta.Detalle</p>
@@ -47,7 +50,7 @@
                 <span class="@tarjeta.ClaseEtiqueta">@tarjeta.TextoEtiqueta</span>
 
                 <div class="unirse-tarjeta-accion">
-                    <a class="unirse-boton unirse-boton-secundario" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
+                    <a class="liga-boton secundario-boton" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
 
                     <span class="unirse-estado" hidden="@tarjeta.OcultarEstado">@tarjeta.TextoEstado</span>
 
@@ -57,23 +60,23 @@
                         <input type="hidden" name="codigo" value="@tarjeta.Codigo" />
 
                         <label class="visually-hidden" for="@tarjeta.IdCampoContraseña" hidden="@tarjeta.OcultarContraseña">Contraseña de la liga</label>
-                        <input id="@tarjeta.IdCampoContraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
+                        <input id="@tarjeta.IdCampoContraseña" class="form-control" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
 
-                        <button class="unirse-boton" type="submit">@tarjeta.TextoBoton</button>
+                        <button class="liga-boton" type="submit">@tarjeta.TextoBoton</button>
                     </form>
                 </div>
             </article>
         }
     </section>
 
-    <section class="unirse-resultados" hidden="@ViewBag.OcultarResultados">
+    <section class="unirse-resultados list-group" hidden="@ViewBag.OcultarResultados">
         <h2>@ViewBag.TituloResultados</h2>
 
-        <p class="unirse-vacio" hidden="@ViewBag.OcultarSinResultados">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
+        <p class="unirse-vacio alert" hidden="@ViewBag.OcultarSinResultados">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
 
         @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasResultados)
         {
-            <article class="unirse-tarjeta">
+            <article class="unirse-tarjeta list-group-item">
                 <div class="unirse-tarjeta-info">
                     <h3>@tarjeta.Nombre</h3>
                     <p>@tarjeta.Detalle</p>
@@ -82,7 +85,7 @@
                 <span class="@tarjeta.ClaseEtiqueta">@tarjeta.TextoEtiqueta</span>
 
                 <div class="unirse-tarjeta-accion">
-                    <a class="unirse-boton unirse-boton-secundario" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
+                    <a class="liga-boton secundario-boton" href="@tarjeta.UrlVerLiga" hidden="@tarjeta.OcultarVerLiga">Ya sos parte · Ver liga</a>
 
                     <span class="unirse-estado" hidden="@tarjeta.OcultarEstado">@tarjeta.TextoEstado</span>
 
@@ -92,9 +95,9 @@
                         <input type="hidden" name="codigo" value="@tarjeta.Codigo" />
 
                         <label class="visually-hidden" for="@tarjeta.IdCampoContraseña" hidden="@tarjeta.OcultarContraseña">Contraseña de la liga</label>
-                        <input id="@tarjeta.IdCampoContraseña" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
+                        <input id="@tarjeta.IdCampoContraseña" class="form-control" type="password" name="contraseña" placeholder="Contraseña" maxlength="50" autocomplete="off" hidden="@tarjeta.OcultarContraseña" required="@tarjeta.PideContraseña" />
 
-                        <button class="unirse-boton" type="submit">@tarjeta.TextoBoton</button>
+                        <button class="liga-boton" type="submit">@tarjeta.TextoBoton</button>
                     </form>
                 </div>
             </article>

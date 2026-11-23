@@ -1,22 +1,27 @@
+@{
+    ViewData["ClaseBody"] = "pagina-perfil";
+}
+
 <body class="mapa-body">
-<main>
+<main class="perfil">
+    <h1 class="perfil-titulo">Mis datos</h1>
 
-    <section>
+    <section class="seccion-abierta">
     
-            <form id="registroForm" class="login-form" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
+            <form id="registroForm" class="login-form capa-arriba" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
-                <div class="form-field">
-                    <input type="text" id="nombre" name="nombre" value="@ViewBag.Nombre" />
+                <div class="form-field campo-nombre">
+                    <input type="text" id="nombre" class="form-control" name="nombre" value="@ViewBag.Nombre" />
                     <p id="fb-nombre" class="feedback"></p>
                 </div>
 
-                <div class="form-field">
-                    <input type="email" id="email" name="email" value="@ViewBag.Email" />
+                <div class="form-field campo-email">
+                    <input type="email" id="email" class="form-control" name="email" value="@ViewBag.Email" />
                     <p id="fb-email" class="feedback"></p>
                 </div>
 
-                <div class="form-field">
-                    <input type="text" id="nombreUsuario" name="nombreUsuario" value="@ViewBag.NombreUsuario" />
+                <div class="form-field campo-usuario">
+                    <input type="text" id="nombreUsuario" class="form-control" name="nombreUsuario" value="@ViewBag.NombreUsuario" />
                     <p id="fb-nombreUsuario" class="feedback"></p>
                     <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
                 </div>
@@ -24,15 +29,15 @@
                 <button type="submit" class="submit-button">Guardar cambios</button>
             </form>
 
-            <div>
-            <a href="@Url.Action("CambiarContrasena", "Perfil")"><strong>Cambiar Contraseña</strong></a>
+            <div class="caja-blanca">
+            <a class="opcion-boton opcion-link icono-contrasena" href="@Url.Action("CambiarContrasena", "Perfil")"><strong>Cambiar Contraseña</strong></a>
             </div>
 
     </section>
-    <section>
+    <section class="volver-arriba seccion-abierta">
     
-        <div>
-            <a href="@Url.Action("Index", "Perfil")"><strong>Volver</strong></a>
+        <div class="volver-arriba">
+            <a class="link-volver" href="@Url.Action("Index", "Perfil")"><strong>Volver</strong></a>
         </div>
     </section>
 

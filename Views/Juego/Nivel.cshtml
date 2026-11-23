@@ -1,4 +1,7 @@
-@* El título, las preguntas (con su id) y el estado de la partida los prepara JuegoController.Nivel *@
+@{
+    ViewData["ClaseBody"] = "pagina-juego";
+}
+
 
 <!-- Estado de la partida guardado en la session (lo lee nivel.js, sirve al refrescar la página) -->
 <div class="charla nivel" id="nivel"
@@ -9,8 +12,8 @@
 
     <!-- PROGRESO, VIDAS Y TIEMPO -->
     <div class="charla-estado">
-        <div class="charla-barra">
-            <div class="charla-barra-relleno" id="barraProgreso" style="@ViewBag.EstiloBarra"></div>
+        <div class="progress">
+            <div class="progress-bar" id="barraProgreso" style="@ViewBag.EstiloBarra"></div>
         </div>
         <span class="charla-vidas">
             <span id="vidas">@ViewBag.Vidas</span>
@@ -40,19 +43,19 @@
             </div>
         }
 
-        <p class="nivel-resultado" id="resultado"></p>
+        <p class="nivel-resultado alert capa-arriba" id="resultado"></p>
     </div>
 
     <div class="charla-acciones">
-        <button type="button" class="charla-boton" id="enviar" onclick="enviarRespuesta()" disabled>
+        <button type="button" class="juego-boton" id="enviar" onclick="enviarRespuesta()" disabled>
             Enviar
         </button>
 
-        <button type="button" class="charla-boton" id="siguiente" onclick="siguientePregunta()" style="display: none;">
+        <button type="button" class="juego-boton" id="siguiente" onclick="siguientePregunta()" style="display: none;">
             Siguiente
         </button>
 
-        <button type="button" class="charla-boton" id="finalizar" onclick="finalizarNivel()" style="display: none;">
+        <button type="button" class="juego-boton" id="finalizar" onclick="finalizarNivel()" style="display: none;">
             Terminar lección
         </button>
     </div>

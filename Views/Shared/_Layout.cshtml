@@ -9,21 +9,21 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RIK.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="@ViewData["ClaseBody"]">
 
 @if (string.IsNullOrEmpty(Context.Session.GetString("NombreUsuario")))
 {
-    <header class="encabezado">
-        <a class="marca" href="#inicio">
+    <header class="encabezado navbar">
+        <a class="marca navbar-brand" href="#inicio">
             <img src="@Url.Content("~/imagenes/rik-logo.png")" alt="Logo de RIK">
             <span>RIK</span>
         </a>
 
         <nav class="nav">
-            <a href="#quienes-somos">Quienes somos</a>
-            <a href="#nuestra-mision">Nuestra misión</a>
-            <a href="#logros">Logros</a>
-            <a href="#galeria">Galería</a>
+            <a class="nav-link" href="#quienes-somos">Quienes somos</a>
+            <a class="nav-link" href="#nuestra-mision">Nuestra misión</a>
+            <a class="nav-link" href="#logros">Logros</a>
+            <a class="nav-link" href="#galeria">Galería</a>
         </nav>
 
         <a class="boton-login" href="@Url.Action("Index", "Login")">
@@ -33,15 +33,15 @@
 }
 else
 {
-    <header class="mapa-header">
-        <a class="mapa-marca" href="@Url.Action("IndexInicio", "Inicio")">
+    <header class="mapa-header navbar">
+        <a class="mapa-marca navbar-brand" href="@Url.Action("IndexInicio", "Inicio")">
             <img class="brand-mark" src="~/imagenes/rik-logo.png" alt="Logo RIK">
         </a>
 
-        <nav class="mapa-nav">
-            <a href="@Url.Action("IndexInicio", "Inicio")">Inicio</a>
-            <a href="@Url.Action("Index", "Liga")">Liga</a>
-            <a href="@Url.Action("Index", "Perfil")">Perfil</a>
+        <nav class="mapa-nav navbar-nav">
+            <a class="nav-link" href="@Url.Action("IndexInicio", "Inicio")">Inicio</a>
+            <a class="nav-link" href="@Url.Action("Index", "Liga")">Liga</a>
+            <a class="nav-link" href="@Url.Action("Index", "Perfil")">Perfil</a>
         </nav>
 
         <a class="mapa-perfil" href="@Url.Action("Index", "Perfil")" aria-label="Usuario">👤</a>
@@ -49,7 +49,7 @@ else
 }
 
     <div class="page-shell">
-        <main role="main" class="pb-3 page-main">
+        <main role="main" class="pb-3 page-main @ViewData["ClaseMain"]">
             @RenderBody()
         </main>
     </div>

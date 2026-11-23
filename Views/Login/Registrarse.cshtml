@@ -11,17 +11,17 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="registro-body">
-<header class="login-header">
-        <div class="login-brand">
+<header class="login-header capa-arriba">
+        <div class="login-brand capa-arriba">
             <a href="@Url.Action("Landing", "Inicio")" class="brand-link">
                 <img src="~/imagenes/rik-logo.png" alt="Logo RIK" class="brand-logo" />
             </a>
             <span>RIK</span>
         </div>
-        <a class="login-button" href="@Url.Action("Landing", "Inicio")">Volver</a>
+        <a class="login-button capa-arriba" href="@Url.Action("Landing", "Inicio")">Volver</a>
     </header>
 
-    <main class="login-main">
+    <main class="login-main capa-arriba">
         <div class="registro-imagotipo-wrap">
             <img src="~/imagenes/IMAGOTIPO.png" alt="Logo RIK" class="registro-imagotipo" />
         </div>
@@ -29,7 +29,7 @@
         <section class="registro-panel">
 
             <form id="registroForm"
-                  class="login-form"
+                  class="login-form capa-arriba"
                   action="@Url.Action("ValidarUsuario", "Login")"
                   method="post"
                   onsubmit="return registrarUsuario()"
@@ -37,37 +37,37 @@
 
                 <div class="form-field">
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" />
-                    <p id="fb-nombre" class="feedback"></p>
+                    <p id="fb-nombre" class="feedback capa-arriba"></p>
                 </div>
 
                 <div class="form-field">
                     <input type="email" id="email" name="email" placeholder="email" />
-                    <p id="fb-email" class="feedback"></p>
+                    <p id="fb-email" class="feedback capa-arriba"></p>
                 </div>
 
                 <div class="form-field">
                     <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre de usuario" />
-                    <p id="fb-nombreUsuario" class="feedback"></p>
-                    <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
+                    <p id="fb-nombreUsuario" class="feedback capa-arriba"></p>
+                    <p id="fb-servidor" class="feedback capa-arriba">@ViewBag.ErrorMessage</p>
                 </div>
 
                 <div class="form-field">
                     <input type="password" id="contrasena" name="contraseña" placeholder="Contraseña" />
-                    <p id="fb-contrasena" class="feedback"></p>
+                    <p id="fb-contrasena" class="feedback capa-arriba"></p>
                 </div>
 
                 <button type="submit" class="submit-button">Registrarse</button>
 
 
-                <div class="social-login">
-                    <div class="register-link">
+                <div class="social-login capa-arriba">
+                    <div class="register-link capa-arriba">
                         <span>¿Ya tenés una cuenta?</span>
                         <a href="@Url.Action("Index", "Login")">Iniciá sesión</a>
                     </div>
                 </div>
             </form>
 
-            <div id="resultado"></div>
+            <div id="resultado" class="capa-arriba"></div>
         </section>
     </main>
     <script src="~/js/registrarse.js"></script>

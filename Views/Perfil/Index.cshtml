@@ -1,3 +1,7 @@
+@{
+    ViewData["ClaseBody"] = "pagina-perfil";
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,28 +12,29 @@
 </head>
 
 <body class="mapa-body">
-<main>
+<main class="perfil">
+    <h1 class="perfil-titulo perfil-titulo-avatar">Mi perfil</h1>
 
-    <section>
+    <section class="list-group caja-blanca">
 
-        <div>
-            <a href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Modificar mis datos</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-link icono-datos" href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Modificar mis datos</strong></a>
         </div>
 
-        <div>
-            <a href="#"><strong>Personalizar a Rik</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-link icono-personalizar" href="#"><strong>Personalizar a Rik</strong></a>
         </div>
 
-        <div>
-            <a href="@Url.Action("Ajustes", "Perfil")"><strong>Ajustes</strong></a>
+        <div class="list-group-item item-simple perfil-opcion">
+            <a class="list-group-item-action opcion-boton opcion-link icono-ajustes" href="@Url.Action("Ajustes", "Perfil")"><strong>Ajustes</strong></a>
         </div>
     </section>
-    <section>
+    <section class="list-group caja-blanca">
 
-        <div>
+        <div class="list-group-item item-simple perfil-opcion">
             @* CerrarSesion solo acepta POST, por eso es un formulario y no un link *@
-            <form method="post" action="@Url.Action("CerrarSesion", "Perfil")">
-                <button type="submit" class="boton-link"><strong>Cerrar sesión</strong></button>
+            <form class="cerrarsesion-form" method="post" action="@Url.Action("CerrarSesion", "Perfil")">
+                <button type="submit" class="boton-link list-group-item-action opcion-boton cerrarsesion-boton"><strong>Cerrar sesión</strong></button>
             </form>
         </div>
     </section>

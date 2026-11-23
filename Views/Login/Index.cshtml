@@ -11,19 +11,19 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body class="login-body">
-    <header class="login-header">
-        <div class="login-brand">
+    <header class="login-header capa-arriba">
+        <div class="login-brand capa-arriba">
             <a href="@Url.Action("Landing", "Inicio")" class="brand-link">
                 <img src="~/imagenes/rik-logo.png" alt="Logo RIK" class="brand-logo" />
             </a>
             <span>RIK</span>
         </div>
-        <a class="login-button" href="@Url.Action("Landing", "Inicio")">Volver</a>
+        <a class="login-button capa-arriba" href="@Url.Action("Landing", "Inicio")">Volver</a>
     </header>
 
-    <main class="login-main">
+    <main class="login-main capa-arriba">
         <section class="login-panel">
-            <form class="login-form" method="post" action="@Url.Action("IniciarSesion", "Login")" onsubmit="return validarLogin()" novalidate>
+            <form class="login-form capa-arriba" method="post" action="@Url.Action("IniciarSesion", "Login")" onsubmit="return validarLogin()" novalidate>
                 <div class="form-field">
                     <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="nombre de usuario" />
                     <p id="fb-nombreUsuario" class="feedback"></p>
@@ -36,8 +36,8 @@
                 <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
                 <button type="submit" class="submit-button">Iniciar sesión</button>
 
-                <div class="social-login">
-                    <div class="register-link">
+                <div class="social-login capa-arriba">
+                    <div class="register-link capa-arriba">
                         <span>¿No tienes una cuenta?</span>
                         <a href="@Url.Action("Registrarse", "Login")">Regístrate</a>
                     </div>

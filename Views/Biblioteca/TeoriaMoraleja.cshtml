@@ -1,31 +1,36 @@
-@* Los textos y qué se muestra (teoría, botón de iniciar o avisos) los prepara BibliotecaController.TeoriaMoraleja *@
+@{
+    ViewData["ClaseBody"] = "fondo-degradado";
+    ViewData["ClaseMain"] = "pagina-moraleja";
+}
 
-<h1 hidden="@ViewBag.OcultarTeoria">@ViewBag.Titulo</h1>
+<h1 class="moraleja-titulo" hidden="@ViewBag.OcultarTeoria">
+    <span class="etiqueta-seccion">TEORÍA Y MORALEJA</span>
+    @ViewBag.Titulo
+</h1>
 
-<div hidden="@ViewBag.OcultarTeoria">
-    <h2>@ViewBag.TituloTeoria</h2>
-    <p>@ViewBag.TextoTeoria</p>
+<div class="card card-body moraleja-tarjeta tarjeta-teoria" hidden="@ViewBag.OcultarTeoria">
+    <h2 class="card-title">@ViewBag.TituloTeoria</h2>
+    <p class="card-text">@ViewBag.TextoTeoria</p>
 </div>
 
-<div hidden="@ViewBag.OcultarTeoria">
-    <h2>@ViewBag.TituloHistoria</h2>
-    <p>@ViewBag.Historia</p>
+<div class="card card-body moraleja-tarjeta tarjeta-historia" hidden="@ViewBag.OcultarTeoria">
+    <h2 class="card-title">@ViewBag.TituloHistoria</h2>
+    <p class="card-text">@ViewBag.Historia</p>
 </div>
 
-<div hidden="@ViewBag.OcultarTeoria">
-    <h2>Moraleja</h2>
-    <p>@ViewBag.Moraleja</p>
+<div class="card card-body moraleja-tarjeta tarjeta-moraleja" hidden="@ViewBag.OcultarTeoria">
+    <h2 class="card-title">Moraleja</h2>
+    <p class="card-text">@ViewBag.Moraleja</p>
 </div>
 
-<a href="@ViewBag.UrlIniciarNivel" hidden="@ViewBag.OcultarIniciarNivel">
+<a class="juego-boton" href="@ViewBag.UrlIniciarNivel" hidden="@ViewBag.OcultarIniciarNivel">
     Iniciar nivel
 </a>
 
-<p hidden="@ViewBag.OcultarBloqueado">Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
+<p class="alert moraleja-aviso" hidden="@ViewBag.OcultarBloqueado">Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
 
-<p hidden="@ViewBag.OcultarNoEncontrada">No se encontró la teoría seleccionada.</p>
+<p class="alert moraleja-aviso" hidden="@ViewBag.OcultarNoEncontrada">No se encontró la teoría seleccionada.</p>
 
-<br />
-<a href="@Url.Action("Index", "Biblioteca")">
+<a class="link-volver moraleja-volver" href="@Url.Action("Index", "Biblioteca")">
     Volver
 </a>

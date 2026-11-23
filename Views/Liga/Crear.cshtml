@@ -1,45 +1,39 @@
-@* El título y el mensaje de error los prepara LigaController.Crear *@
+@{
+    ViewData["ClaseBody"] = "fondo-degradado";
+    ViewData["ClaseMain"] = "pagina-crearliga";
+}
 
-<h1>Crear una nueva Liga</h1>
+<h1 class="crearliga-titulo">Crear una nueva Liga</h1>
 
-<form action="@Url.Action("Crear", "Liga")" method="post">
-    <div>
-        <label>Nombre de la Liga:</label>
-        <input type="text" name="Nombre" required />
+<form class="card crearliga-form" action="@Url.Action("Crear", "Liga")" method="post">
+    <div class="crearliga-campo">
+        <label class="form-label campo-titulo">Nombre de la Liga:</label>
+        <input type="text" class="form-control" name="Nombre" required />
     </div>
 
-    <br />
-
-    <div>
-        <label>Capacidad Máxima:</label>
-        <input type="number" name="Capacidad" value="10" required />
+    <div class="crearliga-campo">
+        <label class="form-label campo-titulo">Capacidad Máxima:</label>
+        <input type="number" class="form-control" name="Capacidad" value="10" required />
     </div>
 
-    <br />
-
-    <select name="Privacidad" id="Privacidad" onchange="ActualizarContraseña()">
-        <option value="false">Pública</option>
-        <option value="true">Privada con Contraseña</option>
-    </select>
-
-    <br/>
-    <br/>
-
-    <div id="contrsena">
-        <label>Contraseña:</label>
-        <input type="password" name="Contraseña" id="Contraseña" />
+    <div class="crearliga-campo">
+        <p class="campo-titulo form-label">Privacidad</p>
+        <select class="form-select" name="Privacidad" id="Privacidad" onchange="ActualizarContraseña()">
+            <option value="false">Pública</option>
+            <option value="true">Privada con Contraseña</option>
+        </select>
     </div>
 
-    <p hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <div class="crearliga-campo crearliga-contrasena" id="contrsena">
+        <label class="form-label campo-titulo">Contraseña:</label>
+        <input type="password" class="form-control" name="Contraseña" id="Contraseña" />
+    </div>
 
-    <br />
+    <p class="alert alert-danger crearliga-error" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
-    <button type="submit">Guardar Liga</button>
+    <button type="submit" class="boton-3d guardarliga-boton">Guardar Liga</button>
 </form>
 
-<br />
-
-<a href="@Url.Action("Index", "Liga")">Volver a Ligas</a>
-
+<a class="link-volver crearliga-volver" href="@Url.Action("Index", "Liga")">Volver a Ligas</a>
 
 <script src="~/js/Liga.js"></script>

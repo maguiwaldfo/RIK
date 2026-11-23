@@ -1,3 +1,7 @@
+@{
+    ViewData["ClaseBody"] = "pagina-mapa";
+}
+
 @* El camino y cada moneda (posición, imagen, link o bloqueada) los prepara InicioController.IndexInicio *@
 
 <div class="inicio-mapa" id="inicioMapa">
@@ -24,19 +28,19 @@
     <!-- PANELES Y MASCOTA (QUEDAN FIJOS) -->
     <div class="inicio-pantalla">
 
-        <section class="inicio-biblioteca">
+        <section class="inicio-biblioteca card">
             <p>Repasá temas anteriores</p>
             <a href="@Url.Action("Index", "Biblioteca")">Ir a la biblioteca</a>
         </section>
 
-        <section class="inicio-racha">
+        <section class="inicio-racha card">
             <img src="~/imagenes/llama.png" alt="Racha" />
             <p>@ViewBag.Racha</p>
         </section>
 
         <section class="inicio-desempeno">
             <h2>Desempeño</h2>
-            <div class="inicio-desempeno-tarjeta">
+            <div class="inicio-desempeno-tarjeta card">
                 <div class="inicio-trofeo">
                     <img src="~/imagenes/trofeo.png" alt="" />
                     <p>@ViewBag.CantidadCompletados niveles completados</p>

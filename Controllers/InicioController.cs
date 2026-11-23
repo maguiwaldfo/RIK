@@ -5,6 +5,10 @@ namespace RIK.Controllers;
 
 public class InicioController : Controller
 {
+    // Cantidad de monedas que se dibujan en el mapa. Las que no tienen un nivel cargado
+    // en la base se muestran con candado. Si se agregan niveles, alcanza con cambiar este número.
+    private const int MonedasEnElMapa = 12;
+
     public IActionResult Landing()
     {
         return View();
@@ -21,8 +25,10 @@ public class InicioController : Controller
             // Los niveles que existen en la base, ordenados por Id
             List<Nivel> niveles = BD.ObtenerNiveles();
 
-            int totalNiveles = niveles.Count;
-            int maxNivelDesbloqueado = Math.Min(totalNiveles, Math.Max(1, nivelesCompletados.Count + 1));
+            // Se dibujan al menos MonedasEnElMapa monedas, aunque haya menos niveles cargados
+            int totalNiveles = Math.Max(MonedasEnElMapa, niveles.Count);
+            // Solo se puede desbloquear hasta el último nivel que existe en la base
+            int maxNivelDesbloqueado = Math.Min(niveles.Count, Math.Max(1, nivelesCompletados.Count + 1));
 
             ViewData["Title"] = "Inicio";
             ViewBag.Racha = BD.ObtenerRacha(idUsuario);
@@ -38,7 +44,7 @@ public class InicioController : Controller
             ViewBag.Camino = MapaNiveles.ArmarCamino(puntos, totalNiveles);
             ViewBag.ViewBoxCamino = "0 -" + altoCamino + " " + anchoCamino + " " + altoCamino;
             ViewBag.TamanoLienzo = MapaNiveles.ArmarTamanoLienzo(anchoCamino, altoCamino);
-            ViewBag.Nodos = ArmarNodos(niveles, nivelesCompletados, maxNivelDesbloqueado, posiciones);
+            ViewBag.Nodos = ArmarNodos(niveles, totalNiveles, nivelesCompletados, maxNivelDesbloqueado, posiciones);
 
             return View();
         }
@@ -50,21 +56,33 @@ public class InicioController : Controller
 
     // Prepara cada moneda del mapa (antes estas decisiones estaban en la vista IndexInicio).
     // Se puede entrar a los niveles completados y al actual; el resto se ve bloqueado.
-    private List<NodoMapa> ArmarNodos(List<Nivel> niveles, List<int> completados, int maxNivelDesbloqueado, List<string> posiciones)
+    // Las monedas que no tienen nivel cargado en la base siempre se ven con candado.
+    private List<NodoMapa> ArmarNodos(List<Nivel> niveles, int totalNiveles, List<int> completados, int maxNivelDesbloqueado, List<string> posiciones)
     {
         List<NodoMapa> nodos = new List<NodoMapa>();
 
-        for (int i = 0; i < niveles.Count; i++)
+        for (int i = 0; i < totalNiveles; i++)
         {
             int numero = i + 1;   // posición del nivel en el camino
+
+            NodoMapa nodo = new NodoMapa();
+            nodo.Estilo = posiciones[i];
+
+            if (i >= niveles.Count)
+            {
+                nodo.Clase = "inicio-nodo inicio-nodo-bloqueado";
+                nodo.Url = null;
+                nodo.Imagen = Url.Content("~/imagenes/monedaBloqueada.png");
+                nodo.Alt = "Nivel bloqueado";
+                nodos.Add(nodo);
+                continue;
+            }
+
             Nivel nivel = niveles[i];
 
             bool estaCompletado = completados.Contains(nivel.Id);
             bool estaDesbloqueado = numero <= maxNivelDesbloqueado;
             bool esActual = numero == maxNivelDesbloqueado;
-
-            NodoMapa nodo = new NodoMapa();
-            nodo.Estilo = posiciones[i];
 
             if (estaDesbloqueado && (estaCompletado || esActual))
             {

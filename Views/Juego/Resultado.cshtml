@@ -1,4 +1,6 @@
-@* Todos los datos y textos (ganó o perdió, xp, tiempo, aciertos, botones) los prepara JuegoController.Resultado *@
+@{
+    ViewData["ClaseBody"] = "pagina-juego";
+}
 
 <div class="@ViewBag.ClaseFin">
 
@@ -10,18 +12,18 @@
              src="@ViewBag.ImagenMascota"
              alt="@ViewBag.AltMascota" />
 
-        <div class="fin-datos">
-            <div class="fin-dato fin-dato-xp">
+        <div class="fin-datos list-group">
+            <div class="fin-dato fin-dato-xp list-group-item item-simple">
                 <span class="fin-etiqueta">XP</span>
                 <span class="fin-valor">+@ViewBag.Xp pts</span>
             </div>
 
-            <div class="fin-dato">
+            <div class="fin-dato list-group-item item-simple">
                 <span class="fin-etiqueta">Tiempo</span>
                 <span class="fin-valor">@ViewBag.Tiempo min</span>
             </div>
 
-            <div class="fin-dato">
+            <div class="fin-dato list-group-item item-simple">
                 <span class="fin-etiqueta">Aciertos</span>
                 <span class="fin-valor">@ViewBag.TextoAciertos</span>
             </div>
@@ -31,7 +33,7 @@
 
     <!-- Botones abajo de todo. Si ganó: solo "Volver". Si perdió: "Volver" y "Repasar tema", mitad y mitad. -->
     <div class="fin-acciones">
-        <a class="charla-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
-        <a class="charla-boton fin-boton" href="@ViewBag.UrlRepasar" hidden="@ViewBag.OcultarRepasar">Repasar tema nuevamente</a>
+        <a class="juego-boton fin-boton" href="@Url.Action("IndexInicio", "Inicio")">Volver</a>
+        <a class="juego-boton fin-boton" href="@ViewBag.UrlRepasar" hidden="@ViewBag.OcultarRepasar">Repasar tema nuevamente</a>
     </div>
 </div>

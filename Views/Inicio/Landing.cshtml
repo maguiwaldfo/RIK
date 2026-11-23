@@ -1,13 +1,12 @@
 
 @{
     ViewData["Title"] = "RIK - Educación Financiera";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <main class="rik">
 
     <!-- PORTADA -->
-    <section class="portada" id="inicio">
+    <section class="portada ancla" id="inicio">
 
         <div class="presentacion">
 
@@ -33,7 +32,7 @@
         </div>
 
         <div class="boton-jugar">
-            <a href="@Url.Action("Index", "Login")">🎮 Comenzá a jugar</a>
+            <a class="boton-3d" href="@Url.Action("Index", "Login")">🎮 Comenzá a jugar</a>
         </div>
     </div>
 
@@ -42,8 +41,8 @@
         <section class="informacion-rik">
 
             <!-- Quiénes somos -->
-            <div class="tarjeta-info" id="quienes-somos">
-                <p>
+            <div class="tarjeta-info card card-body ancla" id="quienes-somos">
+                <p class="card-text">
                     Con Ricky, aprender de finanzas es una aventura.
                     Completá misiones, desbloqueá logros y convertite
                     en el dueño de tus decisiones.
@@ -51,8 +50,8 @@
             </div>
 
             <!-- Nuestra visión -->
-            <div class="tarjeta-info" id="vision">
-                <p>
+            <div class="tarjeta-info card card-body ancla" id="vision">
+                <p class="card-text">
                     Ser la plataforma líder de educación financiera
                     en Argentina, y de ser posible en Latinoamérica,
                     ayudando a miles de personas a alcanzar su libertad
@@ -61,8 +60,8 @@
             </div>
 
             <!-- Nuestra misión -->
-            <div class="tarjeta-info" id="nuestra-mision">
-                <p>
+            <div class="tarjeta-info card card-body ancla" id="nuestra-mision">
+                <p class="card-text">
                     Brindar educación financiera accesible y divertida
                     para que más personas aprendan a administrar su
                     dinero, tomen mejores decisiones y construyan
@@ -76,35 +75,35 @@
 
 
     <!-- LOGROS Y ESTADÍSTICAS -->
-    <section class="estadisticas" id="logros">
+    <section class="estadisticas ancla" id="logros">
 
-        <div class="estadistica">
+        <div class="estadistica card card-body">
             <div class="icono-estadistica">📈</div>
             <div>
-                <h2>86%</h2>
-                <p>
+                <h2 class="card-title">86%</h2>
+                <p class="card-text">
                     de los jóvenes que aprenden
                     mejoran su plata y su futuro
                 </p>
             </div>
         </div>
 
-        <div class="estadistica">
+        <div class="estadistica card card-body">
             <div class="icono-estadistica">⚙️</div>
             <div>
-                <h2>+12</h2>
-                <p>
+                <h2 class="card-title">+12</h2>
+                <p class="card-text">
                     Unidades didácticas interactivas
                     basadas en situaciones reales
                 </p>
             </div>
         </div>
 
-        <div class="estadistica">
+        <div class="estadistica card card-body">
             <div class="icono-estadistica">🏆</div>
             <div>
-                <h2>100%</h2>
-                <p>
+                <h2 class="card-title">100%</h2>
+                <p class="card-text">
                     Contenido libre de sesgos y
                     certificado por expertos en finanzas
                 </p>
@@ -115,10 +114,10 @@
 
 
     <!-- CARRUSEL DE LA PLATAFORMA -->
-    <section class="galeria" id="galeria">
+    <section class="galeria ancla" id="galeria">
 
         <div id="carouselStackedBottom"
-             class="carousel slide"
+             class="carousel slide ancla"
              data-bs-ride="carousel">
 
             <div class="carousel-inner rounded-5">
@@ -156,7 +155,7 @@
             </div>
 
             <!-- Controles del carrusel -->
-            <button class="btn-icon btn-sm"
+            <button class="btn-icon btn-sm flecha-anterior"
                     type="button"
                     data-bs-target="#carouselStackedBottom"
                     data-bs-slide="prev">
@@ -167,7 +166,7 @@
                 <span class="visually-hidden">Anterior</span>
             </button>
 
-            <button class="btn-icon btn-sm"
+            <button class="btn-icon btn-sm flecha-siguiente"
                     type="button"
                     data-bs-target="#carouselStackedBottom"
                     data-bs-slide="next">
@@ -197,7 +196,7 @@
                 <p>Manifiesto RIK</p>
             </div>
 
-            <a class="boton-cierre"
+            <a class="boton-cierre boton-3d boton-3d-verde"
                href="@Url.Action("Index", "Login")">
 
                 Únete a converitr tu aprendizaje en riqueza
