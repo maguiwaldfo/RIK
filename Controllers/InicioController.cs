@@ -54,7 +54,7 @@ public class InicioController : Controller
         }
     }
 
-    // Prepara cada moneda del mapa (antes estas decisiones estaban en la vista IndexInicio).
+    // Prepara cada moneda del mapa.
     // Se puede entrar a los niveles completados y al actual; el resto se ve bloqueado.
     // Las monedas que no tienen nivel cargado en la base siempre se ven con candado.
     private List<NodoMapa> ArmarNodos(List<Nivel> niveles, int totalNiveles, List<int> completados, int maxNivelDesbloqueado, List<string> posiciones)

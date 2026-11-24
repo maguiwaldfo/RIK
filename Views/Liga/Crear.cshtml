@@ -5,15 +5,15 @@
 
 <h1 class="crearliga-titulo">Crear una nueva Liga</h1>
 
-<form class="card crearliga-form" action="@Url.Action("Crear", "Liga")" method="post">
+<form class="card crearliga-form" action="@Url.Action("Crear", "Liga")" method="post" onsubmit="return ValidarLiga()" novalidate>
     <div class="crearliga-campo">
-        <label class="form-label campo-titulo">Nombre de la Liga:</label>
-        <input type="text" class="form-control" name="Nombre" value="@ViewBag.Liga.Nombre" required />
+        <label class="form-label campo-titulo" for="Nombre">Nombre de la Liga:</label>
+        <input type="text" class="form-control" name="Nombre" id="Nombre" value="@ViewBag.Liga.Nombre" maxlength="50" required />
     </div>
 
     <div class="crearliga-campo">
-        <label class="form-label campo-titulo">Capacidad Máxima:</label>
-        <input type="number" class="form-control" name="Capacidad" value="@ViewBag.Liga.Capacidad" required />
+        <label class="form-label campo-titulo" for="Capacidad">Capacidad Máxima:</label>
+        <input type="number" class="form-control" name="Capacidad" id="Capacidad" value="@ViewBag.Liga.Capacidad" min="2" max="50" step="1" required />
     </div>
 
     <div class="crearliga-campo">
@@ -25,11 +25,11 @@
     </div>
 
     <div class="crearliga-campo crearliga-contrasena" id="contrsena">
-        <label class="form-label campo-titulo">Contraseña:</label>
-        <input type="password" class="form-control" name="Contraseña" id="Contraseña" />
+        <label class="form-label campo-titulo" for="Contraseña">Contraseña:</label>
+        <input type="password" class="form-control" name="Contraseña" id="Contraseña" maxlength="50" />
     </div>
 
-    <p class="alert alert-danger crearliga-error" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <p class="alert alert-danger crearliga-error" id="errorLiga" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <button type="submit" class="boton-3d guardarliga-boton">Guardar Liga</button>
 </form>

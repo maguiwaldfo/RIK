@@ -150,20 +150,6 @@ public static class BD
             ).ToList();
         }
 
-        // Se ordenan por Id (el procedure no tiene ORDER BY) para que el mapa los muestre en orden.
-        for (int i = 0; i < niveles.Count - 1; i++)
-        {
-            for (int j = 0; j < niveles.Count - 1 - i; j++)
-            {
-                if (niveles[j].Id > niveles[j + 1].Id)
-                {
-                    Nivel auxiliar = niveles[j];
-                    niveles[j] = niveles[j + 1];
-                    niveles[j + 1] = auxiliar;
-                }
-            }
-        }
-
         return niveles;
     }
 
@@ -225,6 +211,22 @@ public static class BD
         }
 
         return preguntas;
+    }
+
+    public static int ContarPreguntasNivel(int idNivel)
+    {
+        int cantidad = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            cantidad = connection.QueryFirstOrDefault<int>(
+                "sp_ContarPreguntasNivel",
+                new { idNivel = idNivel },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return cantidad;
     }
 
     public static Pregunta ObtenerPregunta(int idPregunta)
@@ -418,20 +420,20 @@ public static class BD
         }
     }
 
-    public static int ObtenerIdUsuarioPorNombre(string nombreUsuario)
+    public static int ContarMiembrosLiga(int idLiga)
     {
-        int idUsuario = 0;
+        int cantidad = 0;
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            idUsuario = connection.QueryFirstOrDefault<int>(
-                "sp_ObtenerIdUsuarioPorNombre",
-                new { nombreUsuario = nombreUsuario },
+            cantidad = connection.QueryFirstOrDefault<int>(
+                "sp_ContarMiembrosLiga",
+                new { idLiga = idLiga },
                 commandType: CommandType.StoredProcedure
             );
         }
 
-        return idUsuario;
+        return cantidad;
     }
 
     public static void EliminarLiga(int idLiga, int idUsuario)
@@ -537,6 +539,22 @@ public static class BD
         }
 
         return solicitudes;
+    }
+
+    public static int ContarSolicitudesLiga(int idLiga, int idUsuarioCreador)
+    {
+        int cantidad = 0;
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            cantidad = connection.QueryFirstOrDefault<int>(
+                "sp_ContarSolicitudesLiga",
+                new { idLiga = idLiga, idUsuarioCreador = idUsuarioCreador },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        return cantidad;
     }
 
     // Devuelve el código de sp_ResponderSolicitudLiga (1 aceptada, 2 vetada, <= 0 error)

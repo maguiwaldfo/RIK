@@ -33,7 +33,7 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
 
         if (idUsuario == 0)
         {
@@ -117,7 +117,7 @@ public class LigaController : Controller
 
                 if (ligaActual.Privacidad)
                 {
-                    int cantidadSolicitudes = BD.ObtenerSolicitudesLiga(ligaActual.Id, idUsuario).Count;
+                    int cantidadSolicitudes = BD.ContarSolicitudesLiga(ligaActual.Id, idUsuario);
 
                     ViewBag.OcultarSolicitudes = false;
                     ViewBag.UrlSolicitudes = Url.Action("Solicitudes", "Liga", new { idLiga = ligaActual.Id });
@@ -312,7 +312,7 @@ public class LigaController : Controller
         }
 
         List<SolicitudLiga> solicitudes = BD.ObtenerSolicitudesLiga(idLiga, idUsuario);
-        int cantidadMiembros = BD.ObtenerLeaderboardLiga(idLiga).Count;
+        int cantidadMiembros = BD.ContarMiembrosLiga(idLiga);
 
         // El texto de cada solicitud (nombre y fecha) se arma acá para que la vista solo lo muestre
         foreach (SolicitudLiga solicitud in solicitudes)
@@ -382,7 +382,7 @@ public class LigaController : Controller
             return 0;
         }
 
-        return BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        return BD.ObtenerIdUsuario(nombreUsuario);
     }
 
     // Si el texto es null lo cambia por "", y le saca los espacios de los costados.
@@ -467,7 +467,6 @@ public class LigaController : Controller
     }
 
     // Prepara todo lo que muestra una tarjeta de "Unirse a una liga".
-    // Antes estas decisiones estaban en la vista _TarjetaLiga.cshtml.
     // codigo: código del link de invitación ("" si se llegó buscando).
     // busqueda: texto buscado, para volver a la misma búsqueda después de enviar.
     private TarjetaLiga ArmarTarjeta(LigaBusqueda liga, string codigo, string busqueda)
@@ -580,21 +579,26 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        if (liga.Privacidad && string.IsNullOrWhiteSpace(liga.Contraseña))
+        string error = Liga.ValidarDatos(liga);
+
+        if (error != "")
         {
             ViewData["Title"] = "Crear Liga";
-            ViewBag.Error = "Las ligas privadas necesitan una contraseña.";
+            ViewBag.Error = error;
             ViewBag.OcultarError = false;
             ViewBag.Liga = liga;
             return View();
         }
 
-        if (liga.Contraseña == null)
+        liga.Nombre = liga.Nombre.Trim();
+
+        // Las ligas públicas no llevan contraseña
+        if (!liga.Privacidad || liga.Contraseña == null)
         {
             liga.Contraseña = "";
         }
 
-        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
         int idLigaCreada = BD.CrearLiga(liga, idUsuario);
 
         return RedirectToAction("Index", new { idLigaAmigos = idLigaCreada });
@@ -610,7 +614,7 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
 
         Liga liga = BD.ObtenerLigaPorId(idLiga);
 
@@ -634,7 +638,7 @@ public class LigaController : Controller
             return RedirectToAction("Index", "Login");
         }
 
-        int idUsuario = BD.ObtenerIdUsuarioPorNombre(nombreUsuario);
+        int idUsuario = BD.ObtenerIdUsuario(nombreUsuario);
 
         Liga liga = BD.ObtenerLigaPorId(idLiga);
 
