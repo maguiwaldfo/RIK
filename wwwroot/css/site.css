@@ -49,11 +49,7 @@ html {
     gap: 8px;
 }
 
-/* Logo del header: mismo tamaño en todas las páginas
-   (con sesión, sin sesión, login y registro).
-   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
-   por eso se agranda con scale hasta que el círculo visible mida lo mismo
-   que el ícono de usuario (49px; 38px en celular). */
+
 .marca img,
 .brand-logo,
 .mapa-marca .brand-mark {
@@ -108,9 +104,6 @@ nav a {
     background-color: #078B58;
 }
 
-/* Dos columnas: escena (mascota + frase + botón) | logo.
-   Sin padding abajo: la mascota se apoya sobre las tarjetas amarillas.
-   Para un hero más ancho en pantallas grandes, cambiá 1280px. */
 .rik .presentacion {
     width: 100%;                                   
     padding: clamp(20px, 3vw, 40px) max(3%, calc((100% - 1280px) / 2 + 3%)) 0;
@@ -148,18 +141,17 @@ nav a {
     transform: scaleX(-1) scaleY(-1);
 }
 
-/* ---------- Escena: mascota apoyada en las tarjetas, "agarrando" el botón ---------- */
 
 .rik .hero-escena {
     grid-area: escena;
     align-self: end;
     justify-self: start;
     position: relative;
-    width: clamp(300px, 40vw, 760px);   /* tamaño de la mascota */
+    width: clamp(300px, 40vw, 760px);  
 }
 
 .rik .mascota {
-    display: block;                 /* evita el hueco de abajo que deja una imagen en línea */
+    display: block;                
     position: relative;
     width: 100%;
     max-width: none;
@@ -170,8 +162,8 @@ nav a {
 
 .rik .hero-texto {
     position: absolute;
-    left: 76%;      /* más bajo = el texto se acerca a la mascota */
-    bottom: 28%;    /* más alto = el botón sube (a la altura de la pata) */
+    left: 76%;     
+    bottom: 28%;    
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -237,10 +229,7 @@ nav a {
     line-height: 1.2;
 }
 
-/* ---------- Botones 3D (estilo Duolingo) ---------- */
 
-/* El efecto 3D es una sombra sólida (sin desenfoque) debajo del botón.
-   Lo usan "Comenzá a jugar", el botón del cierre y "Guardar liga". */
 .boton-3d {
     background-color: #FFE500;
     color: #000000;
@@ -276,9 +265,6 @@ nav a {
 
 /* ---------- Tarjetas: quiénes somos / visión / misión ---------- */
 
-/* Las tarjetas y las estadísticas son cards de Bootstrap con el estilo de RIK.
-   Bootstrap les agrega borde, flex en columna que ocupa todo el alto, position: relative
-   y corte de palabras largas: acá se sacan. */
 .rik .card {
     position: static;
     flex-direction: row;
@@ -293,9 +279,9 @@ nav a {
     z-index: 1;
     width: 96%;
     max-width: 1600px;
-    margin: 0 auto;               /* centradas en la pantalla */
-    justify-self: center;         /* centradas si siguen dentro de la grilla del hero */
-    grid-column: 1 / -1;          /* ocupan todo el ancho de la grilla, no solo una columna */
+    margin: 0 auto;               
+    justify-self: center;    
+    grid-column: 1 / -1;          
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -303,7 +289,7 @@ nav a {
 }
 
 .rik .tarjeta-info {
-    min-height: 0;                 /* la altura ahora depende solo del texto */
+    min-height: 0;           
     padding: 18px 28px;
     display: flex;
     align-items: center;
@@ -315,7 +301,7 @@ nav a {
 
 .rik .tarjeta-info p {
     margin: 0;
-    max-width: none;               /* que el texto use todo el ancho de la tarjeta */
+    max-width: none;              
     color: #000000;
     font-size: clamp(13px, 1vw, 17px);
     font-weight: 500;
@@ -387,7 +373,7 @@ nav a {
 
 .rik #carouselStackedBottom {
     position: relative;
-    width: min(91%, 1100px);      /* antes 1600px */
+    width: min(91%, 1100px);     
     max-width: none;
     margin: 0 auto;
 }
@@ -401,7 +387,7 @@ nav a {
 .rik .carousel-item img {
     display: block;
     width: 100%;
-    height: clamp(240px, 36vw, 620px);   /* antes 42vw / 760px */
+    height: clamp(240px, 36vw, 620px);   
     object-fit: cover;
     object-position: center;
 }
@@ -432,7 +418,6 @@ nav a {
 .rik .flecha-anterior { left: 12px; }
 .rik .flecha-siguiente { right: 12px; }
 
-/* Los <span> de las flechas venían vacíos: se dibujan acá */
 .rik .carousel-icon-prev::before,
 .rik .carousel-icon-next::before {
     font-size: 30px;
@@ -481,7 +466,6 @@ nav a {
     color: #3A3A3A;
 }
 
-/* El aspecto 3D (colores, sombra, hover) viene del bloque "Botones 3D" */
 .rik .boton-cierre {
     flex: none;
     padding: 14px 24px;
@@ -589,8 +573,6 @@ nav a {
 .login-body {
     margin: 0;
     min-height: 100vh;
-    /* Fondos de arriba hacia abajo: el perro al 55% (el PNG ya viene transparente),
-       el degradado verde, el perro entero y el color de base. */
     background:
         url('/imagenes/rik%20registro%20transparente.png') left bottom / 42vw auto no-repeat,
         linear-gradient(180deg, rgba(12, 141, 89, 0.12), rgba(12, 141, 89, 0.18)),
@@ -754,7 +736,6 @@ nav a {
     text-align: center;
 }
 
-/* Los mensajes de validación solo ocupan lugar cuando tienen un error */
 .login-form .feedback {
     min-height: 0;
     margin-top: 6px;
@@ -772,7 +753,6 @@ nav a {
 .registro-body {
     margin: 0;
     min-height: 100vh;
-    /* el degradado va arriba del color de base */
     background:
         linear-gradient(180deg, rgba(11, 157, 96, 0.18) 0%, rgba(11, 157, 96, 0.06) 100%),
         #0b9d60;
@@ -827,7 +807,6 @@ nav a {
     font-weight: 700;
 }
 
-/* Tiene que ir DESPUÉS de ".registro-body a", que si no pinta de blanco los botones amarillos */
 .registro-imagotipo-wrap {
     display: flex;
     justify-content: center;
@@ -907,8 +886,6 @@ nav a {
     cursor: grabbing;
 }
 
-/* Capa que se mueve: solo el camino y las monedas. Mide 2,6 pantallas de ancho
-   y 2 de alto, porque el camino sigue subiendo en diagonal. */
 .inicio-lienzo {
     position: absolute;
     bottom: 0;
@@ -943,7 +920,6 @@ nav a {
     vector-effect: non-scaling-stroke;
 }
 
-/* Monedas */
 
 .inicio-nodo {
     position: absolute;
@@ -972,7 +948,6 @@ nav a {
     transform: translate(-50%, -50%) scale(1.08);
 }
 
-/* Paneles y mascota: quedan fijos */
 
 .inicio-pantalla {
     position: absolute;
@@ -1000,8 +975,6 @@ nav a {
     color: #ffffff;
 }
 
-/* Los tres paneles son cards de Bootstrap: se sacan el borde gris y el corte de palabras largas
-   (y en Desempeño, el position: relative y el flex en columna) que agrega .card */
 .inicio-biblioteca.card,
 .inicio-racha.card,
 .inicio-desempeno-tarjeta.card {
@@ -1115,7 +1088,6 @@ nav a {
 .inicio-trofeo img {
     width: clamp(48px, 5vw, 70px);
     height: auto;
-    /* trofeo.png es una silueta negra: se la tiñe de dorado. */
     filter: invert(83%) sepia(61%) saturate(1500%) hue-rotate(358deg) brightness(103%);
 }
 
@@ -1140,7 +1112,6 @@ nav a {
     display: block;
     width: 100%;
     height: auto;
-    /* El dibujo tiene margen transparente: se lo apoya contra el borde inferior. */
     margin-bottom: -22%;
 }
 
@@ -1251,23 +1222,17 @@ nav a {
     display: inline-block;
 }
 
-/* Los dos headers son un navbar de Bootstrap con nav y nav-link: se sacan el salto de línea
-   y el tamaño y los márgenes del logo que agrega Bootstrap, y se devuelve lo que heredaban */
 .encabezado.navbar,
 .mapa-header.navbar {
     flex-wrap: nowrap;
 }
 
-/* el menú del juego es un navbar-nav de Bootstrap (no .nav: el CSS del template usa .nav para el
-   menú de la landing): se sacan la columna y la lista sin viñetas que trae.
-   (el menú de la landing ya tenía la clase nav desde antes: ese queda como estaba) */
 .mapa-nav.navbar-nav {
     flex-direction: row;
     list-style-type: disc;
 }
 
-/* (el header viejo del template, _Layout.cshtml.css, también le da estilos a a.navbar-brand:
-   por eso estos selectores tienen que ser más específicos) */
+
 header.encabezado a.navbar-brand,
 header.mapa-header a.navbar-brand {
     margin-right: 0;
@@ -1321,8 +1286,6 @@ header.mapa-header a.navbar-brand {
     justify-items: center;
 }
 
-/* cada teoría es una card de Bootstrap con el estilo de RIK
-   (Bootstrap le agrega borde, flex en columna, position: relative y corte de palabras largas) */
 .biblioteca-grid .card {
     position: static;
     display: block;
@@ -1365,7 +1328,6 @@ header.mapa-header a.navbar-brand {
     color: white;
 }
 
-/* "TEORÍAS NO ENCONTRADAS": alert de Bootstrap sin el borde, el relleno ni el margen que trae */
 .biblioteca-grid > .alert {
     grid-column: 1 / -1;
     text-align: center;
@@ -1407,8 +1369,6 @@ header.mapa-header a.navbar-brand {
    (la barra, las vidas y el botón amarillo también los usan Nivel y Resultado)
    ============================================================ */
 
-/* Pantallas del juego (teoría, nivel y resultado): la view le pone la clase al body.
-   Ocupan todo el alto debajo del header, así el botón queda abajo de todo. */
 .pagina-juego {
     background: #ffffff;
     color: #000000;
@@ -1432,8 +1392,6 @@ header.mapa-header a.navbar-brand {
     padding: 28px 0 40px;
 }
 
-/* Teoría: el tema arriba, la charla centrada en el espacio libre y el botón abajo.
-   (Con .charla adelante para que gane sobre el padding de .charla.) */
 .charla.charla-teoria {
     flex: 1;
     display: flex;
@@ -1441,15 +1399,13 @@ header.mapa-header a.navbar-brand {
     padding-bottom: 0;
 }
 
-/* Progreso y vidas */
-
 .charla-estado {
     display: flex;
     align-items: center;
     gap: 22px;
 }
 
-/* barra de progreso: progress de Bootstrap con los colores de RIK */
+
 .charla-estado .progress {
     display: block;
     font-size: inherit;
@@ -1490,7 +1446,6 @@ header.mapa-header a.navbar-brand {
     line-height: 1;
 }
 
-/* El tema es lo más importante de la teoría: más grande y en negrita (igual que la pregunta del nivel). */
 .charla-tema {
     margin: 12px 0 24px 14px;
     font-size: 36px;
@@ -1579,7 +1534,6 @@ header.mapa-header a.navbar-brand {
     margin-top: 26px;
 }
 
-/* El botón queda fijo abajo mientras se scrollea el resumen (los mensajes pasan por detrás). */
 .charla-teoria .charla-acciones {
     position: sticky;
     bottom: 0;
@@ -1656,7 +1610,6 @@ header.mapa-header a.navbar-brand {
 
 /* ============================================================
    10. NIVEL (preguntas)
-   Usa la misma barra, vidas y botón amarillo que la charla de teoría.
    ============================================================ */
 
 .nivel-tiempo {
@@ -1685,8 +1638,7 @@ header.mapa-header a.navbar-brand {
     justify-content: center;
 }
 
-/* La pregunta es lo más importante de la pantalla: más grande y en negrita.
-   Centrada y con el mismo ancho que las opciones (.nivel-opciones). */
+
 .nivel-enunciado {
     width: 100%;
     max-width: 940px;
@@ -1709,9 +1661,8 @@ header.mapa-header a.navbar-brand {
 
 .nivel-opcion {
     min-height: 120px;
-    /* 16px 24px menos los 4px del borde */
     padding: 12px 20px;
-    border: 4px solid transparent;      /* el borde de color aparece al elegir */
+    border: 4px solid transparent;     
     border-radius: 8px;
     background: #D9D9D9;
     color: #000000;
@@ -1749,7 +1700,6 @@ header.mapa-header a.navbar-brand {
     cursor: default;
 }
 
-/* resultado de cada respuesta: alert de Bootstrap sin el borde ni el relleno que trae */
 .nivel-resultado {
     padding: 0;
     border: 0;
@@ -1792,36 +1742,16 @@ header.mapa-header a.navbar-brand {
 }
 /* ============================================================
    11. RESULTADO DEL NIVEL (.fin)
-   Funciona con el HTML de Figma tal cual: las tres cajas son <div> sin clase,
-   hijos directos de .fin-cuerpo, en este orden: 2° XP, 3° Tiempo, 4° Aciertos
-   (el 1° hijo es la mascota).
-
-   Dos versiones con el mismo HTML:
-     - Victoria: <div class="fin">
-     - Derrota:  <div class="fin fin-perdio">
-
-   Victoria:  mensaje (derecha) / mascota a la izquierda y, a su derecha,
-              Tiempo, XP, Aciertos / botón. Todo junto, centrado en el alto.
-   Derrota:   mensaje (izquierda) / mascota a la izquierda y, a su derecha,
-              Tiempo, Aciertos, XP / botón (que tapa un poco la mascota)
    ============================================================ */
 
 .fin {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;   /* victoria: todo el conjunto centrado en el alto */
+    justify-content: center;  
     width: min(100% - 48px, 1180px);
     margin: 0 auto;
-<<<<<<< HEAD
-    padding-top: clamp(16px, 3vh, 28px);
-    padding-right: 0;
-    padding-bottom: 24px;
-    padding-left: 0;
-=======
-    /* Arriba deja más aire, así el cartel queda un poco más abajo del header. */
     padding: clamp(28px, 10vh, 100px) 0 24px;
->>>>>>> 1eb4fcfff0cb30bce5ec53e0bddb35c62d5b696d
 }
 
 /* ---------- Mensaje ---------- */
@@ -1832,14 +1762,7 @@ header.mapa-header a.navbar-brand {
     width: 70%;
     max-width: 100%;
     margin: 0;
-<<<<<<< HEAD
-    padding-top: clamp(14px, 2.4vw, 34px);
-    padding-right: clamp(16px, 2.4vw, 34px);
-    padding-bottom: clamp(14px, 2.4vw, 34px);
-    padding-left: clamp(24px, 4.8vw, 68px);
-=======
     padding: 22px 26px;
->>>>>>> 1eb4fcfff0cb30bce5ec53e0bddb35c62d5b696d
     border-radius: 8px;
     background: #0A7A3E;
     color: #000000;
@@ -1897,17 +1820,12 @@ header.mapa-header a.navbar-brand {
     margin-bottom: clamp(-90px, -6vw, -20px);
 }
 
-/* ---------- Las tres cajas de Figma ---------- */
 
-/* Son los <div> sin clase que hay dentro de .fin-cuerpo (menos los botones).
-   Cada una trae su tamaño y su posición adentro (en línea): acá solo se las ubica en la grilla. */
 .fin-cuerpo > div:not(.fin-acciones) {
     justify-self: center;
     align-self: end;
 }
 
-/* Orden en el HTML: 2° = XP, 3° = Tiempo, 4° = Aciertos.
-   Victoria: Tiempo, XP, Aciertos. Derrota: Tiempo, Aciertos, XP. */
 .fin-cuerpo > div:nth-child(3) { order: 1; }   /* Tiempo */
 .fin-cuerpo > div:nth-child(2) { order: 2; }   /* XP */
 .fin-cuerpo > div:nth-child(4) { order: 3; }   /* Aciertos */
@@ -1915,8 +1833,7 @@ header.mapa-header a.navbar-brand {
 .fin-perdio .fin-cuerpo > div:nth-child(4) { order: 2; }   /* Aciertos */
 .fin-perdio .fin-cuerpo > div:nth-child(2) { order: 3; }   /* XP */
 
-/* El número del XP (el <span> sin clase de la caja de XP) va centrado en la caja.
-   Hace falta !important porque el HTML de Figma trae "left: 20px" en línea. */
+
 .fin-cuerpo > div:nth-child(2) > span:not(.fin-etiqueta) {
     left: 0 !important;
     width: 100%;
@@ -1934,13 +1851,6 @@ header.mapa-header a.navbar-brand {
 
 
 .fin-valor {
-<<<<<<< HEAD
-    left: 13px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 48px;
-    font-weight: 400;
-    word-wrap: break-word;
-=======
     min-width: 150px;
     padding: 6px 16px;
     border: 3px solid #FFD700;
@@ -1951,13 +1861,10 @@ header.mapa-header a.navbar-brand {
     line-height: 1.2;
     text-align: center;
     white-space: nowrap;
->>>>>>> 1eb4fcfff0cb30bce5ec53e0bddb35c62d5b696d
 }
 
 /* ---------- Botones ---------- */
 
-/* Los botones quedan abajo de todo, ocupando todo el ancho de la grilla.
-   Si hay dos, comparten el ancho; si hay uno, ocupa toda la fila. */
 .fin-acciones {
     grid-column: 1 / -1;
     order: 9;
@@ -1976,11 +1883,11 @@ header.mapa-header a.navbar-brand {
 }
 
 .fin-boton {
-    position: relative;      /* queda por delante de la mascota */
+    position: relative;      
     flex: 1 1 0;
     width: auto;
     height: auto;
-    /* si el texto es largo ("Repasar tema nuevamente") el botón crece en vez de desbordarse */
+
     min-height: clamp(56px, 6.6vw, 84px);
     padding-top: 8px;
     padding-right: 16px;
@@ -1993,7 +1900,7 @@ header.mapa-header a.navbar-brand {
 
 /* ---------- Pantallas más chicas ---------- */
 
-/* Las cajas de Figma miden 210px fijos: en pantallas chicas se achican con zoom */
+
 @media (max-width: 1000px) {
     .fin-cuerpo > div:not(.fin-acciones) {
         zoom: .75;
@@ -2012,7 +1919,6 @@ header.mapa-header a.navbar-brand {
         font-size: 17px;
     }
 
-    /* las dos versiones: la mascota arriba, centrada, y las 3 cajas en una fila */
     .fin-cuerpo,
     .fin-perdio .fin-cuerpo {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2045,8 +1951,6 @@ header.mapa-header a.navbar-brand {
 
     .fin-acciones-una .fin-boton {
         width: 100%;
-<<<<<<< HEAD
-=======
         gap: 20px;
         margin-bottom: 24px;
     }
@@ -2063,14 +1967,12 @@ header.mapa-header a.navbar-brand {
     .fin-mensaje {
         font-size: 17px;
         padding: 14px 18px;
->>>>>>> 1eb4fcfff0cb30bce5ec53e0bddb35c62d5b696d
     }
 }
 /* ============================================================
    13. UTILIDADES
    ============================================================ */
 
-/* Botón que se ve como link (ej: "Cerrar sesión" en Perfil, que tiene que enviarse por POST) */
 .boton-link {
     background: none;
     border: none;
@@ -2080,7 +1982,6 @@ header.mapa-header a.navbar-brand {
     cursor: pointer;
 }
 
-/* Link "Volver" con flecha (Unirse, Solicitudes, Perfil, Crear liga y Teoría y moraleja) */
 .link-volver {
     color: #3F6B50;
     font-size: .9rem;
@@ -2110,8 +2011,6 @@ header.mapa-header a.navbar-brand {
     margin-bottom: -8px;
 }
 
-/* Ítems de list-group de Bootstrap sin el relleno, el borde, el fondo, el color ni el
-   position: relative que trae cada ítem (listas de Perfil y datos del Resultado) */
 .list-group-item.item-simple {
     position: static;
     padding: 0;
@@ -2142,7 +2041,6 @@ header.mapa-header a.navbar-brand {
 }
 /* ============================================================
    14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
-   La view le pone .pagina-liga al <main> del layout.
    ============================================================ */
 
 /* fondo con degradado (Liga, Crear liga y Teoría y moraleja): la view le pone la clase al body */
@@ -2168,7 +2066,6 @@ header.mapa-header a.navbar-brand {
         "tglobal compartir"
         "tglobal accion"
         "tglobal .";
-    /* la última fila absorbe la altura del ranking global, así "compartir" queda pegado a la liga */
     grid-template-rows: repeat(8, auto) 1fr;
     align-content: start;
     column-gap: clamp(24px, 5vw, 64px);
@@ -2205,8 +2102,7 @@ header.mapa-header a.navbar-brand {
 .pagina-liga .liga-subtitulo-global { grid-area: hglobal; }
 .pagina-liga .liga-subtitulo-amigos { grid-area: hliga; }
 
-/* etiqueta chica arriba del título: texto con una barrita al costado (sin pill).
-   La usan Liga (Index) y Teoría y moraleja. */
+
 .etiqueta-seccion {
     display: block;
     margin-bottom: 6px;
@@ -2359,12 +2255,6 @@ header.mapa-header a.navbar-brand {
 
 /* ============================================================
    14b. RANKINGS (Views/Liga/Index.cshtml)
-   Antes LigaController armaba el ranking como un string de HTML con
-   estilos en línea (exportado de Figma) y la vista lo pegaba con Html.Raw.
-   Ahora la vista lo arma con un foreach (ViewBag.RankingGlobal /
-   ViewBag.RankingLiga) y los mismos estilos están en estas clases.
-   Cada fila tiene una clase según el puesto: oro (1°), plata (2°),
-   bronce (3°) y resto (4° en adelante).
    ============================================================ */
 
 /* mide 484px, pero sin salirse en pantallas chicas */
@@ -2385,8 +2275,7 @@ header.mapa-header a.navbar-brand {
     font-family: 'Poppins', sans-serif;
 }
 
-/* El ranking es un list-group de Bootstrap: a cada fila se le sacan el borde gris, el color
-   y las esquinas que Bootstrap pone en la primera y la última (todas siguen siendo una píldora) */
+
 .ranking-tabla > .list-group-item {
     border: 0;
     border-radius: 9999px;
@@ -2695,8 +2584,6 @@ header.mapa-header a.navbar-brand {
 }
 
 /* ---------- Invitar amigos (solo creador de la liga) ---------- */
-
-/* label oculto visualmente pero accesible (no depende de la versión de Bootstrap) */
 .liga-compartir .visually-hidden {
     position: absolute;
     width: 1px;
@@ -2788,10 +2675,6 @@ header.mapa-header a.navbar-brand {
    15. LIGA - COMPARTIR, UNIRSE Y SOLICITUDES
    ============================================================ */
 
-/* ---------- Index: aviso, "Unirse a una liga" y compartir ----------
-   (antes estaban repetidas en la sección 14; quedaron juntas acá con el mismo resultado) */
-
-/* aviso: alert de Bootstrap con los colores de RIK */
 .pagina-liga .liga-aviso {
     position: static;
     grid-area: aviso;
@@ -2838,8 +2721,7 @@ header.mapa-header a.navbar-brand {
     background: #fff;
 }
 
-/* "Invitá a tus amigos" es una card de Bootstrap: se sacan el flex en columna, el position: relative,
-   el color y el corte de palabras largas que agrega .card */
+
 .liga-compartir h3 {
     margin: 0 0 2px;
     color: #064D2B;
@@ -2853,7 +2735,6 @@ header.mapa-header a.navbar-brand {
     font-size: .85rem;
 }
 
-/* link de invitación: input-group de Bootstrap, pero con el campo y el botón separados como en RIK */
 .liga-compartir .input-group .form-control {
     flex: 1;
     min-width: 0;
@@ -2893,7 +2774,6 @@ header.mapa-header a.navbar-brand {
     font-weight: 600;
 }
 
-/* cantidad de solicitudes: badge de Bootstrap con los colores de RIK */
 .liga-solicitudes .badge {
     text-align: center;
     display: inline-grid;
@@ -2943,7 +2823,6 @@ header.mapa-header a.navbar-brand {
     font-size: .95rem;
 }
 
-/* avisos: alert de Bootstrap con los colores de RIK */
 .unirse-liga .unirse-aviso {
     position: static;
     margin: 0 0 20px;
@@ -2976,8 +2855,6 @@ header.mapa-header a.navbar-brand {
     background: #fff;
 }
 
-/* las dos cajas de búsqueda son cards de Bootstrap: se sacan el flex en columna, el position: relative,
-   el color y el corte de palabras largas que agrega .card */
 .unirse-caja h2 {
     margin: 0 0 2px;
     color: #111;
@@ -2991,7 +2868,7 @@ header.mapa-header a.navbar-brand {
     font-size: .85rem;
 }
 
-/* buscadores: input-group de Bootstrap, pero con el campo y el botón separados como en RIK */
+
 .unirse-caja .input-group .form-control,
 .unirse-form-accion input {
     flex: 1;
@@ -3014,10 +2891,7 @@ header.mapa-header a.navbar-brand {
     outline: 2px solid rgba(7, 139, 88, .2);
 }
 
-/* Lo que Bootstrap cambia en .input-group y .form-control y RIK no usa:
-   pega el campo con el botón (margen de -1px y esquinas rectas), los pone en position: relative,
-   les saca la apariencia del navegador, les agrega una transición y cambia el color del placeholder. */
-/* Los IDs existentes dan prioridad sobre los selectores de Bootstrap. */
+
 .grupo-separado > #linkInvitacion,
 .grupo-separado > #linkInvitacion + .liga-boton,
 .grupo-separado > #link,
@@ -3051,8 +2925,6 @@ header.mapa-header a.navbar-brand {
     color: revert;
 }
 
-/* Botones de Liga, Unirse y Solicitudes: verde ("Copiar link", "Buscar", "Unirse", "Aceptar"...).
-   .secundario-boton lo hace blanco ("Ya sos parte", "Abandonar liga") y .peligro-boton, rojo. */
 .liga-boton {
     flex: 0 0 auto;
     display: inline-block;
@@ -3086,7 +2958,6 @@ header.mapa-header a.navbar-brand {
     color: #064D2B;
 }
 
-/* Botón de peligro: "Eliminar liga" y "Vetar" (rojo, y relleno al pasar el mouse) */
 .peligro-boton {
     border-color: #F1B5AE;
     background: #fff;
@@ -3125,9 +2996,7 @@ header.mapa-header a.navbar-brand {
     background: #fff;
 }
 
-/* Los resultados y las solicitudes son un list-group de Bootstrap, pero cada liga o pedido sigue
-   siendo una tarjeta separada: se sacan el flex en columna, el position: relative, el color,
-   y las esquinas y el borde de arriba que Bootstrap junta entre ítems */
+
 .unirse-resultados.list-group {
     display: block;
     flex-direction: row;
@@ -3160,7 +3029,6 @@ header.mapa-header a.navbar-brand {
     font-size: .84rem;
 }
 
-/* etiqueta Pública / Privada: badge de Bootstrap con el estilo de RIK */
 .unirse-etiqueta {
     line-height: inherit;
     text-align: inherit;
@@ -3195,8 +3063,6 @@ header.mapa-header a.navbar-brand {
     max-width: 380px;
 }
 
-/* Cuando la acción es un solo botón, que no ocupe todo el ancho
-   (la clase la agrega LigaController.ArmarTarjeta) */
 .unirse-form-solo-boton {
     width: auto;
 }
@@ -3207,7 +3073,7 @@ header.mapa-header a.navbar-brand {
     font-style: italic;
 }
 
-/* "no hay resultados / solicitudes": alert de Bootstrap con el estilo de RIK */
+
 .unirse-vacio {
     position: static;
     padding: 18px;
@@ -3275,9 +3141,6 @@ header.mapa-header a.navbar-brand {
 
 /* ---------- Listas de opciones (Index y Ajustes) ---------- */
 
-/* Las listas son list-group de Bootstrap. Bootstrap las arma en columna con flex, le pone a cada
-   ítem relleno, borde gris, fondo blanco, color y position: relative; RIK no usa nada de eso
-   (el borde y el fondo los tiene la lista entera, y el espacio lo da el link de adentro). */
 .perfil .list-group {
     display: block;
     flex-direction: row;
@@ -3287,7 +3150,6 @@ header.mapa-header a.navbar-brand {
     border-top: 1px solid #EEF3EF;
 }
 
-/* Opciones de Perfil y Ajustes (y "Cambiar contraseña" en Mis datos). Cerrar sesión tiene su color, en rojo */
 .perfil .opcion-boton {
     display: flex;
     align-items: center;
@@ -3451,10 +3313,6 @@ header.mapa-header a.navbar-brand {
 .perfil .campo-email::before { content: "Email"; }
 .perfil .campo-usuario::before { content: "Nombre de usuario"; }
 
-/* campos: form-control de Bootstrap con el estilo de RIK
-   (Bootstrap les saca la apariencia del navegador y los pasa a block; acá vuelven a como estaban).
-   El selector es "input" y no ".form-control" porque registrarse.js le reemplaza la clase al campo
-   cuando valida (queda "input-error" o vacía), y el estilo tiene que seguir igual. */
 .perfil #registroForm input {
     display: inline-block;
     appearance: auto;
@@ -3533,8 +3391,6 @@ header.mapa-header a.navbar-brand {
 
 /* ============================================================
    17. LIGA - CREAR (Views/Liga/Crear.cshtml)
-   La view le pone .pagina-crearliga al <main> del layout.
-   Usa la misma paleta que la pantalla de ranking (sección 14).
    ============================================================ */
 
 .pagina-crearliga {
@@ -3570,8 +3426,6 @@ header.mapa-header a.navbar-brand {
 
 /* ---------- Tarjeta del formulario ---------- */
 
-/* es una card de Bootstrap: se sacan el borde gris, el position: relative
-   y el corte de palabras largas que agrega .card */
 .pagina-crearliga .crearliga-form {
     position: static;
     min-width: auto;
@@ -3698,9 +3552,6 @@ header.mapa-header a.navbar-brand {
 
 /* ============================================================
    18. BIBLIOTECA - TEORÍA Y MORALEJA (Views/Biblioteca/TeoriaMoraleja.cshtml)
-   La view le pone .pagina-moraleja al <main> del layout.
-   Mismo lenguaje que el ranking y la charla: verde oscuro, amarillo,
-   Poppins y el botón amarillo grande de "Iniciar nivel".
    ============================================================ */
 
 .pagina-moraleja {
@@ -3739,8 +3590,7 @@ header.mapa-header a.navbar-brand {
 
 /* ---------- Tarjetas: teoría / historia / moraleja ---------- */
 
-/* cada tarjeta es una card de Bootstrap con el estilo de RIK
-   (Bootstrap le agrega borde, flex en columna, position: relative y corte de palabras largas) */
+
 .pagina-moraleja .moraleja-tarjeta {
     position: static;
     display: block;
