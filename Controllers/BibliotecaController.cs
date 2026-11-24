@@ -19,7 +19,7 @@ public class BibliotecaController : Controller
 
         List<Teoria> teorias = BD.ObtenerTeorias();
 
-        // Link e imagen de cada tarjeta (antes se armaban en la vista)
+        // Link e imagen de cada tarjeta
         foreach (Teoria teoria in teorias)
         {
             teoria.Url = Url.Action("TeoriaMoraleja", "Biblioteca", new { idTeoria = teoria.Id });

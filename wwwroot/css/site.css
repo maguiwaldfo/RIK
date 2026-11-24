@@ -92,7 +92,7 @@ html {
 .rik .presentacion {
     width: 100%;                                   
     padding: clamp(20px, 3vw, 40px) max(3%, calc((100% - 1280px) / 2 + 3%)) 0;
-    /* el contenido sigue ocupando el mismo ancho de antes, centrado */
+    /* el contenido queda centrado */
 
     display: grid;
     grid-template-columns: minmax(0, 66%) minmax(0, 1fr);
@@ -163,7 +163,7 @@ html {
     position: relative;
     align-self: start;
     justify-self: center;
-    width: 100%;   /* antes 440 o 560; bajalo a 240 si lo querés más chico */
+    width: 100%;
     max-width: 300px;
     margin-right: 6%;
     z-index: 2;

@@ -56,7 +56,7 @@ public class PerfilController : Controller
         }
     }
 
-    // Datos del usuario para el formulario de "Mis datos" (antes la vista los leía de la Session)
+    // Datos del usuario para el formulario de "Mis datos"
     private void CargarDatosUsuario()
     {
         ViewBag.Nombre = HttpContext.Session.GetString("Nombre");
@@ -142,9 +142,9 @@ public class PerfilController : Controller
             return View();
         }
 
-        if (nuevaContrasena.Length < 8)
+        if (nuevaContrasena.Length < 8 || nuevaContrasena.Length > 50)
         {
-            ViewBag.ErrorMessage = "La nueva contraseña debe tener al menos 8 caracteres.";
+            ViewBag.ErrorMessage = "La nueva contraseña debe tener entre 8 y 50 caracteres.";
             return View();
         }
 
@@ -162,14 +162,7 @@ public class PerfilController : Controller
             return View();
         }
 
-        Usuario usuarioActual = BD.ObtenerUsuario(nombreUsuarioActual, contrasenaActual);
-
-        if (usuarioActual == null)
-        {
-            ViewBag.ErrorMessage = "La contraseña actual es incorrecta.";
-            return View();
-        }
-
+        // El procedure comprueba la contraseña actual: devuelve 0 si es incorrecta
         int resultado = BD.CambiarContrasena(idUsuario, contrasenaActual, nuevaContrasena, repetirContrasena);
 
         if (resultado == 0)

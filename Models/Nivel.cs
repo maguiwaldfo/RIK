@@ -6,7 +6,7 @@ public class Nivel
     public string Tema { get; set; }
     public int CantDesafios { get; set; }
 
-    // Cantidad de preguntas que se juegan en cada partida (antes era un 8 escrito en varios lugares).
+    // Cantidad de preguntas que se juegan en cada partida.
     public const int PreguntasPorPartida = 8;
 
     // Regla para saber si un nivel se puede abrir: el primero siempre,

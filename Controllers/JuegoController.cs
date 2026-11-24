@@ -41,13 +41,12 @@ public class JuegoController : Controller
         ViewBag.UrlComenzar = Url.Action("Nivel", "Juego", new { nivelElegido = nivel.Id });
 
         // "Comenzar desafío" solo se muestra si el nivel tiene preguntas suficientes para jugarlo.
-        // Si no las tiene, el botón no aparece (antes llevaba al mapa sin avisar).
-        int cantidadPreguntas = BD.ObtenerPreguntasNivel(idNivel).Count;
+        int cantidadPreguntas = BD.ContarPreguntasNivel(idNivel);
         ViewBag.OcultarComenzar = cantidadPreguntas < PreguntasPorPartida;
 
         CargarImagenesPersonajes();
 
-        // Cada mensaje sabe si lo dice el chico o el perro (antes se decidía en la vista)
+        // Cada mensaje sabe si lo dice el chico o el perro
         List<CharlaTeoria> charla = BD.ObtenerCharlaTeoria(idNivel);
 
         foreach (CharlaTeoria mensaje in charla)
@@ -414,7 +413,7 @@ public class JuegoController : Controller
 
         ViewData["Title"] = "Resultado";
 
-        // Textos según si ganó o perdió (antes se decidían en la vista)
+        // Textos según si ganó o perdió
         if (gano)
         {
             ViewBag.ClaseFin = "fin fin-gano";
