@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "rik", "runtimeExecutable": "dotnet", "runtimeArgs": ["run", "--launch-profile", "http"], "port": 5090 }
+  ]
+}
