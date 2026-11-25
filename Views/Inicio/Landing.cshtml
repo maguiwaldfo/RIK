@@ -1,6 +1,7 @@
 
 @{
     ViewData["Title"] = "RIK - Educación Financiera";
+    ViewData["ClaseMain"] = "pagina-landing";
 }
 
 <main class="rik">
@@ -205,3 +206,38 @@
     </section>
 
 </main>
+
+<!-- FOOTER (solo en el landing) -->
+<footer class="pie">
+
+    <div class="pie-contenido">
+
+        <div class="pie-marca">
+            <a class="pie-logo-link" href="#inicio">
+                <img class="pie-logo" src="@Url.Content("~/imagenes/rik-logo.png")" alt="" />
+                <span>RIK</span>
+            </a>
+            <p>Convertí el aprendizaje en riqueza.</p>
+        </div>
+
+        <nav class="pie-columna" aria-label="Secciones del landing">
+            <h2>Conocenos</h2>
+            <ul>
+                <li><a href="#quienes-somos">Quiénes somos</a></li>
+                <li><a href="#nuestra-mision">Nuestra misión</a></li>
+                <li><a href="#logros">Logros</a></li>
+                <li><a href="#galeria">Galería</a></li>
+            </ul>
+        </nav>
+
+        <nav class="pie-columna" aria-label="Tu cuenta">
+            <h2>Tu cuenta</h2>
+            <ul>
+                <li><a href="@Url.Action("Index", "Login")">Iniciar sesión</a></li>
+                <li><a href="@Url.Action("Registrarse", "Login")">Registrarse</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+</footer>

@@ -914,8 +914,7 @@ html {
 
 .inicio-biblioteca,
 .inicio-racha,
-.inicio-desempeno,
-.inicio-mascota {
+.inicio-desempeno {
     pointer-events: auto;
 }
 
@@ -924,7 +923,6 @@ html {
 .inicio-desempeno-tarjeta {
     background: #0A4D28;
     border-radius: 20px;
-    box-sizing: border-box;
     color: #ffffff;
 }
 
@@ -3298,5 +3296,108 @@ html {
 
     .pagina-moraleja .moraleja-tarjeta .card-text {
         font-size: 15px;
+    }
+}
+
+
+
+/* 19. FOOTER DEL LANDING */
+
+.page-main.pagina-landing {
+    padding-bottom: 0;
+}
+
+.pie {
+    background-color: #064D2B;
+    color: #FFFFFF;
+}
+
+.pie-contenido {
+    max-width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 3%;
+    padding-right: 4%;
+    padding-bottom: 2.5%;
+    padding-left: 4%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 32px;
+}
+
+.pie-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #FFFFFF;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.pie-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.pie-marca p {
+    margin-top: 12px;
+    margin-bottom: 0;
+    color: #B6E9C6;
+    font-size: 15px;
+}
+
+.pie-columna h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #FFE500;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pie-columna ul {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+}
+
+.pie-columna a {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.pie-columna a:hover,
+.pie-logo-link:hover {
+    color: #FFE500;
+}
+
+.pie-columna a:focus-visible,
+.pie-logo-link:focus-visible {
+    outline: 2px solid #FFE500;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+@media (max-width: 700px) {
+    .pie-contenido {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        text-align: center;
+    }
+
+    .pie-columna ul {
+        align-items: center;
     }
 }
