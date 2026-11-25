@@ -322,7 +322,7 @@ html {
 
 .rik .estadistica p {
     margin: 0;
-    max-width: 30ch;
+    max-width: 270px;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.5;
@@ -427,7 +427,7 @@ html {
 
 .rik .texto-cierre h2 {
     margin: 0 0 8px;
-    max-width: 52ch;
+    max-width: 750px;
     font-size: clamp(17px, 2vw, 24px);
     font-weight: 600;
     line-height: 1.35;
@@ -1914,7 +1914,6 @@ html {
     color: #064D2B;
     font-size: clamp(28px, 3vw, 36px);
     font-weight: 700;
-    letter-spacing: -0.4px;
     line-height: 1.1;
 }
 
@@ -1940,7 +1939,6 @@ html {
     padding-bottom: 12px;
     padding-left: 4px;
     overflow: auto;
-    scrollbar-width: thin;
     scrollbar-color: #B6E9C6 transparent;
 }
 
@@ -2602,16 +2600,11 @@ html {
 .unirse-caja .grupo-separado .form-control,
 .unirse-form-accion .form-control {
     position: static;
-    appearance: auto;
     transition: initial;
 }
 
 .unirse-form-accion .form-control {
     width: auto;
-}
-
-.unirse-caja .grupo-separado .campo-busqueda {
-    appearance: textfield;
 }
 
 .liga-compartir .grupo-separado .form-control::placeholder,
@@ -3093,7 +3086,6 @@ html {
     color: #064D2B;
     font-size: clamp(28px, 3vw, 36px);
     font-weight: 700;
-    letter-spacing: -0.4px;
     line-height: 1.1;
 }
 
@@ -3145,12 +3137,10 @@ html {
 
 .pagina-crearliga .form-control {
     background: #fff;
-    appearance: auto;
 }
 
 .pagina-crearliga .form-select {
     padding-right: 40px;
-    appearance: none;
     cursor: pointer;
     background:
         #fff
@@ -3236,7 +3226,6 @@ html {
     color: #064D2B;
     font-size: clamp(28px, 3.4vw, 38px);
     font-weight: 700;
-    letter-spacing: -0.4px;
     line-height: 1.15;
 }
 
