@@ -7,20 +7,20 @@
 
     <section class="seccion-abierta">
     
-            <form id="registroForm" class="login-form capa-arriba" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
+            <form class="registro-form login-form capa-arriba" action="@Url.Action("ModificarDatos", "Perfil")" method="post" onsubmit="return registrarUsuario()" novalidate>
 
                 <div class="form-field campo-nombre">
-                    <input type="text" id="nombre" class="form-control" name="nombre" value="@ViewBag.Nombre" />
+                    <input type="text" id="nombre" name="nombre" value="@ViewBag.Nombre" />
                     <p id="fb-nombre" class="feedback"></p>
                 </div>
 
                 <div class="form-field campo-email">
-                    <input type="email" id="email" class="form-control" name="email" value="@ViewBag.Email" />
+                    <input type="email" id="email" name="email" value="@ViewBag.Email" />
                     <p id="fb-email" class="feedback"></p>
                 </div>
 
                 <div class="form-field campo-usuario">
-                    <input type="text" id="nombreUsuario" class="form-control" name="nombreUsuario" value="@ViewBag.NombreUsuario" />
+                    <input type="text" id="nombreUsuario" name="nombreUsuario" value="@ViewBag.NombreUsuario" />
                     <p id="fb-nombreUsuario" class="feedback"></p>
                     <p id="fb-servidor" class="feedback">@ViewBag.ErrorMessage</p>
                 </div>

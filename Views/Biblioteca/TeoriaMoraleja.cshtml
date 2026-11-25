@@ -1,24 +1,23 @@
 @{
-    ViewData["ClaseBody"] = "fondo-degradado";
+    ViewData["ClaseBody"] = "fondo-liso";
     ViewData["ClaseMain"] = "pagina-moraleja";
 }
 
 <h1 class="moraleja-titulo" hidden="@ViewBag.OcultarTeoria">
-    <span class="etiqueta-seccion">TEORÍA Y MORALEJA</span>
     @ViewBag.Titulo
 </h1>
 
-<div class="card card-body moraleja-tarjeta tarjeta-teoria" hidden="@ViewBag.OcultarTeoria">
+<div class="moraleja-tarjeta tarjeta-teoria" hidden="@ViewBag.OcultarTeoria">
     <h2 class="card-title">@ViewBag.TituloTeoria</h2>
     <p class="card-text">@ViewBag.TextoTeoria</p>
 </div>
 
-<div class="card card-body moraleja-tarjeta tarjeta-historia" hidden="@ViewBag.OcultarTeoria">
+<div class="moraleja-tarjeta tarjeta-historia" hidden="@ViewBag.OcultarTeoria">
     <h2 class="card-title">@ViewBag.TituloHistoria</h2>
     <p class="card-text">@ViewBag.Historia</p>
 </div>
 
-<div class="card card-body moraleja-tarjeta tarjeta-moraleja" hidden="@ViewBag.OcultarTeoria">
+<div class="moraleja-tarjeta tarjeta-moraleja" hidden="@ViewBag.OcultarTeoria">
     <h2 class="card-title">Moraleja</h2>
     <p class="card-text">@ViewBag.Moraleja</p>
 </div>
@@ -27,9 +26,9 @@
     Iniciar nivel
 </a>
 
-<p class="alert moraleja-aviso" hidden="@ViewBag.OcultarBloqueado">Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
+<p class="moraleja-aviso" hidden="@ViewBag.OcultarBloqueado">Nivel bloqueado. Completá el nivel anterior para desbloquearlo.</p>
 
-<p class="alert moraleja-aviso" hidden="@ViewBag.OcultarNoEncontrada">No se encontró la teoría seleccionada.</p>
+<p class="moraleja-aviso" hidden="@ViewBag.OcultarNoEncontrada">No se encontró la teoría seleccionada.</p>
 
 <a class="link-volver moraleja-volver" href="@Url.Action("Index", "Biblioteca")">
     Volver

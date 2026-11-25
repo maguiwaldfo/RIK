@@ -9,26 +9,26 @@
     <h1>Unirse a una liga</h1>
     <p class="unirse-subtitulo">Las públicas son de entrada libre. En las privadas, quien creó la liga acepta a cada persona.</p>
 
-    <p class="alert alert-success unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
-    <p class="alert alert-danger unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <p class="unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
+    <p class="unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <div class="unirse-formularios">
-        <section class="unirse-caja card card-plana">
+        <section class="unirse-caja">
             <h2>¿Te pasaron un link?</h2>
             <p>Pegalo acá para ver la liga.</p>
 
-            <form class="input-group grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+            <form class="grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
                 <label class="visually-hidden" for="link">Link de invitación</label>
                 <input id="link" class="form-control" type="text" name="link" placeholder="Pegá el link de invitación" maxlength="300" autocomplete="off" required />
                 <button class="liga-boton" type="submit">Ver liga</button>
             </form>
         </section>
 
-        <section class="unirse-caja card card-plana">
+        <section class="unirse-caja">
             <h2>Buscar por nombre</h2>
             <p>Escribí el nombre completo o una parte.</p>
 
-            <form class="input-group grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
+            <form class="grupo-separado" action="@Url.Action("UnirseALiga", "Liga")" method="get">
                 <label class="visually-hidden" for="busqueda">Nombre de la liga</label>
                 <input id="busqueda" class="form-control campo-busqueda" type="search" name="busqueda" value="@ViewBag.Busqueda" placeholder="Ej: Ahorristas 5to B" maxlength="50" required />
                 <button class="liga-boton" type="submit">Buscar</button>
@@ -36,12 +36,12 @@
         </section>
     </div>
 
-    <section class="unirse-resultados list-group" hidden="@ViewBag.OcultarInvitacion">
+    <section class="unirse-resultados" hidden="@ViewBag.OcultarInvitacion">
         <h2>Te invitaron a esta liga</h2>
 
         @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasInvitacion)
         {
-            <article class="unirse-tarjeta list-group-item">
+            <article class="unirse-tarjeta">
                 <div class="unirse-tarjeta-info">
                     <h3>@tarjeta.Nombre</h3>
                     <p>@tarjeta.Detalle</p>
@@ -69,14 +69,14 @@
         }
     </section>
 
-    <section class="unirse-resultados list-group" hidden="@ViewBag.OcultarResultados">
+    <section class="unirse-resultados" hidden="@ViewBag.OcultarResultados">
         <h2>@ViewBag.TituloResultados</h2>
 
         <p class="unirse-vacio alert" hidden="@ViewBag.OcultarSinResultados">No encontramos ligas con ese nombre. Probá con otra palabra.</p>
 
         @foreach (TarjetaLiga tarjeta in ViewBag.TarjetasResultados)
         {
-            <article class="unirse-tarjeta list-group-item">
+            <article class="unirse-tarjeta">
                 <div class="unirse-tarjeta-info">
                     <h3>@tarjeta.Nombre</h3>
                     <p>@tarjeta.Detalle</p>

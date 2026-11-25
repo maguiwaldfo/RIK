@@ -1,10 +1,7 @@
-/* Poppins: la usa todo el sitio. Tiene que quedar primero en el archivo. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 
-/* ============================================================
-   1. BASE
-   ============================================================ */
+/* 1. BASE */
 
 * {
     margin: 0;
@@ -34,18 +31,9 @@ html {
 }
 
 
-/* ============================================================
-   2. HEADER COMPARTIDO (_Layout)
-   ============================================================ */
+/* 2. HEADER */
 
-/* Logo del header: mismo tamaño en todas las páginas
-   (con sesión, sin sesión, login y registro).
-   rik-logo.png trae margen transparente: el círculo ocupa ~72% de la imagen,
-   por eso se agranda con scale hasta que el círculo visible mida lo mismo
-   que el ícono de usuario (49px; 38px en celular). */
-.marca img,
-.brand-logo,
-.mapa-marca .brand-mark {
+.brand-logo {
     display: block;
     width: 49px;
     height: 49px;
@@ -56,18 +44,14 @@ html {
 }
 
 @media (max-width: 700px) {
-    .marca img,
-    .brand-logo,
-    .mapa-marca .brand-mark {
+    .brand-logo {
         width: 38px;
         height: 38px;
     }
 }
 
 
-/* ============================================================
-   3. LANDING (usuario sin sesión)
-   ============================================================ */
+/* 3. LANDING */
 
 .rik {
     width: 100%;
@@ -76,23 +60,28 @@ html {
     overflow: hidden auto;
 }
 
-
 .rik .ancla {
     scroll-margin-top: 90px;
 }
 
-/* ---------- Portada ---------- */
-
 .rik .portada {
     width: 100%;
-    padding: 0 0 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 8px;
+    padding-left: 0;
     background-color: #078B58;
 }
 
 .rik .presentacion {
-    width: 100%;                                   
-    padding: clamp(20px, 3vw, 40px) max(3%, calc((100% - 1280px) / 2 + 3%)) 0;
-    /* el contenido queda centrado */
+    width: 100%;
+    max-width: 1280px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: clamp(20px, 3vw, 40px);
+    padding-right: 3%;
+    padding-bottom: 0;
+    padding-left: 3%;
 
     display: grid;
     grid-template-columns: minmax(0, 66%) minmax(0, 1fr);
@@ -102,21 +91,18 @@ html {
     align-items: stretch;
 }
 
-/* Monedas decorativas (detrás de todo) */
-
 .rik .lluvia {
     position: absolute;
     top: 0;
     left: 0;
     width: auto;
     height: 70%;
-    max-width: 28%;   
+    max-width: 28%;
     object-fit: contain;
     z-index: 0;
     pointer-events: none;
 }
 
-/* Copia espejada, abajo a la derecha */
 .rik .lluvia-espejo {
     top: auto;
     left: auto;
@@ -126,37 +112,36 @@ html {
     transform: scaleX(-1) scaleY(-1);
 }
 
-
 .rik .hero-escena {
     grid-area: escena;
     align-self: end;
     justify-self: start;
     position: relative;
-    width: clamp(300px, 40vw, 760px);  
+    width: 40vw;
+    min-width: 300px;
+    max-width: 760px;
 }
 
 .rik .mascota {
-    display: block;                
+    display: block;
     position: relative;
     width: 100%;
     max-width: none;
     height: auto;
     margin: 0;
-    z-index: 4;                     /* la pata queda por delante del botón; poné 2 para que quede detrás */
+    z-index: 4;
 }
 
 .rik .hero-texto {
     position: absolute;
-    left: 76%;     
-    bottom: 28%;    
+    left: 76%;
+    bottom: 28%;
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: clamp(14px, 1.6vw, 24px);
 }
-
-/* Logo grande + slogan */
 
 .rik .logo-hero {
     grid-area: logo;
@@ -175,13 +160,14 @@ html {
     display: block;
 }
 
-/* Frase principal (píldora verde oscuro) */
-
 .rik .tarjeta-presentacion {
     position: relative;
     width: max-content;
     max-width: none;
-    padding: 12px 20px;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
     background-color: #064D2B;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -197,8 +183,6 @@ html {
     white-space: nowrap;
 }
 
-/* Botón Comenzá a jugar */
-
 .rik .boton-jugar {
     position: relative;
     margin-top: 4px;
@@ -209,11 +193,13 @@ html {
     align-items: center;
     justify-content: center;
     min-width: 220px;
-    padding: 18px 28px;
+    padding-top: 18px;
+    padding-right: 28px;
+    padding-bottom: 18px;
+    padding-left: 28px;
     font-size: clamp(18px, 2vw, 24px);
     line-height: 1.2;
 }
-
 
 .boton-3d {
     background-color: #FFE500;
@@ -231,13 +217,11 @@ html {
     filter: brightness(1.06);
 }
 
-/* Al presionar, el botón baja y la sombra casi desaparece */
 .boton-3d:active {
     transform: translateY(4px);
     box-shadow: 0 1px 0 #C4B000;
 }
 
-/* Variante verde oscuro (botón del cierre) */
 .boton-3d-verde {
     background-color: #064D2B;
     color: #FFFFFF;
@@ -248,25 +232,15 @@ html {
     box-shadow: 0 1px 0 #03301B;
 }
 
-/* ---------- Tarjetas: quiénes somos / visión / misión ---------- */
-
-.rik .card {
-    position: static;
-    flex-direction: row;
-    flex-grow: 0;
-    min-width: auto;
-    border: 0;
-    overflow-wrap: normal;
-}
-
 .rik .informacion-rik {
     position: relative;
     z-index: 1;
     width: 96%;
     max-width: 1600px;
-    margin: 0 auto;               
-    justify-self: center;    
-    grid-column: 1 / -1;          
+    margin-right: auto;
+    margin-left: auto;
+    justify-self: center;
+    grid-column: 1 / -1;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -274,8 +248,11 @@ html {
 }
 
 .rik .tarjeta-info {
-    min-height: 0;           
-    padding: 18px 28px;
+    min-height: 0;
+    padding-top: 18px;
+    padding-right: 28px;
+    padding-bottom: 18px;
+    padding-left: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -286,7 +263,7 @@ html {
 
 .rik .tarjeta-info p {
     margin: 0;
-    max-width: none;              
+    max-width: none;
     color: #000000;
     font-size: clamp(13px, 1vw, 17px);
     font-weight: 500;
@@ -294,12 +271,12 @@ html {
     text-align: center;
 }
 
-/* ---------- Logros y estadísticas ---------- */
-
 .rik .estadisticas {
     width: 92%;
     max-width: 1100px;
-    margin: clamp(32px, 5vw, 64px) auto 0;
+    margin-top: clamp(32px, 5vw, 64px);
+    margin-right: auto;
+    margin-left: auto;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -309,7 +286,10 @@ html {
 .rik .estadistica {
     width: auto;
     margin: 0;
-    padding: 22px 22px 24px;
+    padding-top: 22px;
+    padding-right: 22px;
+    padding-bottom: 24px;
+    padding-left: 22px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -349,18 +329,20 @@ html {
     color: #FFFFFF;
 }
 
-/* ---------- Carrusel ---------- */
-
 .rik .galeria {
     width: 100%;
-    padding: clamp(32px, 5vw, 64px) 0 8px;
+    padding-top: clamp(32px, 5vw, 64px);
+    padding-right: 0;
+    padding-bottom: 8px;
+    padding-left: 0;
 }
 
-.rik #carouselStackedBottom {
+.rik .carousel {
     position: relative;
-    width: min(91%, 1100px);     
-    max-width: none;
-    margin: 0 auto;
+    width: 91%;
+    max-width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
 }
 .rik .carousel-inner {
     border-radius: 20px;
@@ -372,7 +354,9 @@ html {
 .rik .carousel-item img {
     display: block;
     width: 100%;
-    height: clamp(240px, 36vw, 620px);   
+    height: 36vw;
+    min-height: 240px;
+    max-height: 620px;
     object-fit: cover;
     object-position: center;
 }
@@ -388,7 +372,7 @@ html {
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 50%;
+    border-radius: 22px;
     background-color: rgba(255, 255, 255, 0.88);
     color: #064D2B;
     cursor: pointer;
@@ -400,8 +384,12 @@ html {
     background-color: #FFFFFF;
 }
 
-.rik .flecha-anterior { left: 12px; }
-.rik .flecha-siguiente { right: 12px; }
+.rik .flecha-anterior {
+    left: 12px;
+}
+.rik .flecha-siguiente {
+    right: 12px;
+}
 
 .rik .carousel-icon-prev::before,
 .rik .carousel-icon-next::before {
@@ -413,12 +401,13 @@ html {
 .rik .carousel-icon-prev::before { content: "\2039"; }
 .rik .carousel-icon-next::before { content: "\203A"; }
 
-/* ---------- Cierre ---------- */
-
 .rik .cierre {
     width: 92%;
     max-width: 1100px;
-    margin: clamp(32px, 5vw, 64px) auto clamp(32px, 5vw, 56px);
+    margin-top: clamp(32px, 5vw, 64px);
+    margin-right: auto;
+    margin-bottom: clamp(32px, 5vw, 56px);
+    margin-left: auto;
 }
 
 .rik .caja-cierre {
@@ -453,15 +442,15 @@ html {
 
 .rik .boton-cierre {
     flex: none;
-    padding: 14px 24px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
     font-size: 15px;
     line-height: 1.3;
     text-align: center;
 }
 
-/* ---------- Responsive de la landing ---------- */
-
-/* Tablet: el logo arriba y la escena debajo */
 @media (max-width: 900px) {
     .rik .presentacion {
         grid-template-columns: minmax(0, 1fr);
@@ -477,12 +466,13 @@ html {
     }
 
     .rik .hero-escena {
-        width: min(70vw, 460px);
+        width: 70vw;
+        min-width: 0;
+        max-width: 460px;
         justify-self: center;
     }
 }
 
-/* Celular: el texto va arriba de la mascota, centrado */
 @media (max-width: 700px) {
     .rik .presentacion {
         min-height: 0;
@@ -497,6 +487,7 @@ html {
 
     .rik .hero-escena {
         width: 100%;
+        max-width: none;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -524,11 +515,6 @@ html {
         opacity: 0.8;
     }
 
-    .rik .informacion-rik,
-    .rik .estadisticas {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
     .rik .caja-cierre {
         flex-direction: column;
         align-items: stretch;
@@ -537,13 +523,12 @@ html {
     .rik .btn-icon {
         width: 38px;
         height: 38px;
+        border-radius: 19px;
     }
 }
 
 
-/* ============================================================
-   4. LOGIN
-   ============================================================ */
+/* 4. LOGIN */
 
 .login-body {
     min-height: 100vh;
@@ -559,7 +544,6 @@ html {
     position: relative;
 }
 
-/* Lo que tiene que quedar por encima del fondo (login, registro y formularios de Perfil) */
 .capa-arriba {
     position: relative;
     z-index: 1;
@@ -572,7 +556,10 @@ html {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
+    padding-top: 0;
+    padding-right: 24px;
+    padding-bottom: 0;
+    padding-left: 24px;
     gap: 16px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
@@ -586,24 +573,10 @@ html {
     color: #fff;
 }
 
-/* El tamaño del logo (.brand-logo) está en "2. HEADER COMPARTIDO" */
 .brand-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.brand-mark {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #f9d300;
-    color: #0a3f2a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 20px;
 }
 
 .login-button {
@@ -611,7 +584,10 @@ html {
     color: #000;
     text-decoration: none;
     font-size: 13px;
-    padding: 10px 18px;
+    padding-top: 10px;
+    padding-right: 18px;
+    padding-bottom: 10px;
+    padding-left: 18px;
     border-radius: 5px;
     font-weight: 700;
 }
@@ -626,16 +602,23 @@ html {
     flex-direction: column;
     gap: 12px;
     overflow: hidden;
-    padding: 20px 0 30px;
+    padding-top: 20px;
+    padding-right: 0;
+    padding-bottom: 30px;
+    padding-left: 0;
 }
 
 .login-panel {
     position: relative;
     z-index: 2;
-    width: min(420px, 82vw);
+    width: 82vw;
+    max-width: 420px;
     background: rgba(6, 77, 43, 0.32);
     border-radius: 14px;
-    padding: 30px 26px 24px;
+    padding-top: 30px;
+    padding-right: 26px;
+    padding-bottom: 24px;
+    padding-left: 26px;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
@@ -652,7 +635,10 @@ html {
     border-radius: 9px;
     background: #e9e9e9;
     color: #1b1b1b;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     font-size: 16px;
     outline: none;
 }
@@ -718,9 +704,7 @@ html {
 }
 
 
-/* ============================================================
-   5. REGISTRO
-   ============================================================ */
+/* 5. REGISTRO */
 
 .registro-body {
     min-height: 100vh;
@@ -732,37 +716,37 @@ html {
     position: relative;
 }
 
-#registroForm {
-    width: min(430px, 82vw);
-    margin: 0 auto;
+.registro-form {
+    width: 82vw;
+    max-width: 430px;
+    margin-right: auto;
+    margin-left: auto;
     background: rgba(0, 88, 52, 0.9);
     border: 3px solid rgba(16, 76, 47, 0.9);
     border-radius: 18px;
-    padding: 28px 22px 24px;
+    padding-top: 28px;
+    padding-right: 22px;
+    padding-bottom: 24px;
+    padding-left: 22px;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.15);
 }
 
-#registroForm div {
+.registro-form div {
     margin-bottom: 14px;
 }
 
-#registroForm label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-    font-size: 16.8px;
-    color: #fff;
-}
-
-#registroForm input[type="text"],
-#registroForm input[type="password"] {
+.registro-form input[type="text"],
+.registro-form input[type="password"] {
     width: 100%;
     height: 42px;
     border: none;
     border-radius: 10px;
     background: #eaeaea;
     color: #222;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     font-size: 16px;
 }
 
@@ -787,7 +771,9 @@ html {
 
 .registro-imagotipo {
     display: block;
-    width: clamp(180px, 24vw, 260px);
+    width: 24vw;
+    min-width: 180px;
+    max-width: 260px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
@@ -808,9 +794,7 @@ html {
 }
 
 
-/* ============================================================
-   6. INICIO (mapa de niveles arrastrable)
-   ============================================================ */
+/* 6. INICIO - MAPA DE NIVELES */
 
 .pagina-mapa {
     background: #ffffff;
@@ -828,7 +812,10 @@ html {
 }
 
 .pagina-mapa .page-main {
-    padding: 0 0 16px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 16px;
+    padding-left: 0;
 }
 
 .inicio-mapa {
@@ -841,12 +828,12 @@ html {
     user-select: none;
     background-color: #ffffff;
     background-image:
-        radial-gradient(ellipse 39% 34% at 10.4% 2%, #EEF1F4 99%, transparent 100%),
-        radial-gradient(ellipse 31.2% 30% at 31.2% 8%, #E4E8ED 99%, transparent 100%),
-        radial-gradient(ellipse 36.4% 40% at 5.2% 22%, #E4E8ED 99%, transparent 100%),
-        radial-gradient(ellipse 26% 26% at 85.8% 78%, #F3F5F7 99%, transparent 100%),
-        radial-gradient(ellipse 33.8% 36% at 62.4% 100%, #F3F5F7 99%, transparent 100%),
-        radial-gradient(ellipse 31.2% 38% at 93.6% 104%, #E9ECF0 99%, transparent 100%);
+        radial-gradient(ellipse 39% 34% at 10% 2%, #EEF1F4 99%, transparent 100%),
+        radial-gradient(ellipse 31% 30% at 31% 8%, #E4E8ED 99%, transparent 100%),
+        radial-gradient(ellipse 36% 40% at 5% 22%, #E4E8ED 99%, transparent 100%),
+        radial-gradient(ellipse 26% 26% at 86% 78%, #F3F5F7 99%, transparent 100%),
+        radial-gradient(ellipse 34% 36% at 62% 100%, #F3F5F7 99%, transparent 100%),
+        radial-gradient(ellipse 31% 38% at 94% 104%, #E9ECF0 99%, transparent 100%);
     background-repeat: no-repeat;
 }
 
@@ -885,11 +872,14 @@ html {
     vector-effect: non-scaling-stroke;
 }
 
-
 .inicio-nodo {
     position: absolute;
-    width: clamp(64px, 8vw, 112px);
-    height: clamp(64px, 8vw, 112px);
+    width: 8vw;
+    min-width: 64px;
+    max-width: 112px;
+    height: 8vw;
+    min-height: 64px;
+    max-height: 112px;
     transform: translate(-50%, -50%);
     z-index: 3;
     display: block;
@@ -904,7 +894,6 @@ html {
     display: block;
 }
 
-/* La imagen de la moneda bloqueada trae margen transparente alrededor. */
 .inicio-nodo-bloqueado img {
     transform: scale(1.5);
 }
@@ -912,7 +901,6 @@ html {
 .inicio-nodo-desbloqueado:hover {
     transform: translate(-50%, -50%) scale(1.08);
 }
-
 
 .inicio-pantalla {
     position: absolute;
@@ -940,27 +928,18 @@ html {
     color: #ffffff;
 }
 
-.inicio-biblioteca.card,
-.inicio-racha.card,
-.inicio-desempeno-tarjeta.card {
-    border: 0;
-    overflow-wrap: normal;
-}
-
-.inicio-desempeno-tarjeta.card {
-    position: static;
-    flex-direction: row;
-}
-
 .inicio-biblioteca {
     position: absolute;
     top: 24px;
-    left: 3.2%;
+    left: 3%;
     z-index: 4;
     width: 24%;
     min-width: 220px;
     max-width: 313px;
-    padding: 26px 20px;
+    padding-top: 26px;
+    padding-right: 20px;
+    padding-bottom: 26px;
+    padding-left: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -976,7 +955,10 @@ html {
 .inicio-biblioteca a {
     width: 100%;
     max-width: 229px;
-    padding: 9px 0;
+    padding-top: 9px;
+    padding-right: 0;
+    padding-bottom: 9px;
+    padding-left: 0;
     background: #FFEA00;
     border-radius: 10px;
     text-align: center;
@@ -992,7 +974,7 @@ html {
 .inicio-racha {
     position: absolute;
     top: clamp(180px, 31%, 215px);
-    left: 3.2%;
+    left: 3%;
     z-index: 4;
     width: 10%;
     min-width: 96px;
@@ -1038,7 +1020,10 @@ html {
     justify-content: space-around;
     align-items: flex-start;
     gap: 8px;
-    padding: 16px 18px;
+    padding-top: 16px;
+    padding-right: 18px;
+    padding-bottom: 16px;
+    padding-left: 18px;
 }
 
 .inicio-trofeo {
@@ -1051,7 +1036,9 @@ html {
 }
 
 .inicio-trofeo img {
-    width: clamp(48px, 5vw, 70px);
+    width: 5vw;
+    min-width: 48px;
+    max-width: 70px;
     height: auto;
     filter: invert(83%) sepia(61%) saturate(1500%) hue-rotate(358deg) brightness(103%);
 }
@@ -1093,8 +1080,6 @@ html {
     }
 }
 
-/* Celular (hasta 700px): la biblioteca y la racha van una al lado de la otra y más chicas,
-   así ocupan poco alto y las monedas del camino no quedan debajo de los paneles. */
 @media (max-width: 700px) {
     .inicio-biblioteca {
         top: 14px;
@@ -1112,7 +1097,10 @@ html {
     }
 
     .inicio-biblioteca a {
-        padding: 4.7946% 0;
+        padding-top: 5%;
+        padding-right: 0;
+        padding-bottom: 5%;
+        padding-left: 0;
     }
 
     .inicio-racha {
@@ -1130,9 +1118,7 @@ html {
 }
 
 
-/* ============================================================
-   7. MAPA (versión con nodos fijos)
-   ============================================================ */
+/* 7. MAPA */
 
 .mapa-body {
     margin: 0;
@@ -1142,49 +1128,8 @@ html {
     color: #000;
 }
 
-/* Los estilos del header (.mapa-header, .mapa-nav, .mapa-perfil...) están en _Layout.cshtml.css */
 
-/* Los dos headers son un navbar de Bootstrap con nav y nav-link: se sacan el salto de línea
-   y el tamaño y los márgenes del logo que agrega Bootstrap, y se devuelve lo que heredaban */
-.encabezado.navbar,
-.mapa-header.navbar {
-    flex-wrap: nowrap;
-}
-
-.mapa-nav.navbar-nav {
-    flex-direction: row;
-    list-style-type: disc;
-}
-
-
-header.encabezado a.navbar-brand,
-header.mapa-header a.navbar-brand {
-    margin-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    font-size: inherit;
-    text-align: inherit;
-    word-break: inherit;
-}
-
-header.mapa-header a.navbar-brand {
-    text-decoration: underline;
-}
-
-/* al pasar el mouse el logo mantiene el color de los links del layout */
-.mapa-header.navbar {
-    --bs-navbar-brand-hover-color: #0077cc;
-}
-
-.encabezado .nav-link,
-.mapa-nav .nav-link {
-    background-position: 0% 0%;
-}
-
-
-/* ============================================================
-   8. BIBLIOTECA
-   ============================================================ */
+/* 8. BIBLIOTECA */
 
 .biblioteca-grid {
     display: grid;
@@ -1192,8 +1137,14 @@ header.mapa-header a.navbar-brand {
     gap: 50px 60px;
     width: 100%;
     max-width: 1150px;
-    margin: 35px auto;
-    padding: 0 clamp(12px, 4%, 32px);
+    margin-top: 35px;
+    margin-right: auto;
+    margin-bottom: 35px;
+    margin-left: auto;
+    padding-top: 0;
+    padding-right: clamp(12px, 4%, 32px);
+    padding-bottom: 0;
+    padding-left: clamp(12px, 4%, 32px);
     justify-items: center;
 }
 
@@ -1225,7 +1176,10 @@ header.mapa-header a.navbar-brand {
     font-size: 20px;
     font-weight: normal;
     line-height: 1.4;
-    padding: 12px 14px;
+    padding-top: 12px;
+    padding-right: 14px;
+    padding-bottom: 12px;
+    padding-left: 14px;
     margin: 0;
     overflow-wrap: anywhere;
 }
@@ -1263,7 +1217,10 @@ header.mapa-header a.navbar-brand {
     .biblioteca-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 24px 16px;
-        margin: 24px auto;
+        margin-top: 24px;
+        margin-right: auto;
+        margin-bottom: 24px;
+        margin-left: auto;
     }
 }
 
@@ -1274,10 +1231,7 @@ header.mapa-header a.navbar-brand {
 }
 
 
-/* ============================================================
-   9. CHARLA DE TEORÍA
-   (la barra, las vidas y el botón amarillo también los usan Nivel y Resultado)
-   ============================================================ */
+/* 9. CHARLA DE TEORÍA */
 
 .pagina-juego {
     background: #ffffff;
@@ -1297,9 +1251,14 @@ header.mapa-header a.navbar-brand {
 }
 
 .charla {
-    width: min(100% - 48px, 1180px);
-    margin: 0 auto;
-    padding: 28px 0 40px;
+    width: calc(100% - 48px);
+    max-width: 1180px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 28px;
+    padding-right: 0;
+    padding-bottom: 40px;
+    padding-left: 0;
 }
 
 .charla.charla-teoria {
@@ -1314,7 +1273,6 @@ header.mapa-header a.navbar-brand {
     align-items: center;
     gap: 22px;
 }
-
 
 .charla-estado .progress {
     display: block;
@@ -1362,8 +1320,6 @@ header.mapa-header a.navbar-brand {
     color: #000000;
 }
 
-/* Mensajes */
-
 .charla-paso,
 .charla-resumen {
     display: flex;
@@ -1391,7 +1347,6 @@ header.mapa-header a.navbar-brand {
     gap: 14px;
 }
 
-/* El perro habla desde la derecha. */
 .charla-fila-perro {
     flex-direction: row-reverse;
 }
@@ -1399,7 +1354,10 @@ header.mapa-header a.navbar-brand {
 .charla-globo {
     margin: 0;
     max-width: 72%;
-    padding: 14px 24px;
+    padding-top: 14px;
+    padding-right: 24px;
+    padding-bottom: 14px;
+    padding-left: 24px;
     border-radius: 22px;
     background: #D9D9D9;
     color: #000000;
@@ -1425,7 +1383,6 @@ header.mapa-header a.navbar-brand {
     object-fit: contain;
 }
 
-/* En el paso a paso el globo del chico queda a la altura de la cabeza. */
 .charla-paso .charla-fila-chico {
     align-items: flex-start;
 }
@@ -1433,8 +1390,6 @@ header.mapa-header a.navbar-brand {
 .charla-paso .charla-fila-chico .charla-globo {
     margin-top: 6px;
 }
-
-/* Botón */
 
 .charla-acciones {
     display: flex;
@@ -1447,7 +1402,10 @@ header.mapa-header a.navbar-brand {
     bottom: 0;
     z-index: 1;
     margin-top: 10px;
-    padding: 16px 0 24px;
+    padding-top: 16px;
+    padding-right: 0;
+    padding-bottom: 24px;
+    padding-left: 0;
     background: #ffffff;
 }
 
@@ -1502,7 +1460,10 @@ header.mapa-header a.navbar-brand {
     .charla-globo {
         max-width: none;
         font-size: 14px;
-        padding: 10px 16px;
+        padding-top: 10px;
+        padding-right: 16px;
+        padding-bottom: 10px;
+        padding-left: 16px;
     }
 
     .juego-boton {
@@ -1516,22 +1477,22 @@ header.mapa-header a.navbar-brand {
 }
 
 
-/* ============================================================
-   10. NIVEL (preguntas)
-   ============================================================ */
+/* 10. NIVEL */
 
 .nivel-tiempo {
     font-size: 24px;
     line-height: 1;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    padding: 8px 14px;
+    padding-top: 8px;
+    padding-right: 14px;
+    padding-bottom: 8px;
+    padding-left: 14px;
     border-radius: 10px;
     background: #0A4D28;
     color: #ffffff;
 }
 
-/* Barra arriba, la pregunta centrada en el espacio libre y el botón abajo de todo. */
 .charla.nivel {
     flex: 1;
     display: flex;
@@ -1546,11 +1507,13 @@ header.mapa-header a.navbar-brand {
     justify-content: center;
 }
 
-
 .nivel-enunciado {
     width: 100%;
     max-width: 940px;
-    margin: 26px auto 70px;
+    margin-top: 26px;
+    margin-right: auto;
+    margin-bottom: 70px;
+    margin-left: auto;
     text-align: center;
     font-size: 36px;
     font-weight: 600;
@@ -1564,13 +1527,17 @@ header.mapa-header a.navbar-brand {
     gap: 24px 80px;
     width: 100%;
     max-width: 940px;
-    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .nivel-opcion {
     min-height: 120px;
-    padding: 12px 20px;
-    border: 4px solid transparent;     
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    border: 4px solid transparent;
     border-radius: 8px;
     background: #D9D9D9;
     color: #000000;
@@ -1609,9 +1576,6 @@ header.mapa-header a.navbar-brand {
 }
 
 .nivel-resultado {
-    padding: 0;
-    border: 0;
-    border-radius: 0;
     min-height: 28px;
     margin: 18px 0 0;
     text-align: center;
@@ -1625,7 +1589,10 @@ header.mapa-header a.navbar-brand {
 
 @media (max-width: 700px) {
     .nivel-enunciado {
-        margin: 18px auto 36px;
+        margin-top: 18px;
+        margin-right: auto;
+        margin-bottom: 36px;
+        margin-left: auto;
         font-size: 24px;
     }
 
@@ -1648,36 +1615,40 @@ header.mapa-header a.navbar-brand {
         gap: 12px;
     }
 }
-/* ============================================================
-   11. RESULTADO DEL NIVEL (.fin)
-   ============================================================ */
+
+
+/* 11. RESULTADO DEL NIVEL */
 
 .fin {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;  
-    width: min(100% - 48px, 1180px);
-    margin: 0 auto;
-    padding: 0 0 24px;
+    justify-content: center;
+    width: calc(100% - 48px);
+    max-width: 1180px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 24px;
+    padding-left: 0;
 }
 
-/* ---------- Mensaje ---------- */
-
-/* Victoria: verde, pegado a la derecha */
 .fin .fin-mensaje {
     align-self: flex-end;
     width: 70%;
     max-width: 100%;
     margin: 0;
-    padding: 0 clamp(16px, 2.4vw, 34px) clamp(14px, 2.4vw, 34px) clamp(24px, 4.8vw, 68px);
+    padding-top: 0;
+    padding-right: clamp(16px, 2.4vw, 34px);
+    padding-bottom: clamp(14px, 2.4vw, 34px);
+    padding-left: clamp(24px, 4.8vw, 68px);
     background: #0A7A3E;
     color: #000000;
     font-size: clamp(17px, 2.3vw, 32px);
     line-height: 1.3;
 }
 
-/* Derrota: rojo, pegado a la izquierda */
 .fin-perdio .fin-mensaje {
     align-self: flex-start;
     width: 62%;
@@ -1685,10 +1656,6 @@ header.mapa-header a.navbar-brand {
     background: #FF5A65;
 }
 
-/* ---------- Cuerpo: grilla compartida ---------- */
-
-/* La mascota en la primera columna y las 3 cajas a su derecha, en la misma fila.
-   Victoria: el cuerpo no se estira, así el mensaje, la mascota y el botón quedan juntos. */
 .fin-cuerpo {
     flex: none;
     display: grid;
@@ -1698,7 +1665,6 @@ header.mapa-header a.navbar-brand {
     margin-top: 24px;
 }
 
-/* Derrota: el mensaje arriba, el cuerpo se estira y queda pegado abajo, sobre el botón */
 .fin-perdio {
     justify-content: flex-start;
 }
@@ -1710,36 +1676,30 @@ header.mapa-header a.navbar-brand {
     margin-top: 10px;
 }
 
-/* ---------- Mascota ---------- */
-
 .fin-mascota {
     grid-column: 1;
     justify-self: start;
     width: 100%;
     max-width: 400px;
     height: auto;
-    /* se apoya sobre las cajas */
     margin-bottom: -14px;
 }
 
-/* derrota: baja más y el botón la tapa, como en el diseño */
 .fin-perdio .fin-mascota {
     margin-bottom: clamp(-90px, -6vw, -20px);
 }
-
 
 .fin-cuerpo > div:not(.fin-acciones) {
     justify-self: center;
     align-self: end;
 }
 
-.fin-cuerpo > div:nth-child(3) { order: 1; }   /* Tiempo */
-.fin-cuerpo > div:nth-child(2) { order: 2; }   /* XP */
-.fin-cuerpo > div:nth-child(4) { order: 3; }   /* Aciertos */
+.fin-cuerpo > div:nth-child(3) { order: 1; }
+.fin-cuerpo > div:nth-child(2) { order: 2; }
+.fin-cuerpo > div:nth-child(4) { order: 3; }
 
-.fin-perdio .fin-cuerpo > div:nth-child(4) { order: 2; }   /* Aciertos */
-.fin-perdio .fin-cuerpo > div:nth-child(2) { order: 3; }   /* XP */
-
+.fin-perdio .fin-cuerpo > div:nth-child(4) { order: 2; }
+.fin-perdio .fin-cuerpo > div:nth-child(2) { order: 3; }
 
 .fin-cuerpo > div:nth-child(2) > span:not(.fin-etiqueta) {
     left: 0 !important;
@@ -1747,7 +1707,6 @@ header.mapa-header a.navbar-brand {
     text-align: center;
 }
 
-/* Etiquetas: verdes al ganar, rojas al perder (el color no viene en el HTML) */
 .fin-etiqueta {
     color: #0A4D28;
 }
@@ -1756,12 +1715,14 @@ header.mapa-header a.navbar-brand {
     color: #F5333F;
 }
 
-
 .fin-valor {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     word-wrap: break-word;
-    padding: 6px 16px;
+    padding-top: 6px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-left: 16px;
     border: 3px solid #FFD700;
     border-radius: 8px;
     background: #D9D9D9;
@@ -1771,8 +1732,6 @@ header.mapa-header a.navbar-brand {
     text-align: center;
     white-space: nowrap;
 }
-
-/* ---------- Botones ---------- */
 
 .fin-acciones {
     grid-column: 1 / -1;
@@ -1792,20 +1751,20 @@ header.mapa-header a.navbar-brand {
 }
 
 .fin-boton {
-    position: relative;      
+    position: relative;
     flex: 1 1 0;
     width: auto;
     height: auto;
 
     min-height: clamp(56px, 6.6vw, 84px);
-    padding: 8px 16px;
+    padding-top: 8px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+    padding-left: 16px;
     font-size: clamp(18px, 2.6vw, 34px);
     line-height: 1.2;
     text-align: center;
 }
-
-/* ---------- Pantallas más chicas ---------- */
-
 
 @media (max-width: 1000px) {
     .fin-cuerpo > div:not(.fin-acciones) {
@@ -1818,7 +1777,10 @@ header.mapa-header a.navbar-brand {
     .fin-perdio .fin-mensaje {
         align-self: stretch;
         width: 100%;
-        padding: 14px 18px;
+        padding-top: 14px;
+        padding-right: 18px;
+        padding-bottom: 14px;
+        padding-left: 18px;
         font-size: 17px;
     }
 
@@ -1868,9 +1830,7 @@ header.mapa-header a.navbar-brand {
 }
 
 
-/* ============================================================
-   13. UTILIDADES
-   ============================================================ */
+/* 12. UTILIDADES */
 
 .boton-link {
     background: none;
@@ -1883,7 +1843,7 @@ header.mapa-header a.navbar-brand {
 
 .link-volver {
     color: #3F6B50;
-    font-size: 14.4px;
+    font-size: 14px;
     text-decoration: none;
 }
 
@@ -1896,7 +1856,6 @@ header.mapa-header a.navbar-brand {
     text-decoration: underline;
 }
 
-/* Caja blanca con borde redondeado (listas de Perfil y "Cambiar contraseña" en Mis datos) */
 .caja-blanca {
     overflow: hidden;
     border: 1px solid #DCE8DF;
@@ -1904,51 +1863,22 @@ header.mapa-header a.navbar-brand {
     background: #fff;
 }
 
-/* El "Volver" de Ajustes, Mis datos y Cambiar contraseña pasa arriba del título */
 .volver-arriba {
     order: -1;
     margin-bottom: -8px;
 }
 
-.list-group-item.item-simple {
-    position: static;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-    color: inherit;
-}
-
-/* Cards de Bootstrap sin el flex en columna, el position: relative, el color ni el corte
-   de palabras largas ("Invitá a tus amigos" y las cajas de búsqueda de Unirse) */
-.card.card-plana {
-    position: static;
-    display: block;
-    min-width: auto;
-    color: inherit;
-    overflow-wrap: normal;
-}
-
-/* input-group de Bootstrap con el campo y el botón separados (link de invitación y buscadores) */
-.input-group.grupo-separado {
-    position: static;
+.grupo-separado {
     display: flex;
-    flex-wrap: nowrap;
-    align-items: normal;
     gap: 8px;
 }
-/* ============================================================
-   14. LIGA - TABLA DE POSICIONES (Views/Liga/Index.cshtml)
-   ============================================================ */
 
-/* fondo con degradado (Liga, Crear liga y Teoría y moraleja): la view le pone la clase al body */
-.fondo-degradado {
+
+/* 13. LIGA - TABLA DE POSICIONES */
+
+.fondo-liso {
     color: #173D20;
-    background:
-        radial-gradient(circle at 8% 18%, rgba(255, 229, 0, .16) 0, transparent 32%),
-        radial-gradient(circle at 92% 85%, rgba(7, 139, 88, .12) 0, transparent 38%),
-        #F6F9F5;
-    background-attachment: fixed;
+    background: #F6F9F5;
 }
 
 .pagina-liga {
@@ -1968,12 +1898,13 @@ header.mapa-header a.navbar-brand {
     align-content: start;
     column-gap: clamp(24px, 5vw, 64px);
     max-width: 1120px;
-    margin: 0 auto;
-    padding: 40px 24px 140px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+    padding-right: 24px;
+    padding-bottom: 140px;
+    padding-left: 24px;
 }
-
-
-/* ---------- Encabezado ---------- */
 
 .pagina-liga .liga-titulo {
     grid-area: titulo;
@@ -1983,15 +1914,13 @@ header.mapa-header a.navbar-brand {
     color: #064D2B;
     font-size: clamp(28px, 3vw, 36px);
     font-weight: 700;
-    letter-spacing: -.01em;
+    letter-spacing: -0.4px;
     line-height: 1.1;
 }
 
-/* ---------- Títulos de sección ---------- */
-
 .pagina-liga .liga-subtitulo {
     margin: 0 0 16px;
-    font-size: clamp(21.6px, 2.4vw, 28px);
+    font-size: clamp(22px, 2.4vw, 28px);
     font-weight: 600;
     color: #111;
 }
@@ -2000,50 +1929,32 @@ header.mapa-header a.navbar-brand {
 .pagina-liga .liga-subtitulo-global { grid-area: hglobal; }
 .pagina-liga .liga-subtitulo-amigos { grid-area: hliga; }
 
-
-.etiqueta-seccion {
-    display: block;
-    margin-bottom: 6px;
-    padding-left: 10px;
-    border-left: 3px solid #FFC21A;
-    color: #0B6B3D;
-    font-size: 11.52px;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: 1.152px;
-}
-
-/* ---------- Mis ligas (chips) ---------- */
-
 .pagina-liga .lista-ligas {
     grid-area: mis;
     display: flex;
     align-items: center;
     gap: 14px;
     margin-bottom: 44px;
-    padding: 4px 4px 12px;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 12px;
+    padding-left: 4px;
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: #B6E9C6 transparent;
 }
 
-/* "Mis ligas" es un nav-pills de Bootstrap: se saca el salto de línea (las ligas siguen en una sola
-   fila con scroll) */
-.lista-ligas.nav {
-    flex-wrap: nowrap;
-    list-style-type: disc;
-}
-
-/* aviso de "sin ligas": alert de Bootstrap con el estilo de RIK */
 .lista-ligas-vacia {
-    position: static;
     margin: 0;
-    padding: 14px 18px;
+    padding-top: 14px;
+    padding-right: 18px;
+    padding-bottom: 14px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 16px;
     background: rgba(255, 255, 255, .7);
     color: #3F6B50;
-    font-size: 14.4px;
+    font-size: 14px;
 }
 
 .lista-ligas .liga {
@@ -2053,7 +1964,10 @@ header.mapa-header a.navbar-brand {
     align-items: center;
     gap: 16px;
     min-width: 220px;
-    padding: 12px 12px 12px 16px;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
     border: 1.5px solid #D6ECDD;
     border-radius: 18px;
     background: #fff;
@@ -2089,7 +2003,10 @@ header.mapa-header a.navbar-brand {
 
 .lista-ligas .liga a {
     flex: 0 0 auto;
-    padding: 6px 12px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
     border-radius: 10px;
     background: #064D2B;
     color: #fff;
@@ -2099,7 +2016,6 @@ header.mapa-header a.navbar-brand {
     white-space: nowrap;
 }
 
-/* toda la tarjeta es clickeable */
 .lista-ligas .liga a::after {
     content: "";
     position: absolute;
@@ -2112,14 +2028,11 @@ header.mapa-header a.navbar-brand {
     color: #064D2B;
 }
 
-/* Animación de entrada (la usan las tarjetas de Teoría y moraleja, sección 18) */
 @keyframes liga-entrar {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: none; }
 }
 
-/* Contenedores de los rankings (Views/Liga/Index.cshtml): cada contenedor
-   se ubica en su zona de la grilla. */
 .pagina-liga .ranking-global {
     grid-area: tglobal;
     align-self: start;
@@ -2132,9 +2045,7 @@ header.mapa-header a.navbar-brand {
     min-width: 0;
 }
 
-/* sin ligas o sin datos: se muestra el <p> con el mensaje en lugar del ranking */
 .pagina-liga .ranking-vacio {
-    position: static;
     display: grid;
     align-items: center;
     justify-items: center;
@@ -2148,11 +2059,9 @@ header.mapa-header a.navbar-brand {
     text-align: center;
 }
 
-/* ============================================================
-   14b. RANKINGS (Views/Liga/Index.cshtml)
-   ============================================================ */
 
-/* mide 484px, pero sin salirse en pantallas chicas */
+/* 14. LIGA - RANKINGS */
+
 .ranking-tabla {
     width: 484px;
     max-width: 100%;
@@ -2170,23 +2079,10 @@ header.mapa-header a.navbar-brand {
     font-family: 'Poppins', sans-serif;
 }
 
-
-.ranking-tabla > .list-group-item {
-    border: 0;
-    border-radius: 9999px;
-    color: inherit;
-}
-
-/* del 4° puesto en adelante las filas no llevan position: relative */
-.ranking-tabla > .ranking-fila-resto.list-group-item {
-    position: static;
-}
-
-/* partes que son iguales en todas las filas (todas tienen la clase .ranking-fila) */
 .ranking-fila {
     align-self: stretch;
     padding: 10px;
-    border-radius: 9999px;
+    border-radius: 100000px;
     justify-content: space-between;
     align-items: center;
     display: inline-flex;
@@ -2220,7 +2116,10 @@ header.mapa-header a.navbar-brand {
     line-height: 32px;
 }
 .ranking-fila .ranking-puntos {
-    padding: 4px 20px;
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 20px;
     border-radius: 9999px;
 }
 .ranking-fila .ranking-puntos-texto {
@@ -2242,7 +2141,6 @@ header.mapa-header a.navbar-brand {
     padding-right: 4px;
 }
 
-/* 1° puesto */
 .ranking-fila-oro {
     position: relative;
     background: linear-gradient(90deg, #FFE566 0%, #FFD700 50%, #F5C300 100%);
@@ -2273,20 +2171,8 @@ header.mapa-header a.navbar-brand {
     color: #0A4D28;
     font-size: 12px;
     font-weight: 800;
-    letter-spacing: 0.60px;
+    letter-spacing: 0.6px;
 }
-/* los puntos de cada fila son un badge de Bootstrap: se le sacan el tamaño, el color,
-   la alineación y el display que trae (los colores de cada puesto están más abajo) */
-.ranking-puntos.badge {
-    display: block;
-    color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    text-align: inherit;
-    white-space: inherit;
-}
-
 .ranking-fila-oro .ranking-puntos {
     background: #0A4D28;
     outline: 1px rgba(255, 255, 255, 0.20) solid;
@@ -2297,7 +2183,6 @@ header.mapa-header a.navbar-brand {
     font-weight: 800;
 }
 
-/* 2° puesto */
 .ranking-fila-plata {
     position: relative;
     background: #F1F5F9;
@@ -2318,7 +2203,6 @@ header.mapa-header a.navbar-brand {
 .ranking-fila-plata .ranking-avatar-cuadrado {
     background: #E2E8F0;
 }
-/* el nombre y los puntos son iguales en plata y bronce */
 .ranking-fila-medalla .ranking-nombre {
     color: #0C0A09;
     font-weight: 700;
@@ -2338,7 +2222,6 @@ header.mapa-header a.navbar-brand {
     font-weight: 800;
 }
 
-/* 3° puesto */
 .ranking-fila-bronce {
     position: relative;
     background: #FFE9D6;
@@ -2369,7 +2252,6 @@ header.mapa-header a.navbar-brand {
     outline: 1px #F4CAA5 solid;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* del 4° puesto en adelante */
 .ranking-fila-resto {
     background: rgba(255, 255, 255, 0.10);
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
@@ -2388,8 +2270,8 @@ header.mapa-header a.navbar-brand {
     outline: 1px rgba(255, 255, 255, 0.10) solid;
 }
 .ranking-fila-resto .ranking-avatar-cuadrado {
-    width: 13.33px;
-    height: 13.33px;
+    width: 13px;
+    height: 13px;
     background: rgba(255, 255, 255, 0.70);
 }
 .ranking-fila-resto .ranking-nombre {
@@ -2405,20 +2287,15 @@ header.mapa-header a.navbar-brand {
     font-weight: 700;
 }
 
-/* del 4° en adelante no hay subtítulo ("CAMPEÓN", "2° Lugar"...) */
 .ranking-fila-resto .ranking-subtitulo {
     display: none;
 }
-
-/* ---------- Abandonar / Eliminar liga ---------- */
 
 .pagina-liga .liga-accion {
     grid-area: accion;
     justify-self: end;
     margin-top: 18px;
 }
-
-/* ---------- Botón flotante "Crear liga" ---------- */
 
 .pagina-liga .liga-crear {
     position: fixed;
@@ -2446,10 +2323,10 @@ header.mapa-header a.navbar-brand {
     justify-items: center;
     width: 62px;
     height: 62px;
-    border-radius: 50%;
+    border-radius: 31px;
     background: #064D2B;
     color: #fff;
-    font-size: 36.8px;
+    font-size: 37px;
     font-weight: 400;
     line-height: 1;
     text-shadow: none;
@@ -2462,8 +2339,6 @@ header.mapa-header a.navbar-brand {
     background: #FFE500;
     color: #064D2B;
 }
-
-/* ---------- Responsive ---------- */
 
 @media (max-width: 860px) {
     .pagina-liga {
@@ -2480,39 +2355,45 @@ header.mapa-header a.navbar-brand {
             "compartir"
             "accion";
         grid-template-rows: none;
-        padding: 28px 16px 140px;
+        padding-top: 28px;
+        padding-right: 16px;
+        padding-bottom: 140px;
+        padding-left: 16px;
     }
 }
 
 
-/* ============================================================
-   15. LIGA - COMPARTIR, UNIRSE Y SOLICITUDES
-   ============================================================ */
+/* 15. LIGA - UNIRSE Y SOLICITUDES */
 
 .pagina-liga .liga-aviso {
-    position: static;
     grid-area: aviso;
     margin: 0 0 24px;
-    padding: 12px 16px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
     border: 1.5px solid #B6E9C6;
     font-weight: 600;
     border-left: 4px solid #078B58;
     border-radius: 8px;
     background: #E6F4EC;
     color: #173D20;
-    font-size: 14.72px;
+    font-size: 15px;
 }
 
 .lista-ligas .liga-unirse {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    padding: 12px 18px;
+    padding-top: 12px;
+    padding-right: 18px;
+    padding-bottom: 12px;
+    padding-left: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 18px;
     background: rgba(255, 255, 255, .7);
     color: #064D2B;
-    font-size: 14.4px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
@@ -2529,12 +2410,14 @@ header.mapa-header a.navbar-brand {
     align-self: start;
     box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
     margin-top: 18px;
-    padding: 18px 20px;
+    padding-top: 18px;
+    padding-right: 20px;
+    padding-bottom: 18px;
+    padding-left: 20px;
     border: 1px solid #DCE8DF;
     border-radius: 18px;
     background: #fff;
 }
-
 
 .liga-compartir h3 {
     margin: 0 0 2px;
@@ -2546,35 +2429,37 @@ header.mapa-header a.navbar-brand {
 .liga-compartir p {
     margin: 0 0 12px;
     color: #4B6354;
-    font-size: 13.6px;
+    font-size: 14px;
 }
 
-.liga-compartir .input-group .form-control {
+.liga-compartir .grupo-separado .form-control {
     flex: 1;
     min-width: 0;
-    padding: 9px 12px;
+    padding-top: 9px;
+    padding-right: 12px;
+    padding-bottom: 9px;
+    padding-left: 12px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #F6F9F5;
     color: #173D20;
     font: inherit;
-    font-size: 13.12px;
+    font-size: 13px;
 }
 
-.liga-compartir .input-group .form-control:focus {
+.liga-compartir .grupo-separado .form-control:focus {
     color: #173D20;
     background: #F6F9F5;
     border-color: #C9DCCF;
     box-shadow: none;
 }
 
-
 .liga-compartir-estado {
     display: block;
-    min-height: 15.36px;
+    min-height: 15px;
     margin-top: 6px;
     color: #078B58;
-    font-size: 12.8px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -2584,7 +2469,7 @@ header.mapa-header a.navbar-brand {
     gap: 8px;
     margin-top: 6px;
     color: #064D2B;
-    font-size: 14.4px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -2595,7 +2480,10 @@ header.mapa-header a.navbar-brand {
     justify-items: center;
     min-width: 22px;
     height: 22px;
-    padding: 0 6px;
+    padding-top: 0;
+    padding-right: 6px;
+    padding-bottom: 0;
+    padding-left: 6px;
     border-radius: 11px;
     background: #FFE500;
     color: #173D20;
@@ -2606,8 +2494,6 @@ header.mapa-header a.navbar-brand {
     text-decoration: none;
 }
 
-/* ---------- Páginas "Unirse a una liga" y "Solicitudes" ---------- */
-
 .pagina-unirse {
     background: #F6F9F5;
     color: #173D20;
@@ -2615,8 +2501,12 @@ header.mapa-header a.navbar-brand {
 
 .unirse-liga {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 32px 24px 64px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 64px;
+    padding-left: 24px;
 }
 
 .unirse-volver {
@@ -2627,26 +2517,27 @@ header.mapa-header a.navbar-brand {
 .unirse-liga h1 {
     margin: 0 0 6px;
     color: #064D2B;
-    font-size: clamp(25.6px, 3vw, 33.6px);
+    font-size: clamp(26px, 3vw, 34px);
     font-weight: 700;
 }
 
 .unirse-subtitulo {
     margin: 0 0 28px;
     color: #4B6354;
-    font-size: 15.2px;
+    font-size: 15px;
 }
 
 .unirse-liga .unirse-aviso {
-    position: static;
     margin: 0 0 20px;
-    padding: 12px 16px;
-    border: 0;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
     border-left: 4px solid #078B58;
     border-radius: 8px;
     background: #E6F4EC;
     color: #173D20;
-    font-size: 14.72px;
+    font-size: 15px;
 }
 
 .unirse-liga .unirse-aviso-error {
@@ -2672,31 +2563,33 @@ header.mapa-header a.navbar-brand {
 .unirse-caja h2 {
     margin: 0 0 2px;
     color: #111;
-    font-size: 17.6px;
+    font-size: 18px;
     font-weight: 600;
 }
 
 .unirse-caja p {
     margin: 0 0 14px;
     color: #4B6354;
-    font-size: 13.6px;
+    font-size: 14px;
 }
 
-
-.unirse-caja .input-group .form-control,
+.unirse-caja .grupo-separado .form-control,
 .unirse-form-accion input {
     flex: 1;
     min-width: 0;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #fff;
     color: #173D20;
     font: inherit;
-    font-size: 14.4px;
+    font-size: 14px;
 }
 
-.unirse-caja .input-group .form-control:focus,
+.unirse-caja .grupo-separado .form-control:focus,
 .unirse-form-accion input:focus {
     color: #173D20;
     background: #fff;
@@ -2705,36 +2598,24 @@ header.mapa-header a.navbar-brand {
     outline: 2px solid rgba(7, 139, 88, .2);
 }
 
-
-.grupo-separado > #linkInvitacion,
-.grupo-separado > #linkInvitacion + .liga-boton,
-.grupo-separado > #link,
-.grupo-separado > #link + .liga-boton,
-.grupo-separado > #busqueda,
-.grupo-separado > #busqueda + .liga-boton {
-    margin-left: 0;
-    border-radius: 10px;
-}
-
-.liga-compartir .input-group .form-control,
-.unirse-caja .input-group .form-control,
+.liga-compartir .grupo-separado .form-control,
+.unirse-caja .grupo-separado .form-control,
 .unirse-form-accion .form-control {
     position: static;
     appearance: auto;
     transition: initial;
 }
 
-/* la contraseña de cada liga privada no ocupa todo el ancho como el form-control de Bootstrap */
 .unirse-form-accion .form-control {
     width: auto;
 }
 
-.unirse-caja .input-group .campo-busqueda {
+.unirse-caja .grupo-separado .campo-busqueda {
     appearance: textfield;
 }
 
-.liga-compartir .input-group .form-control::placeholder,
-.unirse-caja .input-group .form-control::placeholder,
+.liga-compartir .grupo-separado .form-control::placeholder,
+.unirse-caja .grupo-separado .form-control::placeholder,
 .unirse-form-accion .form-control::placeholder {
     color: revert;
 }
@@ -2742,13 +2623,16 @@ header.mapa-header a.navbar-brand {
 .liga-boton {
     flex: 0 0 auto;
     display: inline-block;
-    padding: 10px 18px;
+    padding-top: 10px;
+    padding-right: 18px;
+    padding-bottom: 10px;
+    padding-left: 18px;
     border: 1.5px solid #064D2B;
     border-radius: 10px;
     background: #064D2B;
     color: #fff;
     font: inherit;
-    font-size: 14.08px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
@@ -2804,23 +2688,13 @@ header.mapa-header a.navbar-brand {
     align-items: center;
     gap: 14px 16px;
     margin-bottom: 12px;
-    padding: 16px 18px;
+    padding-top: 16px;
+    padding-right: 18px;
+    padding-bottom: 16px;
+    padding-left: 18px;
     border: 1px solid #DCE8DF;
     border-radius: 16px;
     background: #fff;
-}
-
-
-.unirse-resultados.list-group {
-    display: block;
-    border-radius: 0;
-}
-
-.unirse-resultados .unirse-tarjeta.list-group-item {
-    position: static;
-    color: inherit;
-    border-top-width: 1px;
-    border-radius: 16px;
 }
 
 .unirse-tarjeta-info {
@@ -2831,7 +2705,7 @@ header.mapa-header a.navbar-brand {
 .unirse-tarjeta-info h3 {
     margin: 0 0 2px;
     color: #064D2B;
-    font-size: 16.8px;
+    font-size: 17px;
     font-weight: 700;
     overflow-wrap: anywhere;
 }
@@ -2839,16 +2713,16 @@ header.mapa-header a.navbar-brand {
 .unirse-tarjeta-info p {
     margin: 0;
     color: #5B7364;
-    font-size: 13.44px;
+    font-size: 13px;
 }
 
 .unirse-etiqueta {
-    line-height: inherit;
-    text-align: inherit;
-    white-space: inherit;
     grid-area: etiqueta;
     justify-self: end;
-    padding: 3px 10px;
+    padding-top: 3px;
+    padding-right: 10px;
+    padding-bottom: 3px;
+    padding-left: 10px;
     border-radius: 6px;
     background: #E6F4EC;
     color: #064D2B;
@@ -2882,10 +2756,9 @@ header.mapa-header a.navbar-brand {
 
 .unirse-estado {
     color: #5B7364;
-    font-size: 13.6px;
+    font-size: 14px;
     font-style: italic;
 }
-
 
 .unirse-vacio {
     position: static;
@@ -2894,14 +2767,13 @@ header.mapa-header a.navbar-brand {
     border-radius: 16px;
     background: #fff;
     color: #3F6B50;
-    font-size: 14.4px;
+    font-size: 14px;
 }
 
 @media (max-width: 700px) {
-    .unirse-liga {
-        padding: 24px 16px 48px;
-    }
 
+    .rik .informacion-rik,
+    .rik .estadisticas,
     .unirse-formularios {
         grid-template-columns: minmax(0, 1fr);
     }
@@ -2912,10 +2784,7 @@ header.mapa-header a.navbar-brand {
 }
 
 
-/* ============================================================
-   16. PERFIL (Index, Ajustes, ModificarMisDatos, CambiarContrasena)
-   Cada view le pone .pagina-perfil al body y .perfil a su <main>.
-   ============================================================ */
+/* 16. PERFIL */
 
 .pagina-perfil {
     min-height: 100vh;
@@ -2929,33 +2798,28 @@ header.mapa-header a.navbar-brand {
     flex-direction: column;
     gap: 16px;
     max-width: 560px;
-    margin: 0 auto;
-    padding: 36px 20px 64px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 36px;
+    padding-right: 20px;
+    padding-bottom: 64px;
+    padding-left: 20px;
 }
-
-/* ---------- Título de cada página ---------- */
 
 .perfil-titulo {
     margin: 0 0 6px;
     color: #064D2B;
-    font-size: clamp(25.6px, 3vw, 32px);
+    font-size: clamp(26px, 3vw, 32px);
     font-weight: 700;
     line-height: 1.15;
 }
 
-/* "Mi perfil" lleva el avatar a la izquierda */
 .perfil-titulo-avatar {
     display: flex;
     align-items: center;
     min-height: 64px;
     padding-left: 80px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23064D2B'/%3E%3Ccircle cx='32' cy='25' r='10' fill='%23FFE500'/%3E%3Cpath d='M14 52c2.8-9 10-14 18-14s15.2 5 18 14' fill='%23FFE500'/%3E%3C/svg%3E") left center / 64px no-repeat;
-}
-
-/* ---------- Listas de opciones (Index y Ajustes) ---------- */
-
-.perfil .list-group {
-    display: block;
 }
 
 .perfil .perfil-opcion + .perfil-opcion {
@@ -2967,12 +2831,15 @@ header.mapa-header a.navbar-brand {
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding: 14px 18px;
+    padding-top: 14px;
+    padding-right: 18px;
+    padding-bottom: 14px;
+    padding-left: 18px;
     border: 0;
     background: none;
     color: #173D20;
     font: inherit;
-    font-size: 15.68px;
+    font-size: 16px;
     text-align: left;
     text-decoration: none;
     cursor: pointer;
@@ -2987,7 +2854,6 @@ header.mapa-header a.navbar-brand {
     background: #F3F8F4;
 }
 
-/* ícono de cada opción */
 .perfil .opcion-boton::before {
     content: "";
     flex: 0 0 auto;
@@ -3000,7 +2866,6 @@ header.mapa-header a.navbar-brand {
     background-repeat: no-repeat;
 }
 
-/* flecha a la derecha */
 .perfil .opcion-link::after {
     content: "\203A";
     margin-left: auto;
@@ -3009,26 +2874,23 @@ header.mapa-header a.navbar-brand {
     line-height: 1;
 }
 
-/* opciones que todavía no tienen pantalla (no tienen link) */
 .perfil .opcion-proximamente {
     cursor: default;
 }
 
-/* "Próximamente": badge de Bootstrap con los colores de RIK */
 .perfil .proximamente {
     margin-left: auto;
-    padding: 3px 9px;
+    padding-top: 3px;
+    padding-right: 9px;
+    padding-bottom: 3px;
+    padding-left: 9px;
     border-radius: 6px;
     background: #F1F3F2;
     color: #6B7C72;
-    font-size: 11.52px;
+    font-size: 12px;
     font-weight: 600;
-    line-height: inherit;
-    text-align: inherit;
-    white-space: inherit;
 }
 
-/* íconos de cada opción (se dibujan en el ::before) */
 .perfil .icono-datos::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E");
 }
@@ -3045,7 +2907,6 @@ header.mapa-header a.navbar-brand {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E");
 }
 
-/* Ajustes: Accesibilidad, Soporte, Idioma, Notificaciones */
 .perfil .icono-accesibilidad::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='4.5' r='1.6'/%3E%3Cpath d='M5 8.5l7 1.5 7-1.5M12 10v4l-3 6M12 14l3 6'/%3E%3C/svg%3E");
 }
@@ -3061,8 +2922,6 @@ header.mapa-header a.navbar-brand {
 .perfil .icono-notificaciones::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23064D2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z'/%3E%3Cpath d='M10 20a2 2 0 0 0 4 0'/%3E%3C/svg%3E");
 }
-
-/* ---------- Cerrar sesión ---------- */
 
 .perfil .cerrarsesion-form {
     margin: 0;
@@ -3081,9 +2940,6 @@ header.mapa-header a.navbar-brand {
     background: #FEF5F4;
 }
 
-/* ---------- Link "Volver" ---------- */
-
-/* Mis datos y Cambiar contraseña: la sección se "abre" para poder reordenar lo de adentro */
 .perfil .seccion-abierta {
     display: contents;
 }
@@ -3092,12 +2948,11 @@ header.mapa-header a.navbar-brand {
     font-weight: 500;
 }
 
-/* ---------- Formularios (Mis datos y Cambiar contraseña) ---------- */
-
-.perfil #registroForm {
+.perfil .registro-form {
     width: auto;
+    max-width: none;
     margin: 0;
-    padding: 4.6154%;
+    padding: 5%;
     gap: 18px;
     border: 1px solid #DCE8DF;
     border-radius: 18px;
@@ -3105,19 +2960,18 @@ header.mapa-header a.navbar-brand {
     box-shadow: 0 12px 26px -20px rgba(6, 77, 43, .5);
 }
 
-.perfil #registroForm div {
+.perfil .registro-form div {
     margin-bottom: 0;
 }
 
-/* Mis datos no tiene <label>: se muestran con CSS */
-.perfil #registroForm label,
+.perfil .registro-form label,
 .perfil .campo-nombre::before,
 .perfil .campo-email::before,
 .perfil .campo-usuario::before {
     display: block;
     margin-bottom: 6px;
     color: #173D20;
-    font-size: 13.6px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -3125,55 +2979,58 @@ header.mapa-header a.navbar-brand {
 .perfil .campo-email::before { content: "Email"; }
 .perfil .campo-usuario::before { content: "Nombre de usuario"; }
 
-.perfil #registroForm input {
-    display: inline-block;
-    appearance: auto;
+.perfil .registro-form input {
     width: 100%;
     height: 46px;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     border: 1px solid #C9DCCF;
     border-radius: 10px;
     background: #fff;
     color: #173D20;
     font: inherit;
-    font-size: 15.2px;
+    font-size: 15px;
     outline: none;
     transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-.perfil #registroForm input::placeholder {
+.perfil .registro-form input::placeholder {
     color: #8FA398;
-    font-size: 14.4px;
+    font-size: 14px;
 }
 
-.perfil #registroForm input:focus {
+.perfil .registro-form input:focus {
     border-color: #078B58;
     box-shadow: 0 0 0 3px rgba(7, 139, 88, .15);
 }
 
-.perfil #registroForm input.input-error {
+.perfil .registro-form input.input-error {
     border-color: #D9534F;
     outline: none;
     box-shadow: 0 0 0 3px rgba(217, 83, 79, .12);
 }
 
-/* mensajes de error del formulario */
-.perfil #registroForm .feedback {
+.perfil .registro-form .feedback {
     margin-top: 6px;
     color: #B42318;
-    font-size: 12.8px;
+    font-size: 13px;
     text-align: left;
 }
 
-.perfil #registroForm > p.feedback {
+.perfil .registro-form > p.feedback {
     margin: 0;
-    padding: 10px 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border-left: 4px solid #B42318;
     border-radius: 8px;
     background: #FDECEA;
 }
 
-.perfil #registroForm .submit-button {
+.perfil .registro-form .submit-button {
     height: 48px;
     margin-top: 4px;
     border: 0;
@@ -3181,29 +3038,31 @@ header.mapa-header a.navbar-brand {
     background: #064D2B;
     color: #fff;
     font: inherit;
-    font-size: 15.2px;
+    font-size: 15px;
     font-weight: 600;
     transition: background .15s ease;
 }
 
-.perfil #registroForm .submit-button:hover {
+.perfil .registro-form .submit-button:hover {
     background: #0B6B3D;
 }
 
 @media (max-width: 700px) {
+    .unirse-liga,
     .perfil {
-        padding: 24px 16px 48px;
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 48px;
+        padding-left: 16px;
     }
 
-    .perfil #registroForm {
+    .perfil .registro-form {
         padding: 18px;
     }
 }
 
 
-/* ============================================================
-   17. LIGA - CREAR (Views/Liga/Crear.cshtml)
-   ============================================================ */
+/* 17. LIGA - CREAR */
 
 .pagina-crearliga {
     display: grid;
@@ -3214,11 +3073,13 @@ header.mapa-header a.navbar-brand {
         "form";
     align-content: start;
     max-width: 540px;
-    margin: 0 auto;
-    padding: 36px 20px 64px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 36px;
+    padding-right: 20px;
+    padding-bottom: 64px;
+    padding-left: 20px;
 }
-
-/* ---------- Volver y título ---------- */
 
 .pagina-crearliga .crearliga-volver {
     grid-area: volver;
@@ -3232,25 +3093,20 @@ header.mapa-header a.navbar-brand {
     color: #064D2B;
     font-size: clamp(28px, 3vw, 36px);
     font-weight: 700;
-    letter-spacing: -.01em;
+    letter-spacing: -0.4px;
     line-height: 1.1;
 }
 
-/* ---------- Tarjeta del formulario ---------- */
-
 .pagina-crearliga .crearliga-form {
-    position: static;
-    min-width: auto;
-    border: 0;
-    overflow-wrap: normal;
     grid-area: form;
     display: flex;
     flex-direction: column;
-    padding: 26px 24px 28px;
+    padding-top: 26px;
+    padding-right: 24px;
+    padding-bottom: 28px;
+    padding-left: 24px;
     border-radius: 30px;
-    background:
-        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
-        linear-gradient(160deg, #0B6B3D, #064D2B 70%);
+    background: #064D2B;
     box-shadow:
         0 24px 40px -22px rgba(6, 77, 43, .75),
         inset 0 1px 0 rgba(255, 255, 255, .12);
@@ -3261,38 +3117,32 @@ header.mapa-header a.navbar-brand {
     margin-top: 18px;
 }
 
-/* Cada título de campo es una barrita amarilla */
 .pagina-crearliga .campo-titulo {
     display: block;
     margin-bottom: 8px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: #FFE500;
-    color: #000;
-    font-size: 12.8px;
+    color: #fff;
+    font-size: 13px;
     font-weight: 600;
-    text-align: center;
 }
 
-/* ---------- Campos ---------- */
-
-/* campos: form-control y form-select de Bootstrap con el estilo de RIK */
 .pagina-crearliga .form-control,
 .pagina-crearliga .form-select {
     display: block;
     width: 100%;
     height: 44px;
-    padding: 0 14px;
+    padding-top: 0;
+    padding-right: 14px;
+    padding-bottom: 0;
+    padding-left: 14px;
     border: 0;
     border-radius: 10px;
     color: #173D20;
     font: inherit;
-    font-size: 15.2px;
+    font-size: 15px;
     outline: none;
     transition: box-shadow .15s ease;
 }
 
-/* Bootstrap les saca la apariencia del navegador (y las flechitas del número): acá vuelve */
 .pagina-crearliga .form-control {
     background: #fff;
     appearance: auto;
@@ -3317,202 +3167,147 @@ header.mapa-header a.navbar-brand {
     box-shadow: 0 0 0 3px #FFE500;
 }
 
-/* Al abrir la página queda elegida "Pública": la contraseña arranca oculta.
-   Cuando el JS cambia el display en línea, ese valor le gana a esta regla. */
 .pagina-crearliga .crearliga-contrasena {
     display: none;
 }
 
-/* ---------- Mensaje de error ---------- */
-
-/* error: alert de Bootstrap con los colores de RIK */
 .pagina-crearliga .crearliga-error {
-    position: static;
     margin: 18px 0 0;
-    padding: 10px 12px;
-    border: 0;
+    padding-top: 10px;
+    padding-right: 12px;
+    padding-bottom: 10px;
+    padding-left: 12px;
     border-left: 4px solid #B42318;
     border-radius: 8px;
     background: #FDECEA;
     color: #B42318;
-    font-size: 13.6px;
+    font-size: 14px;
     font-weight: 600;
 }
 
-/* ---------- Botón guardar (mismo estilo 3D que "Comenzá a jugar") ---------- */
-
-/* el aspecto 3D viene de la clase .boton-3d */
 .pagina-crearliga .guardarliga-boton {
     height: 52px;
     margin-top: 26px;
     font-size: 16px;
 }
 
-/* ---------- Responsive ---------- */
-
 @media (max-width: 480px) {
     .pagina-crearliga {
-        padding: 24px 16px 64px;
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 64px;
+        padding-left: 16px;
     }
 
     .pagina-crearliga .crearliga-form {
-        padding: 20px 16px 22px;
+        padding-top: 20px;
+        padding-right: 16px;
+        padding-bottom: 22px;
+        padding-left: 16px;
         border-radius: 24px;
     }
 }
 
 
-/* ============================================================
-   18. BIBLIOTECA - TEORÍA Y MORALEJA (Views/Biblioteca/TeoriaMoraleja.cshtml)
-   ============================================================ */
+/* 18. TEORÍA Y MORALEJA */
 
 .pagina-moraleja {
     display: flex;
     flex-direction: column;
     gap: 18px;
     max-width: 860px;
-    margin: 0 auto;
-    padding: 32px 24px 56px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 56px;
+    padding-left: 24px;
 }
-
-/* ---------- Volver: arriba de todo, chiquito ---------- */
 
 .pagina-moraleja .moraleja-volver {
     order: -1;
     align-self: flex-start;
 }
 
-/* ---------- Título ---------- */
-
 .pagina-moraleja .moraleja-titulo {
     margin: 4px 0 6px;
     padding-bottom: 18px;
     border-bottom: 1px solid #DCE8DF;
     color: #064D2B;
-    font-size: clamp(28px, 3.4vw, 38.4px);
+    font-size: clamp(28px, 3.4vw, 38px);
     font-weight: 700;
-    letter-spacing: -.01em;
+    letter-spacing: -0.4px;
     line-height: 1.15;
 }
 
-/* la etiqueta chica arriba del título usa .etiqueta-seccion (sección 14), acá un poco más separada */
-.pagina-moraleja .moraleja-titulo .etiqueta-seccion {
-    margin-bottom: 8px;
-}
-
-/* ---------- Tarjetas: teoría / historia / moraleja ---------- */
-
-
 .pagina-moraleja .moraleja-tarjeta {
-    position: static;
-    display: block;
-    flex-grow: 0;
-    min-width: auto;
-    border: 0;
-    overflow-wrap: normal;
-    padding: 24px 28px 26px;
+    padding-top: 24px;
+    padding-right: 28px;
+    padding-bottom: 26px;
+    padding-left: 28px;
+    border: 1.5px solid #B6E9C6;
     border-radius: 24px;
+    background: #E6F4EC;
     animation: liga-entrar .45s ease backwards;
 }
 
 .pagina-moraleja .moraleja-tarjeta .card-title {
     margin: 0 0 10px;
-    font-size: clamp(18.4px, 2vw, 22.4px);
+    color: #064D2B;
+    font-size: clamp(18px, 2vw, 22px);
     font-weight: 700;
     line-height: 1.25;
 }
 
 .pagina-moraleja .moraleja-tarjeta .card-text {
     margin: 0;
+    color: #2B4A35;
     font-size: 16px;
     line-height: 1.7;
-    /* respeta los saltos de línea del texto cargado */
     white-space: pre-line;
     overflow-wrap: anywhere;
 }
 
-/* 1. Teoría: verde oscuro, título amarillo */
-.pagina-moraleja .tarjeta-teoria {
-    background:
-        radial-gradient(circle at 100% 0, rgba(255, 229, 0, .14) 0, transparent 45%),
-        linear-gradient(160deg, #0B6B3D, #064D2B 70%);
-    box-shadow:
-        0 24px 40px -22px rgba(6, 77, 43, .75),
-        inset 0 1px 0 rgba(255, 255, 255, .12);
-    color: #fff;
-}
-
-.pagina-moraleja .tarjeta-teoria .card-title {
-    color: #FFE500;
-}
-
-.pagina-moraleja .tarjeta-teoria .card-text {
-    color: rgba(255, 255, 255, .92);
-}
-
-/* 2. Historia: blanca con borde suave */
 .pagina-moraleja .tarjeta-historia {
     animation-delay: .08s;
-    border: 1.5px solid #D6ECDD;
-    background: #fff;
-    box-shadow: 0 6px 16px -10px rgba(6, 77, 43, .4);
 }
 
-.pagina-moraleja .tarjeta-historia .card-title {
-    color: #064D2B;
-}
-
-.pagina-moraleja .tarjeta-historia .card-text {
-    color: #2B4A35;
-}
-
-/* 3. Moraleja: amarilla, es lo que hay que llevarse */
 .pagina-moraleja .tarjeta-moraleja {
     animation-delay: .16s;
-    border: 1.5px solid #FFF3A6;
-    background: linear-gradient(100deg, #FFE500 0%, #FFC21A 100%);
-    box-shadow: 0 0 0 3px rgba(255, 229, 0, .25), 0 12px 22px -12px rgba(255, 194, 26, .9);
-    color: #1B1B1B;
-}
-
-.pagina-moraleja .tarjeta-moraleja .card-title {
-    color: #064D2B;
 }
 
 .pagina-moraleja .tarjeta-moraleja .card-text {
-    color: #1B1B1B;
     font-weight: 500;
 }
 
-/* ---------- Avisos ---------- */
-/* El botón "Iniciar nivel" usa .juego-boton, el mismo de la charla de teoría */
-
-/* avisos (nivel bloqueado, teoría no encontrada): alert de Bootstrap con el estilo de RIK */
 .pagina-moraleja .moraleja-aviso {
-    position: static;
     margin: 0;
     padding: 18px;
     border: 1.5px dashed #9CCFB0;
     border-radius: 16px;
     background: #fff;
     color: #3F6B50;
-    font-size: 15.2px;
+    font-size: 15px;
 }
-
-/* ---------- Responsive ---------- */
 
 @media (max-width: 700px) {
     .pagina-moraleja {
         gap: 14px;
-        padding: 24px 16px 56px;
+        padding-top: 24px;
+        padding-right: 16px;
+        padding-bottom: 56px;
+        padding-left: 16px;
     }
 
     .pagina-moraleja .moraleja-tarjeta {
-        padding: 18px 18px 20px;
+        padding-top: 18px;
+        padding-right: 18px;
+        padding-bottom: 20px;
+        padding-left: 18px;
         border-radius: 20px;
     }
 
     .pagina-moraleja .moraleja-tarjeta .card-text {
-        font-size: 15.2px;
+        font-size: 15px;
     }
 }

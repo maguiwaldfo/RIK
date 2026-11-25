@@ -6,23 +6,23 @@
     <h1 class="perfil-titulo">Cambiar contraseña</h1>
 
     <section class="seccion-abierta">
-        <form id="registroForm" class="login-form capa-arriba" action="@Url.Action("CambiarContrasena", "Perfil")" method="post" onsubmit="return validarCambioContrasena()" novalidate>
+        <form class="registro-form login-form capa-arriba" action="@Url.Action("CambiarContrasena", "Perfil")" method="post" onsubmit="return validarCambioContrasena()" novalidate>
 
             <div class="form-field">
-                <label class="form-label" for="contrasenaActual">Contraseña actual</label>
-                <input type="password" id="contrasenaActual" class="form-control" name="contrasenaActual" placeholder="Contraseña actual" maxlength="50" required />
+                <label for="contrasenaActual">Contraseña actual</label>
+                <input type="password" id="contrasenaActual" name="contrasenaActual" placeholder="Contraseña actual" maxlength="50" required />
                 <p id="fb-contrasenaActual" class="feedback"></p>
             </div>
 
             <div class="form-field">
-                <label class="form-label" for="nuevaContrasena">Nueva contraseña</label>
-                <input type="password" id="nuevaContrasena" class="form-control" name="nuevaContrasena" placeholder="Nueva contraseña" minlength="8" maxlength="50" required />
+                <label for="nuevaContrasena">Nueva contraseña</label>
+                <input type="password" id="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva contraseña" minlength="8" maxlength="50" required />
                 <p id="fb-nuevaContrasena" class="feedback"></p>
             </div>
 
             <div class="form-field">
-                <label class="form-label" for="repetirContrasena">Repetir nueva contraseña</label>
-                <input type="password" id="repetirContrasena" class="form-control" name="repetirContrasena" placeholder="Repetir nueva contraseña" maxlength="50" required />
+                <label for="repetirContrasena">Repetir nueva contraseña</label>
+                <input type="password" id="repetirContrasena" name="repetirContrasena" placeholder="Repetir nueva contraseña" maxlength="50" required />
                 <p id="fb-repetirContrasena" class="feedback"></p>
             </div>
 

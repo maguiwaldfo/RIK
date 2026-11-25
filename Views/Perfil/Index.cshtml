@@ -6,26 +6,26 @@
 <div class="perfil">
     <h1 class="perfil-titulo perfil-titulo-avatar">Mi perfil</h1>
 
-    <section class="list-group caja-blanca">
+    <section class="caja-blanca">
 
-        <div class="list-group-item item-simple perfil-opcion">
-            <a class="list-group-item-action opcion-boton opcion-link icono-datos" href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Modificar mis datos</strong></a>
+        <div class="perfil-opcion">
+            <a class="opcion-boton opcion-link icono-datos" href="@Url.Action("ModificarMisDatos", "Perfil")"><strong>Modificar mis datos</strong></a>
         </div>
 
-        <div class="list-group-item item-simple perfil-opcion">
-            <a class="list-group-item-action opcion-boton opcion-link icono-personalizar" href="#"><strong>Personalizar a Rik</strong></a>
+        <div class="perfil-opcion">
+            <a class="opcion-boton opcion-link icono-personalizar" href="#"><strong>Personalizar a Rik</strong></a>
         </div>
 
-        <div class="list-group-item item-simple perfil-opcion">
-            <a class="list-group-item-action opcion-boton opcion-link icono-ajustes" href="@Url.Action("Ajustes", "Perfil")"><strong>Ajustes</strong></a>
+        <div class="perfil-opcion">
+            <a class="opcion-boton opcion-link icono-ajustes" href="@Url.Action("Ajustes", "Perfil")"><strong>Ajustes</strong></a>
         </div>
     </section>
-    <section class="list-group caja-blanca">
+    <section class="caja-blanca">
 
-        <div class="list-group-item item-simple perfil-opcion">
+        <div class="perfil-opcion">
             @* CerrarSesion solo acepta POST, por eso es un formulario y no un link *@
             <form class="cerrarsesion-form" method="post" action="@Url.Action("CerrarSesion", "Perfil")">
-                <button type="submit" class="boton-link list-group-item-action opcion-boton cerrarsesion-boton"><strong>Cerrar sesión</strong></button>
+                <button type="submit" class="boton-link opcion-boton cerrarsesion-boton"><strong>Cerrar sesión</strong></button>
             </form>
         </div>
     </section>

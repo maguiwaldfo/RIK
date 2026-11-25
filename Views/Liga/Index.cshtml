@@ -1,5 +1,5 @@
 @{
-    ViewData["ClaseBody"] = "fondo-degradado";
+    ViewData["ClaseBody"] = "fondo-liso";
     ViewData["ClaseMain"] = "pagina-liga";
 }
 
@@ -9,16 +9,16 @@
     <a class="crearliga-boton" href="@Url.Action("Crear", "Liga")">Crear Nueva Liga</a>
 </div>
 
-<section class="alert alert-success liga-aviso" role="status" hidden="@ViewBag.OcultarAviso">@ViewBag.Mensaje</section>
+<section class="liga-aviso" role="status" hidden="@ViewBag.OcultarAviso">@ViewBag.Mensaje</section>
 
 <h2 class="liga-subtitulo liga-subtitulo-mis">Mis Ligas</h2>
 
-<div class="lista-ligas nav nav-pills">
-    <p class="lista-ligas-vacia alert" hidden="@ViewBag.OcultarSinLigas">Todavía no estás en ninguna liga. Creá una con el botón + o sumate a la de un amigo.</p>
+<div class="lista-ligas">
+    <p class="lista-ligas-vacia" hidden="@ViewBag.OcultarSinLigas">Todavía no estás en ninguna liga. Creá una con el botón + o sumate a la de un amigo.</p>
 
     @foreach (Liga liga in ViewBag.Ligas)
     {
-        <div class="liga nav-item">
+        <div class="liga">
             <h3>@liga.Nombre</h3>
             <a class="nav-link" href="@Url.Action("Index", "Liga", new { idLigaAmigos = liga.Id })">
                 Ver liga
@@ -30,13 +30,12 @@
 </div>
 
 <h2 class="liga-subtitulo liga-subtitulo-global">
-    <span class="etiqueta-seccion">TODOS LOS JUGADORES</span>
     Ranking Global
 </h2>
 
 <!-- elementos sacados del figma (con cambios para adaptarlos mejor)` -->
 <div class="ranking-global">
-    <div class="ranking-tabla list-group" hidden="@ViewBag.OcultarRankingGlobal">
+    <div class="ranking-tabla" hidden="@ViewBag.OcultarRankingGlobal">
         @foreach (FilaRanking fila in ViewBag.RankingGlobal)
         {
             <div class="@fila.Clase">
@@ -53,23 +52,22 @@
                     </div>
                 </div>
                 <div class="ranking-derecha">
-                    <div class="ranking-puntos badge">
+                    <div class="ranking-puntos">
                         <div class="ranking-puntos-texto">@fila.Puntos</div>
                     </div>
                 </div>
             </div>
         }
     </div>
-    <p class="alert ranking-vacio" hidden="@ViewBag.OcultarMensajeRankingGlobal">@ViewBag.MensajeRankingGlobal</p>
+    <p class="ranking-vacio" hidden="@ViewBag.OcultarMensajeRankingGlobal">@ViewBag.MensajeRankingGlobal</p>
 </div>
 
 <h2 class="liga-subtitulo liga-subtitulo-amigos">
-    <span class="etiqueta-seccion">ENTRE AMIGOS</span>
     @ViewBag.TituloLiga
 </h2>
 
 <div class="ranking-liga">
-    <div class="ranking-tabla list-group" hidden="@ViewBag.OcultarRankingLiga">
+    <div class="ranking-tabla" hidden="@ViewBag.OcultarRankingLiga">
         @foreach (FilaRanking fila in ViewBag.RankingLiga)
         {
             <div class="@fila.Clase">
@@ -86,21 +84,21 @@
                     </div>
                 </div>
                 <div class="ranking-derecha">
-                    <div class="ranking-puntos badge">
+                    <div class="ranking-puntos">
                         <div class="ranking-puntos-texto">@fila.Puntos</div>
                     </div>
                 </div>
             </div>
         }
     </div>
-    <p class="alert ranking-vacio" hidden="@ViewBag.OcultarMensajeRankingLiga">@ViewBag.MensajeRankingLiga</p>
+    <p class="ranking-vacio" hidden="@ViewBag.OcultarMensajeRankingLiga">@ViewBag.MensajeRankingLiga</p>
 </div>
 
-<section class="liga-compartir card card-plana" hidden="@ViewBag.OcultarCompartir">
+<section class="liga-compartir" hidden="@ViewBag.OcultarCompartir">
     <h3>Invitá a tus amigos</h3>
     <p>Compartí este link para que se sumen a la liga.</p>
 
-    <div class="input-group grupo-separado">
+    <div class="grupo-separado">
         <label class="visually-hidden" for="linkInvitacion">Link de invitación</label>
         <input id="linkInvitacion" class="form-control" type="text" value="@ViewBag.LinkInvitacion" readonly />
         <button type="button" class="liga-boton" onclick="CopiarLinkInvitacion()">Copiar link</button>

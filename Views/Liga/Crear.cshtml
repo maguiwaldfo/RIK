@@ -1,23 +1,23 @@
 @{
-    ViewData["ClaseBody"] = "fondo-degradado";
+    ViewData["ClaseBody"] = "fondo-liso";
     ViewData["ClaseMain"] = "pagina-crearliga";
 }
 
 <h1 class="crearliga-titulo">Crear una nueva Liga</h1>
 
-<form class="card crearliga-form" action="@Url.Action("Crear", "Liga")" method="post" onsubmit="return ValidarLiga()" novalidate>
+<form class="crearliga-form" action="@Url.Action("Crear", "Liga")" method="post" onsubmit="return ValidarLiga()" novalidate>
     <div class="crearliga-campo">
-        <label class="form-label campo-titulo" for="Nombre">Nombre de la Liga:</label>
+        <label class="campo-titulo" for="Nombre">Nombre de la Liga:</label>
         <input type="text" class="form-control" name="Nombre" id="Nombre" value="@ViewBag.Liga.Nombre" maxlength="50" required />
     </div>
 
     <div class="crearliga-campo">
-        <label class="form-label campo-titulo" for="Capacidad">Capacidad Máxima:</label>
+        <label class="campo-titulo" for="Capacidad">Capacidad Máxima:</label>
         <input type="number" class="form-control" name="Capacidad" id="Capacidad" value="@ViewBag.Liga.Capacidad" min="2" max="50" step="1" required />
     </div>
 
     <div class="crearliga-campo">
-        <p class="campo-titulo form-label">Privacidad</p>
+        <p class="campo-titulo">Privacidad</p>
         <select class="form-select" name="Privacidad" id="Privacidad" onchange="ActualizarContraseña()">
             <option value="false" selected="@(!ViewBag.Liga.Privacidad)">Pública</option>
             <option value="true" selected="@ViewBag.Liga.Privacidad">Privada con Contraseña</option>
@@ -25,11 +25,11 @@
     </div>
 
     <div class="crearliga-campo crearliga-contrasena" id="contrsena">
-        <label class="form-label campo-titulo" for="Contraseña">Contraseña:</label>
+        <label class="campo-titulo" for="Contraseña">Contraseña:</label>
         <input type="password" class="form-control" name="Contraseña" id="Contraseña" maxlength="50" />
     </div>
 
-    <p class="alert alert-danger crearliga-error" id="errorLiga" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <p class="crearliga-error" id="errorLiga" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
     <button type="submit" class="boton-3d guardarliga-boton">Guardar Liga</button>
 </form>

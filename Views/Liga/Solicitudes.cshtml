@@ -9,15 +9,15 @@
     <h1>@ViewBag.TituloPagina</h1>
     <p class="unirse-subtitulo">@ViewBag.TextoLugares</p>
 
-    <p class="alert alert-success unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
-    <p class="alert alert-danger unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
+    <p class="unirse-aviso" role="status" hidden="@ViewBag.OcultarMensaje">@ViewBag.Mensaje</p>
+    <p class="unirse-aviso unirse-aviso-error" role="alert" hidden="@ViewBag.OcultarError">@ViewBag.Error</p>
 
-    <section class="unirse-resultados list-group">
+    <section class="unirse-resultados">
         <p class="unirse-vacio alert" hidden="@ViewBag.OcultarVacio">No hay solicitudes pendientes. Compartí el link de la liga para que se sumen tus amigos.</p>
 
         @foreach (SolicitudLiga solicitud in ViewBag.Solicitudes)
         {
-            <article class="unirse-tarjeta list-group-item">
+            <article class="unirse-tarjeta">
                 <div class="unirse-tarjeta-info">
                     <h3>@solicitud.NombreUsuario</h3>
                     <p>@solicitud.Detalle</p>

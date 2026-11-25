@@ -483,7 +483,7 @@ public class LigaController : Controller
         if (liga.Privacidad)
         {
             tarjeta.TextoEtiqueta = "Privada";
-            tarjeta.ClaseEtiqueta = "unirse-etiqueta unirse-etiqueta-privada badge";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta unirse-etiqueta-privada";
             tarjeta.TextoBoton = "Solicitar unirse";
             // Con el link de invitación no hace falta la contraseña, pero el dueño igual tiene que aceptar
             tarjeta.Codigo = codigo;
@@ -491,7 +491,7 @@ public class LigaController : Controller
         else
         {
             tarjeta.TextoEtiqueta = "Pública";
-            tarjeta.ClaseEtiqueta = "unirse-etiqueta badge";
+            tarjeta.ClaseEtiqueta = "unirse-etiqueta";
             tarjeta.TextoBoton = "Unirse";
             tarjeta.Codigo = "";
         }
@@ -668,22 +668,22 @@ public class LigaController : Controller
 
             if (posicion == 1)
             {
-                fila.Clase = "ranking-fila ranking-fila-oro list-group-item";
+                fila.Clase = "ranking-fila ranking-fila-oro";
                 fila.Subtitulo = "🥇 CAMPEÓN";
             }
             else if (posicion == 2)
             {
-                fila.Clase = "ranking-fila ranking-fila-plata ranking-fila-medalla list-group-item";
+                fila.Clase = "ranking-fila ranking-fila-plata ranking-fila-medalla";
                 fila.Subtitulo = "🥈 2° Lugar";
             }
             else if (posicion == 3)
             {
-                fila.Clase = "ranking-fila ranking-fila-bronce ranking-fila-medalla list-group-item";
+                fila.Clase = "ranking-fila ranking-fila-bronce ranking-fila-medalla";
                 fila.Subtitulo = "🥉 3° Lugar";
             }
             else
             {
-                fila.Clase = "ranking-fila ranking-fila-resto list-group-item";
+                fila.Clase = "ranking-fila ranking-fila-resto";
                 fila.Subtitulo = "";
             }
 
