@@ -6,7 +6,7 @@ namespace RIK.Models;
 // Clase estática: se usa directo con BD.Metodo(...), sin crear un objeto.
 public static class BD
 {
- private static string _connectionString = @"Server=localhost;Database=RIK;Integrated Security=True;TrustServerCertificate=True;";
+private static string _connectionString = @"Server=localhost;Database=RIK;Trusted_Connection=True;TrustServerCertificate=True;";
     // USUARIOS
 
     public static void AgregarUsuario(Usuario usuario)

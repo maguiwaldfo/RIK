@@ -1699,14 +1699,36 @@ html {
 .fin-perdio .fin-cuerpo > div:nth-child(4) { order: 2; }
 .fin-perdio .fin-cuerpo > div:nth-child(2) { order: 3; }
 
-.fin-cuerpo > div:nth-child(2) > span:not(.fin-etiqueta) {
-    left: 0 !important;
+.fin-estadistica {
+    width: 210px;
+    height: 133px;
+    position: relative;
+}
+
+.fin-caja {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 210px;
+    height: 125px;
+    border: 4px solid #FFEA00;
+    border-radius: 10px;
+    background: #D9D9D9;
+}
+
+.fin-etiqueta,
+.fin-estadistica > .fin-valor {
+    position: absolute;
+    left: 0;
     width: 100%;
     text-align: center;
 }
 
 .fin-etiqueta {
+    top: 0;
     color: #0A4D28;
+    font-size: 48px;
+    line-height: 1.2;
 }
 
 .fin-perdio .fin-etiqueta {
@@ -1714,18 +1736,13 @@ html {
 }
 
 .fin-valor {
+    top: 61px;
+    height: 59px;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     word-wrap: break-word;
-    padding-top: 6px;
-    padding-right: 16px;
-    padding-bottom: 6px;
-    padding-left: 16px;
-    border: 3px solid #FFD700;
-    border-radius: 8px;
-    background: #D9D9D9;
     color: #000000;
-    font-size: 30px;
+    font-size: 48px;
     line-height: 1.2;
     text-align: center;
     white-space: nowrap;
