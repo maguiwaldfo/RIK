@@ -476,9 +476,14 @@ public class JuegoController : Controller
     // Pasa los segundos a "m:ss", sin el cero de adelante (por ejemplo "1:05").
     private string FormatearTiempo(int segundos)
     {
-        int minutos = segundos / 60;
-        int resto = segundos % 60;
+        if (segundos < 60)
+        {
+            return segundos + " seg";
+        }
 
-        return minutos + ":" + resto.ToString("00");
+         int minutos = segundos / 60;
+         int resto = segundos % 60;
+
+         return minutos + ":" + resto.ToString("00") + " min";
     }
 }
